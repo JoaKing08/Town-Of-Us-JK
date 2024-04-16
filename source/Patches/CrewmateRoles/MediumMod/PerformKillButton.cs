@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TownOfUs.CrewmateRoles.MedicMod;
 using System;
+using UnityEngine;
+using Reactor.Utilities;
 
 namespace TownOfUs.CrewmateRoles.MediumMod
 {
@@ -19,6 +21,11 @@ namespace TownOfUs.CrewmateRoles.MediumMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (!__instance.enabled) return false;
             if (role.MediateTimer() != 0f) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
 
             role.LastMediated = DateTime.UtcNow;
 
@@ -28,6 +35,7 @@ namespace TownOfUs.CrewmateRoles.MediumMod
             {
                 if (Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == dead.PlayerId && !role.MediatedPlayers.Keys.Contains(x.ParentId)))
                 {
+                    if (Utils.PlayerById(dead.PlayerId).IsBugged()) Utils.Rpc(CustomRPC.BugMessage, dead.PlayerId, (byte)role.RoleType, (byte)0);
                     role.AddMediatePlayer(dead.PlayerId);
                     Utils.Rpc(CustomRPC.Mediate, dead.PlayerId, PlayerControl.LocalPlayer.PlayerId);
                     if (CustomGameOptions.DeadRevealed != DeadRevealed.All) return false;

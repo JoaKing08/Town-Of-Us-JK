@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,6 +49,11 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
         {
             void Listener()
             {
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return;
+                }
                 if (role.ListOfActives.Count(x => x) == 2 &&
                     role.Buttons[index].GetComponent<SpriteRenderer>().sprite == DisabledSprite) return;
 

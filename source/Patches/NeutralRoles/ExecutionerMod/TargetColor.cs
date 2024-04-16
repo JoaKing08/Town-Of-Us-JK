@@ -10,7 +10,8 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
         Crew,
         Amnesiac,
         Survivor,
-        Jester
+        Jester,
+        CursedSoul
     }
 
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
@@ -68,6 +69,12 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
                 var surv = new Survivor(player);
                 surv.SpawnedAs = false;
                 surv.RegenTask();
+            }
+            else if (CustomGameOptions.OnTargetDead == OnTargetDead.CursedSoul)
+            {
+                var cursedSoul = new CursedSoul(player);
+                cursedSoul.SpawnedAs = false;
+                cursedSoul.RegenTask();
             }
             else
             {

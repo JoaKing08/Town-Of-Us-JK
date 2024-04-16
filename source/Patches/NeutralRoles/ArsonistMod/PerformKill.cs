@@ -56,7 +56,11 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
             if (!flag2) return false;
             if (role.DousedPlayers.Contains(role.ClosestPlayerDouse.PlayerId)) return false;
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayerDouse);
-            if (interact[4] == true) role.DousedPlayers.Add(role.ClosestPlayerDouse.PlayerId);
+            if (interact[4] == true)
+            {
+                role.DousedPlayers.Add(role.ClosestPlayerDouse.PlayerId);
+                if (role.ClosestPlayerDouse.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayerDouse.PlayerId, (byte)role.RoleType, (byte)0);
+            }
             if (interact[0] == true)
             {
                 role.LastDoused = DateTime.UtcNow;

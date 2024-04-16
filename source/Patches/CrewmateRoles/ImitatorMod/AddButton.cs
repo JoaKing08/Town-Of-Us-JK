@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,6 +49,11 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
         {
             void Listener()
             {
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return;
+                }
                 if (role.ListOfActives.Count(x => x) == 1 &&
                     role.Buttons[index].GetComponent<SpriteRenderer>().sprite == DisabledSprite)
                 {
@@ -111,7 +117,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                             imitatedRole == RoleEnum.Engineer || imitatedRole == RoleEnum.Medium ||
                             imitatedRole == RoleEnum.Transporter || imitatedRole == RoleEnum.Trapper ||
                             imitatedRole == RoleEnum.Medic || imitatedRole == RoleEnum.VampireHunter ||
-                            imitatedRole == RoleEnum.Aurial || imitatedRole == RoleEnum.Oracle)) imitatable = true;
+                            imitatedRole == RoleEnum.Aurial || imitatedRole == RoleEnum.Oracle ||
+                            imitatedRole == RoleEnum.Inspector || imitatedRole == RoleEnum.TavernKeeper)) imitatable = true;
                         GenButton(imitatorRole, i, imitatable);
                     }
                 }

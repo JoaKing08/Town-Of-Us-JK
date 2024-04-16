@@ -26,7 +26,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
         {
             if (WillBePhantom == null) return;
             var exiled = __instance.exiled?.Object;
-            if (!WillBePhantom.Data.IsDead && (exiled.Is(Faction.NeutralKilling) || exiled.Is(Faction.NeutralEvil) || exiled.Is(Faction.NeutralBenign)) && !exiled.IsLover()) WillBePhantom = exiled;
+            if (!WillBePhantom.Data.IsDead && (exiled.Is(Faction.NeutralKilling) || exiled.Is(Faction.NeutralEvil) || exiled.Is(Faction.NeutralBenign) || exiled.Is(Faction.NeutralChaos)) && !exiled.IsLover()) WillBePhantom = exiled;
             if (exiled == WillBePhantom && exiled.Is(RoleEnum.Jester)) return;
             var doomRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Doomsayer && ((Doomsayer)x).WonByGuessing && ((Doomsayer)x).Player == WillBePhantom);
             if (doomRole != null) return;
@@ -34,6 +34,10 @@ namespace TownOfUs.NeutralRoles.PhantomMod
             if (exeRole != null) return;
             var jestRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Jester && ((Jester)x).VotedOut && ((Jester)x).Player == WillBePhantom);
             if (jestRole != null) return;
+            var pirateRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Pirate && ((Pirate)x).WonByDuel && ((Pirate)x).Player == WillBePhantom);
+            if (pirateRole != null) return;
+            var inquisitorRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Inquisitor && ((Inquisitor)x).HereticsDead && ((Inquisitor)x).Player == WillBePhantom);
+            if (inquisitorRole != null) return;
             if (WillBePhantom.Data.Disconnected) return;
             if (!WillBePhantom.Data.IsDead && WillBePhantom != exiled) return;
 

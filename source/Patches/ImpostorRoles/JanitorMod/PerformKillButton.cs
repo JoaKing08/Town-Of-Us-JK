@@ -3,6 +3,7 @@ using Reactor.Utilities;
 using TownOfUs.Roles;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs.ImpostorRoles.JanitorMod
 {
@@ -32,6 +33,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                 }
+                if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, playerId, (byte)role.RoleType, (byte)0);
 
                 Utils.Rpc(CustomRPC.JanitorClean, PlayerControl.LocalPlayer.PlayerId, playerId);
 

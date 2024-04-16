@@ -3,6 +3,7 @@ using Reactor.Utilities;
 using TownOfUs.Roles;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs.CrewmateRoles.AltruistMod
 {
@@ -28,12 +29,18 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                 return false;
             if (Vector2.Distance(role.CurrentTarget.TruePosition,
                 PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
             var playerId = role.CurrentTarget.ParentId;
             var player = Utils.PlayerById(playerId);
             if (player.IsInfected() || role.Player.IsInfected())
             {
                 foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
             }
+            if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, playerId, (byte)role.RoleType, (byte)0);
 
             Utils.Rpc(CustomRPC.AltruistRevive, PlayerControl.LocalPlayer.PlayerId, playerId);
 

@@ -31,6 +31,10 @@ namespace TownOfUs.Patches
         public readonly static Color Prosecutor = new Color(0.7f, 0.5f, 0f, 1f);
         public readonly static Color Oracle = new Color(0.75f, 0f, 0.75f, 1f);
         public readonly static Color Aurial = new Color(0.7f, 0.3f, 0.6f, 1f);
+        public readonly static Color Inspector = new Color(0.545f, 1f, 0.86f, 1f);
+        public readonly static Color Monarch = new Color(0.588f, 0.157f, 0.785f, 1f);
+        public readonly static Color TavernKeeper = new Color(0.55f, 0.27f, 0.08f, 1f);
+        public readonly static Color Undercover = new Color(0f, 0.15f, 0f, 1f);
 
         // Neutral Colors
         public readonly static Color Jester = new Color(1f, 0.75f, 0.8f, 1f);
@@ -43,10 +47,21 @@ namespace TownOfUs.Patches
         public readonly static Color Survivor = new Color(1f, 0.9f, 0.3f, 1f);
         public readonly static Color GuardianAngel = new Color(0.7f, 1f, 1f, 1f);
         public readonly static Color Plaguebearer = new Color(0.9f, 1f, 0.7f, 1f);
+        public readonly static Color Baker = new Color(1f, 0.75f, 0.5f, 1f);
+        public readonly static Color Berserker = new Color(1f, 0.31f, 0f, 1f);
+        public readonly static Color SoulCollector = new Color(0.88f, 0f, 1f, 1f);
         public readonly static Color Pestilence = new Color(0.3f, 0.3f, 0.3f, 1f);
+        public readonly static Color Famine = new Color(0.38f, 0.5f, 0.38f, 1f);
+        public readonly static Color War = new Color(0.5f, 0.12f, 0f, 1f);
+        public readonly static Color Death = new Color(0.3f, 0f, 0.3f, 1f);
         public readonly static Color Werewolf = new Color(0.66f, 0.4f, 0.16f, 1f);
         public readonly static Color Doomsayer = new Color(0f, 1f, 0.5f, 1f);
         public readonly static Color Vampire = new Color(0.15f, 0.15f, 0.15f, 1f);
+        public readonly static Color Pirate = new Color(0.922f, 0.758f, 0.242f, 1f);
+        public readonly static Color Inquisitor = new Color(0.508f, 0.07f, 0.32f, 1f);
+        public readonly static Color SerialKiller = new Color(0.113f, 0.3f, 0.984f, 1f);
+        public readonly static Color Witch = new Color(0.75f, 0.375f, 1f, 1f);
+        public readonly static Color CursedSoul = new Color(0.5f, 0f, 1f, 1f);
 
         //Imposter Colors
         public readonly static Color Impostor = Palette.ImpostorRed;
@@ -65,6 +80,16 @@ namespace TownOfUs.Patches
         public readonly static Color Radar = new Color(1f, 0f, 0.5f, 1f);
         public readonly static Color Multitasker = new Color(1f, 0.5f, 0.3f, 1f);
         public readonly static Color Frosty = new Color(0.6f, 1f, 1f, 1f);
+        public readonly static Color ImpostorAgent = new Color(1f, 0.25f, 0.25f, 1f);
+        public readonly static Color ApocalypseAgent = new Color(0.625f, 0.625f, 0.625f, 1f);
+        public readonly static Color Drunk = new Color(0.46f, 0.5f, 0f, 1f);
+        public readonly static Color Famous = new Color(1f, 0.75f, 0f, 1f);
+
+        //Teams
+        public readonly static Color RedTeam = new Color(1f, 0f, 0f, 1f);
+        public readonly static Color BlueTeam = new Color(0f, 0f, 1f, 1f);
+        public readonly static Color YellowTeam = new Color(1f, 1f, 0f, 1f);
+        public readonly static Color GreenTeam = new Color(0f, 1f, 0f, 1f);
 
     }
 }

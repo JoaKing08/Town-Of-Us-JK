@@ -6,6 +6,12 @@ namespace TownOfUs
         Impostors,
         NeutralBenign,
         NeutralEvil,
-        NeutralKilling
+        NeutralChaos,
+        NeutralKilling,
+        NeutralApocalypse,
+        RedTeam,
+        BlueTeam,
+        YellowTeam,
+        GreenTeam
     }
 }

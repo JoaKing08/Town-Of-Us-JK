@@ -26,7 +26,7 @@ namespace TownOfUs.NeutralRoles.JesterMod
                 if (PlayerControl.LocalPlayer != player) return;
                 role.PauseEndCrit = true;
 
-                byte[] toKill = MeetingHud.Instance.playerStates.Where(x => !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Pestilence) && x.VotedFor == player.PlayerId).Select(x => x.TargetPlayerId).ToArray();
+                byte[] toKill = MeetingHud.Instance.playerStates.Where(x => !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Pestilence) && !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Famine) && !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.War) && !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Death) && x.VotedFor == player.PlayerId).Select(x => x.TargetPlayerId).ToArray();
                 var pk = new PunishmentKill((x) =>
                 {
                     Utils.RpcMultiMurderPlayer(player, x);

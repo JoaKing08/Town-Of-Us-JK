@@ -27,6 +27,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
             if (interact[4] == true)
             {
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 role.Confessor = role.ClosestPlayer;
                 bool showsCorrectFaction = true;
                 int faction = 1;
@@ -39,18 +40,19 @@ namespace TownOfUs.CrewmateRoles.OracleMod
                 if (showsCorrectFaction)
                 {
                     if (role.Confessor.Is(Faction.Crewmates)) faction = 0;
-                    else if (role.Confessor.Is(Faction.Impostors)) faction = 2;
+                    else if (role.Confessor.Is(Faction.Impostors) || (role.Confessor.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode == GameMode.Horseman)) faction = 2;
                 }
                 else
                 {
                     var num = UnityEngine.Random.RandomRangeInt(0, 2);
-                    if (role.Confessor.Is(Faction.Impostors)) faction = num;
+                    if (role.Confessor.Is(Faction.Impostors) || (role.Confessor.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode == GameMode.Horseman)) faction = num;
                     else if (role.Confessor.Is(Faction.Crewmates)) faction = num + 1;
                     else if (num == 1) faction = 2;
                     else faction = 0;
                 }
                 if (faction == 0) role.RevealedFaction = Faction.Crewmates;
                 else if (faction == 1) role.RevealedFaction = Faction.NeutralEvil;
+                else if (CustomGameOptions.GameMode == GameMode.Horseman) role.RevealedFaction = Faction.NeutralApocalypse;
                 else role.RevealedFaction = Faction.Impostors;
                 Utils.Rpc(CustomRPC.Confess, PlayerControl.LocalPlayer.PlayerId, role.Confessor.PlayerId, faction);
             }

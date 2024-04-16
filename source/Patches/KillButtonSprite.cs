@@ -1,5 +1,6 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
@@ -40,6 +41,19 @@ namespace TownOfUs
         private static Sprite Stake => TownOfUs.StakeSprite;
         private static Sprite Confess => TownOfUs.ConfessSprite;
         private static Sprite Radiate => TownOfUs.RadiateSprite;
+        private static Sprite Bread => TownOfUs.BreadSprite;
+        private static Sprite Starve => TownOfUs.StarveSprite;
+        private static Sprite Reap => TownOfUs.ReapSprite;
+        private static Sprite Apocalypse => TownOfUs.ApocalypseSprite;
+        private static Sprite Duel => TownOfUs.DuelSprite;
+        private static Sprite Knight => TownOfUs.KnightSprite;
+        private static Sprite Inquire => TownOfUs.InquireSprite;
+        private static Sprite Drink => TownOfUs.DrinkSprite;
+        private static Sprite Bug => TownOfUs.BugSprite;
+        private static Sprite Control => TownOfUs.ControlSprite;
+        private static Sprite Order => TownOfUs.OrderSprite;
+        private static Sprite SoulSwap => TownOfUs.SoulSwapSprite;
+        private static Sprite Nothing => TownOfUs.NothingSprite;
 
         private static Sprite Kill;
 
@@ -156,13 +170,97 @@ namespace TownOfUs
                 __instance.KillButton.graphic.sprite = Radiate;
                 flag = true;
             }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Baker))
+            {
+                __instance.KillButton.graphic.sprite = Bread;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Bread";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Famine))
+            {
+                __instance.KillButton.graphic.sprite = Starve;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Starve";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector))
+            {
+                __instance.KillButton.graphic.sprite = Reap;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Reap";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Death))
+            {
+                __instance.KillButton.graphic.sprite = Apocalypse;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Apocalypse";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Pirate))
+            {
+                __instance.KillButton.graphic.sprite = Duel;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Duel";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Inspector))
+            {
+                __instance.KillButton.graphic.sprite = Inspect;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Monarch))
+            {
+                __instance.KillButton.graphic.sprite = Knight;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Knight";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Inquisitor))
+            {
+                __instance.KillButton.graphic.sprite = Inquire;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Inquire";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.TavernKeeper))
+            {
+                __instance.KillButton.graphic.sprite = Drink;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Drink";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Spy) && CustomGameOptions.GameMode != GameMode.Cultist)
+            {
+                __instance.KillButton.graphic.sprite = Bug;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Bug";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Witch))
+            {
+                __instance.KillButton.graphic.sprite = Role.GetRole<Witch>(PlayerControl.LocalPlayer).ControledPlayer == null ? Control : Order;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = Role.GetRole<Witch>(PlayerControl.LocalPlayer).ControledPlayer == null ? "Control" : "Order";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.CursedSoul))
+            {
+                __instance.KillButton.graphic.sprite = SoulSwap;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Soul Swap";
+                flag = true;
+            }
             else
             {
                 __instance.KillButton.graphic.sprite = Kill;
                 __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
                 __instance.KillButton.buttonLabelText.text = "Kill";
                 flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) ||
-                    PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut);
+                    PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut) ||
+                    CustomGameOptions.GameMode == GameMode.Teams || PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller) ||
+                    PlayerControl.LocalPlayer.Is(RoleEnum.Berserker) || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller);
             }
             if (!PlayerControl.LocalPlayer.Is(Faction.Impostors) &&
                 GameOptionsManager.Instance.CurrentGameOptions.GameMode != GameModes.HideNSeek)
@@ -171,14 +269,20 @@ namespace TownOfUs
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Engineer) || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)
                  || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
-                 || PlayerControl.LocalPlayer.Is(RoleEnum.Vampire))
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.Vampire) || PlayerControl.LocalPlayer.Is(RoleEnum.Berserker)
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller))
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
             }
-            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf))
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller))
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-1f, 1f, 0f);
             }
+            else if (CustomGameOptions.GameMode == GameMode.Teams)
+            {
+                __instance.ImpostorVentButton.transform.localPosition = new Vector3(-1f, 0f, 0f);
+            }
+            if (CustomGameOptions.GameMode == GameMode.Teams) __instance.ReportButton.transform.localPosition = new Vector3(100f, 100f, 0f);
 
             bool KillKey = Rewired.ReInput.players.GetPlayer(0).GetButtonDown("Kill");
             var controller = ConsoleJoystick.player.GetButtonDown(8);

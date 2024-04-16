@@ -23,6 +23,14 @@ namespace TownOfUs.Roles
         public static bool NobodyWins;
         public static bool SurvOnlyWins;
         public static bool VampireWins;
+        public int BreadLeft = 1;
+        public int Defense = 0;
+        public bool Reaped = false;
+        public bool Roleblocked = false;
+        public GameObject DefenseButton = new GameObject();
+        public DateTime LastBlood;
+        public List<ArrowBehaviour> SnipeArrows = new List<ArrowBehaviour>();
+        public bool ApocalypseWins { get; set; }
 
         public List<KillButton> ExtraButtons = new List<KillButton>();
 
@@ -108,12 +116,12 @@ namespace TownOfUs.Roles
 
         internal virtual bool Criteria()
         {
-            return DeadCriteria() || ImpostorCriteria() || VampireCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local;
+            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || VampireCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local;
         }
 
         internal virtual bool ColorCriteria()
         {
-            return SelfCriteria() || DeadCriteria() || ImpostorCriteria() || VampireCriteria() || RoleCriteria() || GuardianAngelCriteria();
+            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || SelfCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || VampireCriteria() || RoleCriteria() || GuardianAngelCriteria();
         }
 
         internal virtual bool DeadCriteria()
@@ -122,10 +130,22 @@ namespace TownOfUs.Roles
             return false;
         }
 
+        internal virtual bool WitchCriteria()
+        {
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Witch)) if (Role.GetRole<Witch>(PlayerControl.LocalPlayer).RevealedPlayers.Contains(Player.PlayerId)) return true;
+            return false;
+        }
+
+        internal virtual bool ApocalypseCriteria()
+        {
+            if ((Faction == Faction.NeutralApocalypse || Player.Is(ModifierEnum.ApocalypseAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse())) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))) return true;
+            return false;
+        }
+
         internal virtual bool ImpostorCriteria()
         {
-            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor() &&
-                CustomGameOptions.ImpostorSeeRoles) return true;
+            if ((Faction == Faction.Impostors || Player.Is(ModifierEnum.ImpostorAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && (PlayerControl.LocalPlayer.Data.IsImpostor() ||
+                PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent)) && (CustomGameOptions.ImpostorSeeRoles || Player.Is(ModifierEnum.ImpostorAgent) || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) return true;
             return false;
         }
 
@@ -169,6 +189,24 @@ namespace TownOfUs.Roles
 
         protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
+            if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))
+            {
+                var impTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                impTeam.Add(PlayerControl.LocalPlayer);
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    if (player != PlayerControl.LocalPlayer)
+                    {
+                        if (player.Data.IsImpostor() || player.Is(ModifierEnum.ImpostorAgent)) impTeam.Add(player);
+                        else if (player.Is(RoleEnum.Undercover))
+                        {
+                            var role = GetRole<Undercover>(player);
+                            if (role.UndercoverImpostor) impTeam.Add(player);
+                        }
+                    }
+                }
+                __instance.teamToShow = impTeam;
+            }
         }
 
         public static void NobodyWinsFunc()
@@ -196,6 +234,16 @@ namespace TownOfUs.Roles
                 var doomRole = (Doomsayer)doom;
                 if (doomRole.WonByGuessing) return;
             }
+            foreach (var pirate in GetRoles(RoleEnum.Pirate))
+            {
+                var pirateRole = (Pirate)pirate;
+                if (pirateRole.WonByDuel) return;
+            }
+            foreach (var inquisitor in GetRoles(RoleEnum.Inquisitor))
+            {
+                var inquisitorRole = (Inquisitor)inquisitor;
+                if (inquisitorRole.HereticsDead) return;
+            }
 
             VampireWins = true;
 
@@ -213,7 +261,7 @@ namespace TownOfUs.Roles
                 {
                     var role = GetRole(x);
                     if (role == null) return false;
-                    var flag2 = role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign;
+                    var flag2 = role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign || role.Faction == Faction.NeutralChaos;
 
                     return flag2;
                 });
@@ -290,6 +338,24 @@ namespace TownOfUs.Roles
                 }
             }
 
+            foreach (var role in GetRoles(RoleEnum.Inquisitor))
+            {
+                var inq = (Inquisitor)role;
+                if (PlayerControl.LocalPlayer.Data.IsDead && !inq.Player.Data.IsDead && inq.heretics.Contains(Player.PlayerId)) //Error
+                {
+                    PlayerName += "<color=#821252FF> X</color>";
+                }
+            }
+
+            foreach (var role in GetRoles(RoleEnum.Monarch))
+            {
+                var mon = (Monarch)role;
+                if (mon.Knights.Contains(Player.PlayerId))
+                {
+                    PlayerName += "<color=#9628C8FF> +</color>";
+                }
+            }
+
             var modifier = Modifier.GetModifier(Player);
             if (modifier != null && modifier.GetColoredSymbol() != null)
             {
@@ -306,6 +372,11 @@ namespace TownOfUs.Roles
                     PlayerName += $" ({TotalTasks - TasksLeft}/{TotalTasks})";
                 }
             }
+            if (Player.Is(ModifierEnum.Drunk) && revealModifier)
+            {
+                var drunk = Modifier.GetModifier<Drunk>(Player);
+                if (CustomGameOptions.DrunkWearsOff && drunk.RoundsLeft > 0) PlayerName += $" {drunk.ColorString}({drunk.RoundsLeft})</color>";
+            }
 
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
                                    MeetingHud.Instance.state == MeetingHud.VoteStates.Results)) return PlayerName;
@@ -313,7 +384,7 @@ namespace TownOfUs.Roles
             if (!revealRole) return PlayerName;
 
             Player.nameText().transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
-
+            if (Player.Is(RoleEnum.Undercover) && Player != PlayerControl.LocalPlayer) return PlayerName + "\n" + ((Undercover)this).UndercoverRole.GetRoleName();
             return PlayerName + "\n" + Name;
         }
 
@@ -470,11 +541,53 @@ namespace TownOfUs.Roles
                     // var alpha = __instance.__4__this.RoleText.color.a;
                     if (role != null && !role.Hidden)
                     {
-                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralChaos || role.Faction == Faction.NeutralBenign)
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
-                            __instance.__4__this.TeamTitle.color = Color.white;
-                            __instance.__4__this.BackgroundBar.material.color = Color.white;
+                            __instance.__4__this.TeamTitle.text = CustomGameOptions.GameMode == GameMode.SoloKiller ? "Killer" : "Neutral";
+                            __instance.__4__this.TeamTitle.color = CustomGameOptions.GameMode == GameMode.SoloKiller ? Patches.Colors.Impostor : Color.white;
+                            __instance.__4__this.BackgroundBar.material.color = CustomGameOptions.GameMode == GameMode.SoloKiller ? Patches.Colors.Impostor : Color.white;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.RedTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Red";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.RedTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.RedTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.BlueTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Blue";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.BlueTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.BlueTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.YellowTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Yellow";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.YellowTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.YellowTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.GreenTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Green";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.GreenTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.GreenTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.NeutralApocalypse)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Apocalypse";
+                            __instance.__4__this.TeamTitle.color = Color.gray;
+                            __instance.__4__this.BackgroundBar.material.color = Color.gray;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.Impostors)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Impostor";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.Impostor;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.Impostor;
                             PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
                         __instance.__4__this.RoleText.text = role.Name;
@@ -521,11 +634,53 @@ namespace TownOfUs.Roles
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
                     {
-                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralChaos || role.Faction == Faction.NeutralBenign)
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
-                            __instance.__4__this.TeamTitle.color = Color.white;
-                            __instance.__4__this.BackgroundBar.material.color = Color.white;
+                            __instance.__4__this.TeamTitle.text = CustomGameOptions.GameMode == GameMode.SoloKiller ? "Killer" : "Neutral";
+                            __instance.__4__this.TeamTitle.color = CustomGameOptions.GameMode == GameMode.SoloKiller ? Patches.Colors.Impostor : Color.white;
+                            __instance.__4__this.BackgroundBar.material.color = CustomGameOptions.GameMode == GameMode.SoloKiller ? Patches.Colors.Impostor : Color.white;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.RedTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Red";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.RedTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.RedTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.BlueTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Blue";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.BlueTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.BlueTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.YellowTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Yellow";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.YellowTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.YellowTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.GreenTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Green";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.GreenTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.GreenTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.NeutralApocalypse)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Apocalypse";
+                            __instance.__4__this.TeamTitle.color = Color.gray;
+                            __instance.__4__this.BackgroundBar.material.color = Color.gray;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.Impostors)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Impostor";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.Impostor;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.Impostor;
                             PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
                         __instance.__4__this.RoleText.text = role.Name;
@@ -556,6 +711,16 @@ namespace TownOfUs.Roles
 
                     if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
                         __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.Teams)
+                        __instance.__4__this.ImpostorText.text = "Eliminate other teams!";
+                    else if (CustomGameOptions.GameMode == GameMode.SoloKiller && role.RoleType == RoleEnum.SoloKiller)
+                        __instance.__4__this.ImpostorText.text = "";
+                    else if (CustomGameOptions.GameMode == GameMode.SoloKiller)
+                        __instance.__4__this.ImpostorText.text = "There is <color=#FF0000FF>1 Killer</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman && role.Faction == Faction.NeutralApocalypse)
+                        __instance.__4__this.ImpostorText.text = "";
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman)
+                        __instance.__4__this.ImpostorText.text = CustomGameOptions.MinNeutralApocalypseRoles == 1 ? $"There is <color=#808080FF>1 Horseman of Apocalypse</color> among us" : $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
                 }
             }
 
@@ -567,11 +732,53 @@ namespace TownOfUs.Roles
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
                     {
-                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralChaos || role.Faction == Faction.NeutralBenign)
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
-                            __instance.__4__this.TeamTitle.color = Color.white;
-                            __instance.__4__this.BackgroundBar.material.color = Color.white;
+                            __instance.__4__this.TeamTitle.text = CustomGameOptions.GameMode == GameMode.SoloKiller ? "Killer" : "Neutral";
+                            __instance.__4__this.TeamTitle.color = CustomGameOptions.GameMode == GameMode.SoloKiller ? Patches.Colors.Impostor : Color.white;
+                            __instance.__4__this.BackgroundBar.material.color = CustomGameOptions.GameMode == GameMode.SoloKiller ? Patches.Colors.Impostor : Color.white;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.RedTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Red";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.RedTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.RedTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.BlueTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Blue";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.BlueTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.BlueTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.YellowTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Yellow";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.YellowTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.YellowTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.GreenTeam)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Green";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.GreenTeam;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.GreenTeam;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.NeutralApocalypse)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Apocalypse";
+                            __instance.__4__this.TeamTitle.color = Color.gray;
+                            __instance.__4__this.BackgroundBar.material.color = Color.gray;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                        }
+                        else if (role.Faction == Faction.Impostors)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Impostor";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.Impostor;
+                            __instance.__4__this.BackgroundBar.material.color = Patches.Colors.Impostor;
                             PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
                         __instance.__4__this.RoleText.text = role.Name;
@@ -602,6 +809,18 @@ namespace TownOfUs.Roles
 
                     if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
                         __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.Teams)
+                        __instance.__4__this.ImpostorText.text = "Eliminate other teams!";
+                    else if (CustomGameOptions.GameMode == GameMode.SoloKiller && role.RoleType == RoleEnum.SoloKiller)
+                        __instance.__4__this.ImpostorText.text = "";
+                    else if (CustomGameOptions.GameMode == GameMode.SoloKiller)
+                        __instance.__4__this.ImpostorText.text = "There is <color=#FF0000FF>1 Killer</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman && role.Faction == Faction.NeutralApocalypse)
+                        __instance.__4__this.ImpostorText.text = "";
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.MinNeutralApocalypseRoles == CustomGameOptions.MaxNeutralApocalypseRoles)
+                        __instance.__4__this.ImpostorText.text = CustomGameOptions.MinNeutralApocalypseRoles == 1 ? $"There is <color=#808080FF>1 Horseman of Apocalypse</color> among us" : $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman)
+                        __instance.__4__this.ImpostorText.text = $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles}-{CustomGameOptions.MaxNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
                 }
             }
         }
@@ -615,7 +834,6 @@ namespace TownOfUs.Roles
                 var player = __instance.__4__this;
                 var role = GetRole(player);
                 var modifier = Modifier.GetModifier(player);
-
                 if (modifier != null)
                 {
                     var modTask = new GameObject(modifier.Name + "Task").AddComponent<ImportantTextTask>();
@@ -624,7 +842,6 @@ namespace TownOfUs.Roles
                         $"{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>";
                     player.myTasks.Insert(0, modTask);
                 }
-
                 if (role == null || role.Hidden) return;
                 if (role.RoleType == RoleEnum.Amnesiac && role.Player != PlayerControl.LocalPlayer) return;
                 var task = new GameObject(role.Name + "Task").AddComponent<ImportantTextTask>();
@@ -671,16 +888,18 @@ namespace TownOfUs.Roles
                     var roleIsEnd = role.NeutralWin(__instance);
                     var modifier = Modifier.GetModifier(role.Player);
                     bool modifierIsEnd = true;
-                    var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
+                    var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ModifierEnum.ImpostorAgent) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother)).ToList();
                     var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
                     var traitorIsEnd = true;
+                    var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ModifierEnum.ImpostorAgent)) > 0;
+                    bool stopImpOvertake = ((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count) && impsAlive.Count != 0;
                     if (SetTraitor.WillBeTraitor != null)
                     {
                         traitorIsEnd = SetTraitor.WillBeTraitor.Data.IsDead || SetTraitor.WillBeTraitor.Data.Disconnected || alives.Count < CustomGameOptions.LatestSpawn || impsAlive.Count * 2 >= alives.Count;
                     }
                     if (modifier != null)
                         modifierIsEnd = modifier.ModifierWin(__instance);
-                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd || role.PauseEndCrit) result = false;
+                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd || role.PauseEndCrit || stopImpOvertake) result = false;
                 }
 
                 if (!NobodyEndCriteria(__instance)) result = false;
@@ -719,6 +938,10 @@ namespace TownOfUs.Roles
                 {
                     ((Mystic)role).BodyArrows.Values.DestroyAll();
                     ((Mystic)role).BodyArrows.Clear();
+                }
+                foreach (var role in AllRoles)
+                {
+                    role.DestroySnipeArrows();
                 }
 
                 RoleDictionary.Clear();
@@ -761,7 +984,8 @@ namespace TownOfUs.Roles
                             var role = GetRole(info.Object);
                             if (role == null) return;
                             var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
-                            __result = $"{info.PlayerName} was {roleName}.";
+                            var agentText = info.Object.Is(ModifierEnum.ImpostorAgent) ? " (Imp)" : info.Object.Is(ModifierEnum.ApocalypseAgent) ? " (Apoc)" : "";
+                            __result = $"{info.PlayerName} was {roleName}{agentText}.";
                             return;
                         }
                 }
@@ -790,16 +1014,29 @@ namespace TownOfUs.Roles
                         bool loverFlag = role.LoverCriteria();
                         bool roleFlag = role.RoleCriteria();
                         bool gaFlag = role.GuardianAngelCriteria();
-                        player.NameText.text = role.NameText(
+                        bool apocalypseFlag = role.ApocalypseCriteria();
+                        bool witchFlag = role.WitchCriteria();
+                        player.NameText.text = role.NameText( //Error
                             selfFlag || deadFlag || role.Local,
-                            selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag,
+                            selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
                             selfFlag || deadFlag,
                             loverFlag,
                             player
                         );
-                        if(role.ColorCriteria())
+                        if (role.ColorCriteria())
                             player.NameText.color = role.Color;
+                        if (role != null)
+                        {
+                            if (role.RoleType == RoleEnum.Undercover)
+                            {
+                                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                                    player.NameText.color = ((Undercover)role).UndercoverRole.GetRoleColor();
+                            }
+                            else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                                player.NameText.color = Patches.Colors.Impostor;
+                        }
                     }
+                    else if (role.Player.IsKnight()) player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>"; //Error
                     else
                     {
                         try
@@ -809,6 +1046,16 @@ namespace TownOfUs.Roles
                         catch
                         {
                         }
+                    }
+                    if (role != null)
+                    {
+                        if (role.RoleType == RoleEnum.Undercover)
+                        {
+                            if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                                player.NameText.color = ((Undercover)role).UndercoverRole.GetRoleColor();
+                        }
+                        else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                            player.NameText.color = Patches.Colors.Impostor;
                     }
                 }
             }
@@ -829,8 +1076,17 @@ namespace TownOfUs.Roles
                         player.nameText().text = player.name;
                         player.nameText().color = Color.white;
                     }
-
                     var role = GetRole(player);
+                    if (role != null)
+                    {
+                        if (role.RoleType == RoleEnum.Undercover)
+                        {
+                            if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                                player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
+                        }
+                        else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                            player.nameText().color = Patches.Colors.Impostor;
+                    }
                     if (role != null)
                     {
                         if (role.Criteria())
@@ -842,16 +1098,28 @@ namespace TownOfUs.Roles
                             bool loverFlag = role.LoverCriteria();
                             bool roleFlag = role.RoleCriteria();
                             bool gaFlag = role.GuardianAngelCriteria();
+                            bool apocalypseFlag = role.ApocalypseCriteria();
+                            bool witchFlag = role.WitchCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag,
+                                selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
                                 selfFlag || deadFlag,
                                 loverFlag
                              );
-
                             if (role.ColorCriteria())
                                 player.nameText().color = role.Color;
+                            if (role != null)
+                            {
+                                if (role.RoleType == RoleEnum.Undercover)
+                                {
+                                    if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                                        player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
+                                }
+                                else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                                    player.nameText().color = Patches.Colors.Impostor;
+                            }
                         }
+                        else if (player.IsKnight()) player.nameText().text += "<color=#9628C8FF> +</color>";
                     }
 
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;
@@ -861,6 +1129,18 @@ namespace TownOfUs.Roles
         public static AudioClip GetIntroSound(RoleTypes roleType)
         {
             return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
+        }
+
+        public void DestroySnipeArrows()
+        {
+            foreach (var arrow in SnipeArrows)
+            {
+                if (arrow != null)
+                    Object.Destroy(arrow);
+                if (arrow.gameObject != null)
+                    Object.Destroy(arrow.gameObject);
+                SnipeArrows.Remove(arrow);
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.AurialMod
 {
@@ -14,12 +16,18 @@ namespace TownOfUs.CrewmateRoles.AurialMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Aurial>(PlayerControl.LocalPlayer);
             if (!(role.RadiateTimer() == 0f)) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
             if (!__instance.enabled) return false;
             role.LastRadiated = System.DateTime.UtcNow;
 
             var players = Utils.GetClosestPlayers(PlayerControl.LocalPlayer.GetTruePosition(), CustomGameOptions.RadiateRange, false);
             foreach ( var player in players)
             {
+                if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)role.RoleType, (byte)0);
                 if (UnityEngine.Random.Range(0, 100) > CustomGameOptions.RadiateChance) continue;
 
                 if (role.knownPlayerRoles.TryGetValue(player.PlayerId, out int val)) {

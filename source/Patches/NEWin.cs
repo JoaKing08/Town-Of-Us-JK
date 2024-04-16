@@ -2,6 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs.Patches
 {
@@ -18,8 +19,10 @@ namespace TownOfUs.Patches
             if (exeRole != null) neWin = true;
             var jestRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Jester && ((Jester)x).VotedOut && ((Jester)x).Player == PlayerControl.LocalPlayer);
             if (jestRole != null) neWin = true;
-            var phantomRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Phantom && ((Phantom)x).CompletedTasks && ((Phantom)x).Player == PlayerControl.LocalPlayer);
-            if (phantomRole != null) neWin = true;
+            var pirateRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Pirate && ((Pirate)x).WonByDuel && ((Pirate)x).Player == PlayerControl.LocalPlayer);
+            if (pirateRole != null) neWin = true;
+            var inquisitorRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Inquisitor && ((Inquisitor)x).HereticsDead && ((Inquisitor)x).Player == PlayerControl.LocalPlayer);
+            if (inquisitorRole != null) neWin = true;
             if (neWin)
             {
                 __instance.WinText.text = "</color><color=#008DFFFF>Victory";
@@ -35,10 +38,10 @@ namespace TownOfUs.Patches
                 if (glitchRole != null) return;
                 var juggRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Juggernaut && ((Juggernaut)x).JuggernautWins);
                 if (juggRole != null) return;
-                var pestRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Pestilence && ((Pestilence)x).PestilenceWins);
-                if (pestRole != null) return;
-                var pbRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Plaguebearer && ((Plaguebearer)x).PlaguebearerWins);
-                if (pbRole != null) return;
+                var skRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.SerialKiller && ((SerialKiller)x).SerialKillerWins);
+                if (skRole != null) return;
+                var apocRole = Role.AllRoles.FirstOrDefault(x => x.Faction == Faction.NeutralApocalypse && x.ApocalypseWins);
+                if (apocRole != null) return;
                 var wwRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Werewolf && ((Werewolf)x).WerewolfWins);
                 if (wwRole != null) return;
                 __instance.BackgroundBar.material.SetColor("_Color", Palette.CrewmateBlue);

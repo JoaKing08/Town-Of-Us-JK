@@ -43,6 +43,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)0, (byte)1);
             role.ExamineButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
             Utils.SetTarget(ref role.ClosestPlayer, role.ExamineButton, float.NaN);
 

@@ -53,6 +53,7 @@ namespace TownOfUs.CrewmateRoles.MediumMod
                         }
                     }
                 }
+                if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.MediateTimer(), (byte)CustomGameOptions.MediateCooldown);
                 mediateButton.SetCoolDown(role.MediateTimer(), CustomGameOptions.MediateCooldown);
 
                 var renderer = mediateButton.graphic;

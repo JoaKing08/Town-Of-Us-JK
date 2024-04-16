@@ -1,5 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod
 {
@@ -16,8 +17,10 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                     var role = Role.GetRole(player);
                     if (player.Is(Faction.Impostors))
                         state.NameText.color = Palette.ImpostorRed;
-                    if (player.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals)
+                    if ((player.Is(Faction.NeutralKilling) || (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode != GameMode.Horseman)) && CustomGameOptions.HaunterRevealsNeutrals)
                         state.NameText.color = role.Color;
+                    if (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode == GameMode.Horseman)
+                        state.NameText.color = Color.gray;
                 }
             }
         }

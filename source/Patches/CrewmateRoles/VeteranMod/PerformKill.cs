@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.VeteranMod
 {
@@ -20,6 +22,11 @@ namespace TownOfUs.CrewmateRoles.VeteranMod
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.AlertTimer() != 0) return false;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return false;
+                }
                 role.TimeRemaining = CustomGameOptions.AlertDuration;
                 role.UsesLeft--;
                 role.Alert();

@@ -20,6 +20,7 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
             if (interact[4] == true)
             {
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 Utils.Rpc(CustomRPC.Protect, PlayerControl.LocalPlayer.PlayerId, role.ClosestPlayer.PlayerId);
 
                 role.ShieldedPlayer = role.ClosestPlayer;

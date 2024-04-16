@@ -18,6 +18,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ObserveTimer(), (byte)CustomGameOptions.ObserveCooldown);
             __instance.KillButton.SetCoolDown(role.ObserveTimer(), CustomGameOptions.ObserveCooldown);
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
         }

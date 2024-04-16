@@ -47,7 +47,8 @@ namespace TownOfUs.Modifiers.AssassinMod
                     player == null ||
                     player.Data.IsImpostor() ||
                     player.Data.IsDead ||
-                    player.Data.Disconnected
+                    player.Data.Disconnected ||
+                    (player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())
                 ) return true;
             }
             var role = Role.GetRole(player);
@@ -161,6 +162,11 @@ namespace TownOfUs.Modifiers.AssassinMod
                     MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion ||
                     IsExempt(voteArea) || PlayerControl.LocalPlayer.Data.IsDead
                 ) return;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return;
+                }
                 var targetId = voteArea.TargetPlayerId;
                 var currentGuess = role.Guesses[targetId];
                 if (currentGuess == "None") return;
@@ -172,7 +178,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                 if (playerModifier != null)
                     toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
 
-                if (!toDie.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence))
+                if (!toDie.Is(RoleEnum.Pestilence) || !toDie.Is(RoleEnum.Famine) || !toDie.Is(RoleEnum.War) || !toDie.Is(RoleEnum.Death) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Famine) || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.Death))
                 {
                     if (PlayerControl.LocalPlayer.Is(ModifierEnum.DoubleShot) && toDie == PlayerControl.LocalPlayer)
                     {
@@ -191,7 +197,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                             if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
                             {
                                 var lover = ((Lover)playerModifier).OtherLover.Player;
-                                if (!lover.Is(RoleEnum.Pestilence)) ShowHideButtons.HideSingle(role, lover.PlayerId, false);
+                                if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                             }
                         }
                     }
@@ -203,7 +209,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                         if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
                         {
                             var lover = ((Lover)playerModifier).OtherLover.Player;
-                            if (!lover.Is(RoleEnum.Pestilence)) ShowHideButtons.HideSingle(role, lover.PlayerId, false);
+                            if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                         }
                     }
                 }

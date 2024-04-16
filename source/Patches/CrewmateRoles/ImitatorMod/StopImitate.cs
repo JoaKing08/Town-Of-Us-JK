@@ -22,6 +22,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (StartImitate.ImitatingPlayer != null && !StartImitate.ImitatingPlayer.Is(RoleEnum.Traitor))
             {
                 List<RoleEnum> trappedPlayers = null;
+                List<string> Messages = null;
+                PlayerControl LastInspectedPlayer = null;
                 PlayerControl confessingPlayer = null;
 
                 if (PlayerControl.LocalPlayer == StartImitate.ImitatingPlayer)
@@ -104,8 +106,32 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                         CameraEffect.singleton.materials.Clear();
                     }
 
-                    if (!PlayerControl.LocalPlayer.Is(RoleEnum.Investigator) && !PlayerControl.LocalPlayer.Is(RoleEnum.Mystic)
-                        && !PlayerControl.LocalPlayer.Is(RoleEnum.Spy)) DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Spy))
+                    {
+                        var spyRole = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
+                        Messages = spyRole.Messages;
+                        spyRole.BuggedPlayers = new List<byte>();
+                        Utils.Rpc(CustomRPC.UnbugPlayers, PlayerControl.LocalPlayer.PlayerId);
+                    }
+
+                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Inspector))
+                    {
+                        var inspectorRole = Role.GetRole<Inspector>(PlayerControl.LocalPlayer);
+                        LastInspectedPlayer = inspectorRole.LastInspectedPlayer;
+                    }
+
+                    if (PlayerControl.LocalPlayer.Is(RoleEnum.TavernKeeper))
+                    {
+                        var tavernKeeperRole = Role.GetRole<TavernKeeper>(PlayerControl.LocalPlayer);
+                        foreach (var player in tavernKeeperRole.DrunkPlayers)
+                        {
+                            Role.GetRole(player).Roleblocked = false;
+                            Utils.Rpc(CustomRPC.UnroleblockPlayer, player.PlayerId);
+                        }
+                        tavernKeeperRole.DrunkPlayers = new List<PlayerControl>();
+                    }
+
+                    if (!PlayerControl.LocalPlayer.Is(RoleEnum.Investigator) && !PlayerControl.LocalPlayer.Is(RoleEnum.Mystic)) DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
                 }
 
                 if (StartImitate.ImitatingPlayer.Is(RoleEnum.Medium))
@@ -121,6 +147,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 var imitator = new Imitator(StartImitate.ImitatingPlayer);
                 imitator.trappedPlayers = trappedPlayers;
                 imitator.confessingPlayer = confessingPlayer;
+                imitator.LastInspectedPlayer = LastInspectedPlayer;
+                imitator.Messages = Messages;
                 var newRole = Role.GetRole(StartImitate.ImitatingPlayer);
                 newRole.RemoveFromRoleHistory(newRole.RoleType);
                 newRole.Kills = killsList.Kills;

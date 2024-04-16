@@ -1,6 +1,7 @@
 using HarmonyLib;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.SnitchMod
 {
@@ -19,8 +20,10 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                         state.NameText.color = Palette.ImpostorRed;
                     else if (player.Is(RoleEnum.Traitor) && CustomGameOptions.SnitchSeesTraitor)
                         state.NameText.color = Palette.ImpostorRed;
-                    if (player.Is(Faction.NeutralKilling) && CustomGameOptions.SnitchSeesNeutrals)
+                    if ((player.Is(Faction.NeutralKilling) || (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode != GameMode.Horseman)) && CustomGameOptions.SnitchSeesNeutrals)
                         state.NameText.color = role.Color;
+                    if (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode == GameMode.Horseman)
+                        state.NameText.color = Color.gray;
                 }
             }
         }
@@ -37,8 +40,10 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                 if (player.Data.IsImpostor() && !player.Is(RoleEnum.Traitor)) player.nameText().color = Palette.ImpostorRed;
                 else if (player.Is(RoleEnum.Traitor) && CustomGameOptions.SnitchSeesTraitor) player.nameText().color = Palette.ImpostorRed;
                 var playerRole = Role.GetRole(player);
-                if (playerRole.Faction == Faction.NeutralKilling && CustomGameOptions.SnitchSeesNeutrals)
+                if ((playerRole.Faction == Faction.NeutralKilling || (playerRole.Faction == Faction.NeutralApocalypse && CustomGameOptions.GameMode != GameMode.Horseman)) && CustomGameOptions.SnitchSeesNeutrals)
                     player.nameText().color = playerRole.Color;
+                else if (playerRole.Faction == Faction.NeutralApocalypse && CustomGameOptions.GameMode == GameMode.Horseman)
+                    player.nameText().color = Color.gray;
             }
         }
     }

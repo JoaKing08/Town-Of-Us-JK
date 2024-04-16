@@ -43,6 +43,26 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
 
                 if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
             }
+            else if (imitatorRole.LastInspectedPlayer != null)
+            {
+                var playerResults = "You found out that " + Utils.GetPossibleRoleCategory(imitatorRole.LastInspectedPlayer);
+                var roleResults = Utils.GetPossibleRoleList(imitatorRole.LastInspectedPlayer);
+
+                if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
+                if (!string.IsNullOrWhiteSpace(roleResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, roleResults);
+            }
+            else if (imitatorRole.Messages != null)
+            {
+                if (imitatorRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "No players triggered any of your bugs");
+                else
+                {
+                    foreach (var message in imitatorRole.Messages)
+                    {
+                        DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);
+                    }
+                }
+                imitatorRole.Messages = null;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace TownOfUs
         public static void Postfix(VersionShower __instance)
         {
             var text = __instance.text;
-            text.text += " - <color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>";
+            text.text += " - <color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>, <color=#FFD000FF>JoaKing's addon v" + TownOfUs.ModesVersionString + "</color>";
             text.transform.localPosition += new Vector3(-0.8f, -0.16f, 0f);
 
             if (GameObject.Find("RightPanel"))

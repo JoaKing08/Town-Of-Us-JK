@@ -26,6 +26,8 @@ using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.CrewmateRoles.AurialMod;
 using Reactor.Networking;
 using Reactor.Networking.Extensions;
+using TownOfUs.Roles.Teams;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs
 {
@@ -35,6 +37,16 @@ namespace TownOfUs
         internal static bool ShowDeadBodies = false;
         private static GameData.PlayerInfo voteTarget = null;
 
+        public static bool CheckImpostorFriendlyFire()
+        {
+            if (!CustomGameOptions.UndercoverKillEachother || PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor()) == 0) return false;
+            return true;
+        }
+        public static bool CheckApocalypseFriendlyFire()
+        {
+            if (!CustomGameOptions.UndercoverKillEachother || PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse()) == 0) return false;
+            return true;
+        }
         public static void Morph(PlayerControl player, PlayerControl MorphedPlayer, bool resetAnim = false)
         {
             if (CamouflageUnCamouflage.IsCamoed) return;
@@ -156,12 +168,78 @@ namespace TownOfUs
             });
         }
 
+        public static bool IsDueled(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Pirate).Any(role =>
+            {
+                var dueledPlayer = ((Pirate)role).DueledPlayer;
+                return dueledPlayer != null && player.PlayerId == dueledPlayer.PlayerId && !role.Player.Data.IsDead && !role.Player.Data.Disconnected;
+            });
+        }
+
+        public static bool IsControled(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Witch).Any(role =>
+            {
+                var controledPlayer = ((Witch)role).ControledPlayer;
+                return controledPlayer != null && player.PlayerId == controledPlayer.PlayerId && !role.Player.Data.IsDead && !role.Player.Data.Disconnected;
+            });
+        }
+
+        public static bool UndercoverIsApocalypse()
+        {
+            return Role.GetRoles(RoleEnum.Undercover).Any(role =>
+            {
+                return ((Undercover)role).UndercoverApocalypse;
+            });
+        }
+
+        public static bool UndercoverIsImpostor()
+        {
+            return Role.GetRoles(RoleEnum.Undercover).Any(role =>
+            {
+                return ((Undercover)role).UndercoverImpostor;
+            });
+        }
+
+        public static bool IsKnight(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Monarch).Any(role =>
+            {
+                return ((Monarch)role).Knights.Contains(player.PlayerId);
+            });
+        }
+
+        public static bool IsBugged(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Spy).Any(role =>
+            {
+                return ((Spy)role).BuggedPlayers.Contains(player.PlayerId);
+            });
+        }
+
+        public static bool IsHeretic(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Inquisitor).Any(role =>
+            {
+                return ((Inquisitor)role).heretics.Contains(player.PlayerId) && !role.Player.Data.IsDead;
+            });
+        }
+
         public static bool IsShielded(this PlayerControl player)
         {
             return Role.GetRoles(RoleEnum.Medic).Any(role =>
             {
                 var shieldedPlayer = ((Medic)role).ShieldedPlayer;
                 return shieldedPlayer != null && player.PlayerId == shieldedPlayer.PlayerId;
+            });
+        }
+
+        public static bool PoltergeistTasks()
+        {
+            return Role.GetRoles(RoleEnum.Poltergeist).Any(role =>
+            {
+                return ((Poltergeist)role).CompletedTasks;
             });
         }
 
@@ -218,156 +296,213 @@ namespace TownOfUs
             bool survReset = false;
             bool zeroSecReset = false;
             bool abilityUsed = false;
-            if (target.IsInfected() || player.IsInfected())
+            if (Role.GetRole(player).Roleblocked)
             {
-                foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(target, player);
-            }
-            if (target == ShowRoundOneShield.FirstRoundShielded && toKill)
-            {
+                if (player == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 zeroSecReset = true;
             }
-            else if (target.Is(RoleEnum.Pestilence))
+            else
             {
-                if (player.IsShielded())
+                if (target.IsInfected() || player.IsInfected())
                 {
-                    var medic = player.GetMedic().Player.PlayerId;
-                    Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
-
-                    if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                    else zeroSecReset = true;
-
-                    StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                    foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(target, player);
                 }
-                else if (player.IsProtected()) gaReset = true;
-                else RpcMurderPlayer(target, player);
-            }
-            else if (target.IsOnAlert())
-            {
-                if (player.Is(RoleEnum.Pestilence)) zeroSecReset = true;
-                else if (player.IsShielded())
+                if (target == ShowRoundOneShield.FirstRoundShielded && toKill)
                 {
-                    var medic = player.GetMedic().Player.PlayerId;
-                    Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
-
-                    if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                    else zeroSecReset = true;
-
-                    StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    zeroSecReset = true;
                 }
-                else if (player.IsProtected()) gaReset = true;
-                else RpcMurderPlayer(target, player);
-                if (toKill && CustomGameOptions.KilledOnAlert)
+                else if (target.Is(RoleEnum.Pestilence))
                 {
-                    if (target.IsShielded())
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    if (player.IsShielded())
                     {
-                        var medic = target.GetMedic().Player.PlayerId;
-                        Rpc(CustomRPC.AttemptSound, medic, target.PlayerId);
+                        var medic = player.GetMedic().Player.PlayerId;
+                        Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
 
                         if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
                         else zeroSecReset = true;
 
-                        StopKill.BreakShield(medic, target.PlayerId, CustomGameOptions.ShieldBreaks);
+                        StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                     }
-                    else if (target.IsProtected()) gaReset = true;
+                    else if (player.IsProtected()) gaReset = true;
                     else
                     {
-                        if (player.Is(RoleEnum.Glitch))
-                        {
-                            var glitch = Role.GetRole<Glitch>(player);
-                            glitch.LastKill = DateTime.UtcNow;
-                        }
-                        else if (player.Is(RoleEnum.Juggernaut))
-                        {
-                            var jugg = Role.GetRole<Juggernaut>(player);
-                            jugg.JuggKills += 1;
-                            jugg.LastKill = DateTime.UtcNow;
-                        }
-                        else if (player.Is(RoleEnum.Pestilence))
-                        {
-                            var pest = Role.GetRole<Pestilence>(player);
-                            pest.LastKill = DateTime.UtcNow;
-                        }
-                        else if (player.Is(RoleEnum.Vampire))
-                        {
-                            var vamp = Role.GetRole<Vampire>(player);
-                            vamp.LastBit = DateTime.UtcNow;
-                        }
-                        else if (player.Is(RoleEnum.VampireHunter))
-                        {
-                            var vh = Role.GetRole<VampireHunter>(player);
-                            vh.LastStaked = DateTime.UtcNow;
-                        }
-                        else if (player.Is(RoleEnum.Werewolf))
-                        {
-                            var ww = Role.GetRole<Werewolf>(player);
-                            ww.LastKilled = DateTime.UtcNow;
-                        }
-                        RpcMurderPlayer(player, target);
-                        abilityUsed = true;
-                        fullCooldownReset = true;
-                        gaReset = false;
-                        zeroSecReset = false;
+                        RpcMurderPlayer(target, player);
                     }
                 }
-            }
-            else if (target.IsShielded() && toKill)
-            {
-                Rpc(CustomRPC.AttemptSound, target.GetMedic().Player.PlayerId, target.PlayerId);
+                else if (target.IsOnAlert())
+                {
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    if (player.Is(RoleEnum.Pestilence)) zeroSecReset = true;
+                    else if (player.IsShielded())
+                    {
+                        var medic = player.GetMedic().Player.PlayerId;
+                        Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
 
-                System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                else zeroSecReset = true;
-                StopKill.BreakShield(target.GetMedic().Player.PlayerId, target.PlayerId, CustomGameOptions.ShieldBreaks);
-            }
-            else if (target.IsVesting() && toKill)
-            {
-                survReset = true;
-            }
-            else if (target.IsProtected() && toKill)
-            {
-                gaReset = true;
-            }
-            else if (toKill)
-            {
-                if (player.Is(RoleEnum.Glitch))
-                {
-                    var glitch = Role.GetRole<Glitch>(player);
-                    glitch.LastKill = DateTime.UtcNow;
+                        if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
+                        else zeroSecReset = true;
+
+                        StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                    }
+                    else if (player.IsProtected()) gaReset = true;
+                    else if (!player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
+                    {
+                        RpcMurderPlayer(target, player);
+                    }
+                    if (toKill && CustomGameOptions.KilledOnAlert)
+                    {
+                        if (target.IsShielded())
+                        {
+                            var medic = target.GetMedic().Player.PlayerId;
+                            Rpc(CustomRPC.AttemptSound, medic, target.PlayerId);
+
+                            if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
+                            else zeroSecReset = true;
+
+                            StopKill.BreakShield(medic, target.PlayerId, CustomGameOptions.ShieldBreaks);
+                        }
+                        else if (target.IsProtected()) gaReset = true;
+                        else
+                        {
+                            if (player.Is(RoleEnum.Glitch))
+                            {
+                                var glitch = Role.GetRole<Glitch>(player);
+                                glitch.LastKill = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.Juggernaut))
+                            {
+                                var jugg = Role.GetRole<Juggernaut>(player);
+                                jugg.JuggKills += 1;
+                                jugg.LastKill = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.Pestilence))
+                            {
+                                var pest = Role.GetRole<Pestilence>(player);
+                                pest.LastKill = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.Vampire))
+                            {
+                                var vamp = Role.GetRole<Vampire>(player);
+                                vamp.LastBit = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.VampireHunter))
+                            {
+                                var vh = Role.GetRole<VampireHunter>(player);
+                                vh.LastStaked = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.Werewolf))
+                            {
+                                var ww = Role.GetRole<Werewolf>(player);
+                                ww.LastKilled = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.Berserker))
+                            {
+                                var bers = Role.GetRole<Berserker>(player);
+                                bers.KilledPlayers += 1;
+                                bers.LastKill = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.RedMember) || player.Is(RoleEnum.BlueMember) || player.Is(RoleEnum.YellowMember) || player.Is(RoleEnum.GreenMember) || player.Is(RoleEnum.SoloKiller))
+                            {
+                                var tm = Role.GetRole<TeamMember>(player);
+                                tm.LastKill = DateTime.UtcNow;
+                            }
+                            else if (player.Is(RoleEnum.SerialKiller))
+                            {
+                                var sk = Role.GetRole<SerialKiller>(player);
+                                sk.SKKills += 1;
+                                sk.LastKill = DateTime.UtcNow;
+                            }
+                            RpcMurderPlayer(player, target);
+                            abilityUsed = true;
+                            fullCooldownReset = true;
+                            gaReset = false;
+                            zeroSecReset = false;
+                        }
+                    }
                 }
-                else if (player.Is(RoleEnum.Juggernaut))
+                else if (target.IsShielded() && toKill)
                 {
-                    var jugg = Role.GetRole<Juggernaut>(player);
-                    jugg.JuggKills += 1;
-                    jugg.LastKill = DateTime.UtcNow;
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    Rpc(CustomRPC.AttemptSound, target.GetMedic().Player.PlayerId, target.PlayerId);
+
+                    System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                    if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
+                    else zeroSecReset = true;
+                    StopKill.BreakShield(target.GetMedic().Player.PlayerId, target.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
-                else if (player.Is(RoleEnum.Pestilence))
+                else if (target.IsVesting() && toKill)
                 {
-                    var pest = Role.GetRole<Pestilence>(player);
-                    pest.LastKill = DateTime.UtcNow;
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    survReset = true;
                 }
-                else if (player.Is(RoleEnum.Vampire))
+                else if (target.IsProtected() && toKill)
                 {
-                    var vamp = Role.GetRole<Vampire>(player);
-                    vamp.LastBit = DateTime.UtcNow;
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    gaReset = true;
                 }
-                else if (player.Is(RoleEnum.VampireHunter))
+                else if (toKill)
                 {
-                    var vh = Role.GetRole<VampireHunter>(player);
-                    vh.LastStaked = DateTime.UtcNow;
+                    if (player.Is(RoleEnum.Glitch))
+                    {
+                        var glitch = Role.GetRole<Glitch>(player);
+                        glitch.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.Juggernaut))
+                    {
+                        var jugg = Role.GetRole<Juggernaut>(player);
+                        jugg.JuggKills += 1;
+                        jugg.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.Pestilence))
+                    {
+                        var pest = Role.GetRole<Pestilence>(player);
+                        pest.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.Vampire))
+                    {
+                        var vamp = Role.GetRole<Vampire>(player);
+                        vamp.LastBit = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.VampireHunter))
+                    {
+                        var vh = Role.GetRole<VampireHunter>(player);
+                        vh.LastStaked = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.Werewolf))
+                    {
+                        var ww = Role.GetRole<Werewolf>(player);
+                        ww.LastKilled = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.Berserker))
+                    {
+                        var bers = Role.GetRole<Berserker>(player);
+                        bers.KilledPlayers += 1;
+                        bers.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.RedMember) || player.Is(RoleEnum.BlueMember) || player.Is(RoleEnum.YellowMember) || player.Is(RoleEnum.GreenMember) || player.Is(RoleEnum.SoloKiller))
+                    {
+                        var tm = Role.GetRole<TeamMember>(player);
+                        tm.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.SerialKiller))
+                    {
+                        var sk = Role.GetRole<SerialKiller>(player);
+                        sk.SKKills += 1;
+                        sk.LastKill = DateTime.UtcNow;
+                    }
+                    if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death))
+                    {
+                        RpcMurderPlayer(player, target);
+                    }
+                    abilityUsed = true;
+                    fullCooldownReset = true;
                 }
-                else if (player.Is(RoleEnum.Werewolf))
+                else
                 {
-                    var ww = Role.GetRole<Werewolf>(player);
-                    ww.LastKilled = DateTime.UtcNow;
+                    abilityUsed = true;
+                    fullCooldownReset = true;
                 }
-                RpcMurderPlayer(player, target);
-                abilityUsed = true;
-                fullCooldownReset = true;
-            }
-            else
-            {
-                abilityUsed = true;
-                fullCooldownReset = true;
             }
             var reset = new List<bool>();
             reset.Add(fullCooldownReset);
@@ -435,6 +570,20 @@ namespace TownOfUs
                 SetClosestPlayer(ref closestPlayer, maxDistance, targets)
             );
         }
+        public static void SetTarget(
+            ref PlayerControl closestPlayer,
+            PlayerControl targetPlayer,
+            KillButton button,
+            float maxDistance = float.NaN,
+            List<PlayerControl> targets = null
+        )
+        {
+            if (!button.isActiveAndEnabled) return;
+
+            button.SetTarget(
+                SetClosestPlayer(ref closestPlayer, targetPlayer, maxDistance, targets)
+            );
+        }
 
         public static PlayerControl SetClosestPlayer(
             ref PlayerControl closestPlayer,
@@ -450,6 +599,25 @@ namespace TownOfUs
             );
             var closeEnough = player == null || (
                 GetDistBetweenPlayers(PlayerControl.LocalPlayer, player) < maxDistance
+            );
+            return closestPlayer = closeEnough ? player : null;
+        }
+
+        public static PlayerControl SetClosestPlayer(
+            ref PlayerControl closestPlayer,
+            PlayerControl targetPlayer,
+            float maxDistance = float.NaN,
+            List<PlayerControl> targets = null
+        )
+        {
+            if (float.IsNaN(maxDistance))
+                maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
+            var player = GetClosestPlayer(
+                targetPlayer,
+                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()
+            );
+            var closeEnough = player == null || (
+                GetDistBetweenPlayers(targetPlayer, player) < maxDistance
             );
             return closestPlayer = closeEnough ? player : null;
         }
@@ -492,14 +660,19 @@ namespace TownOfUs
                     if (target.Is(Faction.Impostors) ||
                         target.Is(RoleEnum.Glitch) && CustomGameOptions.SheriffKillsGlitch ||
                         target.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist ||
-                        target.Is(RoleEnum.Plaguebearer) && CustomGameOptions.SheriffKillsPlaguebearer ||
+                        target.Is(Faction.NeutralApocalypse) && (CustomGameOptions.SheriffKillsPlaguebearer || CustomGameOptions.GameMode == GameMode.Horseman) ||
                         target.Is(RoleEnum.Pestilence) && CustomGameOptions.SheriffKillsPlaguebearer ||
                         target.Is(RoleEnum.Werewolf) && CustomGameOptions.SheriffKillsWerewolf ||
                         target.Is(RoleEnum.Juggernaut) && CustomGameOptions.SheriffKillsJuggernaut ||
                         target.Is(RoleEnum.Vampire) && CustomGameOptions.SheriffKillsVampire ||
                         target.Is(RoleEnum.Executioner) && CustomGameOptions.SheriffKillsExecutioner ||
                         target.Is(RoleEnum.Doomsayer) && CustomGameOptions.SheriffKillsDoomsayer ||
-                        target.Is(RoleEnum.Jester) && CustomGameOptions.SheriffKillsJester) sheriff.CorrectKills += 1;
+                        target.Is(RoleEnum.Jester) && CustomGameOptions.SheriffKillsJester ||
+                        target.Is(RoleEnum.Pirate) && CustomGameOptions.SheriffKillsPirate||
+                        target.Is(RoleEnum.SerialKiller) && CustomGameOptions.SheriffKillsSerialKiller ||
+                        target.Is(RoleEnum.Inquisitor) && CustomGameOptions.SheriffKillsInquisitor ||
+                        target.Is(RoleEnum.Witch) && CustomGameOptions.SheriffKillsWitch ||
+                        (target.Is(ModifierEnum.ImpostorAgent) || target.Is(ModifierEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent) sheriff.CorrectKills += 1;
                     else if (killer == target) sheriff.IncorrectKills += 1;
                 }
 
@@ -512,14 +685,18 @@ namespace TownOfUs
                 if (killer.Is(RoleEnum.Veteran))
                 {
                     var veteran = Role.GetRole<Veteran>(killer);
-                    if (target.Is(Faction.Impostors) || target.Is(Faction.NeutralKilling) || target.Is(Faction.NeutralEvil)) veteran.CorrectKills += 1;
+                    if (target.Is(Faction.Impostors) || target.Is(Faction.NeutralKilling) || target.Is(Faction.NeutralEvil) || target.Is(Faction.NeutralApocalypse) || target.Is(Faction.NeutralChaos)) veteran.CorrectKills += 1;
                     else if (killer != target) veteran.IncorrectKills += 1;
                 }
 
                 target.gameObject.layer = LayerMask.NameToLayer("Ghost");
                 target.Visible = false;
 
-                if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
+                if (target.Is(ModifierEnum.Famous))
+                {
+                    Coroutines.Start(FlashCoroutine(Patches.Colors.Famous));
+                }
+                else if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
                 }
@@ -600,6 +777,7 @@ namespace TownOfUs
                     KillerId = killer.PlayerId,
                     KillTime = DateTime.UtcNow
                 };
+                Role.GetRole(killer).LastBlood = DateTime.UtcNow;
 
                 Murder.KilledPlayers.Add(deadBody);
 
@@ -670,18 +848,26 @@ namespace TownOfUs
                     return;
                 }
 
+                if (target.Is(ModifierEnum.Diseased) && killer.Is(RoleEnum.SerialKiller))
+                {
+                    var serialKiller = Role.GetRole<SerialKiller>(killer);
+                    serialKiller.LastKill = DateTime.UtcNow.AddSeconds((CustomGameOptions.DiseasedMultiplier - 1f) * (serialKiller.InBloodlust ? CustomGameOptions.BloodlustCooldown : CustomGameOptions.SerialKillerCooldown));
+                    serialKiller.Player.SetKillTimer((serialKiller.InBloodlust ? CustomGameOptions.BloodlustCooldown : CustomGameOptions.SerialKillerCooldown) * CustomGameOptions.DiseasedMultiplier);
+                    return;
+                }
+
                 if (target.Is(ModifierEnum.Diseased) && killer.Is(ModifierEnum.Underdog))
                 {
                     var lowerKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier;
                     var upperKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier;
-                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                    killer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
 
                 if (target.Is(ModifierEnum.Diseased) && killer.Data.IsImpostor())
                 {
-                    killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier);
+                    killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
 
@@ -690,7 +876,7 @@ namespace TownOfUs
                     var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
                     var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                    killer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
 
@@ -1226,6 +1412,35 @@ namespace TownOfUs
                 var chameleon = Role.GetRole<Chameleon>(PlayerControl.LocalPlayer);
                 chameleon.LastSwooped = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Monarch))
+            {
+                var monarch = Role.GetRole<Monarch>(PlayerControl.LocalPlayer);
+                monarch.LastKnighted = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Inspector))
+            {
+                var inspector = Role.GetRole<Inspector>(PlayerControl.LocalPlayer);
+                inspector.LastInspected = DateTime.UtcNow;
+                inspector.LastInspectedPlayer = null;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.TavernKeeper))
+            {
+                var tavernKeeper = Role.GetRole<TavernKeeper>(PlayerControl.LocalPlayer);
+                tavernKeeper.LastDrink = DateTime.UtcNow;
+                foreach (var player in tavernKeeper.DrunkPlayers)
+                {
+                    Role.GetRole(player).Roleblocked = false;
+                    Utils.Rpc(CustomRPC.UnroleblockPlayer, player.PlayerId);
+                }
+                tavernKeeper.DrunkPlayers = new List<PlayerControl>();
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Spy))
+            {
+                var spy = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
+                spy.BuggedPlayers = new List<byte>();
+                spy.LastBugged = DateTime.UtcNow;
+                Utils.Rpc(CustomRPC.UnbugPlayers, PlayerControl.LocalPlayer.PlayerId);
+            }
             #endregion
             #region NeutralRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
@@ -1271,16 +1486,67 @@ namespace TownOfUs
                 var plaguebearer = Role.GetRole<Plaguebearer>(PlayerControl.LocalPlayer);
                 plaguebearer.LastInfected = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Baker))
+            {
+                var baker = Role.GetRole<Baker>(PlayerControl.LocalPlayer);
+                baker.LastBreaded = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Berserker))
+            {
+                var berserker = Role.GetRole<Berserker>(PlayerControl.LocalPlayer);
+                berserker.LastKill = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector))
+            {
+                var soulCollector = Role.GetRole<SoulCollector>(PlayerControl.LocalPlayer);
+                soulCollector.LastReaped = DateTime.UtcNow;
+            }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence))
             {
                 var pest = Role.GetRole<Pestilence>(PlayerControl.LocalPlayer);
                 pest.LastKill = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Famine))
+            {
+                var famine = Role.GetRole<Famine>(PlayerControl.LocalPlayer);
+                famine.LastStarved = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.War))
+            {
+                var war = Role.GetRole<War>(PlayerControl.LocalPlayer);
+                war.LastKill = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Death))
+            {
+                var death = Role.GetRole<Death>(PlayerControl.LocalPlayer);
+                death.LastApocalypse = DateTime.UtcNow;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer))
             {
                 var doom = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
                 doom.LastObserved = DateTime.UtcNow;
                 doom.LastObservedPlayer = null;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller))
+            {
+                var serialKiller = Role.GetRole<SerialKiller>(PlayerControl.LocalPlayer);
+                serialKiller.LastKill = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Inquisitor))
+            {
+                var inquisitor = Role.GetRole<Inquisitor>(PlayerControl.LocalPlayer);
+                inquisitor.LastAbility = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Pirate))
+            {
+                var pirate = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
+                pirate.LastDueled = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Witch))
+            {
+                var witch = Role.GetRole<Witch>(PlayerControl.LocalPlayer);
+                witch.LastControl = DateTime.UtcNow;
+                witch.ControledPlayer = null;
             }
             #endregion
             #region ImposterRoles
@@ -1354,7 +1620,417 @@ namespace TownOfUs
                 var whisperer = Role.GetRole<Whisperer>(PlayerControl.LocalPlayer);
                 whisperer.LastWhispered = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Sniper))
+            {
+                var sniper = Role.GetRole<Sniper>(PlayerControl.LocalPlayer);
+                sniper.LastAim = DateTime.UtcNow;
+            }
             #endregion
+            #region Modifiers
+            if (PlayerControl.LocalPlayer.Is(ModifierEnum.Drunk))
+            {
+                var drunk = Modifier.GetModifier<Drunk>(PlayerControl.LocalPlayer);
+                drunk.RoundsLeft -= 1;
+            }
+            #endregion
+        }
+
+        public static string GetPossibleRoleCategory(PlayerControl player)
+        {
+            if (player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
+                || player.Is(RoleEnum.Morphling) || player.Is(RoleEnum.Witch)
+                 || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death))
+                return $"{player.GetDefaultOutfit().PlayerName} has an altered perception of reality";
+            else if (player.Is(RoleEnum.Detective) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
+                 || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Trapper))
+                return $"{player.GetDefaultOutfit().PlayerName} has an insight for private information";
+            else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
+                 || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
+                return $"{player.GetDefaultOutfit().PlayerName} has an unusual obsession with dead bodies";
+            else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Swooper) || player.Is(RoleEnum.Tracker)
+                 || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker) || player.Is(RoleEnum.Inquisitor))
+                return $"{player.GetDefaultOutfit().PlayerName} is well trained in hunting down prey";
+            else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
+                 || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
+                return $"{player.GetDefaultOutfit().PlayerName} spreads fear amonst the group";
+            else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Grenadier) || player.Is(RoleEnum.Escapist)
+                 || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor))
+                return $"{player.GetDefaultOutfit().PlayerName} hides to guard themself or others";
+            else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Undercover)
+                 || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
+                return $"{player.GetDefaultOutfit().PlayerName} has a trick up their sleeve";
+            else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut) || player.Is(RoleEnum.Sniper)
+                 || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
+                return $"{player.GetDefaultOutfit().PlayerName} is capable of performing relentless attacks";
+            else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
+                || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
+                return $"{player.GetDefaultOutfit().PlayerName} knows thing or two about magic";
+            else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
+                || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Monarch))
+                return $"{player.GetDefaultOutfit().PlayerName} knows perfectly how the law works";
+            else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.SerialKiller)
+                || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
+                return $"{player.GetDefaultOutfit().PlayerName} likes parties";
+            else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
+                return $"{player.GetDefaultOutfit().PlayerName} appears to be roleless";
+            else
+                return "Error";
+        }
+
+        public static string GetPossibleRoleList(PlayerControl player)
+        {
+            if (player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
+                || player.Is(RoleEnum.Morphling)
+                 || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death) || player.Is(RoleEnum.Witch))
+                return "(Imitator, Morphling, Spy, Glitch, Death or Witch)";
+            else if (player.Is(RoleEnum.Detective) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
+                 || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Trapper))
+                return "(Detective, Doomsayer, Oracle, Snitch, Trapper or Inspector)";
+            else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
+                 || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
+                return "(Altruist, Amnesiac, Janitor, Undertaker, Vampire or Soul Collector)";
+            else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Swooper) || player.Is(RoleEnum.Tracker)
+                 || player.Is(RoleEnum.Inquisitor) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker))
+                return "(Investigator, Swooper, Tracker, Werewolf, Berserker or Inquisitor)";
+            else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
+                 || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
+                return "(Arsonist, Miner, Plaguebearer, Seer, Transporter or Pirate)";
+            else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Grenadier) || player.Is(RoleEnum.Escapist)
+                 || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor))
+                return "(Engineer, Grenadier, Escapist, Medic or Survivor)";
+            else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Undercover)
+                 || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
+                return "(Jester, Pestilence, Traitor, Veteran, Famine or Undercover)";
+            else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut) || player.Is(RoleEnum.Sniper)
+                 || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
+                return "(Bomber, Juggernaut, Sheriif, Vigilante, War or Sniper)";
+            else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
+                || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
+                return "(Warlock, Venerer, Mystic, Swapper, Medium or Vampire Hunter)";
+            else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
+                || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Monarch))
+                return "(Executioner, Prosecutor, Guardian Angel, Mayor, Blackmailer or Monarch)";
+            else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner)
+                 || player.Is(RoleEnum.SerialKiller) || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
+                return "(Tavern Keeper, Poisoner, Serial Killer, Aurial or Baker)";
+            else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
+                return "(Crewmate or Impostor)";
+            else
+                return "Error";
+        }
+        public static Color GetRoleColor(this RoleEnum? role)
+        {
+            return ((RoleEnum)role).GetRoleColor();
+        }
+        public static Color GetRoleColor(this RoleEnum role)
+        {
+            switch (role)
+            {
+                case RoleEnum.Impostor:
+                case RoleEnum.Escapist:
+                case RoleEnum.Grenadier:
+                case RoleEnum.Morphling:
+                case RoleEnum.Swooper:
+                case RoleEnum.Venerer:
+                case RoleEnum.Bomber:
+                case RoleEnum.Traitor:
+                case RoleEnum.Warlock:
+                case RoleEnum.Poisoner:
+                case RoleEnum.Sniper:
+                case RoleEnum.Blackmailer:
+                case RoleEnum.Janitor:
+                case RoleEnum.Miner:
+                case RoleEnum.Undertaker:
+                case RoleEnum.Whisperer:
+                case RoleEnum.Necromancer:
+                case RoleEnum.SoloKiller:
+                    return Colors.Impostor;
+
+                case RoleEnum.Plaguebearer:
+                    return Colors.Plaguebearer;
+                case RoleEnum.Pestilence:
+                    return Colors.Pestilence;
+                case RoleEnum.Baker:
+                    return Colors.Baker;
+                case RoleEnum.Famine:
+                    return Colors.Famine;
+                case RoleEnum.Berserker:
+                    return Colors.Berserker;
+                case RoleEnum.War:
+                    return Colors.War;
+                case RoleEnum.SoulCollector:
+                    return Colors.SoulCollector;
+                case RoleEnum.Death:
+                    return Colors.Death;
+                case RoleEnum.Arsonist:
+                    return Colors.Arsonist;
+                case RoleEnum.Glitch:
+                    return Colors.Glitch;
+                case RoleEnum.Vampire:
+                    return Colors.Vampire;
+                case RoleEnum.Werewolf:
+                    return Colors.Werewolf;
+                case RoleEnum.SerialKiller:
+                    return Colors.SerialKiller;
+                case RoleEnum.Juggernaut:
+                    return Colors.Juggernaut;
+                case RoleEnum.Doomsayer:
+                    return Colors.Doomsayer;
+                case RoleEnum.Executioner:
+                    return Colors.Executioner;
+                case RoleEnum.Jester:
+                    return Colors.Jester;
+                case RoleEnum.Phantom:
+                    return Colors.Phantom;
+                case RoleEnum.Pirate:
+                    return Colors.Pirate;
+                case RoleEnum.Inquisitor:
+                    return Colors.Inquisitor;
+                case RoleEnum.Amnesiac:
+                    return Colors.Amnesiac;
+                case RoleEnum.GuardianAngel:
+                    return Colors.GuardianAngel;
+                case RoleEnum.Survivor:
+                    return Colors.Survivor;
+
+                case RoleEnum.Mayor:
+                    return Colors.Mayor;
+                case RoleEnum.Oracle:
+                    return Colors.Oracle;
+                case RoleEnum.Prosecutor:
+                    return Colors.Prosecutor;
+                case RoleEnum.Swapper:
+                    return Colors.Swapper;
+                case RoleEnum.Monarch:
+                    return Colors.Monarch;
+                case RoleEnum.Chameleon:
+                    return Colors.Chameleon;
+                case RoleEnum.Engineer:
+                    return Colors.Engineer;
+                case RoleEnum.Imitator:
+                    return Colors.Imitator;
+                case RoleEnum.Medium:
+                    return Colors.Medium;
+                case RoleEnum.Transporter:
+                    return Colors.Transporter;
+                case RoleEnum.TavernKeeper:
+                    return Colors.TavernKeeper;
+                case RoleEnum.Undercover:
+                    return Colors.Undercover;
+                case RoleEnum.Altruist:
+                    return Colors.Altruist;
+                case RoleEnum.Medic:
+                    return Colors.Medic;
+                case RoleEnum.Sheriff:
+                    return Colors.Sheriff;
+                case RoleEnum.VampireHunter:
+                    return Colors.VampireHunter;
+                case RoleEnum.Veteran:
+                    return Colors.Veteran;
+                case RoleEnum.Vigilante:
+                    return Colors.Vigilante;
+                case RoleEnum.Aurial:
+                    return Colors.Aurial;
+                case RoleEnum.Detective:
+                    return Colors.Detective;
+                case RoleEnum.Haunter:
+                    return Colors.Haunter;
+                case RoleEnum.Investigator:
+                    return Colors.Investigator;
+                case RoleEnum.Mystic:
+                case RoleEnum.CultistMystic:
+                    return Colors.Mystic;
+                case RoleEnum.Seer:
+                case RoleEnum.CultistSeer:
+                    return Colors.Seer;
+                case RoleEnum.Snitch:
+                case RoleEnum.CultistSnitch:
+                    return Colors.Snitch;
+                case RoleEnum.Spy:
+                    return Colors.Spy;
+                case RoleEnum.Tracker:
+                    return Colors.Trapper;
+                case RoleEnum.Trapper:
+                    return Colors.Trapper;
+                case RoleEnum.Inspector:
+                    return Colors.Inspector;
+
+                case RoleEnum.RedMember:
+                    return Colors.RedTeam;
+                case RoleEnum.BlueMember:
+                    return Colors.BlueTeam;
+                case RoleEnum.YellowMember:
+                    return Colors.YellowTeam;
+                case RoleEnum.GreenMember:
+                    return Colors.GreenTeam;
+
+                default:
+                    return Colors.Crewmate;
+            }
+        }
+        public static string GetRoleName(this RoleEnum? role)
+        {
+            return ((RoleEnum)role).GetRoleName();
+        }
+        public static string GetRoleName(this RoleEnum role)
+        {
+            switch (role)
+            {
+                case RoleEnum.Impostor:
+                    return "Impostor";
+                case RoleEnum.Escapist:
+                    return "Escapist";
+                case RoleEnum.Grenadier:
+                    return "Grenadier";
+                case RoleEnum.Morphling:
+                    return "Morphling";
+                case RoleEnum.Swooper:
+                    return "Swooper";
+                case RoleEnum.Venerer:
+                    return "Venerer";
+                case RoleEnum.Bomber:
+                    return "Bomber";
+                case RoleEnum.Traitor:
+                    return "Traitor";
+                case RoleEnum.Warlock:
+                    return "Warlock";
+                case RoleEnum.Poisoner:
+                    return "Poisoner";
+                case RoleEnum.Sniper:
+                    return "Sniper";
+                case RoleEnum.Blackmailer:
+                    return "Blackmailer";
+                case RoleEnum.Janitor:
+                    return "Janitor";
+                case RoleEnum.Miner:
+                    return "Miner";
+                case RoleEnum.Undertaker:
+                    return "Undertaker";
+                case RoleEnum.Whisperer:
+                    return "Whisperer";
+                case RoleEnum.Necromancer:
+                    return "Necromancer";
+                case RoleEnum.SoloKiller:
+                    return "Solo Killer";
+
+                case RoleEnum.Plaguebearer:
+                    return "Plaguebearer";
+                case RoleEnum.Pestilence:
+                    return "Pestilence";
+                case RoleEnum.Baker:
+                    return "Baker";
+                case RoleEnum.Famine:
+                    return "Famine";
+                case RoleEnum.Berserker:
+                    return "Berserker";
+                case RoleEnum.War:
+                    return "War";
+                case RoleEnum.SoulCollector:
+                    return "SoulCollector";
+                case RoleEnum.Death:
+                    return "Death";
+                case RoleEnum.Arsonist:
+                    return "Arsonist";
+                case RoleEnum.Glitch:
+                    return "The Glitch";
+                case RoleEnum.Vampire:
+                    return "Vampire";
+                case RoleEnum.Werewolf:
+                    return "Werewolf";
+                case RoleEnum.SerialKiller:
+                    return "Serial Killer";
+                case RoleEnum.Juggernaut:
+                    return "Juggernaut";
+                case RoleEnum.Doomsayer:
+                    return "Doomsayer";
+                case RoleEnum.Executioner:
+                    return "Executioner";
+                case RoleEnum.Jester:
+                    return "Jester";
+                case RoleEnum.Phantom:
+                    return "Phantom";
+                case RoleEnum.Pirate:
+                    return "Pirate";
+                case RoleEnum.Inquisitor:
+                    return "Inquisitor";
+                case RoleEnum.Amnesiac:
+                    return "Amnesiac";
+                case RoleEnum.GuardianAngel:
+                    return "Guardian Angel";
+                case RoleEnum.Survivor:
+                    return "Survivor";
+
+                case RoleEnum.Mayor:
+                    return "Mayor";
+                case RoleEnum.Oracle:
+                    return "Oracle";
+                case RoleEnum.Prosecutor:
+                    return "Prosecutor";
+                case RoleEnum.Swapper:
+                    return "Swapper";
+                case RoleEnum.Monarch:
+                    return "Monarch";
+                case RoleEnum.Chameleon:
+                    return "Chameleon";
+                case RoleEnum.Engineer:
+                    return "Engineer";
+                case RoleEnum.Imitator:
+                    return "Imitator";
+                case RoleEnum.Medium:
+                    return "Medium";
+                case RoleEnum.Transporter:
+                    return "Transporter";
+                case RoleEnum.TavernKeeper:
+                    return "Tavern Keeper";
+                case RoleEnum.Undercover:
+                    return "Undercover";
+                case RoleEnum.Altruist:
+                    return "Altruist";
+                case RoleEnum.Medic:
+                    return "Medic";
+                case RoleEnum.Sheriff:
+                    return "Sheriff";
+                case RoleEnum.VampireHunter:
+                    return "Vampire Hunter";
+                case RoleEnum.Veteran:
+                    return "Veteran";
+                case RoleEnum.Vigilante:
+                    return "Vigilante";
+                case RoleEnum.Aurial:
+                    return "Aurial";
+                case RoleEnum.Detective:
+                    return "Detective";
+                case RoleEnum.Haunter:
+                    return "Haunter";
+                case RoleEnum.Investigator:
+                    return "Investigator";
+                case RoleEnum.Mystic:
+                case RoleEnum.CultistMystic:
+                    return "Mystic";
+                case RoleEnum.Seer:
+                case RoleEnum.CultistSeer:
+                    return "Seer";
+                case RoleEnum.Snitch:
+                case RoleEnum.CultistSnitch:
+                    return "Snitch";
+                case RoleEnum.Spy:
+                    return "Spy";
+                case RoleEnum.Tracker:
+                    return "Tracker";
+                case RoleEnum.Trapper:
+                    return "Trapper";
+                case RoleEnum.Inspector:
+                    return "Inspector";
+
+                case RoleEnum.RedMember:
+                case RoleEnum.BlueMember:
+                case RoleEnum.YellowMember:
+                case RoleEnum.GreenMember:
+                    return "Member";
+
+                default:
+                    return "Crewmate";
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace TownOfUs.CrewmateRoles.AurialMod
             button.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)s.RadiateTimer(), (byte)CustomGameOptions.RadiateCooldown);
             button.SetCoolDown(s.RadiateTimer(), CustomGameOptions.RadiateCooldown);
 
             var renderer = button.graphic;
@@ -87,7 +88,11 @@ namespace TownOfUs.CrewmateRoles.AurialMod
                     case Faction.NeutralBenign:
                     case Faction.NeutralEvil:
                     case Faction.NeutralKilling:
+                    case Faction.NeutralChaos:
                         ColorChar(player, Color.gray);
+                        break;
+                    case Faction.NeutralApocalypse:
+                        if (CustomGameOptions.GameMode == GameMode.Horseman) ColorChar(player, Color.black); else ColorChar(player, Color.gray);
                         break;
                 }
             }
@@ -122,6 +127,7 @@ namespace TownOfUs.CrewmateRoles.AurialMod
                 if (c == Color.green) p.cosmetics.SetBodyColor(2);
                 if (c == Color.white) p.cosmetics.SetBodyColor(7);
                 if (c == Color.gray) p.cosmetics.SetBodyColor(15);
+                if (c == Color.black) p.cosmetics.SetBodyColor(6);
                 p.myRend().color = c;
                 p.nameText().color = Color.clear;
                 if (c == Color.clear) p.cosmetics.colorBlindText.color = c;

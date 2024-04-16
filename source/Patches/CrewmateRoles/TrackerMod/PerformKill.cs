@@ -30,6 +30,7 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
             if (interact[4] == true)
             {
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 var gameObj = new GameObject();
                 var arrow = gameObj.AddComponent<ArrowBehaviour>();
                 gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;

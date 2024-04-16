@@ -35,18 +35,19 @@ namespace TownOfUs.Roles
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
+            var CKExists = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter))) > 0;
 
-            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= 2 &&
+            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? 1 : 2) &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling))) == 1)
+                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse))) == 1)
             {
                 VampWin();
                 Utils.EndGame();
                 return false;
             }
-            else if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= 4 &&
+            else if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? 2 : 4) &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling)) && !x.Is(RoleEnum.Vampire)) == 0)
+                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse)) && !x.Is(RoleEnum.Vampire)) == 0)
             {
                 var vampsAlives = PlayerControl.AllPlayerControls.ToArray()
                     .Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(RoleEnum.Vampire)).ToList();
@@ -65,7 +66,7 @@ namespace TownOfUs.Roles
                 var killersAlive = PlayerControl.AllPlayerControls.ToArray()
                     .Where(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(RoleEnum.Vampire) && (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling))).ToList();
                 if (killersAlive.Count > 0) return false;
-                if (alives.Count <= 6)
+                if (alives.Count <= (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? 3 : 6))
                 {
                     VampWin();
                     Utils.EndGame();

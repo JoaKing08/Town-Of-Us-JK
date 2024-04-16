@@ -28,9 +28,9 @@ namespace TownOfUs.ImpostorRoles.WarlockMod
                             var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                             var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
                             var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                            warlock.Player.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                            warlock.Player.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                         }
-                        else warlock.Player.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+                        else warlock.Player.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     }
                 }
             }

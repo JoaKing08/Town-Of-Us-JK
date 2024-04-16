@@ -31,6 +31,12 @@ namespace TownOfUs
         Mystic,
         Plaguebearer,
         Pestilence,
+        Berserker,
+        War,
+        Baker,
+        Famine,
+        SoulCollector,
+        Death,
         Werewolf,
         Detective,
         Imitator,
@@ -40,6 +46,15 @@ namespace TownOfUs
         Prosecutor,
         Oracle,
         Aurial,
+        Pirate,
+        SerialKiller,
+        Inspector,
+        Inquisitor,
+        Monarch,
+        TavernKeeper,
+        Undercover,
+        Witch,
+        CursedSoul,
 
         Miner,
         Swooper,
@@ -53,6 +68,9 @@ namespace TownOfUs
         Bomber,
         Warlock,
         Venerer,
+        Poisoner,
+        Sniper,
+        Poltergeist,
 
         Crewmate,
         Impostor,
@@ -63,6 +81,13 @@ namespace TownOfUs
         CultistMystic,
         Chameleon,
         CultistSnitch,
+
+        RedMember,
+        BlueMember,
+        YellowMember,
+        GreenMember,
+
+        SoloKiller,
 
         None
     }
@@ -84,7 +109,12 @@ namespace TownOfUs
         Multitasker,
         DoubleShot,
         Underdog,
-        Frosty
+        Frosty,
+        ImpostorAgent,
+        ApocalypseAgent,
+        Drunk,
+        Tasker,
+        Famous
     }
 
     public enum AbilityEnum

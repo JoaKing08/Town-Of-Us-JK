@@ -6,13 +6,14 @@ namespace TownOfUs.Roles
     {
         public bool VotedOut;
         public bool SpawnedAs = true;
+        public bool WasSwapped = false;
 
 
         public Jester(PlayerControl player) : base(player)
         {
             Name = "Jester";
             ImpostorText = () => "Get Voted Out";
-            TaskText = () => SpawnedAs ? "Get voted out!\nFake Tasks:" : "Your target was killed. Now you get voted out!\nFake Tasks:";
+            TaskText = () => WasSwapped ? "Your role was stolen. Now you get voted out!" : SpawnedAs ? "Get voted out!\nFake Tasks:" : "Your target was killed. Now you get voted out!\nFake Tasks:";
             Color = Patches.Colors.Jester;
             RoleType = RoleEnum.Jester;
             AddToRoleHistory(RoleType);

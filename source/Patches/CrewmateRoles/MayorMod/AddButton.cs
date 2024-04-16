@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.Roles;
@@ -18,6 +19,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
 
         public static void GenButton(Mayor role, int index)
         {
+            PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Creating Reveal Button");
             var confirmButton = MeetingHud.Instance.playerStates[index].Buttons.transform.GetChild(0).gameObject;
 
             var newButton = Object.Instantiate(confirmButton, MeetingHud.Instance.playerStates[index].transform);
@@ -25,14 +27,16 @@ namespace TownOfUs.CrewmateRoles.MayorMod
             var passive = newButton.GetComponent<PassiveButton>();
 
             renderer.sprite = RevealSprite;
-            newButton.transform.position = confirmButton.transform.position - new Vector3(0.75f, 0f, 0f);
+            newButton.transform.position = confirmButton.transform.position - new Vector3(0.75f, role.Player.IsDueled() ? 0.15f : 0f, 0f);
             newButton.transform.localScale *= 0.8f;
             newButton.layer = 5;
             newButton.transform.parent = confirmButton.transform.parent.parent;
 
             passive.OnClick = new Button.ButtonClickedEvent();
             passive.OnClick.AddListener(Reveal(role));
+            PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Action:" + Reveal(role));
             role.RevealButton = newButton;
+            PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Button Created");
         }
 
 
@@ -40,8 +44,14 @@ namespace TownOfUs.CrewmateRoles.MayorMod
         {
             void Listener()
             {
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return;
+                }
                 role.RevealButton.Destroy();
                 role.Revealed = true;
+                if (PlayerControl.LocalPlayer.IsDueled()) role.DefenseButton.transform.position -= new Vector3(0f, 0.15f, 0f);
                 Utils.Rpc(CustomRPC.Reveal, role.Player.PlayerId);
             }
 

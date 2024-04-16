@@ -35,10 +35,11 @@ namespace TownOfUs
 
             var switchSystem = GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? null : __instance.Systems[SystemTypes.Electrical]?.TryCast<SwitchSystem>();
             if (player.IsImpostor() || player._object.Is(RoleEnum.Glitch) ||
-                player._object.Is(RoleEnum.Juggernaut) || player._object.Is(RoleEnum.Pestilence) ||
+                player._object.Is(RoleEnum.Juggernaut) || player._object.Is(Faction.NeutralApocalypse) ||
                 (player._object.Is(RoleEnum.Jester) && CustomGameOptions.JesterImpVision) ||
                 (player._object.Is(RoleEnum.Arsonist) && CustomGameOptions.ArsoImpVision) ||
-                (player._object.Is(RoleEnum.Vampire) && CustomGameOptions.VampImpVision))
+                (player._object.Is(RoleEnum.Vampire) && CustomGameOptions.VampImpVision) ||
+                player._object.Is(RoleEnum.SerialKiller))
             {
                 __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod;
                 return false;

@@ -13,6 +13,7 @@ namespace TownOfUs.Patches
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Executioner)) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
             if (!CustomGameOptions.SwapperButton)
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Swapper)) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
+            if (CustomGameOptions.GameMode == GameMode.Teams) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
         }
     }
 
@@ -27,6 +28,7 @@ namespace TownOfUs.Patches
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Executioner)) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
             if (!CustomGameOptions.SwapperButton)
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Swapper)) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
+            if (CustomGameOptions.GameMode == GameMode.Teams) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
         }
     }
 }

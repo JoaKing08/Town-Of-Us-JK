@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.NeutralRoles.SurvivorMod
 {
@@ -20,6 +22,11 @@ namespace TownOfUs.NeutralRoles.SurvivorMod
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.VestTimer() != 0) return false;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return false;
+                }
                 role.TimeRemaining = CustomGameOptions.VestDuration;
                 role.UsesLeft--;
                 role.Vest();

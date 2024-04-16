@@ -5,6 +5,9 @@ using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using AmongUs.GameOptions;
 using TownOfUs.Patches;
+using TownOfUs.Roles.Horseman;
+using Reactor.Utilities;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.SheriffMod
 {
@@ -12,7 +15,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
     public static class Kill
     {
         [HarmonyPriority(Priority.First)]
-        private static bool Prefix(KillButton __instance)
+        public static bool Prefix(KillButton __instance)
         {
             if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff);
@@ -22,10 +25,16 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var flag2 = role.SheriffKillTimer() == 0f;
             if (!flag2) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
             if (!__instance.enabled || role.ClosestPlayer == null) return false;
             var distBetweenPlayers = Utils.GetDistBetweenPlayers(PlayerControl.LocalPlayer, role.ClosestPlayer);
             var flag3 = distBetweenPlayers < GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             if (!flag3) return false;
+            if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
 
             var flag4 = role.ClosestPlayer.Data.IsImpostor() ||
                         role.ClosestPlayer.Is(RoleEnum.Doomsayer) && CustomGameOptions.SheriffKillsDoomsayer ||
@@ -36,7 +45,13 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                         role.ClosestPlayer.Is(RoleEnum.Executioner) && CustomGameOptions.SheriffKillsExecutioner ||
                         role.ClosestPlayer.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist ||
                         role.ClosestPlayer.Is(RoleEnum.Werewolf) && CustomGameOptions.SheriffKillsWerewolf ||
-                        role.ClosestPlayer.Is(RoleEnum.Plaguebearer) && CustomGameOptions.SheriffKillsPlaguebearer;
+                        role.ClosestPlayer.Is(RoleEnum.Pirate) && CustomGameOptions.SheriffKillsPirate ||
+                        role.ClosestPlayer.Is(RoleEnum.SerialKiller) && CustomGameOptions.SheriffKillsSerialKiller ||
+                        role.ClosestPlayer.Is(RoleEnum.Inquisitor) && CustomGameOptions.SheriffKillsInquisitor ||
+                        role.ClosestPlayer.Is(RoleEnum.Witch) && CustomGameOptions.SheriffKillsWitch ||
+                        (role.ClosestPlayer.Is(ModifierEnum.ImpostorAgent) || role.ClosestPlayer.Is(ModifierEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent ||
+                        role.ClosestPlayer.Is(Faction.NeutralApocalypse) && (CustomGameOptions.SheriffKillsPlaguebearer || 
+                        CustomGameOptions.GameMode == GameMode.Horseman);
 
             if (role.ClosestPlayer.Is(RoleEnum.Pestilence))
             {

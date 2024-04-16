@@ -27,6 +27,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
             if (interact[4] == true)
             {
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 role.Investigated.Add(role.ClosestPlayer.PlayerId);
             }
             if (interact[0] == true)

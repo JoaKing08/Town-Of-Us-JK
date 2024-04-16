@@ -71,6 +71,7 @@ namespace TownOfUs.Roles
             {
                 if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
                 {
+                    if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Grenadier, (byte)0);
                     if (TimeRemaining > CustomGameOptions.GrenadeDuration - 0.5f && (!sabActive))
                     {
                         float fade = (TimeRemaining - CustomGameOptions.GrenadeDuration) * -2.0f;

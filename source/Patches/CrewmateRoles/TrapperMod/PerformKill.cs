@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.TrapperMod
 {
@@ -14,6 +16,11 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Trapper>(PlayerControl.LocalPlayer);
             if (!(role.TrapTimer() == 0f)) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
             if (!__instance.enabled) return false;
             if (!role.ButtonUsable) return false;
             role.UsesLeft--;

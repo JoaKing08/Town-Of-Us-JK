@@ -69,6 +69,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (imitatorRole == RoleEnum.Transporter) new Transporter(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Trapper) new Trapper(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Oracle) new Oracle(ImitatingPlayer);
+            if (imitatorRole == RoleEnum.TavernKeeper) new TavernKeeper(ImitatingPlayer);
+            if (imitatorRole == RoleEnum.Inspector) new Inspector(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Medic)
             {
                 var medic = new Medic(ImitatingPlayer);

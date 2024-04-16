@@ -37,6 +37,11 @@ namespace TownOfUs.Patches
                     var phantom = Role.GetRole<Phantom>(PlayerControl.LocalPlayer);
                     if (phantom.Caught) dead = true;
                 }
+                else if (PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist))
+                {
+                    var poltergeist = Role.GetRole<Poltergeist>(PlayerControl.LocalPlayer);
+                    if (poltergeist.Caught) dead = true;
+                }
                 else dead = true;
             }
             ZoomButton.SetActive(!MeetingHud.Instance && dead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started

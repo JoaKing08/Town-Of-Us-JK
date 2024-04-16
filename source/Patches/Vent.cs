@@ -44,13 +44,20 @@ namespace TownOfUs
                 || player.Is(RoleEnum.Undertaker) && !CustomGameOptions.UndertakerVent
                 || player.Is(RoleEnum.Escapist) && !CustomGameOptions.EscapistVent
                 || player.Is(RoleEnum.Bomber) && !CustomGameOptions.BomberVent
+                || player.Is(RoleEnum.Poisoner) && !CustomGameOptions.PoisonerVent
+                || player.Is(RoleEnum.Sniper) && !CustomGameOptions.SniperVent
                 || (player.Is(RoleEnum.Undertaker) && Role.GetRole<Undertaker>(player).CurrentlyDragging != null && !CustomGameOptions.UndertakerVentWithBody))
                 return false;
 
             if (player.Is(RoleEnum.Engineer) ||
                 (player.Is(RoleEnum.Glitch) && CustomGameOptions.GlitchVent) || (player.Is(RoleEnum.Juggernaut) && CustomGameOptions.JuggVent) ||
                 (player.Is(RoleEnum.Pestilence) && CustomGameOptions.PestVent) || (player.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent) ||
-                (player.Is(RoleEnum.Vampire) && CustomGameOptions.VampVent))
+                (player.Is(RoleEnum.Plaguebearer) && CustomGameOptions.PlaguebearerVent) || (player.Is(RoleEnum.Baker) && CustomGameOptions.BakerVent) ||
+                (player.Is(RoleEnum.Famine) && CustomGameOptions.FamineVent) || (player.Is(RoleEnum.Berserker) && CustomGameOptions.BerserkerVent) ||
+                (player.Is(RoleEnum.War) && CustomGameOptions.WarVent) || (player.Is(RoleEnum.SoulCollector) && CustomGameOptions.SoulCollectorVent) ||
+                (player.Is(RoleEnum.Death) && CustomGameOptions.DeathVent) || (player.Is(RoleEnum.Vampire) && CustomGameOptions.VampVent) ||
+                CustomGameOptions.GameMode == GameMode.Teams && CustomGameOptions.TeamsVent || (player.Is(RoleEnum.SoloKiller) && CustomGameOptions.SoloKillerVent) ||
+                (player.Is(RoleEnum.SerialKiller) && CustomGameOptions.SerialKillerVent) || (player.Is(RoleEnum.Undercover) && CustomGameOptions.UndercoverVent))
                 return true;
 
             if (player.Is(RoleEnum.Werewolf) && CustomGameOptions.WerewolfVent)
@@ -106,7 +113,7 @@ namespace TownOfUs
     {
         public static bool Prefix(Vent __instance)
         {
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent)
+            if ((PlayerControl.LocalPlayer.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent) || (PlayerControl.LocalPlayer.Is(RoleEnum.Undercover) && CustomGameOptions.UndercoverVent))
                 return false;
             return true;
         }

@@ -45,6 +45,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
     {
         public static bool Prefix(PlayerControl __instance)
         {
+            if (CustomGameOptions.GameMode == GameMode.Teams) return false;
             if (!__instance.Is(RoleEnum.Sheriff)) return true;
             if (CustomGameOptions.SheriffBodyReport) return true;
 

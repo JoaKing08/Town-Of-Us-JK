@@ -23,6 +23,7 @@ namespace TownOfUs.NeutralRoles.JuggernautMod
             var flag3 = distBetweenPlayers <
                         GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             if (!flag3) return false;
+            if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
             if (interact[4] == true) return false;
             else if (interact[0] == true)

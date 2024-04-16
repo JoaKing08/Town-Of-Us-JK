@@ -42,7 +42,8 @@ namespace TownOfUs.Roles.Modifiers
                 if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && !player.Is(RoleEnum.Vampire) && CustomGameOptions.NeutralLovers))
                     impostors.Add(player);
                 else if (player.Is(Faction.Crewmates) || (player.Is(Faction.NeutralBenign) && CustomGameOptions.NeutralLovers)
-                     || (player.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralLovers))
+                     || (player.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralLovers) || (player.Is(Faction.NeutralChaos)
+                     && CustomGameOptions.NeutralLovers))
                     crewmates.Add(player);
             }
 

@@ -8,12 +8,18 @@ namespace TownOfUs
         SetAssassin,
         SetTarget,
         SetGATarget,
+        SetHeretic,
+        SetUndercover,
+        MonarchKnight,
 
         SetPhantom,
         CatchPhantom,
 
         SetHaunter,
         CatchHaunter,
+
+        SetPoltergeist,
+        CatchPoltergeist,
 
         SetTraitor,
         TraitorSpawn,
@@ -24,11 +30,18 @@ namespace TownOfUs
         ArsonistWin,
         PhantomWin,
         NobodyWins,
-        PlaguebearerWin,
-        PestilenceWin,
+        ApocalypseWin0,
+        ApocalypseWin1,
+        ApocalypseWin2,
+        ApocalypseWin3,
+        ApocalypseWin4,
+        ApocalypseWin5,
+        ApocalypseWin6,
+        ApocalypseWin7,
         WerewolfWin,
         SurvivorOnlyWin,
         VampireWin,
+        SerialKillerWin,
 
         JanitorClean,
         FixLights,
@@ -46,6 +59,7 @@ namespace TownOfUs
         AssassinKill,
         VigilanteKill,
         DoomsayerKill,
+        PirateKill,
         FlashGrenade,
         Alert,
         Remember,
@@ -58,6 +72,9 @@ namespace TownOfUs
         Blackmail,
         Infect,
         TurnPestilence,
+        TurnFamine,
+        TurnWar,
+        TurnDeath,
         Disperse,
         Escape,
         Revive,
@@ -72,6 +89,8 @@ namespace TownOfUs
         Bless,
         Camouflage,
         SnitchCultistReveal,
+        Duel,
+        ChangeDefence,
 
         BypassKill,
         BypassMultiKill,
@@ -91,6 +110,25 @@ namespace TownOfUs
         RemoveAllBodies,
         CheckMurder,
 
-        SubmergedFixOxygen
+        SubmergedFixOxygen,
+
+        RedWin,
+        BlueWin,
+        YellowWin,
+        GreenWin,
+
+        SoloKillerWin,
+
+        Roleblock,
+        Poison,
+        Shoot,
+        BugPlayer,
+        UnroleblockPlayer,
+        UnbugPlayers,
+        BugMessage,
+        ControlSet,
+        ControlPerform,
+        ControlCooldown,
+        SoulSwap
     }
 }

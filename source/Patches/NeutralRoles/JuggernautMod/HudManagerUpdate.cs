@@ -18,6 +18,7 @@ namespace TownOfUs.NeutralRoles.JuggernautMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.KillTimer(), (byte)(CustomGameOptions.JuggKCd - CustomGameOptions.ReducedKCdPerKill * role.JuggKills));
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.JuggKCd - CustomGameOptions.ReducedKCdPerKill * role.JuggKills);
 
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);

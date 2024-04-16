@@ -17,14 +17,17 @@ namespace TownOfUs
             var host = GameData.Instance.GetHost();
 
             __instance.text.text =
-                "<size=2><color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>\n" +
+                "<size=2><color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>, <color=#FFD000FF>JoaKing's addon v" + TownOfUs.ModesVersionString + "</color>\n" +
                 $"Ping: {AmongUsClient.Instance.Ping}ms\n" +
                 (!MeetingHud.Instance
                     ? "<color=#00FF00FF>Modded By: Donners &</color>\n" +
                     "<color=#00FF00FF>MyDragonBreath</color>\n" : "") +
                 (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
-                    ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>\n" +
-                     $"Host: {host.PlayerName}" : "") +
+                    ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>\n" : "") +
+                (!MeetingHud.Instance
+                    ? "<color=#FFD000FF>JoaKing's addon by: JoaKing</color>\n" : "") +
+                (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
+                    ? $"Host: {host.PlayerName}" : "") +
                     "</size>";
         }
     }

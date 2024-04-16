@@ -8,12 +8,13 @@ namespace TownOfUs.Roles
     {
         public Dictionary<byte, ArrowBehaviour> BodyArrows = new Dictionary<byte, ArrowBehaviour>();
         public bool SpawnedAs = true;
+        public bool WasSwapped = false;
 
         public Amnesiac(PlayerControl player) : base(player)
         {
             Name = "Amnesiac";
             ImpostorText = () => "Remember A Role Of A Deceased Player";
-            TaskText = () => SpawnedAs ? "Find a dead body to remember a role" : "Your target was killed. Now remember a new role!";
+            TaskText = () => WasSwapped ? "Your role was stolen. Now remember a new role!" : SpawnedAs ? "Find a dead body to remember a role" : "Your target was killed. Now remember a new role!";
             Color = Patches.Colors.Amnesiac;
             RoleType = RoleEnum.Amnesiac;
             AddToRoleHistory(RoleType);

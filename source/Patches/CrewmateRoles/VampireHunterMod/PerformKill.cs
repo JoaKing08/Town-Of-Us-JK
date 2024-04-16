@@ -26,6 +26,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
 
             if (!role.ClosestPlayer.Is(RoleEnum.Vampire))
             {
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 if (interact[0] == true)
                 {
@@ -46,6 +47,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
             }
             else
             {
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
                 if (interact[4] == true) return false;
                 else if (interact[0] == true)

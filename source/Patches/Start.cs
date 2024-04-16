@@ -6,8 +6,12 @@ using TownOfUs.NeutralRoles.GuardianAngelMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using TownOfUs.Roles.Modifiers;
+using TownOfUs.Roles.Teams;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using TownOfUs.Roles.Horseman;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TownOfUs.Patches
 {
@@ -17,6 +21,8 @@ namespace TownOfUs.Patches
         public static Sprite Sprite => TownOfUs.Arrow;
         public static void Postfix(IntroCutscene._CoBegin_d__33 __instance)
         {
+            Role.GetRole(PlayerControl.LocalPlayer).LastBlood = DateTime.UtcNow;
+            Role.GetRole(PlayerControl.LocalPlayer).LastBlood.AddSeconds(-CustomGameOptions.BloodDuration);
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
             {
                 var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
@@ -260,6 +266,27 @@ namespace TownOfUs.Patches
                 plaguebearer.LastInfected = plaguebearer.LastInfected.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.InfectCd);
             }
 
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Baker))
+            {
+                var baker = Role.GetRole<Baker>(PlayerControl.LocalPlayer);
+                baker.LastBreaded = DateTime.UtcNow;
+                baker.LastBreaded = baker.LastBreaded.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.BakerCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Berserker))
+            {
+                var berserker = Role.GetRole<Berserker>(PlayerControl.LocalPlayer);
+                berserker.LastKill = DateTime.UtcNow;
+                berserker.LastKill = berserker.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.BerserkerCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector))
+            {
+                var soulCollector = Role.GetRole<SoulCollector>(PlayerControl.LocalPlayer);
+                soulCollector.LastReaped = DateTime.UtcNow;
+                soulCollector.LastReaped = soulCollector.LastReaped.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SoulCollectorCooldown);
+            }
+
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
             {
                 var surv = Role.GetRole<Survivor>(PlayerControl.LocalPlayer);
@@ -296,6 +323,77 @@ namespace TownOfUs.Patches
                 gameObj.layer = 5;
                 arrow.target = PlayerControl.LocalPlayer.transform.position;
                 radar.RadarArrow.Add(arrow);
+            }
+
+            if (CustomGameOptions.GameMode == GameMode.Teams)
+            {
+                var member = Role.GetRole<TeamMember>(PlayerControl.LocalPlayer);
+                member.LastKill = DateTime.UtcNow;
+                member.LastKill = member.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.TeamsKCd);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller))
+            {
+                var killer = Role.GetRole<SoloKiller>(PlayerControl.LocalPlayer);
+                killer.LastKill = DateTime.UtcNow;
+                killer.LastKill = killer.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SoloKillerKCd);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Inspector))
+            {
+                var inspector = Role.GetRole<Inspector>(PlayerControl.LocalPlayer);
+                inspector.LastInspected = DateTime.UtcNow;
+                inspector.LastInspected = inspector.LastInspected.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.InspectCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Monarch))
+            {
+                var monarch = Role.GetRole<Monarch>(PlayerControl.LocalPlayer);
+                monarch.LastKnighted = DateTime.UtcNow;
+                monarch.LastKnighted = monarch.LastKnighted.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.KnightCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller))
+            {
+                var sk = Role.GetRole<SerialKiller>(PlayerControl.LocalPlayer);
+                sk.LastKill = DateTime.UtcNow;
+                sk.LastKill = sk.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SerialKillerCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Inquisitor))
+            {
+                var inquisitor = Role.GetRole<Inquisitor>(PlayerControl.LocalPlayer);
+                inquisitor.LastAbility = DateTime.UtcNow;
+                inquisitor.LastAbility = inquisitor.LastAbility.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.InquisitorCooldown);
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Pirate))
+            {
+                var pirate = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
+                pirate.LastDueled = DateTime.UtcNow;
+                pirate.LastDueled = pirate.LastDueled.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DuelCooldown);
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Sniper))
+            {
+                var sniper = Role.GetRole<Sniper>(PlayerControl.LocalPlayer);
+                sniper.LastAim = DateTime.UtcNow;
+                sniper.LastAim = sniper.LastAim.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.AimCooldown);
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Spy))
+            {
+                var spy = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
+                spy.LastBugged = DateTime.UtcNow;
+                spy.LastBugged = spy.LastBugged.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.BugCooldown);
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Witch))
+            {
+                var witch = Role.GetRole<Witch>(PlayerControl.LocalPlayer);
+                witch.LastControl = DateTime.UtcNow;
+                witch.LastControl = witch.LastControl.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ControlCooldown);
+            }
+            if (PlayerControl.LocalPlayer.Is(ModifierEnum.Drunk))
+            {
+                var drunk = Modifier.GetModifier<Drunk>(PlayerControl.LocalPlayer);
+                drunk.RoundsLeft = CustomGameOptions.DrunkDuration;
             }
         }
     }

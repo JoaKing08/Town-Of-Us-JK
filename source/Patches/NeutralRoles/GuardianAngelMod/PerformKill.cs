@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.NeutralRoles.GuardianAngelMod
 {
@@ -20,6 +22,12 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.ProtectTimer() != 0) return false;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return false;
+                }
+                if (role.target.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.target.PlayerId, (byte)role.RoleType, (byte)0);
                 role.TimeRemaining = CustomGameOptions.ProtectDuration;
                 role.UsesLeft--;
                 role.Protect();

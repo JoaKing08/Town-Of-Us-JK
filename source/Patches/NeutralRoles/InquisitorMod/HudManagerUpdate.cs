@@ -1,0 +1,87 @@
+using System.Linq;
+using HarmonyLib;
+using TownOfUs.CrewmateRoles.AltruistMod;
+using TownOfUs.Roles;
+using UnityEngine;
+
+namespace TownOfUs.NeutralRoles.InquisitorMod
+{
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+    public class HudManagerUpdate
+    {
+        public static Sprite VanquishSprite => TownOfUs.VanquishSprite;
+
+        public static void Postfix(HudManager __instance)
+        {
+            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).Where(x => !x.Player.Data.IsDead))
+            {
+                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead) == 0)
+                {
+                    ((Inquisitor)inq).Wins();
+                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                    {
+                        KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                        inq.Player.Exiled();
+                    }
+                }
+            }
+            if (PlayerControl.AllPlayerControls.Count <= 1) return;
+            if (PlayerControl.LocalPlayer == null) return;
+            if (PlayerControl.LocalPlayer.Data == null) return;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Inquisitor)) return;
+            var role = Role.GetRole<Inquisitor>(PlayerControl.LocalPlayer);
+
+            if (role.VanquishButton == null)
+            {
+                role.VanquishButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                role.VanquishButton.graphic.enabled = true;
+                role.VanquishButton.gameObject.SetActive(false);
+            }
+
+            role.VanquishButton.graphic.sprite = VanquishSprite;
+            role.VanquishButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
+            role.VanquishButton.buttonLabelText.gameObject.SetActive(true);
+            role.VanquishButton.buttonLabelText.text = "Vanquish";
+
+            __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
+                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            role.VanquishButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
+                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            if (role.CanVanquish) role.VanquishButton.SetCoolDown(role.AbilityTimer(), CustomGameOptions.InquisitorCooldown);
+            else role.VanquishButton.SetCoolDown(0f, CustomGameOptions.InquisitorCooldown);
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.AbilityTimer(), (byte)CustomGameOptions.InquisitorCooldown);
+            __instance.KillButton.SetCoolDown(role.AbilityTimer(), CustomGameOptions.InquisitorCooldown);
+            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
+
+            var inquireRenderer = __instance.KillButton.graphic;
+            var vanquishRenderer = role.VanquishButton.graphic;
+
+            if (role.ClosestPlayer != null)
+            {
+                inquireRenderer.color = Palette.EnabledColor;
+                inquireRenderer.material.SetFloat("_Desat", 0f);
+
+                if (role.CanVanquish)
+                {
+                    vanquishRenderer.color = Palette.EnabledColor;
+                    vanquishRenderer.material.SetFloat("_Desat", 0f);
+                }
+                else
+                {
+                    vanquishRenderer.color = Palette.DisabledClear;
+                    vanquishRenderer.material.SetFloat("_Desat", 1f);
+                }
+            }
+            else
+            {
+                inquireRenderer.color = Palette.DisabledClear;
+                inquireRenderer.material.SetFloat("_Desat", 1f);
+                vanquishRenderer.color = Palette.DisabledClear;
+                vanquishRenderer.material.SetFloat("_Desat", 1f);
+            }
+            role.RegenTask();
+        }
+    }
+}

@@ -13,6 +13,7 @@ using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.Patches;
 using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
+using System;
 
 namespace TownOfUs.NeutralRoles.DoomsayerMod
 {
@@ -78,7 +79,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     {
                         PlayerTask playerTask = player.myTasks.ToArray()[i];
                         playerTask.OnRemove();
-                        Object.Destroy(playerTask.gameObject);
+                        UnityEngine.Object.Destroy(playerTask.gameObject);
                     }
 
                     player.myTasks.Clear();
@@ -154,7 +155,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             if (checkLover && player.IsLover() && CustomGameOptions.BothLoversDie)
             {
                 var otherLover = Modifier.GetModifier<Lover>(player).OtherLover.Player;
-                if (!otherLover.Is(RoleEnum.Pestilence)) MurderPlayer(otherLover, false, false);
+                if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Is(RoleEnum.Famine) && !otherLover.Is(RoleEnum.War) && !otherLover.Is(RoleEnum.Death)) MurderPlayer(otherLover, false, false);
             }
 
             var deadPlayer = new DeadPlayer

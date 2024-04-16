@@ -3,6 +3,7 @@ using System.Linq;
 using TownOfUs.CrewmateRoles.HaunterMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
+using TownOfUs.ImpostorRoles.PoltergeistMod;
 
 namespace TownOfUs
 {
@@ -36,6 +37,18 @@ namespace TownOfUs
                     role.Caught = true;
                     role.Player.Exiled();
                     Utils.Rpc(CustomRPC.CatchHaunter, role.Player.PlayerId);
+                }
+            }
+            else if (__instance.Is(RoleEnum.Poltergeist))
+            {
+                if (CustomGameOptions.PoltergeistCanBeClickedBy == PoltergeistCanBeClickedBy.CrewOnly && !PlayerControl.LocalPlayer.Is(Faction.Crewmates)) return;
+                if (CustomGameOptions.PoltergeistCanBeClickedBy == PoltergeistCanBeClickedBy.NonImps && PlayerControl.LocalPlayer.Data.IsImpostor()) return;
+                if (tasksLeft <= CustomGameOptions.PoltergeistTasksRemainingClicked)
+                {
+                    var role = Role.GetRole<Poltergeist>(__instance);
+                    role.Caught = true;
+                    role.Player.Exiled();
+                    Utils.Rpc(CustomRPC.CatchPoltergeist, role.Player.PlayerId);
                 }
             }
             return;

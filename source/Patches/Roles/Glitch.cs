@@ -66,10 +66,11 @@ namespace TownOfUs.Roles
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
+            var CKExists = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter))) > 0;
 
-            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= 2 &&
+            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? 1 : 2) &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling))) == 1)
+                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse))) == 1)
             {
                 Utils.Rpc(CustomRPC.GlitchWin, Player.PlayerId);
                 Wins();
@@ -488,6 +489,7 @@ namespace TownOfUs.Roles
                 __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !__gInstance.Player.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started);
+                if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(CustomGameOptions.GlitchKillCooldown - (float)(DateTime.UtcNow - __gInstance.LastKill).TotalSeconds), (byte)CustomGameOptions.GlitchKillCooldown);
                 __instance.KillButton.SetCoolDown(
                     CustomGameOptions.GlitchKillCooldown -
                     (float)(DateTime.UtcNow - __gInstance.LastKill).TotalSeconds,
@@ -510,6 +512,7 @@ namespace TownOfUs.Roles
                 if (__gInstance.KillTarget != null)
                 {
                     if (__gInstance.Player.inVent) return;
+                    if (__gInstance.KillTarget.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, __gInstance.KillTarget.PlayerId, (byte)RoleEnum.Glitch, (byte)0);
                     var interact = Utils.Interact(__gInstance.Player, __gInstance.KillTarget, true);
                     if (interact[4])
                     {
@@ -594,6 +597,7 @@ namespace TownOfUs.Roles
                     if (interact[4])
                     {
                         __gInstance.RpcSetHacked(__gInstance.HackTarget);
+                        if (__gInstance.HackTarget.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, __gInstance.HackTarget.PlayerId, (byte)RoleEnum.Glitch, (byte)1);
                     }
                     if (interact[0])
                     {
@@ -669,7 +673,11 @@ namespace TownOfUs.Roles
 
             public static void MimicButtonPress(Glitch __gInstance)
             {
-                if (__gInstance.MimicList == null)
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                }
+                else if (__gInstance.MimicList == null)
                 {
                     HudManager.Instance.Chat.SetVisible(false);
                     __gInstance.MimicList = Object.Instantiate(HudManager.Instance.Chat);

@@ -52,6 +52,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
             KillButtonTarget.SetTarget(killButton, closestBody, role);
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)0, (byte)1);
             __instance.KillButton.SetCoolDown(0f, 1f);
         }
     }

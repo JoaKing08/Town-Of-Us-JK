@@ -11,6 +11,8 @@ namespace TownOfUs.Roles
         public PlayerControl ImitatePlayer = null;
 
         public List<RoleEnum> trappedPlayers = null;
+        public List<string> Messages = null;
+        public PlayerControl LastInspectedPlayer = null;
         public PlayerControl confessingPlayer = null;
 
 

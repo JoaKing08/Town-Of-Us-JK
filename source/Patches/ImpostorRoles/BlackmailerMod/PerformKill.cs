@@ -25,6 +25,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, target);
                 if (interact[4] == true)
                 {
+                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                     role.Blackmailed?.myRend().material.SetFloat("_Outline", 0f);
                     if (role.Blackmailed != null && role.Blackmailed.Data.IsImpostor())
                     {

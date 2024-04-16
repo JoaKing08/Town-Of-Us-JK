@@ -6,7 +6,7 @@ using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.CrewmateRoles.AltruistMod;
 
-namespace TownOfUs.NeutraleRoles.ExecutionerMod
+namespace TownOfUs.NeutralRoles.ExecutionerMod
 {
     [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
     public static class AirshipExileController_WrapUpAndSpawn

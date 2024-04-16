@@ -48,6 +48,7 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
             if (!role.LastKiller || !CustomGameOptions.IgniteCdRemoved) role.IgniteButton.SetCoolDown(role.DouseTimer(), CustomGameOptions.DouseCd);
             else role.IgniteButton.SetCoolDown(0f, CustomGameOptions.DouseCd);
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.DousedAlive < CustomGameOptions.MaxDoused ? role.DouseTimer() : 0), (byte)CustomGameOptions.DouseCd);
             if (role.DousedAlive < CustomGameOptions.MaxDoused)
             {
                 __instance.KillButton.SetCoolDown(role.DouseTimer(), CustomGameOptions.DouseCd);

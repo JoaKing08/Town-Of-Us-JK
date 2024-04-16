@@ -36,7 +36,8 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
                         }
                         else if ((PlayerControl.LocalPlayer.Data.IsImpostor() && (!PlayerControl.LocalPlayer.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor))
-                            || ((PlayerControl.LocalPlayer.Is(Faction.NeutralKilling)) && CustomGameOptions.SnitchSeesNeutrals))
+                            || ((PlayerControl.LocalPlayer.Is(Faction.NeutralKilling)) && CustomGameOptions.SnitchSeesNeutrals) || (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)
+                            && (CustomGameOptions.GameMode == GameMode.Horseman || CustomGameOptions.SnitchSeesNeutrals)))
                         {
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
                             var gameObj = new GameObject();
@@ -73,7 +74,8 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                             }
                         }
                     }
-                    else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.SnitchSeesNeutrals))
+                    else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.SnitchSeesNeutrals) ||
+                        (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) && (CustomGameOptions.GameMode == GameMode.Horseman || CustomGameOptions.SnitchSeesNeutrals)))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
                     }

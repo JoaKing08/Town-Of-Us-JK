@@ -23,9 +23,15 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.Glitch) || playerInfo._object.Is(RoleEnum.Executioner) ||
                             playerInfo._object.Is(RoleEnum.Arsonist) || playerInfo._object.Is(RoleEnum.Juggernaut) ||
                             playerInfo._object.Is(RoleEnum.Plaguebearer) || playerInfo._object.Is(RoleEnum.Pestilence) ||
+                            playerInfo._object.Is(RoleEnum.Baker) || playerInfo._object.Is(RoleEnum.Famine) ||
+                            playerInfo._object.Is(RoleEnum.Berserker) || playerInfo._object.Is(RoleEnum.War) ||
+                            playerInfo._object.Is(RoleEnum.SoulCollector) || playerInfo._object.Is(RoleEnum.Death) ||
                             playerInfo._object.Is(RoleEnum.Werewolf) || playerInfo._object.Is(RoleEnum.Doomsayer) ||
-                            playerInfo._object.Is(RoleEnum.Vampire) ||
-                            playerInfo._object.Is(RoleEnum.Phantom) || playerInfo._object.Is(RoleEnum.Haunter)
+                            playerInfo._object.Is(RoleEnum.Vampire) || playerInfo._object.Is(RoleEnum.Phantom) ||
+                            playerInfo._object.Is(RoleEnum.Haunter) || playerInfo._object.Is(RoleEnum.SoloKiller) ||
+                            playerInfo._object.Is(ModifierEnum.ImpostorAgent) || playerInfo._object.Is(ModifierEnum.ApocalypseAgent) ||
+                            playerInfo._object.Is(RoleEnum.Pirate) || playerInfo._object.Is(RoleEnum.SerialKiller) ||
+                            playerInfo._object.Is(RoleEnum.Inquisitor)
                         ))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
@@ -54,7 +60,18 @@ namespace TownOfUs
                            || playerControl.Is(RoleEnum.Pestilence)
                            || playerControl.Is(RoleEnum.Werewolf)
                            || playerControl.Is(RoleEnum.Doomsayer)
-                           || playerControl.Is(RoleEnum.Vampire);
+                           || playerControl.Is(RoleEnum.Vampire)
+                           || CustomGameOptions.GameMode == GameMode.Teams
+                           || playerControl.Is(RoleEnum.SoloKiller)
+                           || playerControl.Is(RoleEnum.Baker) 
+                           || playerControl.Is(RoleEnum.Famine)
+                           || playerControl.Is(RoleEnum.Berserker)
+                           || playerControl.Is(RoleEnum.War)
+                           || playerControl.Is(RoleEnum.SoulCollector)
+                           || playerControl.Is(RoleEnum.Death)
+                           || playerControl.Is(RoleEnum.Pirate)
+                           || playerControl.Is(RoleEnum.SerialKiller)
+                           || playerControl.Is(RoleEnum.Inquisitor);
 
                 // If the console is not a sabotage repair console
                 if (flag && !__instance.AllowImpostor)

@@ -46,6 +46,7 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.TrapTimer() : 0), (byte)CustomGameOptions.TrapCooldown);
             if (role.ButtonUsable) trapButton.SetCoolDown(role.TrapTimer(), CustomGameOptions.TrapCooldown);
             else trapButton.SetCoolDown(0f, CustomGameOptions.TrapCooldown);
 

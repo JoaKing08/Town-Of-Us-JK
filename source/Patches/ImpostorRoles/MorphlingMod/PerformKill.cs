@@ -25,6 +25,7 @@ namespace TownOfUs.ImpostorRoles.MorphlingMod
                 if (role.MorphButton.graphic.sprite == SampleSprite)
                 {
                     if (target == null) return false;
+                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                     role.SampledPlayer = target;
                     role.MorphButton.graphic.sprite = MorphSprite;
                     role.MorphButton.SetTarget(null);

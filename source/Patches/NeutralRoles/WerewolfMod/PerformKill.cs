@@ -2,6 +2,8 @@
 using HarmonyLib;
 using TownOfUs.Roles;
 using AmongUs.GameOptions;
+using UnityEngine;
+using Reactor.Utilities;
 
 namespace TownOfUs.NeutralRoles.WerewolfMod
 {
@@ -20,6 +22,11 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
             if (__instance == role.RampageButton)
             {
                 if (role.RampageTimer() != 0) return false;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return false;
+                }
                 if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return false;
 
                 role.TimeRemaining = CustomGameOptions.RampageDuration;
@@ -36,6 +43,7 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
             var flag3 = distBetweenPlayers <
                         GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             if (!flag3) return false;
+            if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
 
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
             if (interact[4] == true) return false;

@@ -26,6 +26,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             if (interact[4] == true)
             {
                 role.LastObservedPlayer = role.ClosestPlayer;
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
             }
             if (interact[0] == true)
             {

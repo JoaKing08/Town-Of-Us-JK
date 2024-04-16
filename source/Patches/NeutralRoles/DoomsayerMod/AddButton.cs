@@ -139,6 +139,11 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion ||
                     IsExempt(voteArea) || PlayerControl.LocalPlayer.Data.IsDead
                 ) return;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return;
+                }
                 var targetId = voteArea.TargetPlayerId;
                 var currentGuess = role.Guesses[targetId];
                 if (currentGuess == "None") return;
@@ -147,6 +152,8 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 var playerModifier = Modifier.GetModifier(voteArea);
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
+                if (playerModifier != null)
+                    toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
 
                 if (toDie == playerRole.Player)
                 {
@@ -155,7 +162,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
                     {
                         var lover = ((Lover)playerModifier).OtherLover.Player;
-                        if (!lover.Is(RoleEnum.Pestilence)) ShowHideButtonsDoom.HideSingle(role, lover.PlayerId, false);
+                        if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtonsDoom.HideSingle(role, lover.PlayerId, false);
                     }
                 }
                 else

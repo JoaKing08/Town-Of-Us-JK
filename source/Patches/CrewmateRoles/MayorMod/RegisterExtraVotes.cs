@@ -8,6 +8,7 @@ using TownOfUs.Roles.Modifiers;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Linq;
 
 namespace TownOfUs.CrewmateRoles.MayorMod
 {
@@ -62,8 +63,16 @@ namespace TownOfUs.CrewmateRoles.MayorMod
                             dictionary[playerVoteArea.VotedFor] = 2;
                     }
                 }
+                if (player.IsKnight())
+                {
+                    var role = Role.GetRole(player);
+                    if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
+                        dictionary[playerVoteArea.VotedFor] = num2 + 1;
+                    else
+                        dictionary[playerVoteArea.VotedFor] = 1;
+                }
 
-                if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num))
+            if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num))
                     dictionary[playerVoteArea.VotedFor] = num + 1;
                 else
                     dictionary[playerVoteArea.VotedFor] = 1;
@@ -222,6 +231,27 @@ namespace TownOfUs.CrewmateRoles.MayorMod
                                         allNums[i]++;
                                         allNums[i]++;
                                     }
+                                }
+                            }
+                        }
+                        foreach (var knight in PlayerControl.AllPlayerControls.ToArray().Where(x => x.IsKnight()).ToList())
+                        {
+                            if (voteState.VoterId == knight.PlayerId)
+                            {
+                                if (playerInfo == null)
+                                {
+                                    Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
+                                        voteState.VoterId));
+                                }
+                                else if (i == 0 && voteState.SkippedVote)
+                                {
+                                    __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                    amountOfSkippedVoters++;
+                                }
+                                else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                                {
+                                    __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                    allNums[i]++;
                                 }
                             }
                         }

@@ -18,7 +18,17 @@ namespace TownOfUs
     {
         private static bool Prefix(ImpostorRole __instance, ref IUsable usable, ref bool __result)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.CultistSnitch)) return true;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.CultistSnitch) && !PlayerControl.LocalPlayer.Is(ModifierEnum.Tasker)) return true;
+            __result = true;
+            return false;
+        }
+    }
+    [HarmonyPatch(typeof(ImpostorGhostRole), nameof(ImpostorGhostRole.CanUse))]
+    public class DeadImpTasks
+    {
+        private static bool Prefix(ImpostorRole __instance, ref IUsable usable, ref bool __result)
+        {
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist)) return true;
             __result = true;
             return false;
         }

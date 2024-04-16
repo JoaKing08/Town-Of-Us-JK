@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>5.0.3</Version>
+		<Version>1.0.0</Version>
 		<DebugType>embedded</DebugType>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -28,5 +28,13 @@
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\*" />
 		<EmbeddedResource Include="Resources\Hats\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Apocalypse.png" />
+	  <None Remove="Resources\Bread.png" />
+	  <None Remove="Resources\Bug.png" />
+	  <None Remove="Resources\Reap.png" />
+	  <None Remove="Resources\Starve.png" />
 	</ItemGroup>
 </Project>

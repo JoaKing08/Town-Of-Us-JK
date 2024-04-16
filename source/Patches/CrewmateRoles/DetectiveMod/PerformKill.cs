@@ -5,6 +5,7 @@ using UnityEngine;
 using TownOfUs.CrewmateRoles.MedicMod;
 using Reactor.Utilities;
 using AmongUs.GameOptions;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs.CrewmateRoles.DetectiveMod
 {
@@ -31,6 +32,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 if (interact[4] == true)
                 {
+                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
                     if (role.DetectedKillers.Contains(role.ClosestPlayer.PlayerId) || (CustomGameOptions.CanDetectLastKiller && role.LastKiller == role.ClosestPlayer)) Coroutines.Start(Utils.FlashCoroutine(Color.red));
                     else Coroutines.Start(Utils.FlashCoroutine(Color.green));
                 }
@@ -54,12 +56,18 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                     return false;
                 if (Vector2.Distance(role.CurrentTarget.TruePosition,
                     PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
+                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    return false;
+                }
                 var playerId = role.CurrentTarget.ParentId;
                 var player = Utils.PlayerById(playerId);
                 if (player.IsInfected() || role.Player.IsInfected())
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                 }
+                if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, playerId, (byte)role.RoleType, (byte)0);
                 foreach (var deadPlayer in Murder.KilledPlayers)
                 {
                     if (deadPlayer.PlayerId == playerId) role.DetectedKillers.Add(deadPlayer.KillerId);

@@ -23,7 +23,7 @@ using TownOfUs.Patches.ScreenEffects;
 
 namespace TownOfUs
 {
-    [BepInPlugin(Id, "Town Of Us", VersionString)]
+    [BepInPlugin(Id, "Town Of Us JoaKing's addon", ModesVersionString)]
     [BepInDependency(ReactorPlugin.Id)]
     [BepInDependency(SubmergedCompatibility.SUBMERGED_GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [ReactorModFlags(Reactor.Networking.ModFlags.RequireOnAllClients)]
@@ -31,6 +31,7 @@ namespace TownOfUs
     {
         public const string Id = "com.slushiegoose.townofus";
         public const string VersionString = "5.0.3";
+        public const string ModesVersionString = "1.0.0";
         public static System.Version Version = System.Version.Parse(VersionString);
 
         public static AssetLoader bundledAssets;
@@ -97,6 +98,29 @@ namespace TownOfUs
         public static Sprite HackSprite;
         public static Sprite MimicSprite;
         public static Sprite LockSprite;
+        public static Sprite BreadSprite;
+        public static Sprite StarveSprite;
+        public static Sprite ReapSprite;
+        public static Sprite ApocalypseSprite;
+        public static Sprite DuelAttack0Sprite;
+        public static Sprite DuelAttack1Sprite;
+        public static Sprite DuelAttack2Sprite;
+        public static Sprite DuelDefend0Sprite;
+        public static Sprite DuelDefend1Sprite;
+        public static Sprite DuelDefend2Sprite;
+        public static Sprite DuelSprite;
+        public static Sprite KnightSprite;
+        public static Sprite InquireSprite;
+        public static Sprite VanquishSprite;
+        public static Sprite DrinkSprite;
+        public static Sprite PoisonSprite;
+        public static Sprite AimSprite;
+        public static Sprite ShootSprite;
+        public static Sprite BugSprite;
+        public static Sprite ControlSprite;
+        public static Sprite OrderSprite;
+        public static Sprite SoulSwapSprite;
+        public static Sprite NothingSprite;
 
         public static Sprite SettingsButtonSprite;
         public static Sprite CrewSettingsButtonSprite;
@@ -193,6 +217,29 @@ namespace TownOfUs
             HackSprite = CreateSprite("TownOfUs.Resources.Hack.png");
             MimicSprite = CreateSprite("TownOfUs.Resources.Mimic.png");
             LockSprite = CreateSprite("TownOfUs.Resources.Lock.png");
+            BreadSprite = CreateSprite("TownOfUs.Resources.Bread.png");
+            StarveSprite = CreateSprite("TownOfUs.Resources.Starve.png");
+            ReapSprite = CreateSprite("TownOfUs.Resources.Reap.png");
+            ApocalypseSprite = CreateSprite("TownOfUs.Resources.Apocalypse.png");
+            DuelAttack0Sprite = CreateSprite("TownOfUs.Resources.DuelAttack0.png");
+            DuelAttack1Sprite = CreateSprite("TownOfUs.Resources.DuelAttack1.png");
+            DuelAttack2Sprite = CreateSprite("TownOfUs.Resources.DuelAttack2.png");
+            DuelDefend0Sprite = CreateSprite("TownOfUs.Resources.DuelDefend0.png");
+            DuelDefend1Sprite = CreateSprite("TownOfUs.Resources.DuelDefend1.png");
+            DuelDefend2Sprite = CreateSprite("TownOfUs.Resources.DuelDefend2.png");
+            DuelSprite = CreateSprite("TownOfUs.Resources.Duel.png");
+            KnightSprite = CreateSprite("TownOfUs.Resources.Knight.png");
+            InquireSprite = CreateSprite("TownOfUs.Resources.Inquire.png");
+            VanquishSprite = CreateSprite("TownOfUs.Resources.Vanquish.png");
+            DrinkSprite = CreateSprite("TownOfUs.Resources.Drink.png");
+            PoisonSprite = CreateSprite("TownOfUs.Resources.Poison.png");
+            AimSprite = CreateSprite("TownOfUs.Resources.Aim.png");
+            ShootSprite = CreateSprite("TownOfUs.Resources.Shoot.png");
+            BugSprite = CreateSprite("TownOfUs.Resources.Bug.png");
+            ControlSprite = CreateSprite("TownOfUs.Resources.Control.png");
+            OrderSprite = CreateSprite("TownOfUs.Resources.Order.png");
+            SoulSwapSprite = CreateSprite("TownOfUs.Resources.SoulSwap.png");
+            NothingSprite = CreateSprite("TownOfUs.Resources.Nothing.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");
             CrewSettingsButtonSprite = CreateSprite("TownOfUs.Resources.Crewmate.png");

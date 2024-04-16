@@ -16,7 +16,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
                     if (player == role.Confessor)
                     {
                         if (role.RevealedFaction == Faction.Crewmates) state.NameText.text = "<color=#00FFFFFF>(Crew) </color>" + state.NameText.text;
-                        else if (role.RevealedFaction == Faction.Impostors) state.NameText.text = "<color=#FF0000FF>(Imp) </color>" + state.NameText.text;
+                        else if (role.RevealedFaction == Faction.Impostors || (role.RevealedFaction == Faction.NeutralApocalypse && CustomGameOptions.GameMode == GameMode.Horseman)) state.NameText.text = CustomGameOptions.GameMode == GameMode.Horseman ? "<color=#404040FF>(Apoc) </color>" : "<color=#FF0000FF>(Imp) </color>" + state.NameText.text;
                         else state.NameText.text = "<color=#808080FF>(Neut) </color>" + state.NameText.text;
                     }
                 }

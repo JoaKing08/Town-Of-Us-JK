@@ -71,6 +71,23 @@ namespace TownOfUs.CrewmateRoles.MedicMod
                 {32, "darker"},// tawny
                 {33, "lighter"},// gold
                 {34, "lighter"},// rainbow
+                {35, "lighter"},// ice
+                {36, "lighter"},// copper
+                {37, "darker"},// fortegreen
+                {38, "darker"},// ink black
+                {39, "darker"},// ash gray
+                {40, "lighter"},// snow white
+                {41, "darker"},// bloody red
+                {42, "darker"},// sunset orange
+                {43, "lighter"},// sunny yellow
+                {44, "lighter"},// juicy lime
+                {45, "darker"},// cactus green
+                {46, "lighter"},// heaven cyan
+                {47, "darker"},// ocean blue
+                {48, "darker"},// galaxy purple
+                {49, "lighter"},// neon pink
+                {50, "darker"},// woody brown
+                {51, "lighter"},// black & white
             };
             var typeOfColor = colors[br.Killer.GetDefaultOutfit().ColorId];
             return

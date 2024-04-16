@@ -30,7 +30,11 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
                 //PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"player with byte {player.PlayerId} is {Vector2.Distance(transform.position, player.GetTruePosition())} away");
                 if (Vector2.Distance(transform.position, player.GetTruePosition()) < (CustomGameOptions.TrapSize + 0.01f) * ShipStatus.Instance.MaxLightRadius)
                 {
-                    if (!players.ContainsKey(player.PlayerId)) players.Add(player.PlayerId, 0f);
+                    if (!players.ContainsKey(player.PlayerId))
+                    {
+                        if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Trapper, (byte)0);
+                        players.Add(player.PlayerId, 0f);
+                    }
                 } else
                 {
                     if (players.ContainsKey(player.PlayerId)) players.Remove(player.PlayerId);

@@ -4,6 +4,8 @@ using System.Linq;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using TownOfUs.Extensions;
+using TownOfUs.Roles.Teams;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs
 {
@@ -12,6 +14,7 @@ namespace TownOfUs
     {
         public static void Prefix()
         {
+            bool apocWin = false;
             List<int> losers = new List<int>();
             foreach (var role in Role.GetRoles(RoleEnum.Amnesiac))
             {
@@ -48,6 +51,11 @@ namespace TownOfUs
                 var phan = (Phantom)role;
                 losers.Add(phan.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Pirate))
+            {
+                var pirate = (Pirate)role;
+                losers.Add(pirate.Player.GetDefaultOutfit().ColorId);
+            }
             foreach (var role in Role.GetRoles(RoleEnum.Arsonist))
             {
                 var arso = (Arsonist)role;
@@ -68,6 +76,36 @@ namespace TownOfUs
                 var pb = (Plaguebearer)role;
                 losers.Add(pb.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Famine))
+            {
+                var fam = (Famine)role;
+                losers.Add(fam.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Baker))
+            {
+                var bak = (Baker)role;
+                losers.Add(bak.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.War))
+            {
+                var war = (War)role;
+                losers.Add(war.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Berserker))
+            {
+                var bers = (Berserker)role;
+                losers.Add(bers.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Death))
+            {
+                var dth = (Death)role;
+                losers.Add(dth.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.SoulCollector))
+            {
+                var sc = (SoulCollector)role;
+                losers.Add(sc.Player.GetDefaultOutfit().ColorId);
+            }
             foreach (var role in Role.GetRoles(RoleEnum.Glitch))
             {
                 var glitch = (Glitch)role;
@@ -82,6 +120,56 @@ namespace TownOfUs
             {
                 var ww = (Werewolf)role;
                 losers.Add(ww.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.RedMember))
+            {
+                var rm = (RedMember)role;
+                losers.Add(rm.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.BlueMember))
+            {
+                var bm = (BlueMember)role;
+                losers.Add(bm.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.YellowMember))
+            {
+                var ym = (YellowMember)role;
+                losers.Add(ym.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.GreenMember))
+            {
+                var gm = (GreenMember)role;
+                losers.Add(gm.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.SoloKiller))
+            {
+                var sk = (SoloKiller)role;
+                losers.Add(sk.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.SerialKiller))
+            {
+                var sk = (SerialKiller)role;
+                losers.Add(sk.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
+            {
+                var inq = (Inquisitor)role;
+                losers.Add(inq.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Witch))
+            {
+                var witch = (Witch)role;
+                losers.Add(witch.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ImpostorAgent))
+            {
+                var agent = (ImpostorAgent)modifier;
+                losers.Add(agent.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ApocalypseAgent))
+            {
+                var agent = (ApocalypseAgent)modifier;
+                losers.Add(agent.Player.GetDefaultOutfit().ColorId);
             }
 
             var toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();
@@ -164,6 +252,30 @@ namespace TownOfUs
                             return;
                         }
                     }
+                    else if (type == RoleEnum.Pirate)
+                    {
+                        var pirate = (Pirate)role;
+                        if (pirate.WonByDuel)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var pirateData = new WinningPlayerData(pirate.Player.Data);
+                            if (PlayerControl.LocalPlayer != pirate.Player) pirateData.IsYou = false;
+                            TempData.winners.Add(pirateData);
+                            return;
+                        }
+                    }
+                    else if (type == RoleEnum.Inquisitor)
+                    {
+                        var inquisitor = (Inquisitor)role;
+                        if (inquisitor.HereticsDead)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var inquisitorData = new WinningPlayerData(inquisitor.Player.Data);
+                            if (PlayerControl.LocalPlayer != inquisitor.Player) inquisitorData.IsYou = false;
+                            TempData.winners.Add(inquisitorData);
+                            return;
+                        }
+                    }
                 }
             }
 
@@ -238,26 +350,18 @@ namespace TownOfUs
                         TempData.winners.Add(arsonistData);
                     }
                 }
-                else if (type == RoleEnum.Plaguebearer)
+                else if (role.Faction == Faction.NeutralApocalypse)
                 {
-                    var plaguebearer = (Plaguebearer)role;
-                    if (plaguebearer.PlaguebearerWins)
+                    if (role.ApocalypseWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
-                        var pbData = new WinningPlayerData(plaguebearer.Player.Data);
-                        if (PlayerControl.LocalPlayer != plaguebearer.Player) pbData.IsYou = false;
-                        TempData.winners.Add(pbData);
-                    }
-                }
-                else if (type == RoleEnum.Pestilence)
-                {
-                    var pestilence = (Pestilence)role;
-                    if (pestilence.PestilenceWins)
-                    {
-                        TempData.winners = new List<WinningPlayerData>();
-                        var pestilenceData = new WinningPlayerData(pestilence.Player.Data);
-                        if (PlayerControl.LocalPlayer != pestilence.Player) pestilenceData.IsYou = false;
-                        TempData.winners.Add(pestilenceData);
+                        foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse))
+                        {
+                            var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
+                            if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
+                            TempData.winners.Add(apocalypseMemberData);
+                        }
+                        apocWin = true;
                     }
                 }
                 else if (type == RoleEnum.Werewolf)
@@ -269,6 +373,84 @@ namespace TownOfUs
                         var werewolfData = new WinningPlayerData(werewolf.Player.Data);
                         if (PlayerControl.LocalPlayer != werewolf.Player) werewolfData.IsYou = false;
                         TempData.winners.Add(werewolfData);
+                    }
+                }
+                else if (type == RoleEnum.SerialKiller)
+                {
+                    var serialKiller = (SerialKiller)role;
+                    if (serialKiller.SerialKillerWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        var serialKillerData = new WinningPlayerData(serialKiller.Player.Data);
+                        if (PlayerControl.LocalPlayer != serialKiller.Player) serialKillerData.IsYou = false;
+                        TempData.winners.Add(serialKillerData);
+                    }
+                }
+                else if (type == RoleEnum.RedMember)
+                {
+                    var redMember = (RedMember)role;
+                    if (redMember.TeamWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        foreach (var rm in Role.AllRoles.ToArray().Where(x => x.RoleType == RoleEnum.RedMember))
+                        {
+                            var redMemberData = new WinningPlayerData(rm.Player.Data);
+                            if (PlayerControl.LocalPlayer != rm.Player) redMemberData.IsYou = false;
+                            TempData.winners.Add(redMemberData);
+                        }
+                    }
+                }
+                else if (type == RoleEnum.BlueMember)
+                {
+                    var blueMember = (BlueMember)role;
+                    if (blueMember.TeamWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        foreach (var bm in Role.AllRoles.ToArray().Where(x => x.RoleType == RoleEnum.BlueMember))
+                        {
+                            var blueMemberData = new WinningPlayerData(bm.Player.Data);
+                            if (PlayerControl.LocalPlayer != bm.Player) blueMemberData.IsYou = false;
+                            TempData.winners.Add(blueMemberData);
+                        }
+                    }
+                }
+                else if (type == RoleEnum.YellowMember)
+                {
+                    var yellowMember = (YellowMember)role;
+                    if (yellowMember.TeamWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        foreach (var ym in Role.AllRoles.ToArray().Where(x => x.RoleType == RoleEnum.YellowMember))
+                        {
+                            var yellowMemberData = new WinningPlayerData(ym.Player.Data);
+                            if (PlayerControl.LocalPlayer != ym.Player) yellowMemberData.IsYou = false;
+                            TempData.winners.Add(yellowMemberData);
+                        }
+                    }
+                }
+                else if (type == RoleEnum.GreenMember)
+                {
+                    var greenMember = (GreenMember)role;
+                    if (greenMember.TeamWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        foreach (var gm in Role.AllRoles.ToArray().Where(x => x.RoleType == RoleEnum.GreenMember))
+                        {
+                            var greenMemberData = new WinningPlayerData(gm.Player.Data);
+                            if (PlayerControl.LocalPlayer != gm.Player) greenMemberData.IsYou = false;
+                            TempData.winners.Add(greenMemberData);
+                        }
+                    }
+                }
+                else if (type == RoleEnum.SoloKiller)
+                {
+                    var soloKiller = (SoloKiller)role;
+                    if (soloKiller.TeamWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        var soloKillerData = new WinningPlayerData(soloKiller.Player.Data);
+                        if (PlayerControl.LocalPlayer != soloKiller.Player) soloKillerData.IsYou = false;
+                        TempData.winners.Add(soloKillerData);
                     }
                 }
             }
@@ -299,6 +481,41 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer != ga.Player) gaWinData.IsYou = false;
                         TempData.winners.Add(gaWinData);
                     }
+                }
+            }
+            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ImpostorAgent))
+            {
+                var agent = (ImpostorAgent)modifier;
+                var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
+                if (isImp)
+                {
+                    var agentWinData = new WinningPlayerData(agent.Player.Data);
+                    if (isImp) agentWinData.IsImpostor = true;
+                    if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
+                    TempData.winners.Add(agentWinData);
+                }
+            }
+            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ApocalypseAgent))
+            {
+                var agent = (ApocalypseAgent)modifier;
+                if (apocWin)
+                {
+                    var agentWinData = new WinningPlayerData(agent.Player.Data);
+                    if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
+                    TempData.winners.Add(agentWinData);
+                }
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Witch))
+            {
+                var witch = (Witch)role;
+                var isCrew = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.GetDefaultOutfit().ColorId == TempData.winners[0].ColorId);
+                var witchWinData = new WinningPlayerData(witch.Player.Data);
+                if (!isCrew && !witchWinData.IsDead)
+                    {
+                        var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
+                        if (isImp) witchWinData.IsImpostor = true;
+                        if (PlayerControl.LocalPlayer != witch.Player) witchWinData.IsYou = false;
+                        TempData.winners.Add(witchWinData);
                 }
             }
         }

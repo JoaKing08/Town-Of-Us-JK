@@ -13,9 +13,9 @@ namespace TownOfUs.RainbowMod
             for (int i = 0; i < __instance.ColorChips.Count; i++)
             {
                 var colorChip = __instance.ColorChips[i];
-                colorChip.transform.localScale *= 0.8f;
-                var x = __instance.XRange.Lerp((i % 5) / 5f) + 0.25f;
-                var y = __instance.YStart - (i / 5) * 0.55f;
+                colorChip.transform.localScale *= 0.6f;
+                var x = __instance.XRange.Lerp((i % 8) / 7f) + 0.25f;
+                var y = __instance.YStart - (i / 7.5f) * 0.4125f;
                 colorChip.transform.localPosition = new Vector3(x, y, -1f);
             }
         }

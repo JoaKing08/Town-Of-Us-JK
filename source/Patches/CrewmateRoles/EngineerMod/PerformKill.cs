@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.EngineerMod
 {
@@ -21,6 +23,11 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
             if (system == null) return false;
             var sabActive = system.AnyActive;
             if (!sabActive) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
             role.UsesLeft -= 1;
             Utils.Rpc(CustomRPC.EngineerFix, PlayerControl.LocalPlayer.NetId);
             switch (GameOptionsManager.Instance.currentNormalGameOptions.MapId)

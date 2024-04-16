@@ -28,6 +28,23 @@ namespace TownOfUs.RainbowMod
                 999997 => "Tawny",
                 999998 => "Gold",
                 999999 => "Rainbow",
+                1000000 => "Ice",
+                1000001 => "Copper",
+                1000002 => "Fortegreen",
+                1000003 => "Ink Black",
+                1000004 => "Ash Gray",
+                1000005 => "Snow White",
+                1000006 => "Bloody Red",
+                1000007 => "Sunset Orange",
+                1000008 => "Sunny Yellow",
+                1000009 => "Juicy Lime",
+                1000010 => "Cactus Green",
+                1000011 => "Heaven Cyan",
+                1000012 => "Ocean Blue",
+                1000013 => "Galaxy Purple",
+                1000014 => "Neon Pink",
+                1000015 => "Woody Brown",
+                1000016 => "Black & White",
                 _ => null
             };
             if (newResult != null)

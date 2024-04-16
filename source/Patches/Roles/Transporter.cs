@@ -10,6 +10,7 @@ using TownOfUs.Patches;
 using System.Collections;
 using TownOfUs.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs.Roles
 {
@@ -284,6 +285,8 @@ namespace TownOfUs.Roles
             var deadBodies = Object.FindObjectsOfType<DeadBody>();
             DeadBody Player1Body = null;
             DeadBody Player2Body = null;
+            if (TP1.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, TP1.PlayerId, (byte)RoleEnum.Transporter, (byte)0);
+            if (TP2.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, TP2.PlayerId, (byte)RoleEnum.Transporter, (byte)0);
             if (TP1.Data.IsDead)
             {
                 foreach (var body in deadBodies) if (body.ParentId == TP1.PlayerId) Player1Body = body;

@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.TransporterMod
 {
@@ -14,6 +16,11 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (!__instance.enabled) return false;
             if (role.TransportTimer() != 0f) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
 
             if (role.TransportList == null && role.ButtonUsable)
             {

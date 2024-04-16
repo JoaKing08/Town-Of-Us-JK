@@ -35,6 +35,7 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
                 role.UsesText.text = role.UsesLeft + "";
             }
 
+            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)0, (byte)10);
             __instance.KillButton.SetCoolDown(0f, 10f);
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead

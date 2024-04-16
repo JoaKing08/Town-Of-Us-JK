@@ -1,5 +1,8 @@
 using HarmonyLib;
+using Reactor.Utilities;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
+using UnityEngine;
 
 namespace TownOfUs.Modifiers.ButtonBarryMod
 {
@@ -18,6 +21,11 @@ namespace TownOfUs.Modifiers.ButtonBarryMod
             if (role.ButtonUsed) return false;
             if (role.StartTimer() > 0) return false;
             if (PlayerControl.LocalPlayer.RemainingEmergencies <= 0) return false;
+            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                return false;
+            }
             if (!__instance.enabled) return false;
 
             role.ButtonUsed = true;

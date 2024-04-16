@@ -29,6 +29,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                 KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.SheriffKillTimer(), (byte)CustomGameOptions.SheriffKillCd);
                 KillButton.SetCoolDown(role.SheriffKillTimer(), CustomGameOptions.SheriffKillCd);
                 Utils.SetTarget(ref role.ClosestPlayer, KillButton);
             }
