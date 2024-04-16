@@ -120,7 +120,7 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Undercover) { playerRole += "<color=#" + Patches.Colors.Undercover.ToHtmlStringRGBA() + ">Undercover</color> > "; }
                     else if (role.Value == RoleEnum.Poltergeist) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Poltergeist</color> > "; }
                     else if (role.Value == RoleEnum.Witch) { playerRole += "<color=#" + Patches.Colors.Witch.ToHtmlStringRGBA() + ">Witch</color> > "; }
-                    else if (role.Value == RoleEnum.Witch) { playerRole += "<color=#" + Patches.Colors.CursedSoul.ToHtmlStringRGBA() + ">Cursed Soul</color> > "; }
+                    else if (role.Value == RoleEnum.CursedSoul) { playerRole += "<color=#" + Patches.Colors.CursedSoul.ToHtmlStringRGBA() + ">Cursed Soul</color> > "; }
                     else if (role.Value == RoleEnum.RedMember) { playerRole += "<color=#" + Patches.Colors.RedTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.BlueMember) { playerRole += "<color=#" + Patches.Colors.BlueTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.YellowMember) { playerRole += "<color=#" + Patches.Colors.YellowTeam.ToHtmlStringRGBA() + ">Member</color> > "; }

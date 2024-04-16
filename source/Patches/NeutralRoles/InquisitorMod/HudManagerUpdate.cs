@@ -13,9 +13,9 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
 
         public static void Postfix(HudManager __instance)
         {
-            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).Where(x => !x.Player.Data.IsDead))
+            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
             {
-                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead) == 0)
+                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
                 {
                     ((Inquisitor)inq).Wins();
                     if (!CustomGameOptions.NeutralEvilWinEndsGame)

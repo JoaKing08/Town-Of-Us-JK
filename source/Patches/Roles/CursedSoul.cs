@@ -21,6 +21,7 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.CursedSoul;
             AddToRoleHistory(RoleType);
             Faction = Faction.NeutralBenign;
+            LastSwapped = DateTime.UtcNow;
         }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)

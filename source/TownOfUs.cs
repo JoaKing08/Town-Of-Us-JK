@@ -31,7 +31,7 @@ namespace TownOfUs
     {
         public const string Id = "com.slushiegoose.townofus";
         public const string VersionString = "5.0.3";
-        public const string ModesVersionString = "1.0.0";
+        public const string ModesVersionString = "1.0.1";
         public static System.Version Version = System.Version.Parse(VersionString);
 
         public static AssetLoader bundledAssets;
