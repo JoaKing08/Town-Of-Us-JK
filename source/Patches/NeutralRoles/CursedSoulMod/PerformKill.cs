@@ -237,6 +237,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     }
                     break;
             }
+            Role.GetRole(target).RegenTask();
             if (swapImp == true)
             {
                 cursedSoul.Data.Role.TeamType = RoleTeamTypes.Impostor;

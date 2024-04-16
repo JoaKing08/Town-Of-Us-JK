@@ -177,6 +177,9 @@ namespace TownOfUs.Roles
                         case RoleEnum.Undertaker:
                             message += " dragged by Undertaker";
                             break;
+                        case RoleEnum.CursedSoul:
+                            message += " attempted to Soul Swap directly by Cursed Soul";
+                            break;
                     }
                     break;
                 case 1:
@@ -205,6 +208,17 @@ namespace TownOfUs.Roles
                             break;
                         case RoleEnum.Sniper:
                             message += " shot by Sniper";
+                            break;
+                        case RoleEnum.CursedSoul:
+                            message += " attempted to Soul Swap indirectly by Cursed Soul";
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (interactorRole)
+                    {
+                        case RoleEnum.CursedSoul:
+                            message += " Soul Swapped using Cursed Soul";
                             break;
                     }
                     break;
