@@ -1548,6 +1548,11 @@ namespace TownOfUs
                 witch.LastControl = DateTime.UtcNow;
                 witch.ControledPlayer = null;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.CursedSoul))
+            {
+                var cursedSoul = Role.GetRole<CursedSoul>(PlayerControl.LocalPlayer);
+                cursedSoul.LastSwapped = DateTime.UtcNow;
+            }
             #endregion
             #region ImposterRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Escapist))

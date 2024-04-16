@@ -237,6 +237,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     }
                     break;
             }
+            target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             Role.GetRole(target).RegenTask();
             if (swapImp == true)
             {

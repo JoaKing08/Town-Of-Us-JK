@@ -390,6 +390,12 @@ namespace TownOfUs.Patches
                 witch.LastControl = DateTime.UtcNow;
                 witch.LastControl = witch.LastControl.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ControlCooldown);
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.CursedSoul))
+            {
+                var cursedSoul = Role.GetRole<CursedSoul>(PlayerControl.LocalPlayer);
+                cursedSoul.LastSwapped = DateTime.UtcNow;
+                cursedSoul.LastSwapped = cursedSoul.LastSwapped.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SoulSwapCooldown);
+            }
             if (PlayerControl.LocalPlayer.Is(ModifierEnum.Drunk))
             {
                 var drunk = Modifier.GetModifier<Drunk>(PlayerControl.LocalPlayer);
