@@ -1274,7 +1274,7 @@ The Undertaker is an Impostor that can drag and drop bodies.
 ## Poltergeist
 ### **Team: Impostors**
 The Poltergeist is a dead Impostor that can shorten cooldown of other Impostors if they finish all their tasks.\
-Upon finishing all of their tasks, Impostors are shortened.\
+Upon finishing all of their tasks, Impostors cooldowns are shortened.\
 However, if the Poltergeist is clicked Impostor cooldown gets back to normal and are once again a normal ghost.
 ### Game Options
 | Name | Description | Type | Default |
