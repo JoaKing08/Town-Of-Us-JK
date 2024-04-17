@@ -1674,7 +1674,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 # Credits & Resources
 [Reactor](https://github.com/NuclearPowered/Reactor) - The framework of the mod\
 [BepInEx](https://github.com/BepInEx) - For hooking game functions\
-[Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For base version of the mod\
+[Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For base version of the mod
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
 v1.0.3 uses [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) directly.\
