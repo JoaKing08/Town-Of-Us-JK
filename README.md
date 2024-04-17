@@ -1271,6 +1271,21 @@ The Undertaker is an Impostor that can drag and drop bodies.
 | Undertaker can Vent while Dragging | Whether the Undertaker can Vent when they are Dragging a Body | Toggle | False |
 
 -----------------------
+## Poltergeist
+### **Team: Impostors**
+The Poltergeist is a dead Impostor that can shorten cooldown of other Impostors if they finish all their tasks.\
+Upon finishing all of their tasks, Impostors are shortened.\
+However, if the Poltergeist is clicked Impostor cooldown gets back to normal and are once again a normal ghost.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Poltergeist | The percentage probability of the Poltergeist appearing | Percentage | 0% |
+| Tasks Remaining When Poltergeist Can Be Clicked | The amount of tasks remaining when the Poltergeist Can Be Clicked | Number | 5 |
+| Tasks Remaining When Alert Is Sent | The amount of tasks remaining when the Crewmates are alerted that the Poltergeist is nearly finished | Number | 1 |
+| Poltergeist Cooldown Multiplier | By what number Impostors cooldown is multiplied after Poltergeist finishes tasks | Multiplier | 0.5x |
+| Who can Click Poltergeist | Whether even other Impostors can click the Haunter | All / Non-Imps / Crew Only | All |
+
+-----------------------
 
 # Modifiers
 Modifiers are added on top of players' roles.
