@@ -20,15 +20,25 @@ namespace TownOfUs.NeutralRoles.PirateMod
                 var dueled = Role.GetRole(pirate.DueledPlayer);
                 pirate.DefenseButton.Destroy();
                 dueled.DefenseButton.Destroy();
-                if (pirate.Defense == dueled.Defense)
+                if (pirate.Defense == dueled.Defense && !pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected)
                 {
-                    if (PlayerControl.LocalPlayer == pirate.DueledPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    if (pirate.DueledPlayer.Is(RoleEnum.Pestilence) || pirate.DueledPlayer.Is(RoleEnum.Famine) || pirate.DueledPlayer.Is(RoleEnum.War) || pirate.DueledPlayer.Is(RoleEnum.Death))
+                    if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
                     {
-                        pirate.KillDueled = false;
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    }
+                        if (pirate.DueledPlayer.Is(RoleEnum.Pestilence) || pirate.DueledPlayer.Is(RoleEnum.Famine) || pirate.DueledPlayer.Is(RoleEnum.War) || pirate.DueledPlayer.Is(RoleEnum.Death))
+                    {
                         pirate.DueledPlayer = null;
                     }
-                    else pirate.KillDueled = true;
+                    else
+                    {
+                        if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
+                        {
+                            KillButtonTarget.DontRevive = pirate.DueledPlayer.PlayerId;
+                            pirate.DueledPlayer.Exiled();
+                        }
+                        pirate.DueledPlayer = null;
+                    }
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
                         pirate.DuelsWon += 1;
@@ -44,7 +54,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                         }
                     }
                 }
-                else
+                else if (!pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected)
                 {
                     if (pirate.Player == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.red));
                     if (pirate.DueledPlayer == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.green));

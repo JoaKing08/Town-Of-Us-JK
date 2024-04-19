@@ -26,15 +26,6 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
             if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.DuelTimer(), (byte)CustomGameOptions.DuelCooldown);
             duelButton.SetCoolDown(role.DuelTimer(), CustomGameOptions.DuelCooldown);
-            if (role.KillDueled)
-            {
-                Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, role.DueledPlayer);
-                if (role.DueledPlayer.Data.IsDead || role.DueledPlayer.Data.Disconnected)
-                {
-                    role.KillDueled = false;
-                    role.DueledPlayer = null;
-                }
-            }
             var notDueled = PlayerControl.AllPlayerControls.ToArray().Where(x => x != role.DueledPlayer).ToList();
 
             Utils.SetTarget(ref role.ClosestPlayer, duelButton, float.NaN, notDueled);

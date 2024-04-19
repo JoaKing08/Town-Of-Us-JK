@@ -19,7 +19,6 @@ namespace TownOfUs.Roles
         public PlayerControl DueledPlayer = null;
         public int DuelsWon = 0;
         public bool WonByDuel = false;
-        public bool KillDueled = false;
         public DateTime LastDueled;
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
