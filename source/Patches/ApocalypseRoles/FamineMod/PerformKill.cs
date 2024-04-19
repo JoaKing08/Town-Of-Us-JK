@@ -30,7 +30,7 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
                 Role.GetRole(role.ClosestPlayer).BreadLeft -= 1;
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    if (!player.Is(Faction.NeutralApocalypse) && !player.Is(ModifierEnum.ApocalypseAgent))
+                    if (!player.Is(Faction.NeutralApocalypse) && !player.Is(ObjectiveEnum.ApocalypseAgent))
                     {
                         var playerRole = Role.GetRole(player);
                         playerRole.BreadLeft -= 1;

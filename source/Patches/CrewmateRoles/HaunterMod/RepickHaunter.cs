@@ -16,7 +16,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(Faction.Crewmates))
             {
-                var toChooseFromAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && !x.Data.Disconnected).ToList();
+                var toChooseFromAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Data.Disconnected).ToList();
                 if (toChooseFromAlive.Count == 0)
                 {
                     SetHaunter.WillBeHaunter = null;
@@ -34,7 +34,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 }
                 return;
             }
-            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected).ToList();
+            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Data.IsDead && !x.Data.Disconnected).ToList();
             if (toChooseFrom.Count == 0) return;
             var rand = Random.RandomRangeInt(0, toChooseFrom.Count);
             var pc = toChooseFrom[rand];

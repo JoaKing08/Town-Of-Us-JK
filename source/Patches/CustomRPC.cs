@@ -4,6 +4,7 @@ namespace TownOfUs
     {
         SetRole = 100,
         SetModifier,
+        SetObjective,
         SetCouple,
         SetAssassin,
         SetTarget,

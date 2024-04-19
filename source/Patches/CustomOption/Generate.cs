@@ -100,15 +100,12 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption FrostyOn;
         public static CustomNumberOption MultitaskerOn;
         public static CustomNumberOption TorchOn;
-        public static CustomNumberOption ImpostorAgentOn;
-        public static CustomNumberOption ApocalypseAgentOn;
         public static CustomNumberOption FamousOn;
 
         public static CustomHeaderOption GlobalModifiers;
         public static CustomNumberOption ButtonBarryOn;
         public static CustomNumberOption FlashOn;
         public static CustomNumberOption GiantOn;
-        public static CustomNumberOption LoversOn;
         public static CustomNumberOption RadarOn;
         public static CustomNumberOption SleuthOn;
         public static CustomNumberOption TiebreakerOn;
@@ -119,6 +116,11 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption DoubleShotOn;
         public static CustomNumberOption UnderdogOn;
         public static CustomNumberOption TaskerOn;
+
+        public static CustomHeaderOption ObjectiveModifiers;
+        public static CustomNumberOption LoversOn;
+        public static CustomNumberOption ImpostorAgentOn;
+        public static CustomNumberOption ApocalypseAgentOn;
 
         public static CustomHeaderOption MapSettings;
         public static CustomToggleOption RandomMapEnabled;
@@ -833,10 +835,6 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             TorchOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FFFF99FF>Torch</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            ImpostorAgentOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF4040FF>Agent</color> (<color=#FF0000FF>Imp</color>)", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            ApocalypseAgentOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#A0A0A0FF>Agent</color> (<color=#808080FF>Apoc</color>)", 0f, 0f, 100f, 10f,
-                PercentFormat);
             FamousOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FFC000FF>Famous</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
@@ -846,8 +844,6 @@ namespace TownOfUs.CustomOption
             FlashOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF8080FF>Flash</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             GiantOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FFB34DFF>Giant</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            LoversOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             RadarOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0080FF>Radar</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -866,6 +862,14 @@ namespace TownOfUs.CustomOption
             UnderdogOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             TaskerOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Tasker</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+
+            ObjectiveModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, "Objective Modifiers");
+            LoversOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            ImpostorAgentOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF4040FF>Agent</color> (<color=#FF0000FF>Imp</color>)", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            ApocalypseAgentOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#A0A0A0FF>Agent</color> (<color=#808080FF>Apoc</color>)", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             GameModeSettings =
@@ -1709,13 +1713,6 @@ namespace TownOfUs.CustomOption
             Giant = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FFB34DFF>Giant</color>");
             GiantSlow = new CustomNumberOption(num++, MultiMenu.modifiers, "Giant Speed", 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
 
-            Lovers =
-                new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>");
-            BothLoversDie = new CustomToggleOption(num++, MultiMenu.modifiers, "Both Lovers Die");
-            LovingImpPercent = new CustomNumberOption(num++, MultiMenu.modifiers, "Loving Impostor Probability", 20f, 0f, 100f, 10f,
-                PercentFormat);
-            NeutralLovers = new CustomToggleOption(num++, MultiMenu.modifiers, "Neutral Roles Can Be Lovers");
-
             Drunk =
                 new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#758000FF>Drunk</color>");
             DrunkWearsOff = new CustomToggleOption(num++, MultiMenu.modifiers, "Drunk Wears Off");
@@ -1724,6 +1721,13 @@ namespace TownOfUs.CustomOption
             Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>");
             UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, "Kill Cooldown Bonus", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
             UnderdogIncreasedKC = new CustomToggleOption(num++, MultiMenu.modifiers, "Increased Kill Cooldown When 2+ Imps", true);
+
+            Lovers =
+                new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>");
+            BothLoversDie = new CustomToggleOption(num++, MultiMenu.modifiers, "Both Lovers Die");
+            LovingImpPercent = new CustomNumberOption(num++, MultiMenu.modifiers, "Loving Impostor Probability", 20f, 0f, 100f, 10f,
+                PercentFormat);
+            NeutralLovers = new CustomToggleOption(num++, MultiMenu.modifiers, "Neutral Roles Can Be Lovers");
         }
     }
 }

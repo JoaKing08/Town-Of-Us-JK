@@ -94,7 +94,6 @@ namespace TownOfUs
 
     public enum ModifierEnum
     {
-        Lover,
         Torch,
         Diseased,
         Flash,
@@ -110,8 +109,6 @@ namespace TownOfUs
         DoubleShot,
         Underdog,
         Frosty,
-        ImpostorAgent,
-        ApocalypseAgent,
         Drunk,
         Tasker,
         Famous
@@ -120,5 +117,11 @@ namespace TownOfUs
     public enum AbilityEnum
     {
         Assassin
+    }
+    public enum ObjectiveEnum
+    {
+        Lover,
+        ImpostorAgent,
+        ApocalypseAgent
     }
 }

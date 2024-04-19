@@ -38,7 +38,7 @@ namespace TownOfUs.ApocalypseRoles.BakerMod
             breadButton.SetCoolDown(role.BreadTimer(), CustomGameOptions.BakerCooldown);
 
             var notBreaded = PlayerControl.AllPlayerControls.ToArray().Where(
-                player => !player.Is(ModifierEnum.ApocalypseAgent) && !player.Is(Faction.NeutralApocalypse) && !(player.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse()) && !role.BreadPlayers.Contains(player.PlayerId)
+                player => !player.Is(ObjectiveEnum.ApocalypseAgent) && !player.Is(Faction.NeutralApocalypse) && !(player.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse()) && !role.BreadPlayers.Contains(player.PlayerId)
             ).ToList();
 
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, notBreaded);

@@ -48,7 +48,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
             else if ((role.ClosestPlayer.Is(Faction.Crewmates) || (role.ClosestPlayer.Is(Faction.NeutralBenign)
                 && CustomGameOptions.CanBiteNeutralBenign) || (role.ClosestPlayer.Is(Faction.NeutralEvil)
                 && CustomGameOptions.CanBiteNeutralEvil) || (role.ClosestPlayer.Is(Faction.NeutralChaos)
-                && CustomGameOptions.CanBiteNeutralChaos)) && !role.ClosestPlayer.Is(ModifierEnum.Lover) &&
+                && CustomGameOptions.CanBiteNeutralChaos)) && !role.ClosestPlayer.Is(ObjectiveEnum.Lover) &&
                 aliveVamps.Count == 1 && vamps.Count < CustomGameOptions.MaxVampiresPerGame)
             {
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);

@@ -19,7 +19,7 @@ namespace TownOfUs
             if (!PlayerControl.LocalPlayer.Data.IsImpostor()) return true;
             var target = __instance.currentTarget;
             if (target == null) return true;
-            if (target.Is(ModifierEnum.ImpostorAgent) || ((target.Data.IsImpostor() || target.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire()) return true;
+            if (target.Is(ObjectiveEnum.ImpostorAgent) || ((target.Data.IsImpostor() || target.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire()) return true;
             if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return true;
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
@@ -92,7 +92,7 @@ namespace TownOfUs
                 if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)PlayerControl.LocalPlayer.killTimer, (byte)GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
 
                 var notImpostor = PlayerControl.AllPlayerControls.ToArray().Where(
-                    player => !player.Is(ModifierEnum.ImpostorAgent) && !(((player.Data.IsImpostor() || player.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire())
+                    player => !player.Is(ObjectiveEnum.ImpostorAgent) && !(((player.Data.IsImpostor() || player.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire())
                 ).ToList();
                 var target = new PlayerControl();
 

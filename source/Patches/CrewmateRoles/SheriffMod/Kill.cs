@@ -49,7 +49,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                         role.ClosestPlayer.Is(RoleEnum.SerialKiller) && CustomGameOptions.SheriffKillsSerialKiller ||
                         role.ClosestPlayer.Is(RoleEnum.Inquisitor) && CustomGameOptions.SheriffKillsInquisitor ||
                         role.ClosestPlayer.Is(RoleEnum.Witch) && CustomGameOptions.SheriffKillsWitch ||
-                        (role.ClosestPlayer.Is(ModifierEnum.ImpostorAgent) || role.ClosestPlayer.Is(ModifierEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent ||
+                        (role.ClosestPlayer.Is(ObjectiveEnum.ImpostorAgent) || role.ClosestPlayer.Is(ObjectiveEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent ||
                         role.ClosestPlayer.Is(Faction.NeutralApocalypse) && (CustomGameOptions.SheriffKillsPlaguebearer || 
                         CustomGameOptions.GameMode == GameMode.Horseman);
 

@@ -15,7 +15,7 @@ namespace TownOfUs.ImpostorRoles.MorphlingMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Morphling)) return;
             var role = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
             if (target != null && __instance == DestroyableSingleton<HudManager>.Instance.KillButton)
-                if (target.Data.IsImpostor() || target.Is(ModifierEnum.ImpostorAgent) || (target.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor()))
+                if (target.Data.IsImpostor() || target.Is(ObjectiveEnum.ImpostorAgent) || (target.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor()))
                 {
                     __instance.graphic.color = Palette.DisabledClear;
                     __instance.graphic.material.SetFloat("_Desat", 1f);

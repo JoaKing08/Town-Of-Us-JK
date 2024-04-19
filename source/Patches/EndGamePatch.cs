@@ -170,10 +170,6 @@ namespace TownOfUs.Patches {
                 {
                     playerRole += " (<color=#" + Patches.Colors.Torch.ToHtmlStringRGBA() + ">Torch</color>)";
                 }
-                else if (playerControl.Is(ModifierEnum.Lover))
-                {
-                    playerRole += " (<color=#" + Patches.Colors.Lovers.ToHtmlStringRGBA() + ">Lover</color>)";
-                }
                 else if (playerControl.Is(ModifierEnum.Sleuth))
                 {
                     playerRole += " (<color=#" + Patches.Colors.Sleuth.ToHtmlStringRGBA() + ">Sleuth</color>)";
@@ -202,14 +198,6 @@ namespace TownOfUs.Patches {
                 {
                     playerRole += " (<color=#" + Patches.Colors.Frosty.ToHtmlStringRGBA() + ">Frosty</color>)";
                 }
-                else if (playerControl.Is(ModifierEnum.ImpostorAgent))
-                {
-                    playerRole += " (<color=#" + Patches.Colors.ImpostorAgent.ToHtmlStringRGBA() + ">Agent (Imp)</color>)";
-                }
-                else if (playerControl.Is(ModifierEnum.ApocalypseAgent))
-                {
-                    playerRole += " (<color=#" + Patches.Colors.ApocalypseAgent.ToHtmlStringRGBA() + ">Agent (Apoc)</color>)";
-                }
                 else if (playerControl.Is(ModifierEnum.Drunk))
                 {
                     playerRole += " (<color=#" + Patches.Colors.Drunk.ToHtmlStringRGBA() + ">Drunk</color>)";
@@ -221,6 +209,18 @@ namespace TownOfUs.Patches {
                 else if (playerControl.Is(ModifierEnum.Tasker))
                 {
                     playerRole += " (<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Tasker</color>)";
+                }
+                if (playerControl.Is(ObjectiveEnum.Lover))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.Lovers.ToHtmlStringRGBA() + ">Lover</color>)";
+                }
+                else if (playerControl.Is(ObjectiveEnum.ImpostorAgent))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.ImpostorAgent.ToHtmlStringRGBA() + ">Agent (Imp)</color>)";
+                }
+                else if (playerControl.Is(ObjectiveEnum.ApocalypseAgent))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.ApocalypseAgent.ToHtmlStringRGBA() + ">Agent (Apoc)</color>)";
                 }
                 var player = Role.GetRole(playerControl);
                 if (playerControl.Is(RoleEnum.Phantom) || playerControl.Is(Faction.Crewmates) || playerControl.Is(RoleEnum.Poltergeist))

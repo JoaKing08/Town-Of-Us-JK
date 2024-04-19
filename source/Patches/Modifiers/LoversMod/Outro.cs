@@ -38,7 +38,7 @@ namespace TownOfUs.Modifiers.LoversMod
                 if (Role.GetRoles(RoleEnum.Pirate).Any(x => ((Pirate)x).WonByDuel)) return;
                 if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => ((Inquisitor)x).HereticsDead)) return;
             }
-            if (!Modifier.AllModifiers.Where(x => x.ModifierType == ModifierEnum.Lover)
+            if (!Objective.AllObjectives.Where(x => x.ObjectiveType == ObjectiveEnum.Lover)
                 .Any(x => ((Lover) x).LoveCoupleWins)) return;
 
             PoolablePlayer[] array = Object.FindObjectsOfType<PoolablePlayer>();

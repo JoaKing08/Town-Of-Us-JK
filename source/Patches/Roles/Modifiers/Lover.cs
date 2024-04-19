@@ -6,7 +6,7 @@ using TownOfUs.Extensions;
 
 namespace TownOfUs.Roles.Modifiers
 {
-    public class Lover : Modifier
+    public class Lover : Objective
     {
         public Lover(PlayerControl player) : base(player)
         {
@@ -15,7 +15,7 @@ namespace TownOfUs.Roles.Modifiers
             TaskText = () =>
                 "You are in Love with " + OtherLover.Player.GetDefaultOutfit().PlayerName;
             Color = Colors.Lovers;
-            ModifierType = ModifierEnum.Lover;
+            ObjectiveType = ObjectiveEnum.Lover;
         }
 
         public Lover OtherLover { get; set; }
@@ -80,7 +80,7 @@ namespace TownOfUs.Roles.Modifiers
             lover2.OtherLover = lover1;
         }
 
-        internal override bool ModifierWin(LogicGameFlowNormal __instance)
+        internal override bool ObjectiveWin(LogicGameFlowNormal __instance)
         {
             if (FourPeopleLeft()) return false;
 

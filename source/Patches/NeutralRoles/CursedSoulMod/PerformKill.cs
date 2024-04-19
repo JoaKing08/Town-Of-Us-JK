@@ -41,7 +41,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             if (interact[4] == true)
             {
                 PlayerControl player;
-                var otherPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.PlayerId != role.ClosestPlayer.PlayerId && x.PlayerId != PlayerControl.LocalPlayer.PlayerId && !(CustomGameOptions.SoulSwapImp && x.Data.IsImpostor())).ToList();
+                var otherPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.PlayerId != role.ClosestPlayer.PlayerId && x.PlayerId != PlayerControl.LocalPlayer.PlayerId && !(!CustomGameOptions.SoulSwapImp && x.Data.IsImpostor())).ToList();
                 if (UnityEngine.Random.RandomRangeInt(1, 101) > CustomGameOptions.SoulSwapAccuracy || otherPlayers.Count == 0)
                 {
                     player = role.ClosestPlayer;
@@ -182,7 +182,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
 
             if (!(cursedSoul.Is(RoleEnum.Crewmate) || cursedSoul.Is(RoleEnum.Impostor))) newCursedSoulRole.RegenTask();
 
-            else newCursedSoulRole.AddToRoleHistory(newCursedSoulRole.RoleType);
+            newCursedSoulRole.AddToRoleHistory(newCursedSoulRole.RoleType);
 
             switch (CustomGameOptions.SwappedBecomes)
             {
@@ -239,11 +239,23 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             }
             target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             Role.GetRole(target).RegenTask();
+            if (target.Is(AbilityEnum.Assassin))
+            {
+                var Guesses = Ability.GetAbility<Assassin>(target).Guesses;
+                var newAbility = new Assassin(cursedSoul);
+                Ability.AbilityDictionary.Remove(target.PlayerId);
+                newAbility.Guesses = Guesses;
+            }
             if (swapImp == true)
             {
                 cursedSoul.Data.Role.TeamType = RoleTeamTypes.Impostor;
                 RoleManager.Instance.SetRole(cursedSoul, RoleTypes.Impostor);
                 cursedSoul.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+                if (CustomGameOptions.SwappedBecomes != SwappedBecomes.DefaultRole)
+                {
+                    target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
+                }
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
                     if (player.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor())
@@ -251,15 +263,13 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                         player.nameText().color = Patches.Colors.Impostor;
                     }
                 }
-            }
-            if (targetRole == RoleEnum.Arsonist || targetRole == RoleEnum.Glitch || targetRole == RoleEnum.Plaguebearer ||
-                targetRole == RoleEnum.Pestilence || targetRole == RoleEnum.Werewolf || targetRole == RoleEnum.Juggernaut
-                 || targetRole == RoleEnum.Vampire || targetRole == RoleEnum.Famine || targetRole == RoleEnum.Baker
-                 || targetRole == RoleEnum.Berserker || targetRole == RoleEnum.War || targetRole == RoleEnum.SoulCollector
-                 || targetRole == RoleEnum.Death || targetRole == RoleEnum.SerialKiller || target.Data.IsImpostor())
-            {
-                if (CustomGameOptions.AmneTurnNeutAssassin) new Assassin(cursedSoul);
-                if (target.Is(AbilityEnum.Assassin)) Ability.AbilityDictionary.Remove(target.PlayerId);
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.Data.IsImpostor() && !PlayerControl.LocalPlayer.Data.IsImpostor())
+                    {
+                        player.nameText().color = Patches.Colors.Crewmate;
+                    }
+                }
             }
 
             if (targetRole == RoleEnum.Snitch)
@@ -605,6 +615,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
             }
+            DestroyableSingleton<HudManager>.Instance.KillButton.buttonLabelText.text = "";
 
             Role.GetRole(cursedSoul).LastBlood = DateTime.UtcNow;
             Role.GetRole(cursedSoul).LastBlood.AddSeconds(-CustomGameOptions.BloodDuration);

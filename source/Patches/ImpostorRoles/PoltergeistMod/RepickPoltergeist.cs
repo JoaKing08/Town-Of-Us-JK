@@ -16,7 +16,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(Faction.Impostors))
             {
-                var toChooseFromAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Impostors) && !x.Is(ModifierEnum.Lover) && !x.Data.Disconnected).ToList();
+                var toChooseFromAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Impostors) && !x.Is(ObjectiveEnum.Lover) && !x.Data.Disconnected).ToList();
                 if (toChooseFromAlive.Count == 0)
                 {
                     SetPoltergeist.WillBePoltergeist = null;
@@ -34,7 +34,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
                 }
                 return;
             }
-            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Impostors) && !x.Is(ModifierEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected).ToList();
+            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Impostors) && !x.Is(ObjectiveEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected).ToList();
             if (toChooseFrom.Count == 0) return;
             var rand = Random.RandomRangeInt(0, toChooseFrom.Count);
             var pc = toChooseFrom[rand];

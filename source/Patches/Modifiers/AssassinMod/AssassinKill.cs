@@ -148,7 +148,7 @@ namespace TownOfUs.Modifiers.AssassinMod
             player.Die(DeathReason.Kill, false);
             if (checkLover && player.IsLover() && CustomGameOptions.BothLoversDie)
             {
-                var otherLover = Modifier.GetModifier<Lover>(player).OtherLover.Player;
+                var otherLover = Objective.GetObjective<Lover>(player).OtherLover.Player;
                 if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Is(RoleEnum.Famine) && !otherLover.Is(RoleEnum.War) && !otherLover.Is(RoleEnum.Death)) MurderPlayer(otherLover, false);
             }
 

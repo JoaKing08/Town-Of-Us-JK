@@ -173,6 +173,7 @@ namespace TownOfUs.Modifiers.AssassinMod
 
                 var playerRole = Role.GetRole(voteArea);
                 var playerModifier = Modifier.GetModifier(voteArea);
+                var playerObjective = Objective.GetObjective(voteArea);
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
                 if (playerModifier != null)
@@ -196,7 +197,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                             ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
                             if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
                             {
-                                var lover = ((Lover)playerModifier).OtherLover.Player;
+                                var lover = ((Lover)playerObjective).OtherLover.Player;
                                 if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                             }
                         }
@@ -208,7 +209,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                         ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
                         if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
                         {
-                            var lover = ((Lover)playerModifier).OtherLover.Player;
+                            var lover = ((Lover)playerObjective).OtherLover.Player;
                             if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                         }
                     }

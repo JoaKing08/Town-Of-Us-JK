@@ -40,7 +40,7 @@ namespace TownOfUs.Patches
                     if (player == SetTraitor.WillBeTraitor)
                     {
                         var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) &&
-                            !x.Is(ModifierEnum.Lover) && !x.Data.IsDead && !x.Data.Disconnected && !x.IsExeTarget()).ToList();
+                            !x.Is(ObjectiveEnum.Lover) && !x.Data.IsDead && !x.Data.Disconnected && !x.IsExeTarget()).ToList();
                         if (toChooseFrom.Count == 0) return;
                         var rand = Random.RandomRangeInt(0, toChooseFrom.Count);
                         var pc = toChooseFrom[rand];

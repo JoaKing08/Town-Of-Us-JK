@@ -14,7 +14,7 @@ namespace TownOfUs.Modifiers.LoversMod
 
             var flag3 = __instance.IsLover() && CustomGameOptions.BothLoversDie;
             if (!flag3) return true;
-            var otherLover = Modifier.GetModifier<Lover>(__instance).OtherLover.Player;
+            var otherLover = Objective.GetObjective<Lover>(__instance).OtherLover.Player;
             if (otherLover.Data.IsDead) return true;
 
             if (reason == DeathReason.Exile)

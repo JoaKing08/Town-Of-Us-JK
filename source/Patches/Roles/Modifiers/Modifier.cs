@@ -204,4 +204,109 @@ namespace TownOfUs.Roles.Modifiers
             return AllAbilities.Where(x => x.AbilityType == abilitytype);
         }
     }
+    public abstract class Objective
+    {
+        public static readonly Dictionary<byte, Objective> ObjectiveDictionary = new Dictionary<byte, Objective>();
+        public Func<string> TaskText;
+
+        protected Objective(PlayerControl player)
+        {
+            Player = player;
+            ObjectiveDictionary.Add(player.PlayerId, this);
+        }
+
+        public static IEnumerable<Objective> AllObjectives => ObjectiveDictionary.Values.ToList();
+        protected internal string Name { get; set; }
+        protected internal string SymbolName { get; set; }
+
+        protected internal string GetColoredSymbol()
+        {
+            if (SymbolName == null) return null;
+
+            return $"{ColorString}{SymbolName}</color>";
+        }
+
+        public string PlayerName { get; set; }
+        private PlayerControl _player { get; set; }
+        public PlayerControl Player
+        {
+            get => _player;
+            set
+            {
+                if (_player != null) _player.nameText().color = Color.white;
+
+                _player = value;
+                PlayerName = value.Data.PlayerName;
+            }
+        }
+        protected internal Color Color { get; set; }
+        protected internal ObjectiveEnum ObjectiveType { get; set; }
+        public string ColorString => "<color=#" + Color.ToHtmlStringRGBA() + ">";
+
+        private bool Equals(Objective other)
+        {
+            return Equals(Player, other.Player) && ObjectiveType == other.ObjectiveType;
+        }
+
+        internal virtual bool ObjectiveWin(LogicGameFlowNormal __instance)
+        {
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(Objective)) return false;
+            return Equals((Objective)obj);
+        }
+
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Player, (int)ObjectiveType);
+        }
+
+
+        public static bool operator ==(Objective a, Objective b)
+        {
+            if (a is null && b is null) return true;
+            if (a is null || b is null) return false;
+            return a.ObjectiveType == b.ObjectiveType && a.Player.PlayerId == b.Player.PlayerId;
+        }
+
+        public static bool operator !=(Objective a, Objective b)
+        {
+            return !(a == b);
+        }
+
+        public static Objective GetObjective(PlayerControl player)
+        {
+            return (from entry in ObjectiveDictionary where entry.Key == player.PlayerId select entry.Value)
+                .FirstOrDefault();
+        }
+
+        public static IEnumerable<Objective> GetObjectives(ObjectiveEnum objectivetype)
+        {
+            return AllObjectives.Where(x => x.ObjectiveType == objectivetype);
+        }
+
+        public virtual List<PlayerControl> GetTeammates()
+        {
+            var team = new List<PlayerControl>();
+            return team;
+        }
+
+        public static T GetObjective<T>(PlayerControl player) where T : Objective
+        {
+            return GetObjective(player) as T;
+        }
+
+        public static Objective GetObjective(PlayerVoteArea area)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray()
+                .FirstOrDefault(x => x.PlayerId == area.TargetPlayerId);
+            return player == null ? null : GetObjective(player);
+        }
+    }
 }

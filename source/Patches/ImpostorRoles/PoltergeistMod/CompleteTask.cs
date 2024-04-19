@@ -37,6 +37,10 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
             if (tasksLeft == 0 && !role.Caught)
             {
                 role.CompletedTasks = true;
+                if (PlayerControl.LocalPlayer.Data.IsImpostor())
+                {
+                    PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.killTimer / 2);
+                }
                 Coroutines.Start(Utils.FlashCoroutine(role.Color));
             }
         }

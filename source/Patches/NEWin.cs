@@ -26,7 +26,7 @@ namespace TownOfUs.Patches
             if (neWin)
             {
                 __instance.WinText.text = "</color><color=#008DFFFF>Victory";
-                var loveRole = Modifier.AllModifiers.FirstOrDefault(x => x.ModifierType == ModifierEnum.Lover && ((Lover)x).LoveCoupleWins);
+                var loveRole = Objective.AllObjectives.FirstOrDefault(x => x.ObjectiveType == ObjectiveEnum.Lover && ((Lover)x).LoveCoupleWins);
                 if (loveRole != null) return;
                 var survRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Survivor && Role.SurvOnlyWins);
                 if (survRole != null) return;

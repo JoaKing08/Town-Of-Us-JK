@@ -138,14 +138,14 @@ namespace TownOfUs.Roles
 
         internal virtual bool ApocalypseCriteria()
         {
-            if ((Faction == Faction.NeutralApocalypse || Player.Is(ModifierEnum.ApocalypseAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse())) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))) return true;
+            if ((Faction == Faction.NeutralApocalypse || Player.Is(ObjectiveEnum.ApocalypseAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse())) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))) return true;
             return false;
         }
 
         internal virtual bool ImpostorCriteria()
         {
-            if ((Faction == Faction.Impostors || Player.Is(ModifierEnum.ImpostorAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && (PlayerControl.LocalPlayer.Data.IsImpostor() ||
-                PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent)) && (CustomGameOptions.ImpostorSeeRoles || Player.Is(ModifierEnum.ImpostorAgent) || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) return true;
+            if ((Faction == Faction.Impostors || Player.Is(ObjectiveEnum.ImpostorAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && (PlayerControl.LocalPlayer.Data.IsImpostor() ||
+                PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) && (CustomGameOptions.ImpostorSeeRoles || Player.Is(ObjectiveEnum.ImpostorAgent) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) return true;
             return false;
         }
 
@@ -157,10 +157,10 @@ namespace TownOfUs.Roles
 
         internal virtual bool LoverCriteria()
         {
-            if (PlayerControl.LocalPlayer.Is(ModifierEnum.Lover))
+            if (PlayerControl.LocalPlayer.Is(ObjectiveEnum.Lover))
             {
                 if (Local) return true;
-                var lover = Modifier.GetModifier<Lover>(PlayerControl.LocalPlayer);
+                var lover = Objective.GetObjective<Lover>(PlayerControl.LocalPlayer);
                 if (lover.OtherLover.Player != Player) return false;
                 if (!PlayerControl.LocalPlayer.Is(RoleEnum.Aurial)) return true;
                 if (MeetingHud.Instance || Utils.ShowDeadBodies) return true;
@@ -189,7 +189,7 @@ namespace TownOfUs.Roles
 
         protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
-            if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))
+            if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))
             {
                 var impTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 impTeam.Add(PlayerControl.LocalPlayer);
@@ -197,7 +197,7 @@ namespace TownOfUs.Roles
                 {
                     if (player != PlayerControl.LocalPlayer)
                     {
-                        if (player.Data.IsImpostor() || player.Is(ModifierEnum.ImpostorAgent)) impTeam.Add(player);
+                        if (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent)) impTeam.Add(player);
                         else if (player.Is(RoleEnum.Undercover))
                         {
                             var role = GetRole<Undercover>(player);
@@ -359,10 +359,17 @@ namespace TownOfUs.Roles
             var modifier = Modifier.GetModifier(Player);
             if (modifier != null && modifier.GetColoredSymbol() != null)
             {
-                if (modifier.ModifierType == ModifierEnum.Lover && (revealModifier || revealLover))
+                if (revealModifier)
                     PlayerName += $" {modifier.GetColoredSymbol()}";
-                else if (modifier.ModifierType != ModifierEnum.Lover && revealModifier)
-                    PlayerName += $" {modifier.GetColoredSymbol()}";
+            }
+
+            var objective = Objective.GetObjective(Player);
+            if (objective != null && objective.GetColoredSymbol() != null)
+            {
+                if (objective.ObjectiveType == ObjectiveEnum.Lover && (revealModifier || revealLover))
+                    PlayerName += $" {objective.GetColoredSymbol()}";
+                else if (objective.ObjectiveType != ObjectiveEnum.Lover && revealModifier)
+                    PlayerName += $" {objective.GetColoredSymbol()}";
             }
 
             if (revealTasks && (Faction == Faction.Crewmates || RoleType == RoleEnum.Phantom))
@@ -450,6 +457,14 @@ namespace TownOfUs.Roles
             return modifier;
         }
 
+        public static T GenObjective<T>(Type type, PlayerControl player)
+        {
+            var objective = (T)Activator.CreateInstance(type, new object[] { player });
+
+            Utils.Rpc(CustomRPC.SetObjective, player.PlayerId, (string)type.FullName);
+            return objective;
+        }
+
         public static T GenRole<T>(Type type, List<PlayerControl> players)
         {
             var player = players[Random.RandomRangeInt(0, players.Count)];
@@ -463,6 +478,14 @@ namespace TownOfUs.Roles
             var player = players[Random.RandomRangeInt(0, players.Count)];
 
             var modifier = GenModifier<T>(type, player);
+            players.Remove(player);
+            return modifier;
+        }
+        public static T GenObjective<T>(Type type, List<PlayerControl> players)
+        {
+            var player = players[Random.RandomRangeInt(0, players.Count)];
+
+            var modifier = GenObjective<T>(type, player);
             players.Remove(player);
             return modifier;
         }
@@ -505,7 +528,8 @@ namespace TownOfUs.Roles
                 public static void Postfix(IntroCutscene __instance)
                 {
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                    if (modifier != null)
+                    var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
+                    if (modifier != null || objective != null)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
@@ -518,7 +542,8 @@ namespace TownOfUs.Roles
                 public static void Postfix(IntroCutscene __instance)
                 {
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                    if (modifier != null)
+                    var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
+                    if (modifier != null || objective != null)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
@@ -608,15 +633,27 @@ namespace TownOfUs.Roles
                     if (ModifierText != null)
                     {
                         var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                        if (modifier.GetType() == typeof(Lover))
+                        var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
+                        if (modifier != null && objective == null)
                         {
-                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
+                            ModifierText.text = "<size=4>Modifier: " + modifier.ColorString + modifier.Name + "</color></size>";
+                        }
+                        else if (modifier != null && objective != null)
+                        {
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 2 : 3)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                        }
+                        else if (objective != null)
+                        {
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
+                        }
+                        if (objective.GetType() == typeof(Lover))
+                        {
+                            ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
                         }
                         else
                         {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
+                            ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
                         }
-                        ModifierText.color = modifier.Color;
 
                         //
                         ModifierText.transform.position =
@@ -792,15 +829,27 @@ namespace TownOfUs.Roles
                     if (ModifierText != null)
                     {
                         var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                        if (modifier.GetType() == typeof(Lover))
+                        var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
+                        if (modifier != null && objective == null)
                         {
-                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
+                            ModifierText.text = "<size=4>Modifier: " + modifier.ColorString + modifier.Name + "</color></size>";
+                        }
+                        else if (modifier != null && objective != null)
+                        {
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                        }
+                        else if (objective != null)
+                        {
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
+                        }
+                        if (objective.GetType() == typeof(Lover))
+                        {
+                            ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
                         }
                         else
                         {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
+                            ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
                         }
-                        ModifierText.color = modifier.Color;
 
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
@@ -833,6 +882,15 @@ namespace TownOfUs.Roles
                 if (__instance == null) return;
                 var player = __instance.__4__this;
                 var role = GetRole(player);
+                var objective = Objective.GetObjective(player);
+                if (objective != null)
+                {
+                    var objTask = new GameObject(objective.Name + "Task").AddComponent<ImportantTextTask>();
+                    objTask.transform.SetParent(player.transform, false);
+                    objTask.Text =
+                        $"{objective.ColorString}Modifier: {objective.Name}\n{objective.TaskText()}</color>";
+                    player.myTasks.Insert(0, objTask);
+                }
                 var modifier = Modifier.GetModifier(player);
                 if (modifier != null)
                 {
@@ -887,11 +945,13 @@ namespace TownOfUs.Roles
                 {
                     var roleIsEnd = role.NeutralWin(__instance);
                     var modifier = Modifier.GetModifier(role.Player);
+                    var objective = Objective.GetObjective(role.Player);
                     bool modifierIsEnd = true;
-                    var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ModifierEnum.ImpostorAgent) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother)).ToList();
+                    bool objectiveIsEnd = true;
+                    var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother)).ToList();
                     var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
                     var traitorIsEnd = true;
-                    var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ModifierEnum.ImpostorAgent)) > 0;
+                    var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ObjectiveEnum.ImpostorAgent)) > 0;
                     bool stopImpOvertake = ((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count) && impsAlive.Count != 0;
                     if (SetTraitor.WillBeTraitor != null)
                     {
@@ -899,6 +959,8 @@ namespace TownOfUs.Roles
                     }
                     if (modifier != null)
                         modifierIsEnd = modifier.ModifierWin(__instance);
+                    if (objective != null)
+                        objectiveIsEnd = objective.ObjectiveWin(__instance);
                     if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd || role.PauseEndCrit || stopImpOvertake) result = false;
                 }
 
@@ -948,6 +1010,7 @@ namespace TownOfUs.Roles
                 RoleHistory.Clear();
                 Modifier.ModifierDictionary.Clear();
                 Ability.AbilityDictionary.Clear();
+                Objective.ObjectiveDictionary.Clear();
             }
         }
 
@@ -984,7 +1047,7 @@ namespace TownOfUs.Roles
                             var role = GetRole(info.Object);
                             if (role == null) return;
                             var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
-                            var agentText = info.Object.Is(ModifierEnum.ImpostorAgent) ? " (Imp)" : info.Object.Is(ModifierEnum.ApocalypseAgent) ? " (Apoc)" : "";
+                            var agentText = info.Object.Is(ObjectiveEnum.ImpostorAgent) ? " (Imp)" : info.Object.Is(ObjectiveEnum.ApocalypseAgent) ? " (Apoc)" : "";
                             __result = $"{info.PlayerName} was {roleName}{agentText}.";
                             return;
                         }
@@ -1029,7 +1092,7 @@ namespace TownOfUs.Roles
                         {
                             if (role.RoleType == RoleEnum.Undercover)
                             {
-                                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
                                     player.NameText.color = ((Undercover)role).UndercoverRole.GetRoleColor();
                             }
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
@@ -1051,7 +1114,7 @@ namespace TownOfUs.Roles
                     {
                         if (role.RoleType == RoleEnum.Undercover)
                         {
-                            if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                            if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
                                 player.NameText.color = ((Undercover)role).UndercoverRole.GetRoleColor();
                         }
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
@@ -1081,7 +1144,7 @@ namespace TownOfUs.Roles
                     {
                         if (role.RoleType == RoleEnum.Undercover)
                         {
-                            if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                            if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
                                 player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
                         }
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
@@ -1112,7 +1175,7 @@ namespace TownOfUs.Roles
                             {
                                 if (role.RoleType == RoleEnum.Undercover)
                                 {
-                                    if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ModifierEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ModifierEnum.ApocalypseAgent))))
+                                    if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
                                         player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
                                 }
                                 else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())

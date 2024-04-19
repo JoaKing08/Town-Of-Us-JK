@@ -47,6 +47,10 @@ namespace TownOfUs
                 {
                     var role = Role.GetRole<Poltergeist>(__instance);
                     role.Caught = true;
+                    if (PlayerControl.LocalPlayer.Data.IsImpostor())
+                    {
+                        PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.killTimer * 2);
+                    }
                     role.Player.Exiled();
                     Utils.Rpc(CustomRPC.CatchPoltergeist, role.Player.PlayerId);
                 }

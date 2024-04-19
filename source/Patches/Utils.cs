@@ -99,7 +99,7 @@ namespace TownOfUs
 
         public static bool IsLover(this PlayerControl player)
         {
-            return player.Is(ModifierEnum.Lover);
+            return player.Is(ObjectiveEnum.Lover);
         }
 
         public static bool Is(this PlayerControl player, RoleEnum roleType)
@@ -120,6 +120,11 @@ namespace TownOfUs
         public static bool Is(this PlayerControl player, Faction faction)
         {
             return Role.GetRole(player)?.Faction == faction;
+        }
+
+        public static bool Is(this PlayerControl player, ObjectiveEnum objectiveType)
+        {
+            return Objective.GetObjective(player)?.ObjectiveType == objectiveType;
         }
 
         public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
@@ -672,7 +677,7 @@ namespace TownOfUs
                         target.Is(RoleEnum.SerialKiller) && CustomGameOptions.SheriffKillsSerialKiller ||
                         target.Is(RoleEnum.Inquisitor) && CustomGameOptions.SheriffKillsInquisitor ||
                         target.Is(RoleEnum.Witch) && CustomGameOptions.SheriffKillsWitch ||
-                        (target.Is(ModifierEnum.ImpostorAgent) || target.Is(ModifierEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent) sheriff.CorrectKills += 1;
+                        (target.Is(ObjectiveEnum.ImpostorAgent) || target.Is(ObjectiveEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent) sheriff.CorrectKills += 1;
                     else if (killer == target) sheriff.IncorrectKills += 1;
                 }
 

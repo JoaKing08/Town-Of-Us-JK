@@ -29,9 +29,10 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.Werewolf) || playerInfo._object.Is(RoleEnum.Doomsayer) ||
                             playerInfo._object.Is(RoleEnum.Vampire) || playerInfo._object.Is(RoleEnum.Phantom) ||
                             playerInfo._object.Is(RoleEnum.Haunter) || playerInfo._object.Is(RoleEnum.SoloKiller) ||
-                            playerInfo._object.Is(ModifierEnum.ImpostorAgent) || playerInfo._object.Is(ModifierEnum.ApocalypseAgent) ||
+                            playerInfo._object.Is(ObjectiveEnum.ImpostorAgent) || playerInfo._object.Is(ObjectiveEnum.ApocalypseAgent) ||
                             playerInfo._object.Is(RoleEnum.Pirate) || playerInfo._object.Is(RoleEnum.SerialKiller) ||
-                            playerInfo._object.Is(RoleEnum.Inquisitor)
+                            playerInfo._object.Is(RoleEnum.Inquisitor) || playerInfo._object.Is(RoleEnum.Witch) ||
+                            playerInfo._object.Is(RoleEnum.CursedSoul)
                         ))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
@@ -71,7 +72,8 @@ namespace TownOfUs
                            || playerControl.Is(RoleEnum.Death)
                            || playerControl.Is(RoleEnum.Pirate)
                            || playerControl.Is(RoleEnum.SerialKiller)
-                           || playerControl.Is(RoleEnum.Inquisitor);
+                           || playerControl.Is(RoleEnum.Inquisitor)
+                           || playerControl.Is(RoleEnum.Witch);
 
                 // If the console is not a sabotage repair console
                 if (flag && !__instance.AllowImpostor)

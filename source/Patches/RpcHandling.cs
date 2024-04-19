@@ -56,6 +56,7 @@ namespace TownOfUs
         private static readonly List<(Type, int, bool)> NeutralApocalypseRoles = new();
         private static readonly List<(Type, int, bool)> ImpostorsRoles = new();
         private static readonly List<(Type, int)> ObjectiveCrewmateModifiers = new();
+        private static readonly List<(Type, int)> ObjectiveGlobalModifiers = new();
         private static readonly List<(Type, int)> CrewmateModifiers = new();
         private static readonly List<(Type, int)> GlobalModifiers = new();
         private static readonly List<(Type, int)> ImpostorModifiers = new();
@@ -435,6 +436,31 @@ namespace TownOfUs
             foreach (var impostor in impostors)
                 Role.GenRole<Role>(typeof(Impostor), impostor);
 
+            var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().ToList();
+
+            foreach (var (type, id) in ObjectiveGlobalModifiers)
+            {
+                if (canHaveObjective.Count == 0) break;
+                if (type.FullName.Contains("Lover"))
+                {
+                    if (canHaveObjective.Count == 1) continue;
+                    Lover.Gen(canHaveObjective);
+                }
+                else
+                {
+                    Role.GenObjective<Objective>(type, canHaveObjective);
+                }
+            }
+            canHaveObjective.RemoveAll(player => !player.Is(Faction.Crewmates) || player.Is(RoleEnum.Undercover));
+            ObjectiveCrewmateModifiers.SortModifiers(canHaveObjective.Count);
+            ObjectiveCrewmateModifiers.Shuffle();
+
+            while (canHaveObjective.Count > 0 && ObjectiveCrewmateModifiers.Count > 0)
+            {
+                var (type, _) = ObjectiveCrewmateModifiers.TakeFirst();
+                Role.GenObjective<Objective>(type, canHaveObjective.TakeFirst());
+            }
+
             // Hand out assassin ability to killers according to the settings.
             var canHaveAbility = PlayerControl.AllPlayerControls.ToArray().Where(player => player.Is(Faction.Impostors) || (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode == GameMode.Horseman)).ToList();
             canHaveAbility.Shuffle();
@@ -492,15 +518,7 @@ namespace TownOfUs
             foreach (var (type, id) in GlobalModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
-                if (type.FullName.Contains("Lover"))
-                {
-                    if (canHaveModifier.Count == 1) continue;
-                    Lover.Gen(canHaveModifier);
-                }
-                else
-                {
-                    Role.GenModifier<Modifier>(type, canHaveModifier);
-                }
+                Role.GenModifier<Modifier>(type, canHaveModifier);
             }
 
             // The Glitch cannot have Button Modifiers.
@@ -514,16 +532,7 @@ namespace TownOfUs
             }
 
             // Now hand out Crewmate Modifiers to all remaining eligible players.
-            var canHaveObjectiveModifier = canHaveModifier.Where(player => player.Is(Faction.Crewmates) && !player.Is(RoleEnum.Undercover)).ToList();
-            ObjectiveCrewmateModifiers.SortModifiers(canHaveModifier.Count);
-            ObjectiveCrewmateModifiers.Shuffle();
-
-            while (canHaveObjectiveModifier.Count > 0 && ObjectiveCrewmateModifiers.Count > 0)
-            {
-                var (type, _) = ObjectiveCrewmateModifiers.TakeFirst();
-                Role.GenModifier<Modifier>(type, canHaveObjectiveModifier.TakeFirst());
-            }
-            canHaveModifier.RemoveAll(player => !player.Is(Faction.Crewmates) || player.Is(ModifierEnum.ImpostorAgent) || player.Is(ModifierEnum.ApocalypseAgent));
+            canHaveModifier.RemoveAll(player => !player.Is(Faction.Crewmates) || player.Is(ObjectiveEnum.ImpostorAgent) || player.Is(ObjectiveEnum.ApocalypseAgent));
             CrewmateModifiers.SortModifiers(canHaveModifier.Count);
             CrewmateModifiers.Shuffle();
 
@@ -534,7 +543,7 @@ namespace TownOfUs
             }
 
             // Set the Traitor, if there is one enabled.
-            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ModifierEnum.Lover) && !x.Is(ModifierEnum.ImpostorAgent) && !x.Is(ModifierEnum.ApocalypseAgent)).ToList();
+            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent)).ToList();
             if (TraitorOn && toChooseFromCrew.Count != 0)
             {
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
@@ -565,7 +574,7 @@ namespace TownOfUs
                 Utils.Rpc(CustomRPC.SetHaunter, byte.MaxValue);
             }
 
-            var toChooseFromNeut = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralBenign) || x.Is(Faction.NeutralEvil) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralBenign)) && !x.Is(ModifierEnum.Lover)).ToList();
+            var toChooseFromNeut = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralBenign) || x.Is(Faction.NeutralEvil) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralBenign)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (PhantomOn && toChooseFromNeut.Count != 0)
             {
                 var rand = Random.RandomRangeInt(0, toChooseFromNeut.Count);
@@ -580,7 +589,7 @@ namespace TownOfUs
                 Utils.Rpc(CustomRPC.SetPhantom, byte.MaxValue);
             }
 
-            var toChooseFromImps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor() && !x.Is(ModifierEnum.Lover)).ToList();
+            var toChooseFromImps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor() && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (PoltergeistOn && toChooseFromImps.Count != 0)
             {
                 var rand = Random.RandomRangeInt(0, toChooseFromImps.Count);
@@ -595,7 +604,7 @@ namespace TownOfUs
                 Utils.Rpc(CustomRPC.SetPoltergeist, byte.MaxValue);
             }
 
-            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && x != SetTraitor.WillBeTraitor).ToList();
+            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && x != SetTraitor.WillBeTraitor).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
@@ -653,8 +662,8 @@ namespace TownOfUs
                 inq.heretics = heretics;
             }
 
-            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover)).ToList();
-            var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ModifierEnum.Lover)).ToList();
+            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
@@ -941,10 +950,15 @@ namespace TownOfUs
                         var mstring = reader.ReadString();
                         Activator.CreateInstance(asm.GetType(mstring), new object[] { player2 });
                         break;
+                    case CustomRPC.SetObjective:
+                        var player3 = Utils.PlayerById(reader.ReadByte());
+                        var ostring = reader.ReadString();
+                        Activator.CreateInstance(asm.GetType(ostring), new object[] { player3 });
+                        break;
 
                     case CustomRPC.LoveWin:
                         var winnerlover = Utils.PlayerById(reader.ReadByte());
-                        Modifier.GetModifier<Lover>(winnerlover).Win();
+                        Objective.GetObjective<Lover>(winnerlover).Win();
                         break;
 
                     case CustomRPC.NobodyWins:
@@ -1411,11 +1425,11 @@ namespace TownOfUs
 
                         break;
                     case CustomRPC.FixAnimation:
-                        var player3 = Utils.PlayerById(reader.ReadByte());
-                        player3.MyPhysics.ResetMoveState();
-                        player3.Collider.enabled = true;
-                        player3.moveable = true;
-                        player3.NetTransform.enabled = true;
+                        var player4 = Utils.PlayerById(reader.ReadByte());
+                        player4.MyPhysics.ResetMoveState();
+                        player4.Collider.enabled = true;
+                        player4.moveable = true;
+                        player4.NetTransform.enabled = true;
                         break;
                     case CustomRPC.BarryButton:
                         var buttonBarry = Utils.PlayerById(reader.ReadByte());
@@ -1523,6 +1537,10 @@ namespace TownOfUs
                         break;
                     case CustomRPC.CatchPoltergeist:
                         var poltergeistPlayer = Utils.PlayerById(reader.ReadByte());
+                        if (PlayerControl.LocalPlayer.Data.IsImpostor())
+                        {
+                            PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.killTimer * 2);
+                        }
                         Role.GetRole<Poltergeist>(poltergeistPlayer).Caught = true;
                         if (PlayerControl.LocalPlayer == poltergeistPlayer) HudManager.Instance.AbilityButton.gameObject.SetActive(true);
                         poltergeistPlayer.Exiled();
@@ -1853,6 +1871,7 @@ namespace TownOfUs
                 NeutralApocalypseRoles.Clear();
                 ImpostorsRoles.Clear();
                 ObjectiveCrewmateModifiers.Clear();
+                ObjectiveGlobalModifiers.Clear();
                 CrewmateModifiers.Clear();
                 GlobalModifiers.Clear();
                 ImpostorModifiers.Clear();
@@ -2104,7 +2123,7 @@ namespace TownOfUs
                         ObjectiveCrewmateModifiers.Add((typeof(ImpostorAgent), CustomGameOptions.ImpostorAgentOn));
 
                     if (Check(CustomGameOptions.FamousOn))
-                        ObjectiveCrewmateModifiers.Add((typeof(Famous), CustomGameOptions.FamousOn));
+                        CrewmateModifiers.Add((typeof(Famous), CustomGameOptions.FamousOn));
                     #endregion
                     #region Global Modifiers
                     if (Check(CustomGameOptions.TiebreakerOn))
@@ -2120,7 +2139,7 @@ namespace TownOfUs
                         ButtonModifiers.Add((typeof(ButtonBarry), CustomGameOptions.ButtonBarryOn));
 
                     if (Check(CustomGameOptions.LoversOn))
-                        GlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
+                        ObjectiveGlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
 
                     if (Check(CustomGameOptions.SleuthOn))
                         GlobalModifiers.Add((typeof(Sleuth), CustomGameOptions.SleuthOn));
@@ -2299,7 +2318,7 @@ namespace TownOfUs
                         ObjectiveCrewmateModifiers.Add((typeof(ApocalypseAgent), CustomGameOptions.ApocalypseAgentOn));
 
                     if (Check(CustomGameOptions.FamousOn))
-                        ObjectiveCrewmateModifiers.Add((typeof(Famous), CustomGameOptions.FamousOn));
+                        CrewmateModifiers.Add((typeof(Famous), CustomGameOptions.FamousOn));
                     #endregion
                     #region Global Modifiers
                     if (Check(CustomGameOptions.TiebreakerOn))
@@ -2315,7 +2334,7 @@ namespace TownOfUs
                         ButtonModifiers.Add((typeof(ButtonBarry), CustomGameOptions.ButtonBarryOn));
 
                     if (Check(CustomGameOptions.LoversOn))
-                        GlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
+                        ObjectiveGlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
 
                     if (Check(CustomGameOptions.SleuthOn))
                         GlobalModifiers.Add((typeof(Sleuth), CustomGameOptions.SleuthOn));

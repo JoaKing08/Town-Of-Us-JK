@@ -39,7 +39,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
             var notImpostor = PlayerControl.AllPlayerControls.ToArray().Where(
-                player => !player.Is(ModifierEnum.ImpostorAgent) && !(((player.Data.IsImpostor() || player.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire())
+                player => !player.Is(ObjectiveEnum.ImpostorAgent) && !(((player.Data.IsImpostor() || player.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire())
             ).ToList();
 
             Utils.SetTarget(ref role.ClosestPlayer, role.PoisonButton, GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance], notImpostor);

@@ -161,14 +161,14 @@ namespace TownOfUs
                 var witch = (Witch)role;
                 losers.Add(witch.Player.GetDefaultOutfit().ColorId);
             }
-            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ImpostorAgent))
+            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.ImpostorAgent))
             {
-                var agent = (ImpostorAgent)modifier;
+                var agent = (ImpostorAgent)objective;
                 losers.Add(agent.Player.GetDefaultOutfit().ColorId);
             }
-            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ApocalypseAgent))
+            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent))
             {
-                var agent = (ApocalypseAgent)modifier;
+                var agent = (ApocalypseAgent)objective;
                 losers.Add(agent.Player.GetDefaultOutfit().ColorId);
             }
 
@@ -279,13 +279,13 @@ namespace TownOfUs
                 }
             }
 
-            foreach (var modifier in Modifier.AllModifiers)
+            foreach (var objective in Objective.AllObjectives)
             {
-                var type = modifier.ModifierType;
+                var type = objective.ObjectiveType;
 
-                if (type == ModifierEnum.Lover)
+                if (type == ObjectiveEnum.Lover)
                 {
-                    var lover = (Lover)modifier;
+                    var lover = (Lover)objective;
                     if (lover.LoveCoupleWins)
                     {
                         var otherLover = lover.OtherLover;
@@ -483,7 +483,7 @@ namespace TownOfUs
                     }
                 }
             }
-            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ImpostorAgent))
+            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ImpostorAgent))
             {
                 var agent = (ImpostorAgent)modifier;
                 var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
@@ -495,7 +495,7 @@ namespace TownOfUs
                     TempData.winners.Add(agentWinData);
                 }
             }
-            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.ApocalypseAgent))
+            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent))
             {
                 var agent = (ApocalypseAgent)modifier;
                 if (apocWin)
