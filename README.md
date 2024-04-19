@@ -77,13 +77,11 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 - [Frosty](#frosty)
 - [Multitasker](#multitasker)
 - [Torch](#torch)
-- [Agent](#agent)
 - [Famous](#famous)
 - [Button Barry](#button-barry)
 - [Flash](#flash)
 - [Giant](#giant)
 - [Radar](#radar)
-- [Lovers](#lovers)
 - [Sleuth](#sleuth)
 - [Tiebreaker](#tiebreaker)
 - [Drunk](#drunk)
@@ -91,11 +89,14 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 - [Double Shot](#double-shot)
 - [Underdog](#underdog)
 - [Tasker](#tasker)
+- [Lovers](#lovers)
+- [Agent](#agent)
 
 -----------------------
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.2/ToU.v1.0.2.zip) |
 | 2023.11.28s & 2023.11.28e | v1.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.1/ToU.v1.0.1.zip) |
 | 2023.11.28s & 2023.11.28e | v1.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.0/ToU.v1.0.0.zip) |
 
@@ -1348,16 +1349,6 @@ The Torch's vision doesn't get reduced when the lights are sabotaged.
 | Torch | The percentage probability of the Torch appearing | Percentage | 0% |
 
 -----------------------
-## Agent
-### **Applied to: Crewmates**
-The Agent loses his orginal win condition, and tries to get his new team win.
-### Game Options
-| Name | Description | Type | Default |
-|----------|:-------------:|:------:|:------:|
-| Agent (Imp) | The percentage probability of the Agent Impostor variant appearing | Percentage | 0% |
-| Agent (Apoc) | The percentage probability of the Agent Apocalypse variant appearing | Percentage | 0% |
-
------------------------
 ## Famous
 ### **Applied to: Crewmates**
 When the Famous dies, everyone gets a notification.
@@ -1395,24 +1386,6 @@ The Giant is a gigantic Crewmate, that has a decreased walk speed.
 |----------|:-------------:|:------:|:------:|
 | Giant | The percentage probability of the Giant appearing | Percentage | 0% |
 | Speed | How fast the Giant moves in comparison to normal | Multiplier | 0.75x |
-
------------------------
-## Lovers
-### **Applied to: All**
-The Lovers are two players who are linked together.\
-These two players get picked randomly between Crewmates and Impostors.\
-They gain the primary objective to stay alive together.\
-If they are both among the last 3 players, they win.\
-In order to do so, they gain access to a private chat, only visible by them in between meetings.\
-However, they can also win with their respective team, hence why the Lovers do not know the role of the other lover.
-
-### Game Options
-| Name | Description | Type | Default |
-|----------|:-------------:|:------:|:------:|
-| Lovers | The percentage probability of the Lovers appearing | Percentage | 0% |
-| Both Lovers Die | Whether the other Lover automatically dies if the other does | Toggle | True |
-| Loving Impostor Probability | The chances of one lover being an Impostor | Percentage | 20% |
-| Neutral Roles Can Be Lovers | Whether a Lover can be a Neutral Role | Toggle | True |
 
 -----------------------
 ## Radar
@@ -1499,6 +1472,34 @@ Tasker is an Impostor who can use tasks.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Tasker | The percentage probability of Tasker appearing | Percentage | 0% |
+
+-----------------------
+## Lovers
+### **Applied to: All**
+The Lovers are two players who are linked together.\
+These two players get picked randomly between Crewmates and Impostors.\
+They gain the primary objective to stay alive together.\
+If they are both among the last 3 players, they win.\
+In order to do so, they gain access to a private chat, only visible by them in between meetings.\
+However, they can also win with their respective team, hence why the Lovers do not know the role of the other lover.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Lovers | The percentage probability of the Lovers appearing | Percentage | 0% |
+| Both Lovers Die | Whether the other Lover automatically dies if the other does | Toggle | True |
+| Loving Impostor Probability | The chances of one lover being an Impostor | Percentage | 20% |
+| Neutral Roles Can Be Lovers | Whether a Lover can be a Neutral Role | Toggle | True |
+
+-----------------------
+## Agent
+### **Applied to: Crewmates**
+The Agent loses his orginal win condition, and tries to get his new team win.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Agent (Imp) | The percentage probability of the Agent Impostor variant appearing | Percentage | 0% |
+| Agent (Apoc) | The percentage probability of the Agent Apocalypse variant appearing | Percentage | 0% |
 
 -----------------------
 # Game Mode Settings
