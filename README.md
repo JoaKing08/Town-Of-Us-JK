@@ -1,6 +1,6 @@
 An fork of the Among Us mod that adds a bunch of roles, modifiers and game settings
 
-+| **Impostor Roles**           | **Crewmate Roles**                | **Neutral Roles**               | **Modifiers**                |
+| **Impostor Roles**           | **Crewmate Roles**                | **Neutral Roles**               | **Modifiers**                |
 |:---------------------------:|:---------------------------------:|:-------------------------------:|:---------------------------:|
 | [Blackmailer](#blackmailer)  | [Altruist](#altruist)              | [Amnesiac](#amnesiac)            | [Aftermath](#aftermath)     |
 | [Bomber](#bomber)            | [Aurial](#aurial)                  | [Arsonist](#arsonist)            | [Bait](#bait)               |
