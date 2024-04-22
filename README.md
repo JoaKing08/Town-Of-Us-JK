@@ -96,6 +96,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2023.3.5s & 2023.3.5e | v1.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.3/ToU.v1.0.3.zip) |
 | 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.2/ToU.v1.0.2.zip) |
 | 2023.11.28s & 2023.11.28e | v1.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.1/ToU.v1.0.1.zip) |
 | 2023.11.28s & 2023.11.28e | v1.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.0/ToU.v1.0.0.zip) |
@@ -168,11 +169,17 @@ If the mod does not work and the version of Among Us that you see in the main me
 \
 **11. Click on Enter.**\
 \
-**12. Copy or move the contents of the Town Of Us zip file into the AmongUs folder.**\
++**12. Copy all the Among Us files and put them in a new folder on your desktop or anywhere else.**\
 \
-**13. Finally, launch Among Us from Epic Games library.**\
+**13. Paste the contents of the town of us zip in the new folder.**\
 \
-A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
+**14. Download the exe file [here](https://github.com/whichtwix/EpicGamesStarter/releases/latest) and place it in your among us folder.**\
+\
+**15. Open the ```EpicGamesStarter.exe``` by double clicking it to start the game in the copy.**\
+\
+**16. Add the folder as a exclusion for any antivirus you have and for windows defender.**\
+\
+A first launch may take awhile as it sets up and downloads prerequisites, so be patient if it doesn't launch immediately.<br/>
 <br/>
 
 If the mod does not work and the version of Among Us that you see in the main menu, under the town of us logo or bottom left, does not correspond to the version indicated in the [releases table](#releases) above please do the following to get the correct version:
