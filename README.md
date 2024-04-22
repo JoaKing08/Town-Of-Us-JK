@@ -316,7 +316,7 @@ On the meeting Inspector will get a list of possible roles of target.
 
 The Hunter is a Crewmate Killing role with the ability to track players and execute them if they do anything suspicious.\ 
 Unlike the Sheriff, the Hunter does not die if they kill an innocent player,\
-however the Hunter may only execute players who have given them probable cause.\
+however the Hunter may only execute players who have given them probable cause.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
