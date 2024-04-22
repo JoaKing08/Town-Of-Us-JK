@@ -34,7 +34,7 @@ namespace TownOfUs.ApocalypseRoles.BakerMod
             breadButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.BreadTimer(), (byte)CustomGameOptions.BakerCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.BreadTimer(), (byte)CustomGameOptions.BakerCooldown);
             breadButton.SetCoolDown(role.BreadTimer(), CustomGameOptions.BakerCooldown);
 
             var notBreaded = PlayerControl.AllPlayerControls.ToArray().Where(

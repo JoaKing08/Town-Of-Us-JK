@@ -41,7 +41,7 @@ namespace TownOfUs.CrewmateRoles.TavernKeeperMod
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.CanDrink ? role.DrinkTimer() : 0), (byte)CustomGameOptions.DrinkCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.CanDrink ? role.DrinkTimer() : 0), (byte)CustomGameOptions.DrinkCooldown);
             if (role.CanDrink) drinkButton.SetCoolDown(role.DrinkTimer(), CustomGameOptions.DrinkCooldown);
             else drinkButton.SetCoolDown(0f, CustomGameOptions.DrinkCooldown);
 

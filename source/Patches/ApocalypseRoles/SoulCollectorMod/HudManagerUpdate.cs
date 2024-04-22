@@ -56,7 +56,7 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
             var killButton = __instance.KillButton;
             DeadBody closestBody = null;
             var closestDistance = float.MaxValue;
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ReapTimer(), (byte)CustomGameOptions.SoulCollectorCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ReapTimer(), (byte)CustomGameOptions.SoulCollectorCooldown);
             killButton.SetCoolDown(role.ReapTimer(), CustomGameOptions.SoulCollectorCooldown);
 
             foreach (var collider2D in allocs)

@@ -487,7 +487,7 @@ namespace TownOfUs.Roles
                 __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !__gInstance.Player.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started);
-                if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(CustomGameOptions.GlitchKillCooldown - (float)(DateTime.UtcNow - __gInstance.LastKill).TotalSeconds), (byte)CustomGameOptions.GlitchKillCooldown);
+                //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(CustomGameOptions.GlitchKillCooldown - (float)(DateTime.UtcNow - __gInstance.LastKill).TotalSeconds), (byte)CustomGameOptions.GlitchKillCooldown);
                 __instance.KillButton.SetCoolDown(
                     CustomGameOptions.GlitchKillCooldown -
                     (float)(DateTime.UtcNow - __gInstance.LastKill).TotalSeconds,

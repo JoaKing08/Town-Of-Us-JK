@@ -28,7 +28,7 @@ namespace TownOfUs.ApocalypseRoles.WarMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.KillTimer(), (byte)CustomGameOptions.WarCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.KillTimer(), (byte)CustomGameOptions.WarCooldown);
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.WarCooldown);
 
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(player => !player.Is(ObjectiveEnum.ApocalypseAgent) && !((player.Is(Faction.NeutralApocalypse) || player.Is(RoleEnum.Undercover)) && !Utils.CheckApocalypseFriendlyFire())).ToList());

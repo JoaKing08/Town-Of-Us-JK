@@ -23,7 +23,7 @@ namespace TownOfUs.CrewmateRoles.AurialMod
             button.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)s.RadiateTimer(), (byte)CustomGameOptions.RadiateCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)s.RadiateTimer(), (byte)CustomGameOptions.RadiateCooldown);
             button.SetCoolDown(s.RadiateTimer(), CustomGameOptions.RadiateCooldown);
 
             var renderer = button.graphic;

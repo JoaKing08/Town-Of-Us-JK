@@ -45,7 +45,7 @@ namespace TownOfUs.NeutralRoles.SurvivorMod
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.VestTimer() : 0), (byte)CustomGameOptions.VestCd);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.VestTimer() : 0), (byte)CustomGameOptions.VestCd);
             if (role.Vesting) vestButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.VestDuration);
             else if (role.ButtonUsable) vestButton.SetCoolDown(role.VestTimer(), CustomGameOptions.VestCd);
             else vestButton.SetCoolDown(0f, CustomGameOptions.VestCd);

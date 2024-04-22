@@ -89,7 +89,7 @@ namespace TownOfUs
                 if (PlayerControl.LocalPlayer.Data == null) return;
                 if (!PlayerControl.LocalPlayer.Data.IsImpostor()) return;
 
-                if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)PlayerControl.LocalPlayer.killTimer, (byte)GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+                //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)PlayerControl.LocalPlayer.killTimer, (byte)GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
 
                 var notImpostor = PlayerControl.AllPlayerControls.ToArray().Where(
                     player => !player.Is(ObjectiveEnum.ImpostorAgent) && !(((player.Data.IsImpostor() || player.Is(RoleEnum.Undercover)) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire())

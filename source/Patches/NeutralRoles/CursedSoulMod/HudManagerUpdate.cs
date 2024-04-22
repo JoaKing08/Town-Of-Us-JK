@@ -18,7 +18,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.SoulSwapTimer(), (byte)CustomGameOptions.SoulSwapCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.SoulSwapTimer(), (byte)CustomGameOptions.SoulSwapCooldown);
             __instance.KillButton.SetCoolDown(role.SoulSwapTimer(), CustomGameOptions.SoulSwapCooldown);
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
         }

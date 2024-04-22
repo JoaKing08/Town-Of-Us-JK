@@ -21,7 +21,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
             confessButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ConfessTimer(), (byte)CustomGameOptions.ConfessCd);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ConfessTimer(), (byte)CustomGameOptions.ConfessCd);
             confessButton.SetCoolDown(role.ConfessTimer(), CustomGameOptions.ConfessCd);
 
             var notConfessing = PlayerControl.AllPlayerControls

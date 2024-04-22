@@ -34,7 +34,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
             infectButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.InfectTimer(), (byte)CustomGameOptions.InfectCd);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.InfectTimer(), (byte)CustomGameOptions.InfectCd);
             infectButton.SetCoolDown(role.InfectTimer(), CustomGameOptions.InfectCd);
 
             var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(

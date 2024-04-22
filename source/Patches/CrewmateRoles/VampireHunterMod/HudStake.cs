@@ -42,7 +42,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.StakeTimer() : 0), (byte)CustomGameOptions.StakeCd);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.StakeTimer() : 0), (byte)CustomGameOptions.StakeCd);
             if (role.ButtonUsable) stakeButton.SetCoolDown(role.StakeTimer(), CustomGameOptions.StakeCd);
             else stakeButton.SetCoolDown(0f, CustomGameOptions.StakeCd);
             if (role.UsesLeft == 0) return;

@@ -44,7 +44,7 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
             if (data.IsDead) return;
 
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.TransportTimer() : 0), (byte)CustomGameOptions.TransportCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.ButtonUsable ? role.TransportTimer() : 0), (byte)CustomGameOptions.TransportCooldown);
             if (role.ButtonUsable) transportButton.SetCoolDown(role.TransportTimer(), CustomGameOptions.TransportCooldown);
             else transportButton.SetCoolDown(0f, CustomGameOptions.TransportCooldown);
 

@@ -46,7 +46,7 @@ namespace TownOfUs.CrewmateRoles.MonarchMod
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.CanKnight ? role.KnightTimer() : 0), (byte)CustomGameOptions.KnightCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)(role.CanKnight ? role.KnightTimer() : 0), (byte)CustomGameOptions.KnightCooldown);
             if (role.CanKnight) knightButton.SetCoolDown(role.KnightTimer(), CustomGameOptions.KnightCooldown);
             else knightButton.SetCoolDown(0f, CustomGameOptions.KnightCooldown);
 

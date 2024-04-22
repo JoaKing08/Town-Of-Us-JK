@@ -22,7 +22,7 @@ namespace TownOfUs.ApocalypseRoles.DeathMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ApocalypseTimer(), (byte)CustomGameOptions.DeathCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ApocalypseTimer(), (byte)CustomGameOptions.DeathCooldown);
             __instance.KillButton.SetCoolDown(role.ApocalypseTimer(), CustomGameOptions.DeathCooldown);
             if (role.ApocalypseTimer() <= 0 && __instance.KillButton.enabled)
             {

@@ -24,7 +24,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
             duelButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.DuelTimer(), (byte)CustomGameOptions.DuelCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.DuelTimer(), (byte)CustomGameOptions.DuelCooldown);
             duelButton.SetCoolDown(role.DuelTimer(), CustomGameOptions.DuelCooldown);
             var notDueled = PlayerControl.AllPlayerControls.ToArray().Where(x => x != role.DueledPlayer).ToList();
 

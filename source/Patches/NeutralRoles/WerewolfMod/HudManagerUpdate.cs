@@ -20,7 +20,7 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.KillTimer(), (byte)CustomGameOptions.RampageKillCd);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.KillTimer(), (byte)CustomGameOptions.RampageKillCd);
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.RampageKillCd);
 
             if (role.RampageButton == null)

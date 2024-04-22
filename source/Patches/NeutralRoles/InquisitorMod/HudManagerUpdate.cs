@@ -51,7 +51,7 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
             if (role.CanVanquish) role.VanquishButton.SetCoolDown(role.AbilityTimer(), CustomGameOptions.InquisitorCooldown);
             else role.VanquishButton.SetCoolDown(0f, CustomGameOptions.InquisitorCooldown);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.AbilityTimer(), (byte)CustomGameOptions.InquisitorCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.AbilityTimer(), (byte)CustomGameOptions.InquisitorCooldown);
             __instance.KillButton.SetCoolDown(role.AbilityTimer(), CustomGameOptions.InquisitorCooldown);
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
 

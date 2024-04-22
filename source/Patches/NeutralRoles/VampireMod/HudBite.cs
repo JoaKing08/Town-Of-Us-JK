@@ -21,7 +21,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
             biteButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.BiteTimer(), (byte)CustomGameOptions.BiteCd);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.BiteTimer(), (byte)CustomGameOptions.BiteCd);
             biteButton.SetCoolDown(role.BiteTimer(), CustomGameOptions.BiteCd);
 
             var notVampire = PlayerControl.AllPlayerControls

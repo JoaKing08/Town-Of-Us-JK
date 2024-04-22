@@ -63,18 +63,22 @@ namespace TownOfUs.Roles.Modifiers
             // Add Neutral roles if enabled
             if (CustomGameOptions.AssassinGuessNeutralBenign)
             {
-                if (CustomGameOptions.AmnesiacOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Amnesiac) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Amnesiac)) ColorMapping.Add("Amnesiac", Colors.Amnesiac);
+                if (CustomGameOptions.AmnesiacOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Amnesiac) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Amnesiac) || (CustomGameOptions.CursedSoulOn > 0 && CustomGameOptions.SwappedBecomes == SwappedBecomes.Amnesiac)) ColorMapping.Add("Amnesiac", Colors.Amnesiac);
                 if (CustomGameOptions.GuardianAngelOn > 0) ColorMapping.Add("Guardian Angel", Colors.GuardianAngel);
-                if (CustomGameOptions.SurvivorOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Survivor) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Survivor)) ColorMapping.Add("Survivor", Colors.Survivor);
+                if (CustomGameOptions.SurvivorOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Survivor) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Survivor) || (CustomGameOptions.CursedSoulOn > 0 && (CustomGameOptions.SwappedBecomes == SwappedBecomes.Survivor || CustomGameOptions.SwappedBecomes == SwappedBecomes.DefaultRole))) ColorMapping.Add("Cursed Soul", Colors.CursedSoul);
+                if (CustomGameOptions.CursedSoulOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.CursedSoul) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.CursedSoul)) ColorMapping.Add("Survivor", Colors.Survivor);
             }
             if (CustomGameOptions.AssassinGuessNeutralEvil)
             {
-                if (CustomGameOptions.DoomsayerOn > 0) ColorMapping.Add("Doomsayer", Colors.Doomsayer);
                 if (CustomGameOptions.ExecutionerOn > 0) ColorMapping.Add("Executioner", Colors.Executioner);
-                if (CustomGameOptions.JesterOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Jester) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Jester)) ColorMapping.Add("Jester", Colors.Jester);
+                if (CustomGameOptions.JesterOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Jester) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Jester) || (CustomGameOptions.CursedSoulOn > 0 && CustomGameOptions.SwappedBecomes == SwappedBecomes.Jester)) ColorMapping.Add("Jester", Colors.Jester);
+                if (CustomGameOptions.WitchOn > 0) ColorMapping.Add("Witch", Colors.Witch);
+            }
+            if (CustomGameOptions.AssassinGuessNeutralChaos)
+            {
+                if (CustomGameOptions.DoomsayerOn > 0) ColorMapping.Add("Doomsayer", Colors.Doomsayer);
                 if (CustomGameOptions.PirateOn > 0) ColorMapping.Add("Pirate", Colors.Pirate);
                 if (CustomGameOptions.InquisitorOn > 0) ColorMapping.Add("Inquisitor", Colors.Inquisitor);
-                if (CustomGameOptions.WitchOn > 0) ColorMapping.Add("Witch", Colors.Witch);
             }
             if (CustomGameOptions.AssassinGuessNeutralKilling)
             {

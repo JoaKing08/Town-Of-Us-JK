@@ -22,7 +22,7 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.StarveTimer(), (byte)CustomGameOptions.FamineCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.StarveTimer(), (byte)CustomGameOptions.FamineCooldown);
             __instance.KillButton.SetCoolDown(role.StarveTimer(), CustomGameOptions.FamineCooldown);
 
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(player => !player.Is(ObjectiveEnum.ApocalypseAgent) && !((player.Is(Faction.NeutralApocalypse) || player.Is(RoleEnum.Undercover)) && !Utils.CheckApocalypseFriendlyFire())).ToList());

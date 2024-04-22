@@ -19,7 +19,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
 
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !CustomGameOptions.DoomsayerCantObserve); ;
 
-            if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ObserveTimer(), (byte)CustomGameOptions.ObserveCooldown);
+            //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ObserveTimer(), (byte)CustomGameOptions.ObserveCooldown);
             __instance.KillButton.SetCoolDown(role.ObserveTimer(), CustomGameOptions.ObserveCooldown);
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
         }

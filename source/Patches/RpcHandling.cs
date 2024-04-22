@@ -1813,6 +1813,10 @@ namespace TownOfUs
                                         Role.GetRole<CursedSoul>(controled1).ClosestPlayer = target1;
                                         NeutralRoles.CursedSoulMod.PerformKill.Prefix(__instance);
                                         break;
+                                    case RoleEnum.Hunter:
+                                        Role.GetRole<Hunter>(controled1).ClosestStalkPlayer = target1;
+                                        CrewmateRoles.HunterMod.Stalk.Prefix(__instance);
+                                        break;
                                     default:
                                         Utils.Interact(controled1, target1);
                                         break;
@@ -1820,13 +1824,15 @@ namespace TownOfUs
                         }
                         break;
                     case CustomRPC.ControlCooldown:
+                        var isEnabled = reader.ReadBoolean();
                         var cooldown = reader.ReadByte();
-                        var maxCooldown = reader.ReadByte();
+                        var isActive = reader.ReadBoolean();
                         if (PlayerControl.LocalPlayer.Is(RoleEnum.Witch))
                         {
                             var witchRole = Role.GetRole<Witch>(PlayerControl.LocalPlayer);
+                            witchRole.TargetIsEnabled = isEnabled;
                             witchRole.TargetCooldown = cooldown;
-                            witchRole.TargetMaxCooldown = maxCooldown;
+                            witchRole.TargetIsActive = isActive;
                         }
                         break;
 
