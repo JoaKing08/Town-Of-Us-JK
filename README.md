@@ -1,104 +1,36 @@
 An fork of the Among Us mod that adds a bunch of roles, modifiers and game settings
 
-**Crewmate Roles**
-- [Aurial](#aurial)
-- [Detective](#detective)
-- [Haunter](#haunter)
-- [Investigator](#investigator)
-- [Mystic](#mystic)
-- [Seer](#seer)
-- [Snitch](#snitch)
-- [Spy](#spy)
-- [Tracker](#tracker)
-- [Trapper](#trapper)
-- [Inspector](#inspector)
-- [Sheriff](#sheriff)
-- [Vampire Hunter](#vampire-hunter)
-- [Veteran](#veteran)
-- [Vigilante](#vigilante)
-- [Altruist](#altruist)
-- [Medic](#medic)
-- [Engineer](#engineer)
-- [Imitator](#imitator)
-- [Medium](#medium)
-- [Transporter](#transporter)
-- [Tavern Keeper](#tavern-keeper)
-- [Undercover](#undercover)
-- [Mayor](#mayor)
-- [Oracle](#oracle)
-- [Prosecutor](#prosecutor)
-- [Swapper](#swapper)
-- [Monarch](#monarch)
-
-**Neutral Roles**
-- [Amnesiac](#amnesiac)
-- [Guardian Angel](#guardian-angel)
-- [Survivor](#survivor)
-- [Cursed Soul](#cursed-soul)
-- [Executioner](#executioner)
-- [Jester](#jester)
-- [Phantom](#phantom)
-- [Witch](#witch)
-- [Doomsayer](#doomsayer)
-- [Pirate](#pirate)
-- [Inquisitor](#inquisitor)
-- [Arsonist](#arsonist)
-- [Juggernaut](#juggernaut)
-- [The Glitch](#the-glitch)
-- [Vampire](#vampire)
-- [Werewolf](#werewolf)
-- [Serial Killer](#serial-killer)
-- [Plaguebearer](#plaguebearer)
-- [Baker](#baker)
-- [Berserker](#berserker)
-- [Soul Collector](#soul-collector)
-
-**Impostor Roles**
-- [Escapist](#escapist)
-- [Grenadier](#grenadier)
-- [Morphling](#morphling)
-- [Swooper](#swooper)
-- [Venerer](#venerer)
-- [Bomber](#bomber)
-- [Traitor](#traitor)
-- [Warlock](#warlock)
-- [Poisoner](#poisoner)
-- [Sniper](#sniper)
-- [Blackmailer](#blackmailer)
-- [Janitor](#janitor)
-- [Miner](#miner)
-- [Undertaker](#undertaker)
-- [Poltergeist](#poltergeist)
-
-**Modifiers**
-- [Aftermath](#aftermath)
-- [Bait](#bait)
-- [Diseased](#diseased)
-- [Frosty](#frosty)
-- [Multitasker](#multitasker)
-- [Torch](#torch)
-- [Famous](#famous)
-- [Button Barry](#button-barry)
-- [Flash](#flash)
-- [Giant](#giant)
-- [Radar](#radar)
-- [Sleuth](#sleuth)
-- [Tiebreaker](#tiebreaker)
-- [Drunk](#drunk)
-- [Disperser](#disperser)
-- [Double Shot](#double-shot)
-- [Underdog](#underdog)
-- [Tasker](#tasker)
-- [Lovers](#lovers)
-- [Agent](#agent)
-
------------------------
-# Releases
-| Among Us - Version| Mod Version | Link |
-|----------|-------------|-----------------|
-| 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.2/ToU.v1.0.2.zip) |
-| 2023.11.28s & 2023.11.28e | v1.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.1/ToU.v1.0.1.zip) |
-| 2023.11.28s & 2023.11.28e | v1.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.0/ToU.v1.0.0.zip) |
+| **Impostor Roles**           | **Crewmate Roles**                | **Neutral Roles**               | **Modifiers**                |
+|:---------------------------:|:---------------------------------:|:-------------------------------:|:---------------------------:|
+| [Blackmailer](#blackmailer)  | [Altruist](#altruist)              | [Amnesiac](#amnesiac)            | [Aftermath](#aftermath)      |
+| [Bomber](#bomber)            | [Aurial](#aurial)                  | [Arsonist](#arsonist)            | [Bait](#bait)                |
+| [Escapist](#escapist)        | [Detective](#detective)            | [Doomsayer](#doomsayer)          | [Button Barry](#button-barry)|
+| [Grenadier](#grenadier)      | [Engineer](#engineer)              | [Executioner](#executioner)      | [Diseased](#diseased)        |
+| [Janitor](#janitor)          | [Haunter](#haunter)                | [Guardian Angel](#guardian-angel)| [Disperser](#disperser)      |
+| [Miner](#miner)              | [Hunter](#hunter)                  | [Jester](#jester)                | [Double Shot](#double-shot)  |
+| [Morphling](#morphling)      | [Imitator](#imitator)              | [Juggernaut](#juggernaut)        | [Flash](#flash)              |
+| [Swooper](#swooper)          | [Investigator](#investigator)      | [Phantom](#phantom)              | [Frosty](#frosty)            |
+| [Traitor](#traitor)          | [Mayor](#mayor)                    | [Plaguebearer](#plaguebearer)    | [Giant](#giant)              |
+| [Undertaker](#undertaker)    | [Medic](#medic)                    | [Survivor](#survivor)            | [Lovers](#lovers)            |
+| [Venerer](#venerer)          | [Medium](#medium)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)  |
+| [Warlock](#warlock)          | [Mystic](#mystic)                  | [Vampire](#vampire)              | [Radar](#radar)              |
+| [Poisoner](#poisoner)        | [Oracle](#oracle)                  | [Werewolf](#werewolf)            | [Sleuth](#sleuth)            |
+| [Sniper](#sniper)            | [Prosecutor](#prosecutor)          | [Berserker](#berserker)          | [Tiebreaker](#tiebreaker)    |
+| [Poltergeist](#poltergeist)  | [Seer](#seer)                      | [Baker](#baker)                  | [Torch](#torch)              |
+|                              | [Sheriff](#sheriff)                | [Soul Collector](#soul-collector)| [Underdog](#underdog)        |
+|                              | [Snitch](#snitch)                  | [Serial Killer](#serial-killer)  | [Famous](#famous)            |
+|                              | [Spy](#spy)                        | [Pirate](#pirate)                | [Drunk](#drunk)              |
+|                              | [Swapper](#swapper)                | [Inquisitor](#inquisitor)        | [Tasker](#tasker)            |
+|                              | [Tracker](#tracker)                | [Cursed Soul](#cursed-soul)      | [Agent](#agent)              |
+|                              | [Trapper](#trapper)                | [Witch](#witch)                  |                              |
+|                              | [Transporter](#transporter)        |                                  |                              |
+|                              | [Vampire Hunter](#vampire-hunter)  |                                  |                              |
+|                              | [Veteran](#veteran)                |                                  |                              |
+|                              | [Vigilante](#vigilante)            |                                  |                              |
+|                              | [Inspector](#inspector)            |                                  |                              |
+|                              | [Tavern Keeper](#tavern-keeper)    |                                  |                              |
+|                              | [Undercover](#undercover)          |                                  |                              |
+|                              | [Monarch](#monarch)                |                                  |                              |
 
 -----------------------
 # Installation
@@ -168,11 +100,17 @@ If the mod does not work and the version of Among Us that you see in the main me
 \
 **11. Click on Enter.**\
 \
-**12. Copy or move the contents of the Town Of Us zip file into the AmongUs folder.**\
++**12. Copy all the Among Us files and put them in a new folder on your desktop or anywhere else.**\
 \
-**13. Finally, launch Among Us from Epic Games library.**\
+**13. Paste the contents of the town of us zip in the new folder.**\
 \
-A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
+**14. Download the exe file [here](https://github.com/whichtwix/EpicGamesStarter/releases/latest) and place it in your among us folder.**\
+\
+**15. Open the ```EpicGamesStarter.exe``` by double clicking it to start the game in the copy.**\
+\
+**16. Add the folder as a exclusion for any antivirus you have and for windows defender.**\
+\
+A first launch may take awhile as it sets up and downloads prerequisites, so be patient if it doesn't launch immediately.<br/>
 <br/>
 
 If the mod does not work and the version of Among Us that you see in the main menu, under the town of us logo or bottom left, does not correspond to the version indicated in the [releases table](#releases) above please do the following to get the correct version:
