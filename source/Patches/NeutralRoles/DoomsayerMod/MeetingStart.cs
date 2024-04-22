@@ -13,7 +13,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer)) return;
             var doomsayerRole = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
-            if (doomsayerRole.LastObservedPlayer != null)
+            if (doomsayerRole.LastObservedPlayer != null && !CustomGameOptions.DoomsayerCantObserve)
             {
                 var playerResults = "You observe that " + Utils.GetPossibleRoleCategory(doomsayerRole.LastObservedPlayer);
                 var roleResults = Utils.GetPossibleRoleList(doomsayerRole.LastObservedPlayer);

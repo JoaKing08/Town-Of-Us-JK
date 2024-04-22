@@ -509,6 +509,15 @@ namespace TownOfUs
                     fullCooldownReset = true;
                 }
             }
+
+            if (abilityUsed)
+            {
+                foreach (Role role in Role.GetRoles(RoleEnum.Hunter))
+                {
+                    Hunter hunter = (Hunter)role;
+                    hunter.CatchPlayer(player);
+                }
+            }
             var reset = new List<bool>();
             reset.Add(fullCooldownReset);
             reset.Add(gaReset);
@@ -693,6 +702,18 @@ namespace TownOfUs
                     if (target.Is(Faction.Impostors) || target.Is(Faction.NeutralKilling) || target.Is(Faction.NeutralEvil) || target.Is(Faction.NeutralApocalypse) || target.Is(Faction.NeutralChaos)) veteran.CorrectKills += 1;
                     else if (killer != target) veteran.IncorrectKills += 1;
                 }
+                if (killer.Is(RoleEnum.Hunter))
+                {
+                    var hunter = Role.GetRole<Hunter>(killer);
+                    if (target.Is(RoleEnum.Doomsayer) || target.Is(Faction.Impostors) || target.Is(Faction.NeutralKilling))
+                    {
+                        hunter.CorrectKills += 1;
+                    }
+                    else
+                    {
+                        hunter.IncorrectKills += 1;
+                    }
+                }
 
                 target.gameObject.layer = LayerMask.NameToLayer("Ghost");
                 target.Visible = false;
@@ -710,6 +731,32 @@ namespace TownOfUs
                 {
                     var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
                     detective.LastKiller = killer;
+                }
+
+                if (!CustomGameOptions.GhostsDoTasks)
+                {
+                    if (AmongUsClient.Instance.AmHost)
+                    {
+                        var modded_criteria = Role.ShipStatus_KMPKPPGPNIH.Prefix((LogicGameFlowNormal)GameManager.Instance.LogicFlow);
+                        if (modded_criteria) GameManager.Instance.LogicFlow.CheckEndCriteria();
+                        if (GameManager.Instance.ShouldCheckForGameEnd && target.myTasks.ToArray().Count(x => !x.IsComplete) + GameData.Instance.CompletedTasks < GameData.Instance.TotalTasks)
+                        {
+                            // Host should only process tasks being removed if the game wouldn't have ended otherwise.
+                            for (var i = 0; i < target.myTasks.Count; i++)
+                            {
+                                var playerTask = target.myTasks.ToArray()[i];
+                                GameData.Instance.CompleteTask(target, playerTask.Id);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (var i = 0; i < target.myTasks.Count; i++)
+                        {
+                            var playerTask = target.myTasks.ToArray()[i];
+                            GameData.Instance.CompleteTask(target, playerTask.Id);
+                        }
+                    }
                 }
 
                 if (target.AmOwner)
@@ -738,11 +785,13 @@ namespace TownOfUs
                     target.RpcSetScanner(false);
                     var importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
                     importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
-                    if (!GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks)
+                    if (!CustomGameOptions.GhostsDoTasks)
                     {
                         for (var i = 0; i < target.myTasks.Count; i++)
                         {
                             var playerTask = target.myTasks.ToArray()[i];
+                            GameData.Instance.CompleteTask(target, playerTask.Id);
+                            playerTask.Complete();
                             playerTask.OnRemove();
                             Object.Destroy(playerTask.gameObject);
                         }
@@ -1334,6 +1383,11 @@ namespace TownOfUs
                     tracker.TrackerArrows.Clear();
                 }
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Hunter))
+            {
+                var hunter = Role.GetRole<Hunter>(PlayerControl.LocalPlayer);
+                hunter.LastKilled = DateTime.UtcNow;
+            }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.VampireHunter))
             {
                 var vh = Role.GetRole<VampireHunter>(PlayerControl.LocalPlayer);
@@ -1657,14 +1711,14 @@ namespace TownOfUs
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
                  || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
                 return $"{player.GetDefaultOutfit().PlayerName} has an unusual obsession with dead bodies";
-            else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Swooper) || player.Is(RoleEnum.Tracker)
+            else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker) || player.Is(RoleEnum.Inquisitor))
                 return $"{player.GetDefaultOutfit().PlayerName} is well trained in hunting down prey";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                  || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
                 return $"{player.GetDefaultOutfit().PlayerName} spreads fear amonst the group";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Grenadier) || player.Is(RoleEnum.Escapist)
-                 || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor))
+                 || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Swooper))
                 return $"{player.GetDefaultOutfit().PlayerName} hides to guard themself or others";
             else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Undercover)
                  || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
@@ -1699,15 +1753,15 @@ namespace TownOfUs
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
                  || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
                 return "(Altruist, Amnesiac, Janitor, Undertaker, Vampire or Soul Collector)";
-            else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Swooper) || player.Is(RoleEnum.Tracker)
+            else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Inquisitor) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker))
-                return "(Investigator, Swooper, Tracker, Werewolf, Berserker or Inquisitor)";
+                return "(Investigator, Tracker, Werewolf, Hunter, Berserker or Inquisitor)";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                  || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
                 return "(Arsonist, Miner, Plaguebearer, Seer, Transporter or Pirate)";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Grenadier) || player.Is(RoleEnum.Escapist)
-                 || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor))
-                return "(Engineer, Grenadier, Escapist, Medic or Survivor)";
+                 || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Swooper))
+                return "(Engineer, Grenadier, Escapist, Medic, Survivor or Swooper)";
             else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Undercover)
                  || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
                 return "(Jester, Pestilence, Traitor, Veteran, Famine or Undercover)";

@@ -31,6 +31,7 @@ namespace TownOfUs.Patches
         public readonly static Color Prosecutor = new Color(0.7f, 0.5f, 0f, 1f);
         public readonly static Color Oracle = new Color(0.75f, 0f, 0.75f, 1f);
         public readonly static Color Aurial = new Color(0.7f, 0.3f, 0.6f, 1f);
+        public readonly static Color Hunter = new Color(0.16f, 0.67f, 0.53f, 1f);
         public readonly static Color Inspector = new Color(0.545f, 1f, 0.86f, 1f);
         public readonly static Color Monarch = new Color(0.588f, 0.157f, 0.785f, 1f);
         public readonly static Color TavernKeeper = new Color(0.55f, 0.27f, 0.08f, 1f);

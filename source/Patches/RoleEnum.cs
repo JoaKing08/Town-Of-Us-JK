@@ -46,6 +46,7 @@ namespace TownOfUs
         Prosecutor,
         Oracle,
         Aurial,
+        Hunter,
         Pirate,
         SerialKiller,
         Inspector,

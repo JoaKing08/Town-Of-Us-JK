@@ -90,6 +90,9 @@ namespace TownOfUs
         Bless,
         Camouflage,
         SnitchCultistReveal,
+        HunterStalk,
+        HunterCatchPlayer,
+        Retribution,
         Duel,
         ChangeDefence,
 
@@ -112,6 +115,8 @@ namespace TownOfUs
         CheckMurder,
 
         SubmergedFixOxygen,
+
+        ContentAddition,
 
         RedWin,
         BlueWin,

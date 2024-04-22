@@ -187,7 +187,7 @@ namespace TownOfUs.Roles
             return PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel) && CustomGameOptions.GAKnowsTargetRole && Player == GetRole<GuardianAngel>(PlayerControl.LocalPlayer).target;
         }
 
-        protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
+        protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__38 __instance)
         {
             if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))
             {
@@ -550,17 +550,17 @@ namespace TownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__36), nameof(IntroCutscene._ShowTeam_d__36.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__38), nameof(IntroCutscene._ShowTeam_d__38.MoveNext))]
             public static class IntroCutscene_ShowTeam__d_MoveNext
             {
-                public static void Prefix(IntroCutscene._ShowTeam_d__36 __instance)
+                public static void Prefix(IntroCutscene._ShowTeam_d__38 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
 
                     if (role != null) role.IntroPrefix(__instance);
                 }
 
-                public static void Postfix(IntroCutscene._ShowRole_d__39 __instance)
+                public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
                     // var alpha = __instance.__4__this.RoleText.color.a;
@@ -640,13 +640,17 @@ namespace TownOfUs.Roles
                         }
                         else if (modifier != null && objective != null)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 2 : 3)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
                         }
                         else if (objective != null)
                         {
                             ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
                         }
-                        if (objective.GetType() == typeof(Lover))
+                        if (objective == null)
+                        {
+                            ModifierText.text += "";
+                        }
+                        else if (objective.GetType() == typeof(Lover))
                         {
                             ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
                         }
@@ -663,10 +667,10 @@ namespace TownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__39), nameof(IntroCutscene._ShowRole_d__39.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__41), nameof(IntroCutscene._ShowRole_d__41.MoveNext))]
             public static class IntroCutscene_ShowRole_d__24
             {
-                public static void Postfix(IntroCutscene._ShowRole_d__39 __instance)
+                public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
@@ -731,15 +735,31 @@ namespace TownOfUs.Roles
                     if (ModifierText != null)
                     {
                         var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                        if (modifier.GetType() == typeof(Lover))
+                        var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
+                        if (modifier != null && objective == null)
                         {
-                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
+                            ModifierText.text = "<size=4>Modifier: " + modifier.ColorString + modifier.Name + "</color></size>";
+                        }
+                        else if (modifier != null && objective != null)
+                        {
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                        }
+                        else if (objective != null)
+                        {
+                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
+                        }
+                        if (objective == null)
+                        {
+                            ModifierText.text += "";
+                        }
+                        else if (objective.GetType() == typeof(Lover))
+                        {
+                            ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
                         }
                         else
                         {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
+                            ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
                         }
-                        ModifierText.color = modifier.Color;
 
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
@@ -761,10 +781,10 @@ namespace TownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__33), nameof(IntroCutscene._CoBegin_d__33.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__35), nameof(IntroCutscene._CoBegin_d__35.MoveNext))]
             public static class IntroCutscene_CoBegin_d__29
             {
-                public static void Postfix(IntroCutscene._CoBegin_d__33 __instance)
+                public static void Postfix(IntroCutscene._CoBegin_d__35 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
@@ -842,7 +862,11 @@ namespace TownOfUs.Roles
                         {
                             ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
                         }
-                        if (objective.GetType() == typeof(Lover))
+                        if (objective == null)
+                        {
+                            ModifierText.text += "";
+                        }
+                        else if (objective.GetType() == typeof(Lover))
                         {
                             ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
                         }

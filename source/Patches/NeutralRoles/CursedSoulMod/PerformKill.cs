@@ -104,6 +104,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 case RoleEnum.Veteran:
                 case RoleEnum.Crewmate:
                 case RoleEnum.Tracker:
+                case RoleEnum.Hunter:
                 case RoleEnum.Transporter:
                 case RoleEnum.Medium:
                 case RoleEnum.Mystic:

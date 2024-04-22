@@ -16,7 +16,8 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !CustomGameOptions.DoomsayerCantObserve); ;
 
             if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.ObserveTimer(), (byte)CustomGameOptions.ObserveCooldown);
             __instance.KillButton.SetCoolDown(role.ObserveTimer(), CustomGameOptions.ObserveCooldown);

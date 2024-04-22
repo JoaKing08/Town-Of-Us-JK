@@ -437,6 +437,7 @@ namespace TownOfUs
                 Role.GenRole<Role>(typeof(Impostor), impostor);
 
             var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().ToList();
+            canHaveObjective.Shuffle();
 
             foreach (var (type, id) in ObjectiveGlobalModifiers)
             {
@@ -1828,6 +1829,25 @@ namespace TownOfUs
                             witchRole.TargetMaxCooldown = maxCooldown;
                         }
                         break;
+
+                    case CustomRPC.HunterStalk:
+                        var stalker = Utils.PlayerById(reader.ReadByte());
+                        var stalked = Utils.PlayerById(reader.ReadByte());
+                        Hunter hunterRole = Role.GetRole<Hunter>(stalker);
+                        hunterRole.StalkDuration = CustomGameOptions.HunterStalkDuration;
+                        hunterRole.StalkedPlayer = stalked;
+                        hunterRole.Stalk();
+                        break;
+                    case CustomRPC.HunterCatchPlayer:
+                        var hunter = Utils.PlayerById(reader.ReadByte());
+                        var prey = Utils.PlayerById(reader.ReadByte());
+                        Hunter hunter2 = Role.GetRole<Hunter>(hunter);
+                        hunter2.CatchPlayer(prey);
+                        break;
+                    case CustomRPC.Retribution:
+                        var lastVoted = Utils.PlayerById(reader.ReadByte());
+                        AssassinKill.MurderPlayer(lastVoted);
+                        break;
                 }
             }
         }
@@ -1956,6 +1976,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.VeteranOn > 0)
                         CrewmatesRoles.Add((typeof(Veteran), CustomGameOptions.VeteranOn, false));
+
+                    if (CustomGameOptions.HunterOn > 0)
+                        CrewmatesRoles.Add((typeof(Hunter), CustomGameOptions.HunterOn, false));
 
                     if (CustomGameOptions.TrackerOn > 0)
                         CrewmatesRoles.Add((typeof(Tracker), CustomGameOptions.TrackerOn, false));
@@ -2206,6 +2229,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.VeteranOn > 0)
                         CrewmatesRoles.Add((typeof(Veteran), CustomGameOptions.VeteranOn, false));
+
+                    if (CustomGameOptions.HunterOn > 0)
+                        CrewmatesRoles.Add((typeof(Hunter), CustomGameOptions.HunterOn, false));
 
                     if (CustomGameOptions.TrackerOn > 0)
                         CrewmatesRoles.Add((typeof(Tracker), CustomGameOptions.TrackerOn, false));

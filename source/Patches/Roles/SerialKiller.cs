@@ -71,7 +71,7 @@ namespace TownOfUs.Roles
             return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
         }
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__38 __instance)
         {
             var skTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             skTeam.Add(PlayerControl.LocalPlayer);

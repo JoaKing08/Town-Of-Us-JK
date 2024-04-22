@@ -79,6 +79,7 @@ namespace TownOfUs
         public static int AltruistOn => (int)Generate.AltruistOn.Get();
         public static int UndertakerOn => (int)Generate.UndertakerOn.Get();
         public static int PhantomOn => (int)Generate.PhantomOn.Get();
+        public static int HunterOn => (int)Generate.HunterOn.Get();
         public static int VigilanteOn => (int)Generate.VigilanteOn.Get();
         public static int HaunterOn => (int)Generate.HaunterOn.Get();
         public static int GrenadierOn => (int)Generate.GrenadierOn.Get();
@@ -321,6 +322,7 @@ namespace TownOfUs
         public static int EvilTargetPercent => (int)Generate.EvilTargetPercent.Get();
         public static float MysticArrowDuration => Generate.MysticArrowDuration.Get();
         public static float BlackmailCd => Generate.BlackmailCooldown.Get();
+        public static bool BlackmailInvisible => Generate.BlackmailInvisible.Get();
         public static float GiantSlow => Generate.GiantSlow.Get();
         public static float FlashSpeed => Generate.FlashSpeed.Get();
         public static float DiseasedMultiplier => Generate.DiseasedKillMultiplier.Get();
@@ -438,6 +440,13 @@ namespace TownOfUs
         public static float ReviveCooldown => Generate.ReviveCooldown.Get();
         public static float IncreasedCooldownPerRevive => Generate.IncreasedCooldownPerRevive.Get();
         public static int MaxReveals => (int)Generate.MaxReveals.Get();
+        public static bool GhostsDoTasks => Generate.GhostsDoTasks.Get();
+        public static float HunterKillCd => Generate.HunterKillCd.Get();
+        public static float HunterStalkCd => Generate.HunterStalkCd.Get();
+        public static float HunterStalkDuration => Generate.HunterStalkDuration.Get();
+        public static int HunterStalkUses => (int)Generate.HunterStalkUses.Get();
+        public static bool HunterBodyReport => Generate.HunterBodyReport.Get();
+        public static bool DoomsayerCantObserve => Generate.DoomsayerCantObserve.Get();
         public static float TeamsKCd => Generate.TeamsKCd.Get();
         public static int TeamsAmount => (int)Generate.TeamsAmount.Get();
         public static bool TeamsVent => Generate.TeamsVent.Get();

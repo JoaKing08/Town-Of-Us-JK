@@ -95,6 +95,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Veteran:
                 case RoleEnum.Crewmate:
                 case RoleEnum.Tracker:
+                case RoleEnum.Hunter:
                 case RoleEnum.Transporter:
                 case RoleEnum.Medium:
                 case RoleEnum.Mystic:
@@ -187,8 +188,18 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 }
                 else
                 {
-                    var survivor = new Survivor(other);
-                    survivor.RegenTask();
+                    // If role is not Vampire, turn dead player into Survivor
+                    if (role != RoleEnum.Vampire)
+                    {
+                        var survivor = new Survivor(other);
+                        survivor.RegenTask();
+                    }
+                    // If role is Vampire, keep dead player as Vampire
+                    if (role == RoleEnum.Vampire)
+                    {
+                        var vampire = new Vampire(other);
+                        vampire.RegenTask();
+                    }
                     if (role == RoleEnum.Arsonist || role == RoleEnum.Glitch || role == RoleEnum.Plaguebearer ||
                             role == RoleEnum.Pestilence || role == RoleEnum.Werewolf || role == RoleEnum.Juggernaut
                              || role == RoleEnum.Vampire || role == RoleEnum.Famine || role == RoleEnum.Baker
