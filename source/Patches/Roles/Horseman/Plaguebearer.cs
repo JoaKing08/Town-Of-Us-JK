@@ -4,6 +4,7 @@ using System.Linq;
 using Reactor.Utilities;
 using TownOfUs.Extensions;
 using UnityEngine;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Roles.Horseman
 {
@@ -91,8 +92,16 @@ namespace TownOfUs.Roles.Horseman
             var role = new Pestilence(Player);
             role.CorrectAssassinKills = killsList.CorrectAssassinKills;
             role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
-            if (CustomGameOptions.AnnouncePestilence) Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
-            else if (Player == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
+            if (CustomGameOptions.AnnouncePestilence)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
+                role.Notification($"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE HAS TRANSFORMED!</color>", 1000 * CustomGameOptions.NotificationDuration);
+            }
+            else if (Player == PlayerControl.LocalPlayer)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
+                role.Notification($"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE HAS TRANSFORMED!</color>", 1000 * CustomGameOptions.NotificationDuration);
+            }
             if (Player == PlayerControl.LocalPlayer)
             {
                 role.RegenTask();

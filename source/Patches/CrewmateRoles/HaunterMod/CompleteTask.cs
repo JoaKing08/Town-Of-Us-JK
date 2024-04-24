@@ -25,11 +25,13 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Haunter))
                 {
                     Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                    role.Notification("Haunter Is Revealed!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals))
                 {
                     role.Revealed = true;
                     Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Haunter Is Revealed!", 1000 * CustomGameOptions.NotificationDuration);
                     var gameObj = new GameObject();
                     var arrow = gameObj.AddComponent<ArrowBehaviour>();
                     gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
@@ -47,10 +49,12 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Haunter))
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    role.Notification("Haunter Finished Tasks!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals))
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Haunter Finished Tasks!", 1000 * CustomGameOptions.NotificationDuration);
                 }
             }
         }

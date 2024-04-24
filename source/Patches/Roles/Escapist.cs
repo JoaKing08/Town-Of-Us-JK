@@ -62,6 +62,7 @@ namespace TownOfUs.Roles
             if (PlayerControl.LocalPlayer.PlayerId == escapist.PlayerId)
             {
                 Coroutines.Start(Utils.FlashCoroutine(new Color(0.6f, 0.1f, 0.2f, 1f)));
+                escapistRole.Notification("You Have Escaped!", 1000 * CustomGameOptions.NotificationDuration);
                 if (Minigame.Instance) Minigame.Instance.Close();
             }
 

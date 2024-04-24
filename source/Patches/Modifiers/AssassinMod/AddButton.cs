@@ -165,6 +165,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 var targetId = voteArea.TargetPlayerId;
@@ -188,6 +189,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                         {
                             modifier.LifeUsed = true;
                             Coroutines.Start(Utils.FlashCoroutine(Color.red, 1f));
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification("You Guessed Wrong!", 1000 * CustomGameOptions.NotificationDuration);
                             ShowHideButtons.HideSingle(role, targetId, false, true);
                         }
                         else

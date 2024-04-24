@@ -23,6 +23,7 @@ namespace TownOfUs.ApocalypseRoles.DeathMod
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                 return false;
             }
 

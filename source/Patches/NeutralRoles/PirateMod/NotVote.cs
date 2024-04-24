@@ -25,6 +25,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                        dueled.Notification("You Lost The Duel!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                         if (pirate.DueledPlayer.Is(RoleEnum.Pestilence) || pirate.DueledPlayer.Is(RoleEnum.Famine) || pirate.DueledPlayer.Is(RoleEnum.War) || pirate.DueledPlayer.Is(RoleEnum.Death))
                     {
@@ -43,6 +44,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     {
                         pirate.DuelsWon += 1;
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                        pirate.Notification("Ya Won Th' Duel!", 1000 * CustomGameOptions.NotificationDuration);
                         if (pirate.DuelsWon >= CustomGameOptions.PirateDuelsToWin)
                         {
                             pirate.WonByDuel = true;
@@ -56,8 +58,16 @@ namespace TownOfUs.NeutralRoles.PirateMod
                 }
                 else if (!pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected)
                 {
-                    if (pirate.Player == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    if (pirate.DueledPlayer == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                    if (pirate.Player == PlayerControl.LocalPlayer)
+                    {
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                        pirate.Notification("Ya Lost Th' Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                    }
+                    if (pirate.DueledPlayer == PlayerControl.LocalPlayer)
+                    {
+                        Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                        dueled.Notification("You Won The Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                    }
                     pirate.DueledPlayer = null;
                 }
             }

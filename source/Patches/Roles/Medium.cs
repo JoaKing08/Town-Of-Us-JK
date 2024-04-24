@@ -56,6 +56,7 @@ namespace TownOfUs.Roles
             }
             MediatedPlayers.Add(playerId, arrow);
             Coroutines.Start(Utils.FlashCoroutine(Color));
+            Notification("You Found A Ghost!", 1000 * CustomGameOptions.NotificationDuration);
         }
     }
 }

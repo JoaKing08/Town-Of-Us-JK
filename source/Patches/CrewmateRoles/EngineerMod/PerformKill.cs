@@ -26,6 +26,7 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                 return false;
             }
             role.UsesLeft -= 1;

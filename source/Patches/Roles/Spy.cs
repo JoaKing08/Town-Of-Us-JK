@@ -178,7 +178,10 @@ namespace TownOfUs.Roles
                             message += " dragged by Undertaker";
                             break;
                         case RoleEnum.CursedSoul:
-                            message += " attempted to Soul Swap directly by Cursed Soul";
+                            message += " attempted to soul swap directly by Cursed Soul";
+                            break;
+                        case RoleEnum.Hunter:
+                            message += " stalked by Hunter";
                             break;
                     }
                     break;
@@ -211,6 +214,9 @@ namespace TownOfUs.Roles
                             break;
                         case RoleEnum.CursedSoul:
                             message += " attempted to Soul Swap indirectly by Cursed Soul";
+                            break;
+                        case RoleEnum.Hunter:
+                            message += " attacked by Hunter";
                             break;
                     }
                     break;

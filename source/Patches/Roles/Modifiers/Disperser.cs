@@ -62,6 +62,7 @@ namespace TownOfUs.Roles.Modifiers
             if (coordinates.ContainsKey(PlayerControl.LocalPlayer.PlayerId))
             {
                 Coroutines.Start(Utils.FlashCoroutine(Palette.ImpostorRed));
+                Role.GetRole(PlayerControl.LocalPlayer).Notification("You Have Been Dispersed!", 1000 * CustomGameOptions.NotificationDuration);
                 if (Minigame.Instance)
                 {
                     try

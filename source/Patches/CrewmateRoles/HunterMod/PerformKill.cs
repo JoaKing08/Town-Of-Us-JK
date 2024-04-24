@@ -1,6 +1,8 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Reactor.Utilities;
 using System;
+using UnityEngine;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.HunterMod
@@ -24,6 +26,7 @@ namespace TownOfUs.CrewmateRoles.HunterMod
                 var stalkInteract = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestStalkPlayer, false);
                 if (stalkInteract[4] == true)
                 {
+                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                     role.StalkDuration = CustomGameOptions.HunterStalkDuration;
                     role.UsesLeft--;
                     role.StalkedPlayer = role.ClosestStalkPlayer;
@@ -49,6 +52,7 @@ namespace TownOfUs.CrewmateRoles.HunterMod
             var flag3 = distBetweenPlayers <
                         GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             if (!flag3) return false;
+            if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
             if (interact[0] == true)
             {

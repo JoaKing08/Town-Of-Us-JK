@@ -24,6 +24,7 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                 return false;
             }
             if (Role.GetRole(Utils.PlayerById(role.CurrentTarget.ParentId)).Reaped) return false;

@@ -6,6 +6,7 @@ using Reactor.Utilities;
 using TownOfUs.Extensions;
 using UnityEngine;
 using TMPro;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Roles.Horseman
 {
@@ -83,8 +84,16 @@ namespace TownOfUs.Roles.Horseman
             role.CorrectAssassinKills = killsList.CorrectAssassinKills;
             role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
             role.Kills = killsList.Kills;
-            if (CustomGameOptions.AnnounceWar) Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
-            else if (Player == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
+            if (CustomGameOptions.AnnounceWar)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
+                role.Notification($"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>", 1000 * CustomGameOptions.NotificationDuration);
+            }
+            else if (Player == PlayerControl.LocalPlayer)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
+                role.Notification($"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>", 1000 * CustomGameOptions.NotificationDuration);
+            }
             if (Player == PlayerControl.LocalPlayer)
             {
                 role.RegenTask();

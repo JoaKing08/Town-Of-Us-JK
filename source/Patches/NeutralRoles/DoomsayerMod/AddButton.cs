@@ -142,6 +142,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 var targetId = voteArea.TargetPlayerId;
@@ -170,6 +171,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 {
                     ShowHideButtonsDoom.HideButtonsDoom(role);
                     Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    role.Notification("You Guessed Wrong!", 1000 * CustomGameOptions.NotificationDuration);
                 }
             }
 

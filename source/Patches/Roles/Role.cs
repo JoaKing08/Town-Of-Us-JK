@@ -36,6 +36,9 @@ namespace TownOfUs.Roles
 
         public Func<string> ImpostorText;
         public Func<string> TaskText;
+        public TextMeshPro NotificationText;
+        public DateTime NotificationEnds;
+        public string NotificationString;
 
         protected Role(PlayerControl player)
         {
@@ -1123,7 +1126,16 @@ namespace TownOfUs.Roles
                                 player.NameText.color = Patches.Colors.Impostor;
                         }
                     }
-                    else if (role.Player.IsKnight()) player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>"; //Error
+                    else if (role.Player.IsKnight())
+                    {
+                        try
+                        {
+                            player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>"; //Error
+                        }
+                        catch
+                        {
+                        }
+                    }
                     else
                     {
                         try
@@ -1228,6 +1240,13 @@ namespace TownOfUs.Roles
                     Object.Destroy(arrow.gameObject);
                 SnipeArrows.Remove(arrow);
             }
+        }
+
+        public void Notification(string text, double milliseconds)
+        {
+            NotificationString = text;
+            NotificationEnds = DateTime.UtcNow;
+            NotificationEnds = NotificationEnds.AddMilliseconds(milliseconds);
         }
     }
 }

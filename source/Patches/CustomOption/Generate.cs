@@ -152,6 +152,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption NeutralEvilWinEndsGame;
         public static CustomToggleOption GhostsDoTasks;
         public static CustomStringOption OvertakeWin;
+        public static CustomNumberOption NotificationDuration;
 
         public static CustomHeaderOption BetterPolusSettings;
         public static CustomToggleOption VentImprovements;
@@ -1017,6 +1018,8 @@ namespace TownOfUs.CustomOption
             NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, "Neutral Evil Win Ends Game", true);
             GhostsDoTasks = new CustomToggleOption(num++, MultiMenu.main, "Ghosts Do Tasks", true);
             OvertakeWin = new CustomStringOption(num++, MultiMenu.main, "Overtake Win", new[] { "On", "Without CK", "Off" });
+            NotificationDuration =
+                new CustomNumberOption(num++, MultiMenu.main, "Role Notification Duration", 2.5f, 0f, 10f, 0.25f, CooldownFormat);
 
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Task Tracking Settings");

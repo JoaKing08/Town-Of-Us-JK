@@ -26,8 +26,16 @@ namespace TownOfUs.CultistRoles.SeerMod
                 PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
             if (role.ClosestPlayer == null) return false;
             if (role.ClosestPlayer.Is(Faction.Impostors) && !role.ClosestPlayer.Is(RoleEnum.Necromancer)
-                && !role.ClosestPlayer.Is(RoleEnum.Whisperer)) Coroutines.Start(Utils.FlashCoroutine(Color.red));
-            else Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                && !role.ClosestPlayer.Is(RoleEnum.Whisperer))
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                role.Notification("Your Target Was Converted!", 1000 * CustomGameOptions.NotificationDuration);
+            }
+            else
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                role.Notification("Your Target Wasn't Converted!", 1000 * CustomGameOptions.NotificationDuration);
+            }
             role.LastInvestigated = DateTime.UtcNow;
             role.UsesLeft--;
             return false;

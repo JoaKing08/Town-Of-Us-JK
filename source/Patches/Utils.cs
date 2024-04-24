@@ -211,6 +211,7 @@ namespace TownOfUs
         {
             return Role.GetRoles(RoleEnum.Monarch).Any(role =>
             {
+                if (((Monarch)role).Knights == null) return false;
                 return ((Monarch)role).Knights.Contains(player.PlayerId);
             });
         }
@@ -303,7 +304,11 @@ namespace TownOfUs
             bool abilityUsed = false;
             if (Role.GetRole(player).Roleblocked)
             {
-                if (player == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                if (player == PlayerControl.LocalPlayer)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    Role.GetRole(player).Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                }
                 zeroSecReset = true;
             }
             else
@@ -721,10 +726,12 @@ namespace TownOfUs
                 if (target.Is(ModifierEnum.Famous))
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Famous));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Famous Has Died!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Someone Have Died!", 1000 * CustomGameOptions.NotificationDuration);
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
@@ -989,9 +996,17 @@ namespace TownOfUs
 
         public static void Convert(PlayerControl player)
         {
-            if (PlayerControl.LocalPlayer == player) Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
-            if (PlayerControl.LocalPlayer != player && PlayerControl.LocalPlayer.Is(RoleEnum.CultistMystic)
-                && !PlayerControl.LocalPlayer.Data.IsDead) Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
+            if (PlayerControl.LocalPlayer == player)
+            {
+                Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
+                Role.GetRole(player).Notification("You Have Been Converted!", 1000 * CustomGameOptions.NotificationDuration);
+            }
+            else if (PlayerControl.LocalPlayer != player && PlayerControl.LocalPlayer.Is(RoleEnum.CultistMystic)
+                && !PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
+                Role.GetRole(player).Notification("Someone Has Been Converted!", 1000 * CustomGameOptions.NotificationDuration);
+            }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter) && PlayerControl.LocalPlayer == player)
             {
@@ -1691,9 +1706,9 @@ namespace TownOfUs
             }
             #endregion
             #region Modifiers
-            if (PlayerControl.LocalPlayer.Is(ModifierEnum.Drunk))
+            foreach (var modifier in Modifier.GetModifiers(ModifierEnum.Drunk))
             {
-                var drunk = Modifier.GetModifier<Drunk>(PlayerControl.LocalPlayer);
+                var drunk = (Drunk)modifier;
                 drunk.RoundsLeft -= 1;
             }
             #endregion

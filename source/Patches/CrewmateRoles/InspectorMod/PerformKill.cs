@@ -29,8 +29,16 @@ namespace TownOfUs.CrewmateRoles.InspectorMod
             {
                 role.LastInspectedPlayer = role.ClosestPlayer;
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
-                if (role.BloodTimer(Role.GetRole(role.ClosestPlayer).LastBlood) == 0) Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                else Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                if (role.BloodTimer(Role.GetRole(role.ClosestPlayer).LastBlood) == 0)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                    role.Notification("Your Target Is Clean!", 1000 * CustomGameOptions.NotificationDuration);
+                }
+                else
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    role.Notification("Your Target Is Bloody!", 1000 * CustomGameOptions.NotificationDuration);
+                }
             }
             if (interact[0] == true)
             {

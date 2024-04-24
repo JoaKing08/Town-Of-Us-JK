@@ -1034,6 +1034,8 @@ namespace TownOfUs
                     case CustomRPC.Reveal:
                         var mayor = Utils.PlayerById(reader.ReadByte());
                         var mayorRole = Role.GetRole<Mayor>(mayor);
+                        Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Mayor));
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification("Mayor Has Revealed!", 1000 * CustomGameOptions.NotificationDuration);
                         mayorRole.Revealed = true;
                         AddRevealButton.RemoveAssassin(mayorRole);
                         break;
@@ -1616,20 +1618,28 @@ namespace TownOfUs
                         break;
                     case CustomRPC.Poison:
                         var poisoned = Utils.PlayerById(reader.ReadByte());
-                        if (poisoned == PlayerControl.LocalPlayer) Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                        if (poisoned == PlayerControl.LocalPlayer)
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                            Role.GetRole(poisoned).Notification("You Have Been Poisoned!", 1000 * CustomGameOptions.NotificationDuration);
+                        }
                         break;
                     case CustomRPC.Shoot:
-                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        var r = Role.GetRole(PlayerControl.LocalPlayer);
-                        var gameObj = new GameObject();
-                        var arrow = gameObj.AddComponent<ArrowBehaviour>();
-                        gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
-                        var renderer = gameObj.AddComponent<SpriteRenderer>();
-                        renderer.sprite = TownOfUs.Arrow;
-                        arrow.image = renderer;
-                        gameObj.layer = 5;
-                        arrow.target = Utils.PlayerById(reader.ReadByte()).GetTruePosition();
-                        r.SnipeArrows.Add(arrow);
+                        if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification("Sniper Has Shot!", 1000 * CustomGameOptions.NotificationDuration);
+                            var r = Role.GetRole(PlayerControl.LocalPlayer);
+                            var gameObj = new GameObject();
+                            var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                            gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                            var renderer = gameObj.AddComponent<SpriteRenderer>();
+                            renderer.sprite = TownOfUs.Arrow;
+                            arrow.image = renderer;
+                            gameObj.layer = 5;
+                            arrow.target = Utils.PlayerById(reader.ReadByte()).GetTruePosition();
+                            r.SnipeArrows.Add(arrow);
+                        }
                         break;
                     case CustomRPC.BugMessage:
                         var interacted = Utils.PlayerById(reader.ReadByte());
@@ -1656,6 +1666,7 @@ namespace TownOfUs
                         if (controled1 == PlayerControl.LocalPlayer)
                         {
                             Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Witch));
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification("You Have Been Controled!", 1000 * CustomGameOptions.NotificationDuration);
                             var __instance = DestroyableSingleton<HudManager>.Instance.KillButton;
                             if (controled1.Data.IsImpostor())
                             {

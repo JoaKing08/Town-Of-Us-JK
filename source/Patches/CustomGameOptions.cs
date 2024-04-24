@@ -528,5 +528,6 @@ namespace TownOfUs
         public static int SoulSwapAccuracy => (int)Generate.SoulSwapAccuracy.Get();
         public static bool SoulSwapImp => Generate.SoulSwapImp.Get();
         public static SwappedBecomes SwappedBecomes => (SwappedBecomes)Generate.SwappedBecomes.Get();
+        public static float NotificationDuration => Generate.NotificationDuration.Get();
     }
 }

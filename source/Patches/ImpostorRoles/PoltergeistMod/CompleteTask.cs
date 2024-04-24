@@ -24,6 +24,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
             {
                 role.Revealed = true;
                 Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                Role.GetRole(PlayerControl.LocalPlayer).Notification("Poltergeist Is Revealed!", 1000 * CustomGameOptions.NotificationDuration);
                 var gameObj = new GameObject();
                 var arrow = gameObj.AddComponent<ArrowBehaviour>();
                 gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
@@ -42,6 +43,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
                     PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.killTimer / 2);
                 }
                 Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                Role.GetRole(PlayerControl.LocalPlayer).Notification("Poltergeist Finished Tasks!", 1000 * CustomGameOptions.NotificationDuration);
             }
         }
     }

@@ -37,6 +37,7 @@ namespace TownOfUs.NeutralRoles.SerialKillerMod
             {
                 role.InBloodlust = false;
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                role.Notification("Your Bloodlust Is Sated!", 1000 * CustomGameOptions.NotificationDuration);
             }
             if (role.SKKills >= CustomGameOptions.KillsToBloodlust)
             {
@@ -44,6 +45,7 @@ namespace TownOfUs.NeutralRoles.SerialKillerMod
                 role.InBloodlust = true;
                 role.SKKills -= CustomGameOptions.KillsToBloodlust;
                 Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                role.Notification("<color=#FF0000FF>BLOODLUST!</color>", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)

@@ -24,6 +24,7 @@ namespace TownOfUs.Modifiers.ButtonBarryMod
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                Role.GetRole(PlayerControl.LocalPlayer).Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                 return false;
             }
             if (!__instance.enabled) return false;
