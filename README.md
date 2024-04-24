@@ -1561,6 +1561,7 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 | First Death Shield Next Game | Whether the first player to die gets a shield for the first round next game | Toggle | False |
 | Neutral Evils Win Ends Game | Whether a Neutral Evil role winning ends the game | Toggle | True |
 | Overtake Win | Whether the game ends if the number of killers is same or higher than crew | On / Without CK / Off | On |
+| Role Notification Duration | Time for how long text notifications stay| Time | 2.5s |
 
 -----------------------
 # Task Tracking Settings
