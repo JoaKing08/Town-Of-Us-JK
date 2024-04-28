@@ -56,6 +56,7 @@ namespace TownOfUs
         Undercover,
         Witch,
         CursedSoul,
+        Lookout,
 
         Miner,
         Swooper,

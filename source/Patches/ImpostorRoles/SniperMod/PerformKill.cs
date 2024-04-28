@@ -53,6 +53,7 @@ namespace TownOfUs.ImpostorRoles.SniperMod
                     if (!role.AimedPlayer.Is(RoleEnum.Pestilence) && !role.AimedPlayer.Is(RoleEnum.Famine) && !role.AimedPlayer.Is(RoleEnum.War) && !role.AimedPlayer.Is(RoleEnum.Death) && !role.AimedPlayer.IsShielded() && !role.AimedPlayer.IsVesting() && !role.AimedPlayer.IsOnAlert() && !role.AimedPlayer.IsProtected())
                     {
                         Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, role.AimedPlayer);
+                        Utils.Rpc(CustomRPC.KillAbilityUsed, role.AimedPlayer.PlayerId);
                     }
                     if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                     {

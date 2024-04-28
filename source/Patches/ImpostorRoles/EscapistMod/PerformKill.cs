@@ -35,6 +35,7 @@ namespace TownOfUs.ImpostorRoles.EscapistMod
                     if (__instance.isCoolingDown) return false;
                     if (role.EscapeTimer() != 0) return false;
                     Utils.Rpc(CustomRPC.Escape, PlayerControl.LocalPlayer.PlayerId, role.EscapePoint);
+                    Utils.Rpc(CustomRPC.AbilityUsed, PlayerControl.LocalPlayer.PlayerId);
                     role.LastEscape = DateTime.UtcNow;
                     Escapist.Escape(role.Player);
                 }

@@ -285,8 +285,10 @@ namespace TownOfUs.Roles
             var deadBodies = Object.FindObjectsOfType<DeadBody>();
             DeadBody Player1Body = null;
             DeadBody Player2Body = null;
-            if (TP1.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, TP1.PlayerId, (byte)RoleEnum.Transporter, (byte)0);
-            if (TP2.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, TP2.PlayerId, (byte)RoleEnum.Transporter, (byte)0);
+            if (TP1.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player1, (byte)RoleEnum.Transporter, (byte)0);
+            if (TP2.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player2, (byte)RoleEnum.Transporter, (byte)0);
+            Utils.Rpc(CustomRPC.AbilityUsed, player1);
+            Utils.Rpc(CustomRPC.AbilityUsed, player2);
             if (TP1.Data.IsDead)
             {
                 foreach (var body in deadBodies) if (body.ParentId == TP1.PlayerId) Player1Body = body;

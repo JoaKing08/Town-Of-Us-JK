@@ -106,12 +106,12 @@ namespace TownOfUs.Roles
                     if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Aurial) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Detective) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Investigator) ||
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Mystic) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Seer) ||
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Snitch) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Spy) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Tracker) ||
-                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Trapper) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Inspector))
+                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Trapper) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Inspector) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Lookout))
                         aligment = "<color=#CFFFFFFF>Crew Investigative</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Altruist) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Medic))
                         aligment = "<color=#CFFFFFFF>Crew Protective</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Sheriff) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.VampireHunter) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Veteran) ||
-                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Vigilante))
+                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Vigilante) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Hunter))
                         aligment = "<color=#CFFFFFFF>Crew Killing</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Engineer) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Imitator) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.TavernKeeper) ||
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Medium) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Transporter) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Undercover))

@@ -22,6 +22,33 @@ namespace TownOfUs.Patches
                 ZoomButton.GetComponent<PassiveButton>().OnClick = new();
                 ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(Zoom));
             }
+            if ((PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive) || (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(PlayerControl.LocalPlayer).Watching == true) || PlayerControl.LocalPlayer.Data.IsDead) DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(false);
+            else DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(true);
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !PlayerControl.LocalPlayer.Data.IsDead && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive)
+            {
+                Camera.main.orthographicSize = 3f * CustomGameOptions.AurialVisionMultiplier;
+
+                foreach (var cam in Camera.allCameras)
+                {
+                    if (cam?.gameObject.name == "UI Camera")
+                        cam.orthographicSize = 3f * CustomGameOptions.AurialVisionMultiplier;
+                }
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(PlayerControl.LocalPlayer).Watching == true)
+            {
+                Camera.main.orthographicSize = 3f * CustomGameOptions.WatchVisionMultiplier;
+            }
+            else if (Camera.main.orthographicSize != 12f)
+            {
+                Camera.main.orthographicSize = 3f;
+
+                foreach (var cam in Camera.allCameras)
+                {
+                    if (cam?.gameObject.name == "UI Camera")
+                        cam.orthographicSize = 3f;
+                }
+            }
 
             Pos = __instance.MapButton.transform.localPosition + new Vector3(0.02f, -0.66f, 0f);
             var dead = false;

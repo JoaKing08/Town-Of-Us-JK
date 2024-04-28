@@ -408,6 +408,19 @@ namespace TownOfUs.Patches
                 var drunk = Modifier.GetModifier<Drunk>(PlayerControl.LocalPlayer);
                 drunk.RoundsLeft = CustomGameOptions.DrunkDuration;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Investigator))
+            {
+                var investigator = Role.GetRole<Investigator>(PlayerControl.LocalPlayer);
+                investigator.LastInvestigate = DateTime.UtcNow;
+                investigator.LastInvestigate = investigator.LastInvestigate.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.InvestigateCooldown);
+                investigator.UsesLeft = CustomGameOptions.MaxInvestigates;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                lookout.LastWatched = DateTime.UtcNow;
+                lookout.LastWatched = lookout.LastWatched.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.WatchCooldown);
+            }
         }
     }
 }

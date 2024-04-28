@@ -39,6 +39,7 @@ namespace TownOfUs.Roles
         public TextMeshPro NotificationText;
         public DateTime NotificationEnds;
         public string NotificationString;
+        public bool KilledByAbility;
 
         protected Role(PlayerControl player)
         {
@@ -661,6 +662,7 @@ namespace TownOfUs.Roles
                         {
                             ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
                         }
+                        ModifierText.color = Color.white;
 
                         //
                         ModifierText.transform.position =
@@ -763,6 +765,7 @@ namespace TownOfUs.Roles
                         {
                             ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
                         }
+                        ModifierText.color = Color.white;
 
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
@@ -877,6 +880,7 @@ namespace TownOfUs.Roles
                         {
                             ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
                         }
+                        ModifierText.color = Color.white;
 
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);

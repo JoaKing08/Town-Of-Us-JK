@@ -36,6 +36,7 @@ namespace TownOfUs.Patches
         public readonly static Color Monarch = new Color(0.588f, 0.157f, 0.785f, 1f);
         public readonly static Color TavernKeeper = new Color(0.55f, 0.27f, 0.08f, 1f);
         public readonly static Color Undercover = new Color(0f, 0.15f, 0f, 1f);
+        public readonly static Color Lookout = new Color(0.5f, 0.875f, 0.875f, 1f);
 
         // Neutral Colors
         public readonly static Color Jester = new Color(1f, 0.75f, 0.8f, 1f);

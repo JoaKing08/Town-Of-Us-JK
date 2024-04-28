@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TownOfUs.Extensions;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.MedicMod
 {
@@ -9,6 +10,13 @@ namespace TownOfUs.CrewmateRoles.MedicMod
         public byte KillerId { get; set; }
         public byte PlayerId { get; set; }
         public DateTime KillTime { get; set; }
+        public bool KillerVented { get; set; }
+        public KillerDirection KillerRunTo { get; set; }
+        public bool KillerEscapeAbility { get; set; }
+        public bool KillerKillAbility { get; set; }
+        public Vector3 BodyPosition { get; set; }
+        public RoleEnum KillersRole { get; set; }
+        public Faction KillersFaction { get; set; }
     }
 
     //body report class for when medic reports a body

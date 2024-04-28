@@ -93,6 +93,7 @@ namespace TownOfUs.Roles
                 if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death) && !player.IsShielded() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
                 {
                     Utils.RpcMultiMurderPlayer(Player, player);
+                    Utils.Rpc(CustomRPC.KillAbilityUsed, playerId);
                 }
                 else if (player.IsShielded())
                 {

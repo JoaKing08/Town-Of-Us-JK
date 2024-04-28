@@ -111,6 +111,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Monarch:
                 case RoleEnum.TavernKeeper:
                 case RoleEnum.Undercover:
+                case RoleEnum.Lookout:
 
                     rememberImp = false;
                     rememberNeut = false;
@@ -587,6 +588,13 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 spy.LastBugged = DateTime.UtcNow;
                 spy.BugsLeft = CustomGameOptions.BugsPerGame;
                 Utils.Rpc(CustomRPC.UnbugPlayers, PlayerControl.LocalPlayer.PlayerId);
+            }
+
+            else if (role == RoleEnum.Lookout)
+            {
+                var lookoutRole = Role.GetRole<Lookout>(amnesiac);
+                lookoutRole.LastWatched = DateTime.UtcNow;
+                lookoutRole.TimeRemaining = 0f;
             }
 
             else if (role == RoleEnum.Witch)

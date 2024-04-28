@@ -18,7 +18,7 @@ namespace TownOfUs.CrewmateRoles.InspectorMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            //__instance.KillButton.SetCoolDown(role.InspectTimer(), CustomGameOptions.InspectCooldown);
+            __instance.KillButton.SetCoolDown(role.InspectTimer(), CustomGameOptions.InspectCooldown);
             Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
         }
     }

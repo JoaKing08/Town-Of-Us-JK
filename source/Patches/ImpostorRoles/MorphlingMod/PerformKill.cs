@@ -38,6 +38,7 @@ namespace TownOfUs.ImpostorRoles.MorphlingMod
                     if (__instance.isCoolingDown) return false;
                     if (role.MorphTimer() != 0) return false;
                     Utils.Rpc(CustomRPC.Morph, PlayerControl.LocalPlayer.PlayerId, role.SampledPlayer.PlayerId);
+                    Utils.Rpc(CustomRPC.AbilityUsed, PlayerControl.LocalPlayer.PlayerId);
                     role.TimeRemaining = CustomGameOptions.MorphlingDuration;
                     role.MorphedPlayer = role.SampledPlayer;
                     Utils.Morph(role.Player, role.SampledPlayer, true);

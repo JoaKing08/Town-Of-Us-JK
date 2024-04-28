@@ -29,12 +29,10 @@ namespace TownOfUs
                 if (role.NotificationEnds > System.DateTime.UtcNow)
                 {
                     role.NotificationText.text = role.NotificationString;
-                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Setting Notification");
                 }
                 else
                 {
                     role.NotificationText.text = "";
-                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Erasing");
                 }
             }
         }

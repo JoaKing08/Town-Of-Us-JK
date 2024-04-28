@@ -84,4 +84,44 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
             role.RegenTask();
         }
     }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Die))]
+    public class PlayerControl_MurderPlayer
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
+            {
+                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
+                {
+                    ((Inquisitor)inq).Wins();
+                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                    {
+                        KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                        inq.Player.Exiled();
+                    }
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
+    internal class MeetingExiledEnd
+    {
+        private static void Postfix(ExileController __instance)
+        {
+            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
+            {
+                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
+                {
+                    ((Inquisitor)inq).Wins();
+                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                    {
+                        KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                        inq.Player.Exiled();
+                    }
+                }
+            }
+        }
+    }
 }

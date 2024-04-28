@@ -20,6 +20,7 @@ namespace TownOfUs.ImpostorRoles.SwooperMod
                 if (role.SwoopTimer() != 0) return false;
 
                 Utils.Rpc(CustomRPC.Swoop, PlayerControl.LocalPlayer.PlayerId);
+                Utils.Rpc(CustomRPC.AbilityUsed, PlayerControl.LocalPlayer.PlayerId);
                 role.TimeRemaining = CustomGameOptions.SwoopDuration;
                 role.Swoop();
                 return false;

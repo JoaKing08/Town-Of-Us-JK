@@ -123,6 +123,8 @@ namespace TownOfUs
         public static Sprite ControlSprite;
         public static Sprite OrderSprite;
         public static Sprite SoulSwapSprite;
+        public static Sprite InvestigateSprite;
+        public static Sprite WatchSprite;
         public static Sprite NothingSprite;
 
         public static Sprite SettingsButtonSprite;
@@ -246,6 +248,8 @@ namespace TownOfUs
             ControlSprite = CreateSprite("TownOfUs.Resources.Control.png");
             OrderSprite = CreateSprite("TownOfUs.Resources.Order.png");
             SoulSwapSprite = CreateSprite("TownOfUs.Resources.SoulSwap.png");
+            InvestigateSprite = CreateSprite("TownOfUs.Resources.Investigate.png");
+            WatchSprite = CreateSprite("TownOfUs.Resources.Watch.png");
             NothingSprite = CreateSprite("TownOfUs.Resources.Nothing.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");

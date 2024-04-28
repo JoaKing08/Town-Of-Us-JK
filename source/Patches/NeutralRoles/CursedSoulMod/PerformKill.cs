@@ -119,6 +119,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 case RoleEnum.Monarch:
                 case RoleEnum.TavernKeeper:
                 case RoleEnum.Undercover:
+                case RoleEnum.Lookout:
 
                     swapImp = false;
                     swapNeut = false;
@@ -588,6 +589,12 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 spy.LastBugged = DateTime.UtcNow;
                 spy.Messages = new List<string>();
                 Utils.Rpc(CustomRPC.UnbugPlayers, PlayerControl.LocalPlayer.PlayerId);
+            }
+
+            else if (targetRole == RoleEnum.Lookout)
+            {
+                var lookoutRole = Role.GetRole<Lookout>(cursedSoul);
+                lookoutRole.LastWatched = DateTime.UtcNow;
             }
 
             else if (targetRole == RoleEnum.Witch)

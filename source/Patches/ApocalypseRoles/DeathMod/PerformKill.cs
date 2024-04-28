@@ -32,6 +32,7 @@ namespace TownOfUs.ApocalypseRoles.DeathMod
                 if (!player.Is(Faction.NeutralApocalypse) && !player.Is(ObjectiveEnum.ApocalypseAgent))
                 {
                     Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                    Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
                 }
             }
             return false;

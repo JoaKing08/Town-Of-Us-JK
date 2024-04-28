@@ -53,6 +53,8 @@ namespace TownOfUs
         private static Sprite Control => TownOfUs.ControlSprite;
         private static Sprite Order => TownOfUs.OrderSprite;
         private static Sprite SoulSwap => TownOfUs.SoulSwapSprite;
+        private static Sprite Investigate => TownOfUs.InvestigateSprite;
+        private static Sprite Watch => TownOfUs.WatchSprite;
         private static Sprite Nothing => TownOfUs.NothingSprite;
 
         private static Sprite Kill;
@@ -250,6 +252,20 @@ namespace TownOfUs
                 __instance.KillButton.graphic.sprite = SoulSwap;
                 __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
                 __instance.KillButton.buttonLabelText.text = "Soul Swap";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Investigator))
+            {
+                __instance.KillButton.graphic.sprite = Investigate;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Investigate";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                __instance.KillButton.graphic.sprite = Watch;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Watch";
                 flag = true;
             }
             else

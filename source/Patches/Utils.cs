@@ -1515,6 +1515,17 @@ namespace TownOfUs
                 spy.LastBugged = DateTime.UtcNow;
                 Utils.Rpc(CustomRPC.UnbugPlayers, PlayerControl.LocalPlayer.PlayerId);
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Investigator))
+            {
+                var investigator = Role.GetRole<Investigator>(PlayerControl.LocalPlayer);
+                investigator.UsesLeft = CustomGameOptions.MaxInvestigates;
+                investigator.LastInvestigate = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                lookout.LastWatched = DateTime.UtcNow;
+            }
             #endregion
             #region NeutralRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
@@ -1721,7 +1732,7 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death))
                 return $"{player.GetDefaultOutfit().PlayerName} has an altered perception of reality";
             else if (player.Is(RoleEnum.Detective) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
-                 || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Trapper))
+                 || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Lookout))
                 return $"{player.GetDefaultOutfit().PlayerName} has an insight for private information";
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
                  || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
@@ -1748,8 +1759,8 @@ namespace TownOfUs
                 || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Monarch))
                 return $"{player.GetDefaultOutfit().PlayerName} knows perfectly how the law works";
             else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.SerialKiller)
-                || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
-                return $"{player.GetDefaultOutfit().PlayerName} likes parties";
+                || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker) || player.Is(RoleEnum.Trapper))
+                return $"{player.GetDefaultOutfit().PlayerName} loves parties";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return $"{player.GetDefaultOutfit().PlayerName} appears to be roleless";
             else
@@ -1763,8 +1774,8 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death) || player.Is(RoleEnum.Witch))
                 return "(Imitator, Morphling, Spy, Glitch, Death or Witch)";
             else if (player.Is(RoleEnum.Detective) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
-                 || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Trapper))
-                return "(Detective, Doomsayer, Oracle, Snitch, Trapper or Inspector)";
+                 || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Lookout))
+                return "(Detective, Doomsayer, Oracle, Snitch, Inspector or Lookout)";
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
                  || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
                 return "(Altruist, Amnesiac, Janitor, Undertaker, Vampire or Soul Collector)";
@@ -1789,9 +1800,9 @@ namespace TownOfUs
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
                 || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Monarch))
                 return "(Executioner, Prosecutor, Guardian Angel, Mayor, Blackmailer or Monarch)";
-            else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner)
+            else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.Trapper)
                  || player.Is(RoleEnum.SerialKiller) || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
-                return "(Tavern Keeper, Poisoner, Serial Killer, Aurial or Baker)";
+                return "(Trapper, Tavern Keeper, Poisoner, Serial Killer, Aurial or Baker)";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return "(Crewmate or Impostor)";
             else
@@ -1871,6 +1882,10 @@ namespace TownOfUs
                     return Colors.GuardianAngel;
                 case RoleEnum.Survivor:
                     return Colors.Survivor;
+                case RoleEnum.Witch:
+                    return Colors.Witch;
+                case RoleEnum.CursedSoul:
+                    return Colors.CursedSoul;
 
                 case RoleEnum.Mayor:
                     return Colors.Mayor;
@@ -1933,6 +1948,8 @@ namespace TownOfUs
                     return Colors.Trapper;
                 case RoleEnum.Inspector:
                     return Colors.Inspector;
+                case RoleEnum.Lookout:
+                    return Colors.Lookout;
 
                 case RoleEnum.RedMember:
                     return Colors.RedTeam;
@@ -2005,7 +2022,7 @@ namespace TownOfUs
                 case RoleEnum.War:
                     return "War";
                 case RoleEnum.SoulCollector:
-                    return "SoulCollector";
+                    return "Soul Collector";
                 case RoleEnum.Death:
                     return "Death";
                 case RoleEnum.Arsonist:
@@ -2038,6 +2055,10 @@ namespace TownOfUs
                     return "Guardian Angel";
                 case RoleEnum.Survivor:
                     return "Survivor";
+                case RoleEnum.Witch:
+                    return "Witch";
+                case RoleEnum.CursedSoul:
+                    return "Cursed Soul";
 
                 case RoleEnum.Mayor:
                     return "Mayor";
@@ -2100,6 +2121,8 @@ namespace TownOfUs
                     return "Trapper";
                 case RoleEnum.Inspector:
                     return "Inspector";
+                case RoleEnum.Lookout:
+                    return "Lookout";
 
                 case RoleEnum.RedMember:
                 case RoleEnum.BlueMember:

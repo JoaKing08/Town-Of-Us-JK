@@ -28,6 +28,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
             if (role.PoisonTimer() == 0 && role.PoisonedPlayer != null)
             {
                 Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, role.PoisonedPlayer);
+                Utils.Rpc(CustomRPC.KillAbilityUsed, role.PoisonedPlayer.PlayerId);
                 role.PoisonedPlayer = null;
             }
 

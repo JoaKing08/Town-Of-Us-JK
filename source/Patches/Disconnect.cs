@@ -2,6 +2,8 @@ using HarmonyLib;
 using System.Linq;
 using UnityEngine;
 using TownOfUs.ImpostorRoles.TraitorMod;
+using TownOfUs.Roles;
+using TownOfUs.CrewmateRoles.AltruistMod;
 
 namespace TownOfUs.Patches
 {
@@ -35,6 +37,18 @@ namespace TownOfUs.Patches
                         sheriff.IncorrectKills -= 1;
                     }
                 }*/
+                foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
+                {
+                    if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
+                    {
+                        ((Inquisitor)inq).Wins();
+                        if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                        {
+                            KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                            inq.Player.Exiled();
+                        }
+                    }
+                }
                 if (AmongUsClient.Instance.AmHost)
                 {
                     if (player == SetTraitor.WillBeTraitor)

@@ -28,6 +28,7 @@ namespace TownOfUs.CrewmateRoles.InspectorMod
             if (interact[4] == true)
             {
                 role.LastInspectedPlayer = role.ClosestPlayer;
+                role.LastInspected = DateTime.UtcNow;
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 if (role.BloodTimer(Role.GetRole(role.ClosestPlayer).LastBlood) == 0)
                 {

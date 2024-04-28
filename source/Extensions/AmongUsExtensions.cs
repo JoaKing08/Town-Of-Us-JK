@@ -51,6 +51,8 @@ namespace TownOfUs.Extensions
 
         public static bool TryGetAppearance(this PlayerControl player, IVisualAlteration modifier, out VisualAppearance appearance)
         {
+            if (player.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(player).Watching == true)
+                return Role.GetRole<Lookout>(player).TryGetModifiedAppearance(out appearance);
             if (modifier != null)
                 return modifier.TryGetModifiedAppearance(out appearance);
 

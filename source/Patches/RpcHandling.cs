@@ -24,6 +24,7 @@ using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.ImpostorRoles.PoltergeistMod;
 using TownOfUs.NeutralRoles.CursedSoulMod;
+using TownOfUs.CrewmateRoles.InvestigatorMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using TownOfUs.Roles.Modifiers;
@@ -618,27 +619,27 @@ namespace TownOfUs
                 }
             }
 
+            var undercoverRoles = new List<RoleEnum>();
+            if (CustomGameOptions.UndercoverBaker && CustomGameOptions.BakerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Baker)) == 0) undercoverRoles.Add(RoleEnum.Baker);
+            if (CustomGameOptions.UndercoverBerserker && CustomGameOptions.BerserkerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Berserker)) == 0) undercoverRoles.Add(RoleEnum.Berserker);
+            if (CustomGameOptions.UndercoverBlackmailer && CustomGameOptions.BlackmailerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Blackmailer)) == 0) undercoverRoles.Add(RoleEnum.Blackmailer);
+            if (CustomGameOptions.UndercoverBomber && CustomGameOptions.BomberOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Bomber)) == 0) undercoverRoles.Add(RoleEnum.Bomber);
+            if (CustomGameOptions.UndercoverEscapist && CustomGameOptions.EscapistOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Escapist)) == 0) undercoverRoles.Add(RoleEnum.Escapist);
+            if (CustomGameOptions.UndercoverGrenadier && CustomGameOptions.GrenadierOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Grenadier)) == 0) undercoverRoles.Add(RoleEnum.Grenadier);
+            if (CustomGameOptions.UndercoverJanitor && CustomGameOptions.JanitorOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Janitor)) == 0) undercoverRoles.Add(RoleEnum.Janitor);
+            if (CustomGameOptions.UndercoverMiner && CustomGameOptions.MinerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Miner)) == 0) undercoverRoles.Add(RoleEnum.Miner);
+            if (CustomGameOptions.UndercoverMorphling && CustomGameOptions.MorphlingOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Morphling)) == 0) undercoverRoles.Add(RoleEnum.Morphling);
+            if (CustomGameOptions.UndercoverPlaguebearer && CustomGameOptions.PlaguebearerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Plaguebearer)) == 0) undercoverRoles.Add(RoleEnum.Plaguebearer);
+            if (CustomGameOptions.UndercoverPoisoner && CustomGameOptions.PoisonerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Poisoner)) == 0) undercoverRoles.Add(RoleEnum.Poisoner);
+            if (CustomGameOptions.UndercoverSniper && CustomGameOptions.SniperOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Sniper)) == 0) undercoverRoles.Add(RoleEnum.Sniper);
+            if (CustomGameOptions.UndercoverSoulCollector && CustomGameOptions.SoulCollectorOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.SoulCollector)) == 0) undercoverRoles.Add(RoleEnum.SoulCollector);
+            if (CustomGameOptions.UndercoverSwooper && CustomGameOptions.SwooperOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Swooper)) == 0) undercoverRoles.Add(RoleEnum.Swooper);
+            if (CustomGameOptions.UndercoverUndertaker && CustomGameOptions.UndertakerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undertaker)) == 0) undercoverRoles.Add(RoleEnum.Undertaker);
+            if (CustomGameOptions.UndercoverVenerer && CustomGameOptions.VenererOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Venerer)) == 0) undercoverRoles.Add(RoleEnum.Venerer);
+            if (CustomGameOptions.UndercoverWarlock && CustomGameOptions.WarlockOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Warlock)) == 0) undercoverRoles.Add(RoleEnum.Warlock);
             foreach (var role in Role.GetRoles(RoleEnum.Undercover))
             {
                 var undercover = (Undercover)role;
-                var undercoverRoles = new List<RoleEnum>();
-                if (CustomGameOptions.UndercoverBaker && CustomGameOptions.BakerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Baker)) == 0) undercoverRoles.Add(RoleEnum.Baker);
-                if (CustomGameOptions.UndercoverBerserker && CustomGameOptions.BerserkerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Berserker)) == 0) undercoverRoles.Add(RoleEnum.Berserker);
-                if (CustomGameOptions.UndercoverBlackmailer && CustomGameOptions.BlackmailerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Blackmailer)) == 0) undercoverRoles.Add(RoleEnum.Blackmailer);
-                if (CustomGameOptions.UndercoverBomber && CustomGameOptions.BomberOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Bomber)) == 0) undercoverRoles.Add(RoleEnum.Bomber);
-                if (CustomGameOptions.UndercoverEscapist && CustomGameOptions.EscapistOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Escapist)) == 0) undercoverRoles.Add(RoleEnum.Escapist);
-                if (CustomGameOptions.UndercoverGrenadier && CustomGameOptions.GrenadierOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Grenadier)) == 0) undercoverRoles.Add(RoleEnum.Grenadier);
-                if (CustomGameOptions.UndercoverJanitor && CustomGameOptions.JanitorOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Janitor)) == 0) undercoverRoles.Add(RoleEnum.Janitor);
-                if (CustomGameOptions.UndercoverMiner && CustomGameOptions.MinerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Miner)) == 0) undercoverRoles.Add(RoleEnum.Miner);
-                if (CustomGameOptions.UndercoverMorphling && CustomGameOptions.MorphlingOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Morphling)) == 0) undercoverRoles.Add(RoleEnum.Morphling);
-                if (CustomGameOptions.UndercoverPlaguebearer && CustomGameOptions.PlaguebearerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Plaguebearer)) == 0) undercoverRoles.Add(RoleEnum.Plaguebearer);
-                if (CustomGameOptions.UndercoverPoisoner && CustomGameOptions.PoisonerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Poisoner)) == 0) undercoverRoles.Add(RoleEnum.Poisoner);
-                if (CustomGameOptions.UndercoverSniper && CustomGameOptions.SniperOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Sniper)) == 0) undercoverRoles.Add(RoleEnum.Sniper);
-                if (CustomGameOptions.UndercoverSoulCollector && CustomGameOptions.SoulCollectorOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.SoulCollector)) == 0) undercoverRoles.Add(RoleEnum.SoulCollector);
-                if (CustomGameOptions.UndercoverSwooper && CustomGameOptions.SwooperOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Swooper)) == 0) undercoverRoles.Add(RoleEnum.Swooper);
-                if (CustomGameOptions.UndercoverUndertaker && CustomGameOptions.UndertakerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undertaker)) == 0) undercoverRoles.Add(RoleEnum.Undertaker);
-                if (CustomGameOptions.UndercoverVenerer && CustomGameOptions.VenererOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Venerer)) == 0) undercoverRoles.Add(RoleEnum.Venerer);
-                if (CustomGameOptions.UndercoverWarlock && CustomGameOptions.WarlockOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Warlock)) == 0) undercoverRoles.Add(RoleEnum.Warlock);
                 if (undercoverRoles.Count > 0)
                 {
                     undercover.UndercoverRole = undercoverRoles[Random.RandomRangeInt(0, undercoverRoles.Count)];
@@ -653,7 +654,7 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
             {
                 var inq = (Inquisitor)role;
-                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x != inq.Player).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
+                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
                 var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
                 foreach (var heretic in hereticsRaw)
                 {
@@ -1000,7 +1001,7 @@ namespace TownOfUs
                         ExileControllerPatch.lastExiled = null;
                         PatchKillTimer.GameStarted = false;
                         StartImitate.ImitatingPlayer = null;
-                        KillButtonTarget.DontRevive = byte.MaxValue;
+                        CrewmateRoles.AltruistMod.KillButtonTarget.DontRevive = byte.MaxValue;
                         ReviveHudManagerUpdate.DontRevive = byte.MaxValue;
                         AddHauntPatch.AssassinatedPlayers.Clear();
                         HudUpdate.Zooming = false;
@@ -1828,6 +1829,9 @@ namespace TownOfUs
                                         Role.GetRole<Hunter>(controled1).ClosestStalkPlayer = target1;
                                         CrewmateRoles.HunterMod.Stalk.Prefix(__instance);
                                         break;
+                                    case RoleEnum.Lookout:
+                                        CrewmateRoles.LookoutMod.PerformKill.Prefix(__instance);
+                                        break;
                                     default:
                                         Utils.Interact(controled1, target1);
                                         break;
@@ -1864,6 +1868,20 @@ namespace TownOfUs
                     case CustomRPC.Retribution:
                         var lastVoted = Utils.PlayerById(reader.ReadByte());
                         AssassinKill.MurderPlayer(lastVoted);
+                        break;
+                    case CustomRPC.AbilityUsed:
+                        var abilityPlayer = reader.ReadByte();
+                        foreach (var kill in Murder.KilledPlayers)
+                        {
+                            if (abilityPlayer == kill.KillerId && (DateTime.UtcNow - kill.KillTime).TotalSeconds < 10)
+                            {
+                                kill.KillerEscapeAbility = true;
+                            }
+                        }
+                        break;
+                    case CustomRPC.KillAbilityUsed:
+                        var abilityTarget = Role.GetRole(Utils.PlayerById(reader.ReadByte()));
+                        abilityTarget.KilledByAbility = true;
                         break;
                 }
             }
@@ -1917,7 +1935,7 @@ namespace TownOfUs
                 AssassinAbility.Clear();
 
                 Murder.KilledPlayers.Clear();
-                KillButtonTarget.DontRevive = byte.MaxValue;
+                CrewmateRoles.AltruistMod.KillButtonTarget.DontRevive = byte.MaxValue;
                 ReviveHudManagerUpdate.DontRevive = byte.MaxValue;
                 HudUpdate.Zooming = false;
                 HudUpdate.ZoomStart();
@@ -2038,6 +2056,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.UndercoverOn > 0)
                         CrewmatesRoles.Add((typeof(Undercover), CustomGameOptions.UndercoverOn, true));
+
+                    if (CustomGameOptions.LookoutOn > 0)
+                        CrewmatesRoles.Add((typeof(Lookout), CustomGameOptions.LookoutOn, false));
                     #endregion
                     #region Neutral Roles
                     if (CustomGameOptions.JesterOn > 0)
@@ -2291,6 +2312,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.UndercoverOn > 0)
                         CrewmatesRoles.Add((typeof(Undercover), CustomGameOptions.UndercoverOn, true));
+
+                    if (CustomGameOptions.LookoutOn > 0)
+                        CrewmatesRoles.Add((typeof(Lookout), CustomGameOptions.LookoutOn, false));
                     #endregion
                     #region Neutral Roles
                     if (CustomGameOptions.JesterOn > 0)

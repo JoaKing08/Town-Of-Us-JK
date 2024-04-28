@@ -122,6 +122,7 @@ namespace TownOfUs
         public static int PoltergeistOn => (int)Generate.PoltergeistOn.Get();
         public static int WitchOn => (int)Generate.WitchOn.Get();
         public static int CursedSoulOn => (int)Generate.CursedSoulOn.Get();
+        public static int LookoutOn => (int)Generate.LookoutOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
@@ -168,6 +169,8 @@ namespace TownOfUs
         public static float FootprintDuration => Generate.FootprintDuration.Get();
         public static bool AnonymousFootPrint => Generate.AnonymousFootPrint.Get();
         public static bool VentFootprintVisible => Generate.VentFootprintVisible.Get();
+        public static float InvestigateCooldown => Generate.InvestigateCooldown.Get();
+        public static int MaxInvestigates => (int)Generate.MaxInvestigates.Get();
         public static bool JesterButton => Generate.JesterButton.Get();
         public static bool JesterVent => Generate.JesterVent.Get();
         public static bool JesterImpVision => Generate.JesterImpVision.Get();
@@ -395,6 +398,7 @@ namespace TownOfUs
         public static float RadiateInvis => (float)Generate.RadiateInvis.Get();
         public static int RadiateCount => (int)Generate.RadiateCount.Get();
         public static int RadiateChance => (int)Generate.RadiateSucceedChance.Get();
+        public static float AurialVisionMultiplier => Generate.AurialVisionMultiplier.Get();
         public static AdminDeadPlayers WhoSeesDead => (AdminDeadPlayers)Generate.WhoSeesDead.Get();
         public static bool VentImprovements => Generate.VentImprovements.Get();
         public static bool VitalsLab => Generate.VitalsLab.Get();
@@ -529,5 +533,8 @@ namespace TownOfUs
         public static bool SoulSwapImp => Generate.SoulSwapImp.Get();
         public static SwappedBecomes SwappedBecomes => (SwappedBecomes)Generate.SwappedBecomes.Get();
         public static float NotificationDuration => Generate.NotificationDuration.Get();
+        public static float WatchCooldown => Generate.WatchCooldown.Get();
+        public static float WatchDuration => Generate.WatchDuration.Get();
+        public static float WatchVisionMultiplier => Generate.WatchVisionMultiplier.Get();
     }
 }

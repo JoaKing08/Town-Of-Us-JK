@@ -10,6 +10,7 @@ namespace TownOfUs.Roles.Modifiers
             TaskText = () => "Use your <color=#CFFFFFFF>Crewmate</color> role to benefit <color=#FF0000FF>Impostors</color>.";
             Color = Patches.Colors.ImpostorAgent;
             ObjectiveType = ObjectiveEnum.ImpostorAgent;
+
         }
     }
     public class ApocalypseAgent : Objective

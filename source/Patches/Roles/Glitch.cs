@@ -432,6 +432,7 @@ namespace TownOfUs.Roles
             public static IEnumerator Mimic(Glitch __instance, PlayerControl mimicPlayer)
             {
                 Utils.Rpc(CustomRPC.SetMimic, PlayerControl.LocalPlayer.PlayerId, mimicPlayer.PlayerId);
+                Utils.Rpc(CustomRPC.AbilityUsed, __instance.Player.PlayerId);
 
                 Utils.Morph(__instance.Player, mimicPlayer, true);
 

@@ -135,6 +135,8 @@ namespace TownOfUs
         ControlSet,
         ControlPerform,
         ControlCooldown,
-        SoulSwap
+        SoulSwap,
+        AbilityUsed,
+        KillAbilityUsed
     }
 }

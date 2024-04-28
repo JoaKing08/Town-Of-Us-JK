@@ -16,6 +16,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption TrackerOn;
         public static CustomNumberOption TrapperOn;
         public static CustomNumberOption InspectorOn;
+        public static CustomNumberOption LookoutOn;
 
         public static CustomHeaderOption CrewProtectiveRoles;
         public static CustomNumberOption AltruistOn;
@@ -258,6 +259,8 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption FootprintDuration;
         public static CustomToggleOption AnonymousFootPrint;
         public static CustomToggleOption VentFootprintVisible;
+        public static CustomNumberOption InvestigateCooldown;
+        public static CustomNumberOption MaxInvestigates;
 
         public static CustomHeaderOption Medic;
         public static CustomStringOption ShowShielded;
@@ -572,6 +575,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption RadiateSucceedChance;
         public static CustomNumberOption RadiateCount;
         public static CustomNumberOption RadiateInvis;
+        public static CustomNumberOption AurialVisionMultiplier;
 
         public static CustomHeaderOption Giant;
         public static CustomNumberOption GiantSlow;
@@ -668,6 +672,11 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SoulSwapImp;
         public static CustomStringOption SwappedBecomes;
 
+        public static CustomHeaderOption Lookout;
+        public static CustomNumberOption WatchCooldown;
+        public static CustomNumberOption WatchDuration;
+        public static CustomNumberOption WatchVisionMultiplier;
+
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
         private static Func<object, string> MultiplierFormat { get; } = value => $"{value:0.0#}x";
@@ -703,6 +712,8 @@ namespace TownOfUs.CustomOption
             TrapperOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#A7D1B3FF>Trapper</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             InspectorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#8BFFDBFF>Inspector</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            LookoutOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#80DFDFFF>Lookout</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             CrewKillingRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Killing Roles");
@@ -1073,6 +1084,8 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Uses To See", 3, 1, 5, 1);
             RadiateSucceedChance =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Succeed Chance", 100f, 0f, 100f, 10f, PercentFormat);
+            AurialVisionMultiplier =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Aurial Vision Multiplier", 1.25f, 1f, 1.5f, 0.05f, MultiplierFormat);
 
             Detective =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>");
@@ -1104,6 +1117,10 @@ namespace TownOfUs.CustomOption
             FootprintDuration = new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Duration", 10f, 1f, 15f, 0.5f, CooldownFormat);
             AnonymousFootPrint = new CustomToggleOption(num++, MultiMenu.crewmate, "Anonymous Footprint", false);
             VentFootprintVisible = new CustomToggleOption(num++, MultiMenu.crewmate, "Footprint Vent Visible", false);
+            InvestigateCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Investigate Cooldown", 10f, 2.5f, 60f, 2.5f, CooldownFormat);
+            MaxInvestigates =
+                 new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Investigates Per Round", 3, 0, 15, 1);
 
             Mystic =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4D99E6FF>Mystic</color>");
@@ -1173,6 +1190,15 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Inspect Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             BloodDuration =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "How Long Blood Stays", 30f, 10f, 120f, 2.5f, CooldownFormat);
+
+            Lookout =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#80DFDFFF>Lookout</color>");
+            WatchCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Watch Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            WatchDuration =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Watch Duration", 10f, 5f, 20f, 2.5f, CooldownFormat);
+            WatchVisionMultiplier =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Vision Multiplier On Watch", 1.5f, 1f, 3f, 0.25f, MultiplierFormat);
 
             Hunter =
                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#29AB87FF>Hunter</color>");

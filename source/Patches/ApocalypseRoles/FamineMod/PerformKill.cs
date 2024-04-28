@@ -37,6 +37,7 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
                         if (playerRole.BreadLeft <= 0)
                         {
                             Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                            Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
                         }
                         if (player == role.ClosestPlayer)
                         {

@@ -2,7 +2,7 @@ using TownOfUs.Extensions;
 
 namespace TownOfUs.Roles.Modifiers
 {
-    public class Drunk : Modifier, IVisualAlteration
+    public class Drunk : Modifier
     {
         public int RoundsLeft;
         public Drunk(PlayerControl player) : base(player)
@@ -12,13 +12,6 @@ namespace TownOfUs.Roles.Modifiers
             Color = Patches.Colors.Drunk;
             ModifierType = ModifierEnum.Drunk;
             RoundsLeft = CustomGameOptions.DrunkDuration;
-        }
-
-        public bool TryGetModifiedAppearance(out VisualAppearance appearance)
-        {
-            appearance = Player.GetDefaultAppearance();
-            appearance.SpeedFactor = CustomGameOptions.DrunkWearsOff && RoundsLeft <= 0 ? 1f : -1f;
-            return true;
         }
     }
 }

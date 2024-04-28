@@ -13,6 +13,7 @@ namespace TownOfUs.CrewmateRoles.SpyMod
         public static bool Prefix(KillButton __instance)
         {
             if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
+            if (CustomGameOptions.GameMode == GameMode.Cultist) return false;
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Spy);
             if (!flag) return true;
             var role = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
