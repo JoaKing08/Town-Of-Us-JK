@@ -34,8 +34,6 @@ namespace TownOfUs
             scaler.aspectPosition = position;
 
             touLogo.transform.SetParent(GameObject.Find("RightPanel").transform);
-
-
         }
     }
 }

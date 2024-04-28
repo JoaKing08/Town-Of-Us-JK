@@ -160,6 +160,10 @@ namespace TownOfUs.Patches {
                 {
                     playerRole += " (<color=#" + Patches.Colors.Diseased.ToHtmlStringRGBA() + ">Diseased</color>)";
                 }
+                else if (playerControl.Is(ModifierEnum.Mini))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.Mini.ToHtmlStringRGBA() + ">Mini</color>)";
+                }
                 else if (playerControl.Is(ModifierEnum.Flash))
                 {
                     playerRole += " (<color=#" + Patches.Colors.Flash.ToHtmlStringRGBA() + ">Flash</color>)";
