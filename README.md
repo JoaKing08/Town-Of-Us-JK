@@ -31,10 +31,12 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 |                              | [Tavern Keeper](#tavern-keeper)    |                                  |                              |
 |                              | [Undercover](#undercover)          |                                  |                              |
 |                              | [Monarch](#monarch)                |                                  |                              |
+|                              | [Lookout](#lookout)                |                                  |                              |
 ------------------------
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.3.5s & 2024.3.5e | v1.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.1.0/ToU.v1.1.0.zip) |
 | 2024.3.5s & 2024.3.5e | v1.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.4/ToU.v1.0.4.zip) |
 | 2024.3.5s & 2024.3.5e | v1.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.3/ToU.v1.0.3.zip) |
 | 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.2/ToU.v1.0.2.zip) |
@@ -151,7 +153,8 @@ If there any problems with the script please check the [faq](https://github.com/
 The Aurial is a Crewmate that can see the Auras of other players.\
 At the beginning of the game all players are white, once radiated enough the Aurial can see their alignment.\
 Green is Crewmate, Grey is Neutral and Red is Impostor.\
-However, as a consequence the Aurial cannot see who is who.
+However, as a consequence the Aurial cannot see who is who.\
+Aurial also can see through walls and has slightly larger field of view.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -161,6 +164,7 @@ However, as a consequence the Aurial cannot see who is who.
 | Radiate See Delay | The duration of time after meetings where the Aurial can't see players | Time | 10s |
 | Radiate Uses To See | The number of times required to radiate to see a player's aura | Number | 3 |
 | Radiate Succeed Chance | The percentage probability of the Aurial successfully radiating someone | Percentage | 100% |
+| Aurial Vision Multiplier | How larger Aurial's field of view is compared to other players | Multiplier | 1x |
 
 -----------------------
 ## Detective
@@ -199,7 +203,8 @@ However, if the Haunter is clicked they lose their ability to reveal Impostors a
 ## Investigator
 ### **Team: Crewmates**
 The Investigator is a Crewmate that can see the footprints of players.\
-Every footprint disappears after a set amount of time.
+Every footprint disappears after a set amount of time.\
+Investigator can also check bodies for information about them and killers.\
 
 ### Game Options
 | Name | Description | Type | Default |
@@ -210,6 +215,8 @@ Every footprint disappears after a set amount of time.
 | Footprint Duration | The amount of time that the footprint stays on the ground for | Time | 10s |
 | Anonymous Footprint | When enabled, all footprints are grey instead of the player's colors | Toggle | False |
 | Footprint Vent Visible | Whether footprints near vents are shown | Toggle | False |
+| Investigate Cooldown | The Cooldown of the Investigator's Investigate button | Time | 25s |
+| Maximum Investigates Per Round | How many times Investigator can check bodies per round | Number | 3 |
 
 -----------------------
 ## Mystic
@@ -317,6 +324,21 @@ On the meeting Inspector will get a list of possible roles of target.
 | Inspector | The percentage probability of the Inspector appearing | Percentage | 0% |
 | Inspect Cooldown | The cooldown of the Inspect ability | Time | 25s |
 | How Long Blood Stays | For how long blood stays after killing | Time | 30s |
+
+-----------------------
+## Lookout
+### **Team: Crewmates**
+
+The Lookout is a Crewmate that can temporarily see through walls.\
+Lookout can use Watch to see through walls and have larger field of view,\
+But in return he can't move during Watch.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Lookout | The percentage probability of the Lookout appearing | Percentage | 0% |
+| Watch Cooldown | The cooldown of the Watch ability | Time | 25s |
+| Watch Duration | For how long Lookout can use Watch ability | Time | 10s |
+| Vision Multiplier On Watch | How much field of view increases during Watch | Factor | 1.5x |
 
 -----------------------
 ## Hunter
