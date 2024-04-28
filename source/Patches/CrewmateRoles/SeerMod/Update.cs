@@ -21,7 +21,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                     {
                         default:
                             if ((player.Is(Faction.Crewmates) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter))) ||
-                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.VampireHunter)) && !CustomGameOptions.CrewKillingRed) ||
+                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter)) && !CustomGameOptions.CrewKillingRed) ||
                             (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
                             (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||
                             (player.Is(Faction.NeutralChaos) && !CustomGameOptions.NeutChaosRed) ||
@@ -72,7 +72,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                 {
                     default:
                         if ((player.Is(Faction.Crewmates) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter))) ||
-                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.VampireHunter)) && !CustomGameOptions.CrewKillingRed) ||
+                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter)) && !CustomGameOptions.CrewKillingRed) ||
                             (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
                             (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||
                             (player.Is(Faction.NeutralChaos) && !CustomGameOptions.NeutChaosRed) ||
