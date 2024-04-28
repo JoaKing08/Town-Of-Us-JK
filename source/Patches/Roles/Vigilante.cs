@@ -49,6 +49,7 @@ namespace TownOfUs.Roles
                     if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
                     if (CustomGameOptions.SniperOn > 0) ColorMapping.Add("Sniper", Colors.Impostor);
                     if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.ImpostorAgent);
+                    if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
                 }
 
                 if (CustomGameOptions.VigilanteGuessNeutralBenign)

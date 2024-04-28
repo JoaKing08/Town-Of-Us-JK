@@ -1130,7 +1130,7 @@ namespace TownOfUs.Roles
                                 player.NameText.color = Patches.Colors.Impostor;
                         }
                     }
-                    else if (role.Player.IsKnight())
+                    else if (role.Player.IsKnight() == true)
                     {
                         try
                         {

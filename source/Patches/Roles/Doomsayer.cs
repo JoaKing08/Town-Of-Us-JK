@@ -65,6 +65,7 @@ namespace TownOfUs.Roles
                 if (CustomGameOptions.MonarchOn > 0) ColorMapping.Add("Monarch", Colors.Monarch);
                 if (CustomGameOptions.TavernKeeperOn > 0) ColorMapping.Add("Tavern Keeper", Colors.TavernKeeper);
                 if (CustomGameOptions.UndercoverOn > 0) ColorMapping.Add("Undercover", Colors.Undercover);
+                if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
 
                 if (CustomGameOptions.DoomsayerGuessImpostors && !PlayerControl.LocalPlayer.Is(Faction.Impostors))
                 {
