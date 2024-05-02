@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
 
         public PlayerControl ClosestPlayer;
         public DateTime LastKill { get; set; }
-        public bool RecruitsAlive => PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal)) > 0;
+        public bool RecruitsAlive => PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && !x.Data.IsDead && !x.Data.Disconnected) > 0;
         public bool JackalWin { get; set; }
 
         public float KillTimer()
