@@ -85,6 +85,8 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             var cursedSoulBread = cursedSoulRole.BreadLeft;
             var targetBread = Role.GetRole(target).BreadLeft;
             var targetLastBlood = Role.GetRole(target).LastBlood;
+            var cursedSoulFactionOverride = cursedSoulRole.FactionOverride;
+            var targetFactionOverride = Role.GetRole(target).FactionOverride;
 
             Role newCursedSoulRole;
 
@@ -630,6 +632,8 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             Role.GetRole(cursedSoul).Roleblocked = false;
             Role.GetRole(cursedSoul).Reaped = false;
             Role.GetRole(cursedSoul).BreadLeft = cursedSoulBread;
+            Role.GetRole(cursedSoul).FactionOverride = cursedSoulFactionOverride;
+            Role.GetRole(target).FactionOverride = targetFactionOverride;
 
             var killsList = (newCursedSoulRole.Kills, newCursedSoulRole.CorrectKills, newCursedSoulRole.IncorrectKills, newCursedSoulRole.CorrectAssassinKills, newCursedSoulRole.IncorrectAssassinKills);
             var newTargetRole = Role.GetRole(target);

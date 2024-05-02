@@ -9,6 +9,7 @@ using System.Linq;
 using Object = UnityEngine.Object;
 using System;
 using AmongUs.GameOptions;
+using Necromancer = TownOfUs.Roles.Cultist.Necromancer;
 
 namespace TownOfUs.CultistRoles.NecromancerMod
 {

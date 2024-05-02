@@ -32,7 +32,8 @@ namespace TownOfUs
                             playerInfo._object.Is(ObjectiveEnum.ImpostorAgent) || playerInfo._object.Is(ObjectiveEnum.ApocalypseAgent) ||
                             playerInfo._object.Is(RoleEnum.Pirate) || playerInfo._object.Is(RoleEnum.SerialKiller) ||
                             playerInfo._object.Is(RoleEnum.Inquisitor) || playerInfo._object.Is(RoleEnum.Witch) ||
-                            playerInfo._object.Is(RoleEnum.CursedSoul)
+                            playerInfo._object.Is(RoleEnum.CursedSoul) || playerInfo._object.Is(FactionOverride.Undead) ||
+                            playerInfo._object.Is(FactionOverride.Recruit)
                         ))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {

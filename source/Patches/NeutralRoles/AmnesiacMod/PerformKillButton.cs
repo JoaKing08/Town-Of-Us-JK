@@ -69,6 +69,8 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             var rememberImp = true;
             var rememberNeut = true;
             var oldBread = amneRole.BreadLeft;
+            var amneFactionOverride = amneRole.FactionOverride;
+            var targetFactionOverride = Role.GetRole(other).FactionOverride;
 
             Role newRole;
 
@@ -630,6 +632,8 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             Role.GetRole(amnesiac).Roleblocked = false;
             Role.GetRole(amnesiac).Reaped = false;
             Role.GetRole(amnesiac).BreadLeft = oldBread;
+            Role.GetRole(amnesiac).FactionOverride = amneFactionOverride;
+            Role.GetRole(other).FactionOverride = targetFactionOverride;
 
             var killsList = (newRole.Kills, newRole.CorrectKills, newRole.IncorrectKills, newRole.CorrectAssassinKills, newRole.IncorrectAssassinKills);
             var otherRole = Role.GetRole(other);

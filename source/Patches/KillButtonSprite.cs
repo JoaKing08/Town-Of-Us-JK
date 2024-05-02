@@ -55,6 +55,7 @@ namespace TownOfUs
         private static Sprite SoulSwap => TownOfUs.SoulSwapSprite;
         private static Sprite Investigate => TownOfUs.InvestigateSprite;
         private static Sprite Watch => TownOfUs.WatchSprite;
+        private static Sprite Revive2 => TownOfUs.Revive2Sprite;
         private static Sprite Nothing => TownOfUs.NothingSprite;
 
         private static Sprite Kill;
@@ -268,6 +269,11 @@ namespace TownOfUs
                 __instance.KillButton.buttonLabelText.text = "Watch";
                 flag = true;
             }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer))
+            {
+                __instance.KillButton.graphic.sprite = Revive2;
+                flag = true;
+            }
             else
             {
                 __instance.KillButton.graphic.sprite = Kill;
@@ -276,7 +282,8 @@ namespace TownOfUs
                 flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) ||
                     PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut) ||
                     CustomGameOptions.GameMode == GameMode.Teams || PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller) ||
-                    PlayerControl.LocalPlayer.Is(RoleEnum.Berserker) || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller);
+                    PlayerControl.LocalPlayer.Is(RoleEnum.Berserker) || PlayerControl.LocalPlayer.Is(RoleEnum.War) ||
+                    PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller) || PlayerControl.LocalPlayer.Is(RoleEnum.Jackal);
             }
             if (!PlayerControl.LocalPlayer.Is(Faction.Impostors) &&
                 GameOptionsManager.Instance.CurrentGameOptions.GameMode != GameModes.HideNSeek)
@@ -286,7 +293,8 @@ namespace TownOfUs
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Engineer) || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)
                  || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
                  || PlayerControl.LocalPlayer.Is(RoleEnum.Vampire) || PlayerControl.LocalPlayer.Is(RoleEnum.Berserker)
-                 || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller))
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller)
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer) || PlayerControl.LocalPlayer.Is(RoleEnum.Jackal))
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
             }

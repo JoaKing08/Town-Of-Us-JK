@@ -41,7 +41,7 @@ namespace TownOfUs.Roles.Horseman
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
                     (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling))) == 0 &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence) || x.Is(RoleEnum.Baker) || x.Is(RoleEnum.Famine))) == 0)
+                    (x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence) || x.Is(RoleEnum.Baker) || x.Is(RoleEnum.Famine))) == 0 && !AliveApocs.Any(x => !x.Is(FactionOverride.None)))
             {
                 Utils.Rpc(CustomRPC.ApocalypseWin4, Player.PlayerId);
                 Wins();

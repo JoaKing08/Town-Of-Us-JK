@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using HarmonyLib;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -187,6 +188,18 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     {
                         var lover = ((Lover)playerObjective).OtherLover.Player;
                         if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtonsVigi.HideSingle(role, lover.PlayerId, false);
+                    }
+                    else if (toDie.Is(FactionOverride.Recruit) && !toDie.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink)
+                    {
+                        var recruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != toDie.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));
+                        if (!recruit.Is(RoleEnum.Pestilence) && !recruit.Is(RoleEnum.Famine) && !recruit.Is(RoleEnum.War) && !recruit.Is(RoleEnum.Death)) ShowHideButtonsVigi.HideSingle(role, recruit.PlayerId, false);
+                    }
+                    else if (toDie.Is(RoleEnum.JKNecromancer))
+                    {
+                        foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer)))
+                        {
+                            ShowHideButtonsVigi.HideSingle(role, undead.PlayerId, false);
+                        }
                     }
                 }
             }

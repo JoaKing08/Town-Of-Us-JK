@@ -33,6 +33,7 @@ namespace TownOfUs.Roles
             if (Player.Data.IsDead) return true;
             if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
             if (!WonByDuel) return true;
+            if (!Player.Is(FactionOverride.None)) return true;
             Utils.EndGame();
             return false;
         }

@@ -1,10 +1,9 @@
 using HarmonyLib;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Cultist;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-namespace TownOfUs.CultistRoles.NecromancerMod
+namespace TownOfUs.NeutralRoles.NecromancerMod
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class ReviveHudManagerUpdate
@@ -18,18 +17,10 @@ namespace TownOfUs.CultistRoles.NecromancerMod
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer)) return;
-            var role = Role.GetRole<Roles.Cultist.Necromancer>(PlayerControl.LocalPlayer);
-            if (role.ReviveButton == null)
-            {
-                role.ReviveButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.ReviveButton.graphic.enabled = true;
-                role.ReviveButton.gameObject.SetActive(false);
-            }
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer)) return;
+            var role = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
 
-            role.ReviveButton.graphic.sprite = ReviveSprite;
-
-            role.ReviveButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
+            __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
@@ -61,8 +52,9 @@ namespace TownOfUs.CultistRoles.NecromancerMod
                 closestDistance = distance;
             }
 
-            role.ReviveButton.SetCoolDown(role.ReviveTimer(),
-                CustomGameOptions.ReviveCooldown + CustomGameOptions.IncreasedCooldownPerRevive * role.ReviveCount);
+            if (role.UsesLeft > 0) __instance.KillButton.SetCoolDown(role.ReviveTimer(),
+                CustomGameOptions.NecromancerReviveCooldown + CustomGameOptions.ReviveCooldownIncrease * role.ReviveCount);
+            else __instance.KillButton.SetCoolDown(0f, 1f);
 
             if (role.CurrentTarget && role.CurrentTarget != closestBody)
             {
@@ -70,29 +62,28 @@ namespace TownOfUs.CultistRoles.NecromancerMod
             }
 
             if (closestBody != null && closestBody.ParentId == DontRevive) closestBody = null;
+            if (role.UsesLeft <= 0) closestBody = null;
             role.CurrentTarget = closestBody;
             if (role.CurrentTarget == null)
             {
-                role.ReviveButton.graphic.color = Palette.DisabledClear;
-                role.ReviveButton.graphic.material.SetFloat("_Desat", 1f);
+                __instance.KillButton.graphic.color = Palette.DisabledClear;
+                __instance.KillButton.graphic.material.SetFloat("_Desat", 1f);
                 return;
             }
             var player = Utils.PlayerById(role.CurrentTarget.ParentId);
-            if (role.CurrentTarget && role.ReviveButton.enabled &&
-                !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.CultistSeer) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Mayor)) &&
-                !(PlayerControl.LocalPlayer.killTimer > GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - 0.5f))
+            if (role.CurrentTarget && __instance.KillButton.enabled)
             {
                 SpriteRenderer component = null;
                 foreach (var body in role.CurrentTarget.bodyRenderers) component = body;
                 component.material.SetFloat("_Outline", 1f);
                 component.material.SetColor("_OutlineColor", Color.red);
-                role.ReviveButton.graphic.color = Palette.EnabledColor;
-                role.ReviveButton.graphic.material.SetFloat("_Desat", 0f);
+                __instance.KillButton.graphic.color = Palette.EnabledColor;
+                __instance.KillButton.graphic.material.SetFloat("_Desat", 0f);
                 return;
             }
 
-            role.ReviveButton.graphic.color = Palette.DisabledClear;
-            role.ReviveButton.graphic.material.SetFloat("_Desat", 1f);
+            __instance.KillButton.graphic.color = Palette.DisabledClear;
+            __instance.KillButton.graphic.material.SetFloat("_Desat", 1f);
         }
     }
 }

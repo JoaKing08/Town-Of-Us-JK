@@ -151,6 +151,18 @@ namespace TownOfUs.Modifiers.AssassinMod
                 var otherLover = Objective.GetObjective<Lover>(player).OtherLover.Player;
                 if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Is(RoleEnum.Famine) && !otherLover.Is(RoleEnum.War) && !otherLover.Is(RoleEnum.Death)) MurderPlayer(otherLover, false);
             }
+            else if (checkLover && player.Is(FactionOverride.Recruit) && !player.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink)
+            {
+                var otherRecruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != player.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));
+                if (!otherRecruit.Is(RoleEnum.Pestilence) && !otherRecruit.Is(RoleEnum.Famine) && !otherRecruit.Is(RoleEnum.War) && !otherRecruit.Is(RoleEnum.Death)) MurderPlayer(otherRecruit, false);
+            }
+            else if (checkLover && player.Is(RoleEnum.JKNecromancer))
+            {
+                foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer)))
+                {
+                    MurderPlayer(undead);
+                }
+            }
 
             var deadPlayer = new DeadPlayer
             {

@@ -43,6 +43,8 @@ namespace TownOfUs
         SurvivorOnlyWin,
         VampireWin,
         SerialKillerWin,
+        NecromancerWin,
+        JackalWin,
 
         JanitorClean,
         FixLights,
@@ -137,6 +139,8 @@ namespace TownOfUs
         ControlCooldown,
         SoulSwap,
         AbilityUsed,
-        KillAbilityUsed
+        KillAbilityUsed,
+        JKRevive,
+        SetRecruit
     }
 }

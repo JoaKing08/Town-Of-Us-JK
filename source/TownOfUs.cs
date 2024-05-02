@@ -32,7 +32,7 @@ namespace TownOfUs
     {
         public const string Id = "com.slushiegoose.townofus";
         public const string VersionString = "5.0.4";
-        public const string ModesVersionString = "1.1.0";
+        public const string ModesVersionString = "1.2.0";
         public static System.Version Version = System.Version.Parse(ModesVersionString);
         public const string VersionTag = "<color=#ff33fc></color>";
 
@@ -135,9 +135,12 @@ namespace TownOfUs
         public static Sprite ToUBanner;
         public static Sprite UpdateTOUButton;
         public static Sprite UpdateSubmergedButton;
+        public static Sprite AchievementPanelBackground;
 
         public static Sprite ZoomPlusButton;
         public static Sprite ZoomMinusButton;
+        public static Sprite CloseButton;
+        public static Sprite AchievementButton;
 
         public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
 
@@ -260,9 +263,12 @@ namespace TownOfUs
             ToUBanner = CreateSprite("TownOfUs.Resources.TownOfUsBanner.png");
             UpdateTOUButton = CreateSprite("TownOfUs.Resources.UpdateToUButton.png");
             UpdateSubmergedButton = CreateSprite("TownOfUs.Resources.UpdateSubmergedButton.png");
+            AchievementPanelBackground = CreateSprite("TownOfUs.Resources.AchievementPanelBackground.png");
 
             ZoomPlusButton = CreateSprite("TownOfUs.Resources.Plus.png");
             ZoomMinusButton = CreateSprite("TownOfUs.Resources.Minus.png");
+            AchievementButton = CreateSprite("TownOfUs.Resources.AchievementButton.png");
+            CloseButton = CreateSprite("TownOfUs.Resources.Close.png");
 
             PalettePatch.Load();
             ClassInjector.RegisterTypeInIl2Cpp<RainbowBehaviour>();

@@ -75,10 +75,15 @@ namespace TownOfUs.Roles
                 {
                     if (CustomGameOptions.ArsonistOn > 0) ColorMapping.Add("Arsonist", Colors.Arsonist);
                     if (CustomGameOptions.GlitchOn > 0) ColorMapping.Add("The Glitch", Colors.Glitch);
-                    if ((CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && CustomGameOptions.VampireOn > 0) ColorMapping.Add("Vampire", Colors.Vampire);
                     if (CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
                     if (CustomGameOptions.HiddenRoles) ColorMapping.Add("Juggernaut", Colors.Juggernaut);
                     if (CustomGameOptions.SerialKillerOn > 0) ColorMapping.Add("Serial Killer", Colors.SerialKiller);
+                }
+                if (CustomGameOptions.VigilanteGuessNeutralProselyte)
+                {
+                    if ((CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && CustomGameOptions.VampireOn > 0) ColorMapping.Add("Vampire", Colors.Vampire);
+                    if (CustomGameOptions.JackalOn > 0) ColorMapping.Add("Jackal", Colors.Jackal);
+                    if (CustomGameOptions.NecromancerOn > 0) ColorMapping.Add("Necromancer", Colors.Necromancer);
                 }
                 if ((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
                 if ((CustomGameOptions.BakerOn > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Baker", Colors.Baker);

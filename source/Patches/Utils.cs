@@ -39,13 +39,17 @@ namespace TownOfUs
 
         public static bool CheckImpostorFriendlyFire()
         {
-            if (!CustomGameOptions.UndercoverKillEachother || PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor()) == 0) return false;
-            return true;
+            bool undercoverEnabled = CustomGameOptions.UndercoverKillEachother;
+            bool anyUndercoverImpostor = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor());
+
+            return undercoverEnabled && anyUndercoverImpostor && CustomGameOptions.GameMode != GameMode.Cultist;
         }
         public static bool CheckApocalypseFriendlyFire()
         {
-            if (!CustomGameOptions.UndercoverKillEachother || PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse()) == 0) return false;
-            return true;
+            bool undercoverEnabled = CustomGameOptions.UndercoverKillEachother;
+            bool anyUndercoverApocalypse = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse());
+
+            return undercoverEnabled && anyUndercoverApocalypse;
         }
         public static void Morph(PlayerControl player, PlayerControl MorphedPlayer, bool resetAnim = false)
         {
@@ -120,6 +124,11 @@ namespace TownOfUs
         public static bool Is(this PlayerControl player, Faction faction)
         {
             return Role.GetRole(player)?.Faction == faction;
+        }
+
+        public static bool Is(this PlayerControl player, FactionOverride factionOverride)
+        {
+            return Role.GetRole(player)?.FactionOverride == factionOverride;
         }
 
         public static bool Is(this PlayerControl player, ObjectiveEnum objectiveType)
@@ -423,6 +432,11 @@ namespace TownOfUs
                                 sk.SKKills += 1;
                                 sk.LastKill = DateTime.UtcNow;
                             }
+                            else if (player.Is(RoleEnum.Jackal))
+                            {
+                                var jack = Role.GetRole<Jackal>(player);
+                                jack.LastKill = DateTime.UtcNow;
+                            }
                             RpcMurderPlayer(player, target);
                             abilityUsed = true;
                             fullCooldownReset = true;
@@ -500,6 +514,11 @@ namespace TownOfUs
                         var sk = Role.GetRole<SerialKiller>(player);
                         sk.SKKills += 1;
                         sk.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.Jackal))
+                    {
+                        var jack = Role.GetRole<Jackal>(player);
+                        jack.LastKill = DateTime.UtcNow;
                     }
                     if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death))
                     {
@@ -691,6 +710,10 @@ namespace TownOfUs
                         target.Is(RoleEnum.SerialKiller) && CustomGameOptions.SheriffKillsSerialKiller ||
                         target.Is(RoleEnum.Inquisitor) && CustomGameOptions.SheriffKillsInquisitor ||
                         target.Is(RoleEnum.Witch) && CustomGameOptions.SheriffKillsWitch ||
+                        target.Is(RoleEnum.JKNecromancer) && CustomGameOptions.SheriffKillsNecromancer ||
+                        (target.Is(FactionOverride.Undead) && !target.Is(RoleEnum.JKNecromancer)) && CustomGameOptions.SheriffKillsUndead ||
+                        target.Is(RoleEnum.Jackal) && CustomGameOptions.SheriffKillsJackal ||
+                        (target.Is(FactionOverride.Recruit) && !target.Is(RoleEnum.Jackal)) && CustomGameOptions.SheriffKillsRecruits ||
                         (target.Is(ObjectiveEnum.ImpostorAgent) || target.Is(ObjectiveEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent) sheriff.CorrectKills += 1;
                     else if (killer == target) sheriff.IncorrectKills += 1;
                 }
@@ -1638,6 +1661,16 @@ namespace TownOfUs
                 var cursedSoul = Role.GetRole<CursedSoul>(PlayerControl.LocalPlayer);
                 cursedSoul.LastSwapped = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer))
+            {
+                var necromancer = Role.GetRole<Roles.Necromancer>(PlayerControl.LocalPlayer);
+                necromancer.LastRevived = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Jackal))
+            {
+                var jackal = Role.GetRole<Jackal>(PlayerControl.LocalPlayer);
+                jackal.LastKill = DateTime.UtcNow;
+            }
             #endregion
             #region ImposterRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Escapist))
@@ -1702,7 +1735,7 @@ namespace TownOfUs
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer))
             {
-                var necro = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
+                var necro = Role.GetRole<Roles.Cultist.Necromancer>(PlayerControl.LocalPlayer);
                 necro.LastRevived = DateTime.UtcNow;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Whisperer))
@@ -1735,7 +1768,7 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Lookout))
                 return $"{player.GetDefaultOutfit().PlayerName} has an insight for private information";
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
-                 || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
+                 || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.SoulCollector))
                 return $"{player.GetDefaultOutfit().PlayerName} has an unusual obsession with dead bodies";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker) || player.Is(RoleEnum.Inquisitor))
@@ -1749,18 +1782,21 @@ namespace TownOfUs
             else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Undercover)
                  || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
                 return $"{player.GetDefaultOutfit().PlayerName} has a trick up their sleeve";
-            else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut) || player.Is(RoleEnum.Sniper)
+            else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut)
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
                 return $"{player.GetDefaultOutfit().PlayerName} is capable of performing relentless attacks";
             else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
                 || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
                 return $"{player.GetDefaultOutfit().PlayerName} knows thing or two about magic";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
-                || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Monarch))
+                || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer))
                 return $"{player.GetDefaultOutfit().PlayerName} knows perfectly how the law works";
             else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.SerialKiller)
-                || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker) || player.Is(RoleEnum.Trapper))
+                || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
                 return $"{player.GetDefaultOutfit().PlayerName} loves parties";
+            else if (player.Is(RoleEnum.Jackal) || player.Is(RoleEnum.Sniper) || player.Is(RoleEnum.Monarch)
+                 || player.Is(RoleEnum.Trapper) || player.Is(RoleEnum.Vampire))
+                return $"{player.GetDefaultOutfit().PlayerName} wants to keep his hands clean";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return $"{player.GetDefaultOutfit().PlayerName} appears to be roleless";
             else
@@ -1769,16 +1805,16 @@ namespace TownOfUs
 
         public static string GetPossibleRoleList(PlayerControl player)
         {
-            if (player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
-                || player.Is(RoleEnum.Morphling)
+            if (player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
+                 || player.Is(RoleEnum.Morphling)
                  || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death) || player.Is(RoleEnum.Witch))
                 return "(Imitator, Morphling, Spy, Glitch, Death or Witch)";
             else if (player.Is(RoleEnum.Detective) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
                  || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Lookout))
                 return "(Detective, Doomsayer, Oracle, Snitch, Inspector or Lookout)";
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Janitor)
-                 || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.SoulCollector))
-                return "(Altruist, Amnesiac, Janitor, Undertaker, Vampire or Soul Collector)";
+                 || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.SoulCollector))
+                return "(Altruist, Amnesiac, Janitor, Undertaker, Soul Collector or Necromancer)";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Inquisitor) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker))
                 return "(Investigator, Tracker, Werewolf, Hunter, Berserker or Inquisitor)";
@@ -1791,18 +1827,21 @@ namespace TownOfUs
             else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Undercover)
                  || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
                 return "(Jester, Pestilence, Traitor, Veteran, Famine or Undercover)";
-            else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut) || player.Is(RoleEnum.Sniper)
+            else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut)
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
-                return "(Bomber, Juggernaut, Sheriif, Vigilante, War or Sniper)";
+                return "(Bomber, Juggernaut, Sheriif, Vigilante or War)";
             else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
-                || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
+                 || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
                 return "(Warlock, Venerer, Mystic, Swapper, Medium or Vampire Hunter)";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
-                || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Monarch))
-                return "(Executioner, Prosecutor, Guardian Angel, Mayor, Blackmailer or Monarch)";
-            else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.Trapper)
+                 || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer))
+                return "(Executioner, Prosecutor, Guardian Angel, Mayor or Blackmailer)";
+            else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner)
                  || player.Is(RoleEnum.SerialKiller) || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
-                return "(Trapper, Tavern Keeper, Poisoner, Serial Killer, Aurial or Baker)";
+                return "(Tavern Keeper, Poisoner, Serial Killer, Aurial or Baker)";
+            else if (player.Is(RoleEnum.Jackal) || player.Is(RoleEnum.Sniper) || player.Is(RoleEnum.Monarch)
+                 || player.Is(RoleEnum.Trapper) || player.Is(RoleEnum.Vampire))
+                return "(Jackal, Sniper, Monarch, Trapper or Vampire)";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return "(Crewmate or Impostor)";
             else
@@ -1886,6 +1925,10 @@ namespace TownOfUs
                     return Colors.Witch;
                 case RoleEnum.CursedSoul:
                     return Colors.CursedSoul;
+                case RoleEnum.JKNecromancer:
+                    return Colors.Necromancer;
+                case RoleEnum.Jackal:
+                    return Colors.Jackal;
 
                 case RoleEnum.Mayor:
                     return Colors.Mayor;
@@ -2005,6 +2048,7 @@ namespace TownOfUs
                 case RoleEnum.Whisperer:
                     return "Whisperer";
                 case RoleEnum.Necromancer:
+                case RoleEnum.JKNecromancer:
                     return "Necromancer";
                 case RoleEnum.SoloKiller:
                     return "Solo Killer";
@@ -2059,6 +2103,8 @@ namespace TownOfUs
                     return "Witch";
                 case RoleEnum.CursedSoul:
                     return "Cursed Soul";
+                case RoleEnum.Jackal:
+                    return "Jackal";
 
                 case RoleEnum.Mayor:
                     return "Mayor";
@@ -2132,6 +2178,19 @@ namespace TownOfUs
 
                 default:
                     return "Crewmate";
+            }
+        }
+        public static string GetFactionOverrideDescription(this FactionOverride? factionOverride)
+        {
+            return ((FactionOverride)factionOverride).GetFactionOverrideDescription();
+        }
+        public static string GetFactionOverrideDescription(this FactionOverride factionOverride)
+        {
+            switch (factionOverride)
+            {
+                case FactionOverride.Undead: return $"<color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Faction: Undead\nHelp the Necromancer get rid off the crew!</color>";
+                case FactionOverride.Recruit: return $"<color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Faction: Jackal\nHelp the Jackal kill off the crew!</color>";
+                default: return "";
             }
         }
     }

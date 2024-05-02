@@ -88,6 +88,25 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                     }
                 }
             }
+            else if (player.Is(FactionOverride.Recruit) && !player.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink)
+            {
+                var recruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != player.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));
+
+                recruit.Revive();
+                if (recruit.Is(Faction.Impostors)) RoleManager.Instance.SetRole(recruit, RoleTypes.Impostor);
+                else RoleManager.Instance.SetRole(recruit, RoleTypes.Crewmate);
+                Murder.KilledPlayers.Remove(
+                    Murder.KilledPlayers.FirstOrDefault(x => x.PlayerId == recruit.PlayerId));
+                revived.Add(recruit);
+
+                foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                {
+                    if (deadBody.ParentId == recruit.PlayerId)
+                    {
+                        deadBody.gameObject.Destroy();
+                    }
+                }
+            }
 
             if (revived.Any(x => x.AmOwner))
                 try

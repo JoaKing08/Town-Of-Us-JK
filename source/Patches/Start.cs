@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using Hazel;
+using TownOfUs;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
 using TownOfUs.Roles;
@@ -12,6 +13,8 @@ using Object = UnityEngine.Object;
 using TownOfUs.Roles.Horseman;
 using System.Collections.Generic;
 using System.Linq;
+using Necromancer = TownOfUs.Roles.Necromancer;
+using CultistNecromancer = TownOfUs.Roles.Cultist.Necromancer;
 
 namespace TownOfUs.Patches
 {
@@ -126,7 +129,7 @@ namespace TownOfUs.Patches
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer))
             {
-                var necro = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
+                var necro = Role.GetRole<CultistNecromancer>(PlayerControl.LocalPlayer);
                 necro.LastRevived = DateTime.UtcNow;
                 necro.LastRevived = necro.LastRevived.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ReviveCooldown);
             }
@@ -420,6 +423,20 @@ namespace TownOfUs.Patches
                 var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
                 lookout.LastWatched = DateTime.UtcNow;
                 lookout.LastWatched = lookout.LastWatched.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.WatchCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer))
+            {
+                var necro = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
+                necro.LastRevived = DateTime.UtcNow;
+                necro.LastRevived = necro.LastRevived.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.NecromancerReviveCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Jackal))
+            {
+                var jackal = Role.GetRole<Jackal>(PlayerControl.LocalPlayer);
+                jackal.LastKill = DateTime.UtcNow;
+                jackal.LastKill = jackal.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.JackalKCd);
             }
         }
     }

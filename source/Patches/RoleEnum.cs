@@ -57,6 +57,8 @@ namespace TownOfUs
         Witch,
         CursedSoul,
         Lookout,
+        JKNecromancer,
+        Jackal,
 
         Miner,
         Swooper,

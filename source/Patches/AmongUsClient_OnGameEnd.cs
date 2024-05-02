@@ -505,7 +505,42 @@ namespace TownOfUs
                     TempData.winners.Add(agentWinData);
                 }
             }
-            foreach (var role in Role.GetRoles(RoleEnum.Witch))
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(FactionOverride.Undead) || x.Is(FactionOverride.Recruit)) && !x.Is(RoleEnum.Phantom)))
+            {
+                foreach (var winData in TempData.winners)
+                {
+                    if (winData.ColorId == player.GetDefaultOutfit().ColorId) TempData.winners.Remove(winData);
+                }
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
+            {
+                var necromancer = (Roles.Necromancer)role;
+                if (necromancer.NecromancerWin)
+                {
+                    TempData.winners = new List<WinningPlayerData>();
+                    foreach (var undead in Role.AllRoles.ToArray().Where(x => x.FactionOverride == FactionOverride.Undead))
+                    {
+                        var undeadData = new WinningPlayerData(undead.Player.Data);
+                        if (PlayerControl.LocalPlayer != undead.Player) undeadData.IsYou = false;
+                        TempData.winners.Add(undeadData);
+                    }
+                }
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Jackal))
+            {
+                var jackal = (Jackal)role;
+                if (jackal.JackalWin)
+                {
+                    TempData.winners = new List<WinningPlayerData>();
+                    foreach (var recruit in Role.AllRoles.ToArray().Where(x => x.FactionOverride == FactionOverride.Recruit))
+                    {
+                        var recruitData = new WinningPlayerData(recruit.Player.Data);
+                        if (PlayerControl.LocalPlayer != recruit.Player) recruitData.IsYou = false;
+                        TempData.winners.Add(recruitData);
+                    }
+                }
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
             {
                 var witch = (Witch)role;
                 var isCrew = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.GetDefaultOutfit().ColorId == TempData.winners[0].ColorId);

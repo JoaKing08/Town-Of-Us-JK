@@ -123,6 +123,8 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Witch) { playerRole += "<color=#" + Patches.Colors.Witch.ToHtmlStringRGBA() + ">Witch</color> > "; }
                     else if (role.Value == RoleEnum.CursedSoul) { playerRole += "<color=#" + Patches.Colors.CursedSoul.ToHtmlStringRGBA() + ">Cursed Soul</color> > "; }
                     else if (role.Value == RoleEnum.Lookout) { playerRole += "<color=#" + Patches.Colors.Lookout.ToHtmlStringRGBA() + ">Lookout</color> > "; }
+                    else if (role.Value == RoleEnum.JKNecromancer) { playerRole += "<color=#" + Patches.Colors.Necromancer.ToHtmlStringRGBA() + ">Necromancer</color> > "; }
+                    else if (role.Value == RoleEnum.Jackal) { playerRole += "<color=#" + Patches.Colors.Jackal.ToHtmlStringRGBA() + ">Jackal</color> > "; }
                     else if (role.Value == RoleEnum.RedMember) { playerRole += "<color=#" + Patches.Colors.RedTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.BlueMember) { playerRole += "<color=#" + Patches.Colors.BlueTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.YellowMember) { playerRole += "<color=#" + Patches.Colors.YellowTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
@@ -139,6 +141,15 @@ namespace TownOfUs.Patches {
                     }
                 }
                 playerRole = playerRole.Remove(playerRole.Length - 3);
+
+                if (playerControl.Is(FactionOverride.Undead) && !playerControl.Is(RoleEnum.JKNecromancer))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.Necromancer.ToHtmlStringRGBA() + ">Undead</color>)";
+                }
+                else if (playerControl.Is(FactionOverride.Recruit) && !playerControl.Is(RoleEnum.Jackal))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.Jackal.ToHtmlStringRGBA() + ">Recruit</color>)";
+                }
 
                 if (playerControl.Is(ModifierEnum.Giant))
                 {
@@ -159,10 +170,6 @@ namespace TownOfUs.Patches {
                 else if (playerControl.Is(ModifierEnum.Diseased))
                 {
                     playerRole += " (<color=#" + Patches.Colors.Diseased.ToHtmlStringRGBA() + ">Diseased</color>)";
-                }
-                else if (playerControl.Is(ModifierEnum.Mini))
-                {
-                    playerRole += " (<color=#" + Patches.Colors.Mini.ToHtmlStringRGBA() + ">Mini</color>)";
                 }
                 else if (playerControl.Is(ModifierEnum.Flash))
                 {
@@ -229,7 +236,7 @@ namespace TownOfUs.Patches {
                     playerRole += " (<color=#" + Patches.Colors.ApocalypseAgent.ToHtmlStringRGBA() + ">Agent (Apoc)</color>)";
                 }
                 var player = Role.GetRole(playerControl);
-                if (playerControl.Is(RoleEnum.Phantom) || playerControl.Is(Faction.Crewmates) || playerControl.Is(RoleEnum.Poltergeist))
+                if (playerControl.Is(RoleEnum.Phantom) || (playerControl.Is(Faction.Crewmates) && !playerControl.Is(ObjectiveEnum.ImpostorAgent) && !playerControl.Is(ObjectiveEnum.ApocalypseAgent) && playerControl.Is(FactionOverride.None)) || playerControl.Is(RoleEnum.Poltergeist))
                 {
                     if ((player.TotalTasks - player.TasksLeft)/player.TotalTasks == 1) playerRole += " | Tasks: <color=#" + Color.green.ToHtmlStringRGBA() + $">{player.TotalTasks - player.TasksLeft}/{player.TotalTasks}</color>";
                     else playerRole += $" | Tasks: {player.TotalTasks - player.TasksLeft}/{player.TotalTasks}";

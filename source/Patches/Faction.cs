@@ -14,4 +14,11 @@ namespace TownOfUs
         YellowTeam,
         GreenTeam
     }
+    public enum FactionOverride
+    {
+        None,
+        Vampires,
+        Undead,
+        Recruit
+    }
 }

@@ -37,6 +37,7 @@ namespace TownOfUs.Roles
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
             if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
             if (!HereticsDead || heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) != 0) return true;
+            if (!Player.Is(FactionOverride.None)) return true;
             Utils.EndGame();
             return false;
         }
@@ -126,6 +127,8 @@ namespace TownOfUs.Roles
                         aligment = "<color=#808080FF>Neutral Evil</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(Faction.NeutralChaos))
                         aligment = "<color=#808080FF>Neutral Chaos</color>";
+                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Vampire) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.JKNecromancer) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Jackal))
+                        aligment = "<color=#808080FF>Neutral Proselyte</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(Faction.NeutralKilling))
                         aligment = "<color=#808080FF>Neutral Killing</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(Faction.NeutralApocalypse))

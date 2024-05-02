@@ -16,6 +16,7 @@ namespace TownOfUs.Roles
             LastBit = DateTime.UtcNow;
             RoleType = RoleEnum.Vampire;
             Faction = Faction.NeutralKilling;
+            FactionOverride = FactionOverride.Vampires;
             AddToRoleHistory(RoleType);
         }
 

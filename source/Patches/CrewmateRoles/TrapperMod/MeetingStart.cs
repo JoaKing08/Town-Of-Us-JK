@@ -26,7 +26,7 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
                 string message = "Roles caught in your trap:\n";
                 foreach (RoleEnum role in trapperRole.trappedPlayers.OrderBy(x => Guid.NewGuid()))
                 {
-                    message += $" {role},";
+                    message += $" {role.GetRoleName()},";
                 }
                 message.Remove(message.Length - 1, 1);
                 if (DestroyableSingleton<HudManager>.Instance)

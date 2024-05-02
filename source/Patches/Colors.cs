@@ -64,6 +64,8 @@ namespace TownOfUs.Patches
         public readonly static Color SerialKiller = new Color(0.113f, 0.3f, 0.984f, 1f);
         public readonly static Color Witch = new Color(0.75f, 0.375f, 1f, 1f);
         public readonly static Color CursedSoul = new Color(0.5f, 0f, 1f, 1f);
+        public readonly static Color Necromancer = new Color(0.404f, 0.584f, 0.337f, 1f);
+        public readonly static Color Jackal = new Color(0.4f, 0.4f, 0.4f, 1f);
 
         //Imposter Colors
         public readonly static Color Impostor = Palette.ImpostorRed;

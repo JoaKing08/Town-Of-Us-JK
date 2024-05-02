@@ -50,6 +50,10 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                         role.ClosestPlayer.Is(RoleEnum.SerialKiller) && CustomGameOptions.SheriffKillsSerialKiller ||
                         role.ClosestPlayer.Is(RoleEnum.Inquisitor) && CustomGameOptions.SheriffKillsInquisitor ||
                         role.ClosestPlayer.Is(RoleEnum.Witch) && CustomGameOptions.SheriffKillsWitch ||
+                        role.ClosestPlayer.Is(RoleEnum.JKNecromancer) && CustomGameOptions.SheriffKillsNecromancer ||
+                        (role.ClosestPlayer.Is(FactionOverride.Undead) && !role.ClosestPlayer.Is(RoleEnum.JKNecromancer)) && CustomGameOptions.SheriffKillsUndead ||
+                        role.ClosestPlayer.Is(RoleEnum.Jackal) && CustomGameOptions.SheriffKillsJackal ||
+                        (role.ClosestPlayer.Is(FactionOverride.Recruit) && !role.ClosestPlayer.Is(RoleEnum.Jackal)) && CustomGameOptions.SheriffKillsRecruits ||
                         (role.ClosestPlayer.Is(ObjectiveEnum.ImpostorAgent) || role.ClosestPlayer.Is(ObjectiveEnum.ApocalypseAgent)) && CustomGameOptions.SheriffKillsAgent ||
                         role.ClosestPlayer.Is(Faction.NeutralApocalypse) && (CustomGameOptions.SheriffKillsPlaguebearer || 
                         CustomGameOptions.GameMode == GameMode.Horseman);

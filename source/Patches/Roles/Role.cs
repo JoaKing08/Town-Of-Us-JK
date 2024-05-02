@@ -82,6 +82,7 @@ namespace TownOfUs.Roles
         protected internal bool Hidden { get; set; } = false;
 
         protected internal Faction Faction { get; set; } = Faction.Crewmates;
+        protected internal FactionOverride FactionOverride { get; set; } = FactionOverride.None;
 
         public static uint NetId => PlayerControl.LocalPlayer.NetId;
         public string PlayerName { get; set; }
@@ -120,12 +121,12 @@ namespace TownOfUs.Roles
 
         internal virtual bool Criteria()
         {
-            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || VampireCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local;
+            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || ProselyteCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local;
         }
 
         internal virtual bool ColorCriteria()
         {
-            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || SelfCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || VampireCriteria() || RoleCriteria() || GuardianAngelCriteria();
+            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || SelfCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || ProselyteCriteria() || RoleCriteria() || GuardianAngelCriteria();
         }
 
         internal virtual bool DeadCriteria()
@@ -153,9 +154,9 @@ namespace TownOfUs.Roles
             return false;
         }
 
-        internal virtual bool VampireCriteria()
+        internal virtual bool ProselyteCriteria()
         {
-            if (RoleType == RoleEnum.Vampire && PlayerControl.LocalPlayer.Is(RoleEnum.Vampire)) return true;
+            if (PlayerControl.LocalPlayer.Is(FactionOverride) && FactionOverride != FactionOverride.None) return true;
             return false;
         }
 
@@ -210,6 +211,31 @@ namespace TownOfUs.Roles
                     }
                 }
                 __instance.teamToShow = impTeam;
+            }
+            else if (PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))
+            {
+                var apocTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                apocTeam.Add(PlayerControl.LocalPlayer);
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    if (player != PlayerControl.LocalPlayer)
+                    {
+                        if (player.Is(Faction.NeutralApocalypse)) apocTeam.Add(player);
+                        else if (player.Is(RoleEnum.Undercover))
+                        {
+                            var role = GetRole<Undercover>(player);
+                            if (role.UndercoverApocalypse) apocTeam.Add(player);
+                        }
+                    }
+                }
+                __instance.teamToShow = apocTeam;
+            }
+            else if (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit))
+            {
+                var jackTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                jackTeam.Add(PlayerControl.LocalPlayer);
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Recruit) && x.PlayerId != PlayerControl.LocalPlayer.PlayerId)) jackTeam.Add(player);
+                __instance.teamToShow = jackTeam;
             }
         }
 
@@ -388,6 +414,17 @@ namespace TownOfUs.Roles
                 var drunk = Modifier.GetModifier<Drunk>(Player);
                 if (CustomGameOptions.DrunkWearsOff && drunk.RoundsLeft > 0) PlayerName += $" {drunk.ColorString}({drunk.RoundsLeft})</color>";
             }
+            if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
+            {
+                if (Player.Is(FactionOverride.Undead) && !Player.Is(RoleEnum.JKNecromancer))
+                {
+                    PlayerName += $" <color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>*</color>";
+                }
+                else if (Player.Is(FactionOverride.Recruit) && !Player.Is(RoleEnum.Jackal))
+                {
+                    PlayerName += $" <color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>*</color>";
+                }
+            }
 
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
                                    MeetingHud.Instance.state == MeetingHud.VoteStates.Results)) return PlayerName;
@@ -414,6 +451,7 @@ namespace TownOfUs.Roles
         public void RegenTask()
         {
             bool createTask;
+            var descriptionFaction = (Player.Is(FactionOverride.Undead) && !Player.Is(RoleEnum.JKNecromancer)) || (Player.Is(FactionOverride.Recruit) && !Player.Is(RoleEnum.Jackal));
             try
             {
                 var firstText = Player.myTasks.ToArray()[0].Cast<ImportantTextTask>();
@@ -428,13 +466,13 @@ namespace TownOfUs.Roles
             {
                 var task = new GameObject(Name + "Task").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(Player.transform, false);
-                task.Text = $"{ColorString}Role: {Name}\n{TaskText()}</color>";
+                task.Text = $"{ColorString}Role: {Name}\n{TaskText()}</color>" + (descriptionFaction ? $"/n{FactionOverride}" : "");
                 Player.myTasks.Insert(0, task);
                 return;
             }
 
             Player.myTasks.ToArray()[0].Cast<ImportantTextTask>().Text =
-                $"{ColorString}Role: {Name}\n{TaskText()}</color>";
+                $"{ColorString}Role: {Name}\n{TaskText()}</color>" + (descriptionFaction ? $"/n{FactionOverride}" : "");
         }
 
         public static T Gen<T>(Type type, PlayerControl player, CustomRPC rpc)
@@ -933,9 +971,10 @@ namespace TownOfUs.Roles
                 }
                 if (role == null || role.Hidden) return;
                 if (role.RoleType == RoleEnum.Amnesiac && role.Player != PlayerControl.LocalPlayer) return;
+                var descriptionFaction = (player.Is(FactionOverride.Undead) && !player.Is(RoleEnum.JKNecromancer)) || (player.Is(FactionOverride.Recruit) && !player.Is(RoleEnum.Jackal));
                 var task = new GameObject(role.Name + "Task").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(player.transform, false);
-                task.Text = $"{role.ColorString}Role: {role.Name}\n{role.TaskText()}</color>";
+                task.Text = $"{role.ColorString}Role: {role.Name}\n{role.TaskText()}</color>" + (descriptionFaction ? $"/n{role.FactionOverride}" : "");
                 player.myTasks.Insert(0, task);
             }
         }
@@ -1104,7 +1143,7 @@ namespace TownOfUs.Roles
                         bool selfFlag = role.SelfCriteria();
                         bool deadFlag = role.DeadCriteria();
                         bool impostorFlag = role.ImpostorCriteria();
-                        bool vampireFlag = role.VampireCriteria();
+                        bool proselyteFlag = role.ProselyteCriteria();
                         bool loverFlag = role.LoverCriteria();
                         bool roleFlag = role.RoleCriteria();
                         bool gaFlag = role.GuardianAngelCriteria();
@@ -1112,7 +1151,7 @@ namespace TownOfUs.Roles
                         bool witchFlag = role.WitchCriteria();
                         player.NameText.text = role.NameText( //Error
                             selfFlag || deadFlag || role.Local,
-                            selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
+                            selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
                             selfFlag || deadFlag,
                             loverFlag,
                             player
@@ -1197,7 +1236,7 @@ namespace TownOfUs.Roles
                             bool selfFlag = role.SelfCriteria();
                             bool deadFlag = role.DeadCriteria();
                             bool impostorFlag = role.ImpostorCriteria();
-                            bool vampireFlag = role.VampireCriteria();
+                            bool proselyteFlag = role.ProselyteCriteria();
                             bool loverFlag = role.LoverCriteria();
                             bool roleFlag = role.RoleCriteria();
                             bool gaFlag = role.GuardianAngelCriteria();
@@ -1205,7 +1244,7 @@ namespace TownOfUs.Roles
                             bool witchFlag = role.WitchCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
                                 selfFlag || deadFlag,
                                 loverFlag
                              );

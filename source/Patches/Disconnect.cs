@@ -37,6 +37,13 @@ namespace TownOfUs.Patches
                         sheriff.IncorrectKills -= 1;
                     }
                 }*/
+                if (player.Is(RoleEnum.JKNecromancer))
+                {
+                    foreach (var player2 in PlayerControl.AllPlayerControls)
+                    {
+                        if (player2.Is(FactionOverride.Undead)) Utils.MurderPlayer(player2, player2, true);
+                    }
+                }
                 foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
                 {
                     if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
