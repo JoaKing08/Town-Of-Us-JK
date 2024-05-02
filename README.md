@@ -23,8 +23,8 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 |                              | [Swapper](#swapper)                | [Inquisitor](#inquisitor)        | [Tasker](#tasker)            |
 |                              | [Tracker](#tracker)                | [Cursed Soul](#cursed-soul)      | [Agent](#agent)              |
 |                              | [Trapper](#trapper)                | [Witch](#witch)                  |                              |
-|                              | [Transporter](#transporter)        |                                  |                              |
-|                              | [Vampire Hunter](#vampire-hunter)  |                                  |                              |
+|                              | [Transporter](#transporter)        | [Necromancer](#necromancer)      |                              |
+|                              | [Vampire Hunter](#vampire-hunter)  | [Jackal](#jackal)                |                              |
 |                              | [Veteran](#veteran)                |                                  |                              |
 |                              | [Vigilante](#vigilante)            |                                  |                              |
 |                              | [Inspector](#inspector)            |                                  |                              |
@@ -374,9 +374,18 @@ However, if they kill a Crewmate or a Neutral player they can't kill, they inste
 | Sheriff Kills Arsonist | Whether the Sheriff is able to kill the Arsonist | Toggle | False |
 | Sheriff Kills The Glitch | Whether the Sheriff is able to kill The Glitch | Toggle | False |
 | Sheriff Kills Juggernaut | Whether the Sheriff is able to kill the Juggernaut | Toggle | False |
-| Sheriff Kills Plaguebearer | Whether the Sheriff is able to kill the Plaguebearer | Toggle | False |
+| Sheriff Kills Apocalypse | Whether the Sheriff is able to kill members of the Apocalypse | Toggle | False |
 | Sheriff Kills Vampire | Whether the Sheriff is able to kill the Vampire | Toggle | False |
 | Sheriff Kills Werewolf | Whether the Sheriff is able to kill the Werewolf | Toggle | False |
+| Sheriff Kills Serial Killer | Whether the Sheriff is able to kill the Serial Killer | Toggle | False |
+| Sheriff Kills Witch | Whether the Sheriff is able to kill the Witch | Toggle | False |
+| Sheriff Kills Pirate | Whether the Sheriff is able to kill the Pirate | Toggle | False |
+| Sheriff Kills Inquisitor | Whether the Sheriff is able to kill the Inquisitor | Toggle | False |
+| Sheriff Kills Necromancer | Whether the Sheriff is able to kill the Necromancer | Toggle | False |
+| Sheriff Kills Undead | Whether the Sheriff is able to kill the Undead | Toggle | False |
+| Sheriff Kills Jackal | Whether the Sheriff is able to kill the Jackal | Toggle | False |
+| Sheriff Kills Recruits | Whether the Sheriff is able to kill the Recruits | Toggle | False |
+| Sheriff Kills Agent | Whether the Sheriff is able to kill the Agent | Toggle | False |
 | Sheriff Kill Cooldown | The cooldown on the Sheriff's kill button | Time | 25s |
 | Sheriff can report who they've killed | Whether the Sheriff is able to report their own kills | Toggle | True |
 
@@ -904,26 +913,6 @@ The Glitch can Mimic someone, which results in them looking exactly like the oth
 | Glitch can Vent | Whether the Glitch can Vent | Toggle | False |
 
 -----------------------
-## Vampire
-### **Team: Neutral**
-
-The Vampire is a Neutral role with its own win condition.\
-The Vampire can convert or kill other players by biting them.\
-If the bitten player was a Crewmate they will turn into a Vampire (unless there are 2 Vampires alive)\
-Else they will kill the bitten player.
-### Game Options
-| Name | Description | Type | Default |
-|----------|:-------------:|:------:|:------:|
-| Vampire | The percentage probability of the Vampire appearing | Percentage | 0% |
-| Bite Cooldown | The cooldown of the Vampire's Bite button | Time | 25s |
-| Vampire Has Impostor Vision | Whether the Vampire Has Impostor Vision | Toggle | False |
-| Vampire Can Vent | Whether the Vampire Can Vent | Toggle | False |
-| New Vampire Can Assassinated | Whether the new Vampire can assassinate | Toggle | False |
-| Maximum Vampires Per Game | The maximum amount of players that can be Vampires | Number | 2 |
-| Can Convert Neutral Benign Roles | Whether Neutral Benign Roles can be turned into Vampires | Toggle | False |
-| Can Convert Neutral Evil Roles | Whether Neutral Evil Roles can be turned into Vampires | Toggle | False |
-
------------------------
 ## Werewolf
 ### **Team: Neutral**
 
@@ -960,6 +949,58 @@ The Serial Killer needs to be the last killer alive to win the game.
 | Bloodlust Duration | The duration of the Serial Killer's Bloodlust | Time | 20s |
 | Kills To Bloodlust | Amount of kills needed to go into Bloodlust | Number | 2 |
 | Serial Killer can Vent | Whether the Serial Killer can Vent | Toggle | True |
+
+-----------------------
+## Vampire
+### **Team: Neutral**
+
+The Vampire is a Neutral role with its own win condition.\
+The Vampire can convert or kill other players by biting them.\
+If the bitten player was a Crewmate they will turn into a Vampire (unless there are 2 Vampires alive)\
+Else they will kill the bitten player.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Vampire | The percentage probability of the Vampire appearing | Percentage | 0% |
+| Bite Cooldown | The cooldown of the Vampire's Bite button | Time | 25s |
+| Vampire Has Impostor Vision | Whether the Vampire Has Impostor Vision | Toggle | False |
+| Vampire Can Vent | Whether the Vampire Can Vent | Toggle | False |
+| New Vampire Can Assassinated | Whether the new Vampire can assassinate | Toggle | False |
+| Maximum Vampires Per Game | The maximum amount of players that can be Vampires | Number | 2 |
+| Can Convert Neutral Benign Roles | Whether Neutral Benign Roles can be turned into Vampires | Toggle | False |
+| Can Convert Neutral Evil Roles | Whether Neutral Evil Roles can be turned into Vampires | Toggle | False |
+
+-----------------------
+## Necromancer
+### **Team: Undead**
+
+The Necromancer is a Neutral role with its own win condition.\
+The Necromancer can revive other players to convert them into Undead.\
+If the Necromancer dies, all other Undead also die.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Necromancer | The percentage probability of the Necromancer appearing | Percentage | 0% |
+| Initial Revive Cooldown | Initial cooldown of the Necromancer's Revive button | Time | 25s |
+| Increased Cooldown Per Revive | Additional cooldown of the Necromancer's Revive button according to amount of revives | Time | 25s |
+| Maximum Number Of Undead | Maximum amount of times Necromancer can Revive | Number | 3 |
+| Necromancer Can Vent | Whether the Necromancer Can Vent | Toggle | False |
+
+-----------------------
+## Jackal
+### **Team: Jackal**
+
+The Jackals are players with their own win condition.\
+If Jackal is in the game two recruits spawn, one recruit is always a Killer while other is always a Crewmate.\
+If the recruits die Jackal gains ability to kill.\
+According to settings recruits are lifelinked to eachother.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Jackal | The percentage probability of the Jackal appearing | Percentage | 0% |
+| Jackal Kill Cooldown | The cooldown of the Jackal's Kill button | Time | 25s |
+| Recruits Are Lifelinked | Whether the recruits die together | Toggle | True |
+| Jackal Can Vent | Whether the Jackal Can Vent | Toggle | False |
 
 -----------------------
 ## Plaguebearer
