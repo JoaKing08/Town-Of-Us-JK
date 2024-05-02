@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Il2CppSystem.Collections.Generic;
+using TMPro;
 using TownOfUs.Extensions;
 
 namespace TownOfUs.Roles
@@ -25,6 +26,7 @@ namespace TownOfUs.Roles
         public int ReviveCount;
         public int UsesLeft => CustomGameOptions.MaxNumberOfUndead - ReviveCount;
         public bool NecromancerWin { get; set; }
+        public TextMeshPro UsesText;
 
         public float ReviveTimer()
         {

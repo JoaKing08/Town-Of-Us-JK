@@ -20,7 +20,27 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer)) return;
             var role = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
 
+            if (role.UsesText == null && role.UsesLeft > 0)
+            {
+                role.UsesText = Object.Instantiate(__instance.KillButton.cooldownTimerText, __instance.KillButton.transform);
+                role.UsesText.gameObject.SetActive(false);
+                role.UsesText.transform.localPosition = new Vector3(
+                    role.UsesText.transform.localPosition.x + 0.26f,
+                    role.UsesText.transform.localPosition.y + 0.29f,
+                    role.UsesText.transform.localPosition.z);
+                role.UsesText.transform.localScale = role.UsesText.transform.localScale * 0.65f;
+                role.UsesText.alignment = TMPro.TextAlignmentOptions.Right;
+                role.UsesText.fontStyle = TMPro.FontStyles.Bold;
+            }
+            if (role.UsesText != null)
+            {
+                role.UsesText.text = role.UsesLeft + "";
+            }
+
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
+                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
@@ -68,6 +88,8 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             {
                 __instance.KillButton.graphic.color = Palette.DisabledClear;
                 __instance.KillButton.graphic.material.SetFloat("_Desat", 1f);
+                role.UsesText.color = Palette.DisabledClear;
+                role.UsesText.material.SetFloat("_Desat", 1f);
                 return;
             }
             var player = Utils.PlayerById(role.CurrentTarget.ParentId);
@@ -79,11 +101,15 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
                 component.material.SetColor("_OutlineColor", Color.red);
                 __instance.KillButton.graphic.color = Palette.EnabledColor;
                 __instance.KillButton.graphic.material.SetFloat("_Desat", 0f);
+                role.UsesText.color = Palette.EnabledColor;
+                role.UsesText.material.SetFloat("_Desat", 0f);
                 return;
             }
 
             __instance.KillButton.graphic.color = Palette.DisabledClear;
             __instance.KillButton.graphic.material.SetFloat("_Desat", 1f);
+            role.UsesText.color = Palette.DisabledClear;
+            role.UsesText.material.SetFloat("_Desat", 1f);
         }
     }
 }
