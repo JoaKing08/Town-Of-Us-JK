@@ -634,6 +634,11 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             Role.GetRole(cursedSoul).BreadLeft = cursedSoulBread;
             Role.GetRole(cursedSoul).FactionOverride = cursedSoulFactionOverride;
             Role.GetRole(target).FactionOverride = targetFactionOverride;
+            if (cursedSoul.Is(RoleEnum.Vampire)) Role.GetRole(cursedSoul).FactionOverride = FactionOverride.Vampires;
+            if (cursedSoul.Is(RoleEnum.JKNecromancer)) Role.GetRole(cursedSoul).FactionOverride = FactionOverride.Undead;
+            if (cursedSoul.Is(RoleEnum.Jackal)) Role.GetRole(cursedSoul).FactionOverride = FactionOverride.Recruit;
+            Role.GetRole(cursedSoul).RegenTask();
+            Role.GetRole(target).RegenTask();
 
             var killsList = (newCursedSoulRole.Kills, newCursedSoulRole.CorrectKills, newCursedSoulRole.IncorrectKills, newCursedSoulRole.CorrectAssassinKills, newCursedSoulRole.IncorrectAssassinKills);
             var newTargetRole = Role.GetRole(target);

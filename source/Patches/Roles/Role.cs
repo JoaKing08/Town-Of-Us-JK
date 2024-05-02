@@ -1008,7 +1008,7 @@ namespace TownOfUs.Roles
                     }
                 }
 
-                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks) return true;
+                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks && PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None))) return true;
                 
                 var result = true;
                 foreach (var role in AllRoles)
@@ -1020,6 +1020,7 @@ namespace TownOfUs.Roles
                     bool objectiveIsEnd = true;
                     var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother)).ToList();
                     var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
+                    var recruitImp = PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor() && x.Is(FactionOverride.Recruit));
                     var traitorIsEnd = true;
                     var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ObjectiveEnum.ImpostorAgent)) > 0;
                     bool stopImpOvertake = ((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count) && impsAlive.Count != 0;
@@ -1031,7 +1032,7 @@ namespace TownOfUs.Roles
                         modifierIsEnd = modifier.ModifierWin(__instance);
                     if (objective != null)
                         objectiveIsEnd = objective.ObjectiveWin(__instance);
-                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd || role.PauseEndCrit || stopImpOvertake) result = false;
+                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd || role.PauseEndCrit || stopImpOvertake || recruitImp) result = false;
                 }
 
                 if (!NobodyEndCriteria(__instance)) result = false;

@@ -36,15 +36,16 @@ namespace TownOfUs.NeutralRoles.PirateMod
                         if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
                         {
                             KillButtonTarget.DontRevive = pirate.DueledPlayer.PlayerId;
-                            pirate.DueledPlayer.Exiled();
                         }
+                        pirate.DueledPlayer.Exiled();
                         pirate.DueledPlayer = null;
                     }
+                    pirate.DuelsWon += 1;
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
-                        pirate.DuelsWon += 1;
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
                         pirate.Notification("Ya Won Th' Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                    }
                         if (pirate.DuelsWon >= CustomGameOptions.PirateDuelsToWin)
                         {
                             pirate.WonByDuel = true;
@@ -54,7 +55,6 @@ namespace TownOfUs.NeutralRoles.PirateMod
                                 pirate.Player.Exiled();
                             }
                         }
-                    }
                 }
                 else if (!pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected)
                 {

@@ -634,6 +634,11 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             Role.GetRole(amnesiac).BreadLeft = oldBread;
             Role.GetRole(amnesiac).FactionOverride = amneFactionOverride;
             Role.GetRole(other).FactionOverride = targetFactionOverride;
+            if (amnesiac.Is(RoleEnum.Vampire)) Role.GetRole(amnesiac).FactionOverride = FactionOverride.Vampires;
+            if (amnesiac.Is(RoleEnum.JKNecromancer)) Role.GetRole(amnesiac).FactionOverride = FactionOverride.Undead;
+            if (amnesiac.Is(RoleEnum.Jackal)) Role.GetRole(amnesiac).FactionOverride = FactionOverride.Recruit;
+            Role.GetRole(amnesiac).RegenTask();
+            Role.GetRole(other).RegenTask();
 
             var killsList = (newRole.Kills, newRole.CorrectKills, newRole.IncorrectKills, newRole.CorrectAssassinKills, newRole.IncorrectAssassinKills);
             var otherRole = Role.GetRole(other);
