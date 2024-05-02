@@ -39,7 +39,8 @@ namespace TownOfUs
                 (player._object.Is(RoleEnum.Jester) && CustomGameOptions.JesterImpVision) ||
                 (player._object.Is(RoleEnum.Arsonist) && CustomGameOptions.ArsoImpVision) ||
                 (player._object.Is(RoleEnum.Vampire) && CustomGameOptions.VampImpVision) ||
-                player._object.Is(RoleEnum.SerialKiller))
+                player._object.Is(RoleEnum.SerialKiller) || player._object.Is(RoleEnum.JKNecromancer) ||
+                player._object.Is(RoleEnum.Jackal))
             {
                 __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod;
                 return false;
