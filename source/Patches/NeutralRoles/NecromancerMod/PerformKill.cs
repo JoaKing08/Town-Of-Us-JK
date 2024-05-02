@@ -9,6 +9,7 @@ using Object = UnityEngine.Object;
 using System;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Modifiers;
+using TownOfUs.Roles.Horseman;
 
 namespace TownOfUs.NeutralRoles.NecromancerMod
 {
@@ -38,6 +39,12 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             if (Vector2.Distance(role.CurrentTarget.TruePosition,
                 PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
             var playerId = role.CurrentTarget.ParentId;
+            var player = Utils.PlayerById(playerId);
+            if ((player.IsInfected() || role.Player.IsInfected()) && !player.Is(RoleEnum.Plaguebearer))
+            {
+                foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
+            }
+            if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, playerId, (byte)role.RoleType, (byte)0);
 
             role.ReviveCount += 1;
             role.LastRevived = DateTime.UtcNow;

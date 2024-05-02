@@ -29,6 +29,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
             if (interact[4])
             {
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
+                role.LastInfected = DateTime.UtcNow;
             }
             else if (interact[0] == true)
             {

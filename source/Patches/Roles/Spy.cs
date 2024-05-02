@@ -183,6 +183,12 @@ namespace TownOfUs.Roles
                         case RoleEnum.Hunter:
                             message += " stalked by Hunter";
                             break;
+                        case RoleEnum.JKNecromancer:
+                            message += " revived by Necromancer";
+                            break;
+                        case RoleEnum.Jackal:
+                            message += " attacked by Jackal";
+                            break;
                     }
                     break;
                 case 1:
