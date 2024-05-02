@@ -36,13 +36,13 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
-| 2024.3.5s & 2024.3.5e | v1.2.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.2.0) |
-| 2024.3.5s & 2024.3.5e | v1.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.1.0) |
-| 2024.3.5s & 2024.3.5e | v1.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.4) |
-| 2024.3.5s & 2024.3.5e | v1.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.3) |
-| 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.2) |
-| 2023.11.28s & 2023.11.28e | v1.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.1) |
-| 2023.11.28s & 2023.11.28e | v1.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/download/v1.0.0) |
+| 2024.3.5s & 2024.3.5e | v1.2.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.0) |
+| 2024.3.5s & 2024.3.5e | v1.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.1.0) |
+| 2024.3.5s & 2024.3.5e | v1.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.4) |
+| 2024.3.5s & 2024.3.5e | v1.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.3) |
+| 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.2) |
+| 2023.11.28s & 2023.11.28e | v1.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.1) |
+| 2023.11.28s & 2023.11.28e | v1.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.0) |
 -----------------------
 # Installation
 ## Requirements 
