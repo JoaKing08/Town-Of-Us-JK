@@ -1439,7 +1439,7 @@ namespace TownOfUs
                     vhRole.UsesLeft = CustomGameOptions.MaxFailedStakesPerGame;
                     vhRole.AddedStakes = true;
                 }
-                var vamps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(RoleEnum.Vampire) && !x.Data.IsDead && !x.Data.Disconnected).ToList();
+                var vamps = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(RoleEnum.Vampire) || x.Is(RoleEnum.JKNecromancer)) && !x.Data.IsDead && !x.Data.Disconnected).ToList();
                 if (vamps.Count == 0 && vh.Player != StartImitate.ImitatingPlayer && !vh.Player.Data.IsDead && !vh.Player.Data.Disconnected)
                 {
                     var vhPlayer = vhRole.Player;
