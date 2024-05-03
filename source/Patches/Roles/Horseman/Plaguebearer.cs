@@ -92,6 +92,7 @@ namespace TownOfUs.Roles.Horseman
             var role = new Pestilence(Player);
             role.CorrectAssassinKills = killsList.CorrectAssassinKills;
             role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+            role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnouncePestilence)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));

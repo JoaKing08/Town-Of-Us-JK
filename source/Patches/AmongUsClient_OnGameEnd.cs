@@ -267,7 +267,7 @@ namespace TownOfUs
                     else if (type == RoleEnum.Inquisitor)
                     {
                         var inquisitor = (Inquisitor)role;
-                        if (inquisitor.HereticsDead)
+                        if (inquisitor.HereticsDead && !inquisitor.Player.Data.IsDead && !inquisitor.Player.Data.Disconnected)
                         {
                             TempData.winners = new List<WinningPlayerData>();
                             var inquisitorData = new WinningPlayerData(inquisitor.Player.Data);

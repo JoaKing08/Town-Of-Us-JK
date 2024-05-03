@@ -84,6 +84,7 @@ namespace TownOfUs.Roles.Horseman
             role.CorrectAssassinKills = killsList.CorrectAssassinKills;
             role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
             role.Kills = killsList.Kills;
+            role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnounceWar)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));

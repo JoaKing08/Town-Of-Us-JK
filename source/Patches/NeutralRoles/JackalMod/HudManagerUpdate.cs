@@ -23,7 +23,7 @@ namespace TownOfUs.NeutralRoles.JackalMod
             if (role.RecruitsAlive) __instance.KillButton.SetCoolDown(0f, 1f);
             else __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.JackalKCd);
             
-            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(FactionOverride.Recruit)).ToList());
+            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !(role.FactionOverride == FactionOverride.Undead && x.Is(FactionOverride.Undead)) && !(role.FactionOverride == FactionOverride.Recruit && x.Is(FactionOverride.Recruit))).ToList());
             if (role.RecruitsAlive)
             {
                 role.ClosestPlayer = null;

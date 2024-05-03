@@ -10,6 +10,7 @@ using System;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Modifiers;
 using TownOfUs.Roles.Horseman;
+using Reactor.Utilities;
 
 namespace TownOfUs.NeutralRoles.NecromancerMod
 {
@@ -57,6 +58,11 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
 
         public static void Revive(DeadBody target, Necromancer role)
         {
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                Role.GetRole(PlayerControl.LocalPlayer).Notification("Someone Has Been Revived!", 1000 * CustomGameOptions.NotificationDuration);
+            }
             var parentId = target.ParentId;
             var position = target.TruePosition;
             var player = Utils.PlayerById(parentId);
@@ -76,6 +82,8 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
                 Murder.KilledPlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId));
             revived.Add(player);
             player.NetTransform.SnapTo(new Vector2(position.x, position.y + 0.3636f));
+            if (player.Is(Faction.Impostors)) RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
+            else RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
 
             if (Patches.SubmergedCompatibility.isSubmerged() && PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
@@ -95,6 +103,8 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
                 revived.Add(lover);
                 Role.GetRole(lover).FactionOverride = FactionOverride.Undead;
                 Role.GetRole(lover).RegenTask();
+                if (lover.Is(Faction.Impostors)) RoleManager.Instance.SetRole(lover, RoleTypes.Impostor);
+                else RoleManager.Instance.SetRole(lover, RoleTypes.Crewmate);
 
                 foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
                 {

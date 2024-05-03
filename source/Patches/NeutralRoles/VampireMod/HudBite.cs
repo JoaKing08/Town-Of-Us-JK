@@ -26,7 +26,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
 
             var notVampire = PlayerControl.AllPlayerControls
                 .ToArray()
-                .Where(x => !x.Is(RoleEnum.Vampire))
+                .Where(x => !(role.FactionOverride == FactionOverride.Vampires && x.Is(RoleEnum.Vampire)) && !(role.FactionOverride == FactionOverride.Undead && x.Is(FactionOverride.Undead)) && !(role.FactionOverride == FactionOverride.Recruit && x.Is(FactionOverride.Recruit)))
                 .ToList();
 
             Utils.SetTarget(ref role.ClosestPlayer, biteButton, float.NaN, notVampire);

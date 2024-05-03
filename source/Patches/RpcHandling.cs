@@ -270,7 +270,7 @@ namespace TownOfUs
                 NeutralProselyteRoles.SortRoles(proselyte);
                 NeutralApocalypseRoles.SortRoles(apocalypse);
 
-                if (NeutralProselyteRoles.Contains((typeof(Vampire), CustomGameOptions.VampireOn, true)) && CustomGameOptions.VampireHunterOn > 0)
+                if ((NeutralProselyteRoles.Contains((typeof(Vampire), CustomGameOptions.VampireOn, true)) || NeutralProselyteRoles.Contains((typeof(Roles.Necromancer), CustomGameOptions.NecromancerOn, true))) && CustomGameOptions.VampireHunterOn > 0)
                     CrewmatesRoles.Add((typeof(VampireHunter), CustomGameOptions.VampireHunterOn, true));
                 if (NeutralApocalypseRoles.Count > 0 && CustomGameOptions.ApocalypseAgentOn > 0)
                     ObjectiveCrewmateModifiers.Add((typeof(ApocalypseAgent), CustomGameOptions.ApocalypseAgentOn));
@@ -378,7 +378,7 @@ namespace TownOfUs
                 NeutralProselyteRoles.SortRoles(proselyte);
                 NeutralApocalypseRoles.SortRoles(apocalypse);
 
-                if (NeutralProselyteRoles.Contains((typeof(Vampire), CustomGameOptions.VampireOn, true)) && CustomGameOptions.VampireHunterOn > 0)
+                if ((NeutralProselyteRoles.Contains((typeof(Vampire), CustomGameOptions.VampireOn, true)) || NeutralProselyteRoles.Contains((typeof(Roles.Necromancer), CustomGameOptions.NecromancerOn, true))) && CustomGameOptions.VampireHunterOn > 0)
                     CrewmatesRoles.Add((typeof(VampireHunter), CustomGameOptions.VampireHunterOn, true));
 
                 CrewmatesRoles.SortRoles(crewmates.Count - NeutralBenignRoles.Count - NeutralEvilRoles.Count - NeutralKillingRoles.Count - apocalypse - NeutralChaosRoles.Count - NeutralProselyteRoles.Count);

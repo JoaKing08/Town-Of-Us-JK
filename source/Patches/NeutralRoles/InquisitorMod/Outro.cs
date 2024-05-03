@@ -15,6 +15,7 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
             var role = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Inquisitor && ((Inquisitor) x).HereticsDead);
             if (role == null) return;
+            if (role.Player.Data.IsDead || role.Player.Data.Disconnected) return;
             PoolablePlayer[] array = Object.FindObjectsOfType<PoolablePlayer>();
             array[0].NameText().text = role.ColorString + array[0].NameText().text + "</color>";
             __instance.BackgroundBar.material.color = role.Color;

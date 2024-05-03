@@ -10,6 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using TownOfUs.Roles.Modifiers;
 using AmongUs.GameOptions;
+using Reactor.Utilities;
 
 namespace TownOfUs.CrewmateRoles.AltruistMod
 {
@@ -20,6 +21,11 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
         public static IEnumerator AltruistRevive(DeadBody target, Altruist role)
         {
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                Role.GetRole(PlayerControl.LocalPlayer).Notification("Someone Has Been Revived!", 1000 * CustomGameOptions.NotificationDuration);
+            }
             var parentId = target.ParentId;
             var position = target.TruePosition;
 

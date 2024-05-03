@@ -83,6 +83,7 @@ namespace TownOfUs.Roles.Horseman
             var role = new Death(Player);
             role.CorrectAssassinKills = killsList.CorrectAssassinKills;
             role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+            role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnounceDeath)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Death));

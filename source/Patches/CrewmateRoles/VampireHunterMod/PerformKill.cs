@@ -24,7 +24,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
             if (role.ClosestPlayer == null) return false;
             if (!role.ButtonUsable) return false;
 
-            if (!role.ClosestPlayer.Is(RoleEnum.Vampire))
+            if (!role.ClosestPlayer.Is(RoleEnum.Vampire) || !(role.ClosestPlayer.Is(FactionOverride.Undead) && !role.ClosestPlayer.Is(RoleEnum.JKNecromancer)))
             {
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);

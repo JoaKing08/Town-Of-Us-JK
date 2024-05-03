@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Linq;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
             if (role.Rampaged)
             {
                 role.RampageButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.RampageDuration);
-                Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN);
+                Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !(role.FactionOverride == FactionOverride.Undead && x.Is(FactionOverride.Undead)) && !(role.FactionOverride == FactionOverride.Recruit && x.Is(FactionOverride.Recruit))).ToList());
 
                 return;
             }
