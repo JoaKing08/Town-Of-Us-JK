@@ -40,15 +40,17 @@ namespace TownOfUs.Roles
 
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
+            if (Player.Data.IsDead || Player.Data.Disconnected) return true;
             var Undead = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(FactionOverride.Undead));
             var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(FactionOverride.Undead));
             var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(FactionOverride.Undead) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
 
-            if ((Undead >= AlivePlayers && !(KillingAlives > 0 || CustomGameOptions.OvertakeWin == OvertakeWin.Off)) || (Undead > 0 && AlivePlayers == 0))
+            if ((Undead >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Undead > 0 && AlivePlayers == 0))
             {
                 Utils.Rpc(CustomRPC.NecromancerWin, Player.PlayerId);
                 Wins();
                 Utils.EndGame();
+                return false;
             }
             return false;
         }

@@ -1118,7 +1118,8 @@ namespace TownOfUs.Roles
                             var role = GetRole(info.Object);
                             if (role == null) return;
                             var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
-                            var agentText = info.Object.Is(ObjectiveEnum.ImpostorAgent) ? " (Imp)" : info.Object.Is(ObjectiveEnum.ApocalypseAgent) ? " (Apoc)" : "";
+                            var agentText = info.Object.Is(ObjectiveEnum.ImpostorAgent) ? $" (Impostor)" : info.Object.Is(ObjectiveEnum.ApocalypseAgent) ? " (Apocalypse)" : "";
+                            var factionText = info.Object.Is(FactionOverride.Undead) && !info.Object.Is(RoleEnum.JKNecromancer) ? $" (Undead)" : info.Object.Is(FactionOverride.Recruit) && !info.Object.Is(RoleEnum.Jackal) ? $" (Recruit)" : "";
                             __result = $"{info.PlayerName} was {roleName}{agentText}.";
                             return;
                         }

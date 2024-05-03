@@ -38,14 +38,16 @@ namespace TownOfUs.Roles
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             var Recruits = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(FactionOverride.Recruit));
+            if (Recruits == 0) return true;
             var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(FactionOverride.Recruit));
             var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(FactionOverride.Recruit) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
 
-            if ((Recruits >= AlivePlayers && !(KillingAlives > 0 || CustomGameOptions.OvertakeWin == OvertakeWin.Off)) || (Recruits > 0 && AlivePlayers == 0))
+            if ((Recruits >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Recruits > 0 && AlivePlayers == 0))
             {
                 Utils.Rpc(CustomRPC.JackalWin, Player.PlayerId);
                 Wins();
                 Utils.EndGame();
+                return false;
             }
             return false;
         }
