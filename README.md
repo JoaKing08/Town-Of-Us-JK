@@ -982,13 +982,16 @@ Else they will kill the bitten player.
 
 The Necromancer is a Neutral role with its own win condition.\
 The Necromancer can revive other players to convert them into Undead.\
-If the Necromancer dies, all other Undead also die.
+If the Necromancer dies, all other Undead also die.\
+When Necromancer is only killing left he gains ability to kill.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Necromancer | The percentage probability of the Necromancer appearing | Percentage | 0% |
 | Initial Revive Cooldown | Initial cooldown of the Necromancer's Revive button | Time | 25s |
-| Increased Cooldown Per Revive | Additional cooldown of the Necromancer's Revive button according to amount of revives | Time | 25s |
+| Increased Cooldown Per Revive | Additional cooldown of the Necromancer's Revive button muliplied by number of revives | Time | 25s |
+| Initial Ritual Kill Cooldown | Initial cooldown of the Necromancer's Kill button | Time | 25s |
+| Increased Cooldown Per Kill | Additional cooldown of the Necromancer's Kill button multiplied by number of kills | Time | 25s |
 | Maximum Number Of Undead | Maximum amount of times Necromancer can Revive | Number | 3 |
 | Necromancer Can Vent | Whether the Necromancer Can Vent | Toggle | False |
 
@@ -999,13 +1002,15 @@ If the Necromancer dies, all other Undead also die.
 The Jackals are players with their own win condition.\
 If Jackal is in the game two recruits spawn, one recruit is always a Killer while other is always a Crewmate.\
 If the recruits die Jackal gains ability to kill.\
-According to settings recruits are lifelinked to eachother.
+According to settings recruits are lifelinked to eachother.\
+According to settings recruits can see who is the Jackal, however they always see eachother.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Jackal | The percentage probability of the Jackal appearing | Percentage | 0% |
 | Jackal Kill Cooldown | The cooldown of the Jackal's Kill button | Time | 25s |
 | Recruits Are Lifelinked | Whether the recruits die together | Toggle | True |
+| Recruits See Who Is Jackal | Whether the recruits see who is the Jackal | Toggle | True |
 | Jackal Can Vent | Whether the Jackal Can Vent | Toggle | False |
 
 -----------------------
@@ -1537,7 +1542,7 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 # Game Mode Settings
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
-| Game Mode | What game mode the next game will be | Classic / All Any / Killing Only / Cultist / Teams (Buggy) / Solo Killer (Buggy) / Horseman | Classic |
+| Game Mode | What game mode the next game will be | Classic / All Any / Killing Only / Cultist / Teams / Solo Killer / Horseman | Classic |
 
 -----------------------
 # Classic Game Mode Settings
@@ -1636,9 +1641,15 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 | Disable Meeting Skip Button | Whether the meeting button is disabled | No / Emergency / Always | No |
 | Enable Hidden Roles | Whether hidden roles are added to the role selections | Toggle | True |
 | First Death Shield Next Game | Whether the first player to die gets a shield for the first round next game | Toggle | False |
-| Neutral Evils Win Ends Game | Whether a Neutral Evil role winning ends the game | Toggle | True |
+| Neutral Evil/Chaos Win Ends Game | Whether a Neutral Evil and Chaos role winning ends the game | Toggle | True |
 | Overtake Win | Whether the game ends if the number of killers is same or higher than crew | On / Without CK / Off | On |
 | Role Notification Duration | Time for how long text notifications stay| Time | 2.5s |
+| Show Impostors Remaining | Whether to show amount of Impostors left after the meeting | Toggle | False |
+| Show Apoclypse Remaining | Whether to show amount of Apocalypse Members left after the meeting | Toggle | False |
+| Show Undead Remaining | Whether to show amount of Undead left after the meeting | Toggle | False |
+| Show Neutral Killing Remaining | Whether to show amount of Neutral Killing left after the meeting | Toggle | False |
+| Show Neutral Proselyte Remaining | Whether to show amount of Neutral Proselyte left after the meeting | Toggle | False |
+| Spawn Impostors | Whether to spawn Impostors in Classic/All Any | Toggle | True |
 
 -----------------------
 # Task Tracking Settings
