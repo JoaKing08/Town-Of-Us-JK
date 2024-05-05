@@ -158,6 +158,12 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption GhostsDoTasks;
         public static CustomStringOption OvertakeWin;
         public static CustomNumberOption NotificationDuration;
+        public static CustomToggleOption ShowImpostorsRemaining;
+        public static CustomToggleOption ShowApocalypseRemaining;
+        public static CustomToggleOption ShowUndeadRemaining;
+        public static CustomToggleOption ShowKillingRemaining;
+        public static CustomToggleOption ShowProselyteRemaining;
+        public static CustomToggleOption SpawnImps;
 
         public static CustomHeaderOption BetterPolusSettings;
         public static CustomToggleOption VentImprovements;
@@ -693,12 +699,15 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Necromancer;
         public static CustomNumberOption NecromancerReviveCooldown;
         public static CustomNumberOption ReviveCooldownIncrease;
+        public static CustomNumberOption RitualKillCooldown;
+        public static CustomNumberOption RitualKillCooldownIncrease;
         public static CustomNumberOption MaxNumberOfUndead;
         public static CustomToggleOption NecromancerVent;
 
         public static CustomHeaderOption Jackal;
         public static CustomNumberOption JackalKCd;
         public static CustomToggleOption RecruitsLifelink;
+        public static CustomToggleOption RecruitsSeeJackal;
         public static CustomToggleOption JackalVent;
 
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
@@ -1060,11 +1069,17 @@ namespace TownOfUs.CustomOption
             SkipButtonDisable = new CustomStringOption(num++, MultiMenu.main, "Disable Meeting Skip Button", new[] { "No", "Emergency", "Always" });
             HiddenRoles = new CustomToggleOption(num++, MultiMenu.main, "Enable Hidden Roles", true);
             FirstDeathShield = new CustomToggleOption(num++, MultiMenu.main, "First Death Shield Next Game", false);
-            NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, "Neutral Evil Win Ends Game", true);
+            NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, "Neutral Evil/Chaos Win Ends Game", true);
             GhostsDoTasks = new CustomToggleOption(num++, MultiMenu.main, "Ghosts Do Tasks", true);
             OvertakeWin = new CustomStringOption(num++, MultiMenu.main, "Overtake Win", new[] { "On", "Without CK", "Off" });
             NotificationDuration =
                 new CustomNumberOption(num++, MultiMenu.main, "Role Notification Duration", 2.5f, 0f, 10f, 0.25f, CooldownFormat);
+            ShowImpostorsRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Impostors Remaining", false);
+            ShowApocalypseRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Apocalypse Remaining", false);
+            ShowUndeadRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Undead Remaining", false);
+            ShowKillingRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Neutral Killing Remaining", false);
+            ShowProselyteRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Neutral Proselyte Remaining", false);
+            SpawnImps = new CustomToggleOption(num++, MultiMenu.main, "Spawn Impostors", true);
 
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Task Tracking Settings");
@@ -1637,6 +1652,10 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Initial Revive Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             ReviveCooldownIncrease =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Increased Cooldown Per Revive", 25f, 0f, 60f, 2.5f, CooldownFormat);
+            RitualKillCooldown =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Initial Ritual Kill Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            RitualKillCooldownIncrease =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Increased Cooldown Per Kill", 25f, 0f, 60f, 2.5f, CooldownFormat);
             MaxNumberOfUndead =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Number Of Undead", 3, 1, 7, 1);
             NecromancerVent =
@@ -1647,6 +1666,8 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Jackal Kill Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             RecruitsLifelink =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Recruits Are Lifelinked");
+            RecruitsSeeJackal =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Recruits See Who Is Jackal");
             JackalVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jackal Can Vent", false);
 

@@ -335,7 +335,7 @@ namespace TownOfUs.Patches
                 radar.RadarArrow.Add(arrow);
             }
 
-            if (CustomGameOptions.GameMode == GameMode.Teams)
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.RedMember) || PlayerControl.LocalPlayer.Is(RoleEnum.BlueMember) || PlayerControl.LocalPlayer.Is(RoleEnum.YellowMember) || PlayerControl.LocalPlayer.Is(RoleEnum.GreenMember))
             {
                 var member = Role.GetRole<TeamMember>(PlayerControl.LocalPlayer);
                 member.LastKill = DateTime.UtcNow;
@@ -429,7 +429,9 @@ namespace TownOfUs.Patches
             {
                 var necro = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
                 necro.LastRevived = DateTime.UtcNow;
+                necro.LastKill = DateTime.UtcNow;
                 necro.LastRevived = necro.LastRevived.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.NecromancerReviveCooldown);
+                necro.LastKill = necro.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.RitualKillCooldown);
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Jackal))

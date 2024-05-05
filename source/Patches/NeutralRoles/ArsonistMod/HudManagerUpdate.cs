@@ -55,7 +55,7 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
             }
 
             var notDoused = PlayerControl.AllPlayerControls.ToArray().Where(
-                player => !role.DousedPlayers.Contains(player.PlayerId) && !(role.FactionOverride == FactionOverride.Undead && player.Is(FactionOverride.Undead)) && !(role.FactionOverride == FactionOverride.Recruit && player.Is(FactionOverride.Recruit))
+                player => !role.DousedPlayers.Contains(player.PlayerId) && !(role.FactionOverride == FactionOverride.Undead && player.Is(FactionOverride.Undead)) && !(role.FactionOverride == FactionOverride.Recruit && player.Is(FactionOverride.Recruit) && !(player.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal))
             ).ToList();
             var doused = PlayerControl.AllPlayerControls.ToArray().Where(
                 player => role.DousedPlayers.Contains(player.PlayerId)

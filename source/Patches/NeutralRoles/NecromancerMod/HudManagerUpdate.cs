@@ -2,6 +2,7 @@ using HarmonyLib;
 using TownOfUs.Roles;
 using UnityEngine;
 using AmongUs.GameOptions;
+using System.Linq;
 
 namespace TownOfUs.NeutralRoles.NecromancerMod
 {
@@ -9,6 +10,7 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
     public class ReviveHudManagerUpdate
     {
         public static Sprite ReviveSprite => TownOfUs.Revive2Sprite;
+        public static Sprite KillSprite => TownOfUs.KillSprite;
         public static byte DontRevive = byte.MaxValue;
 
         public static void Postfix(HudManager __instance)
@@ -19,6 +21,18 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer)) return;
             var role = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
+
+            if (role.KillButton == null)
+            {
+                role.KillButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                role.KillButton.graphic.enabled = true;
+                role.KillButton.gameObject.SetActive(false);
+            }
+
+            role.KillButton.graphic.sprite = KillSprite;
+            role.KillButton.transform.localPosition = new Vector3(-1f, 1f, 0f);
+            role.KillButton.buttonLabelText.gameObject.SetActive(true);
+            role.KillButton.buttonLabelText.text = "Kill";
 
             if (role.UsesText == null && role.UsesLeft > 0)
             {
@@ -40,9 +54,24 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            role.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
+                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            if (!role.LastKiller) role.KillButton.SetCoolDown(0f, 1f);
+            else role.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.RitualKillCooldown + CustomGameOptions.RitualKillCooldownIncrease * role.NecroKills);
+
+            Utils.SetTarget(ref role.ClosestPlayer, role.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(FactionOverride.Undead)).ToList());
+            if (!role.LastKiller)
+            {
+                role.ClosestPlayer = null;
+                role.KillButton.graphic.color = Palette.DisabledClear;
+                role.KillButton.graphic.material.SetFloat("_Desat", 1f);
+                role.KillButton.buttonLabelText.color = Palette.DisabledClear;
+                role.KillButton.buttonLabelText.material.SetFloat("_Desat", 1f);
+            }
 
             var data = PlayerControl.LocalPlayer.Data;
             var isDead = data.IsDead;
@@ -98,7 +127,7 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
                 SpriteRenderer component = null;
                 foreach (var body in role.CurrentTarget.bodyRenderers) component = body;
                 component.material.SetFloat("_Outline", 1f);
-                component.material.SetColor("_OutlineColor", Color.red);
+                component.material.SetColor("_OutlineColor", Patches.Colors.Necromancer);
                 __instance.KillButton.graphic.color = Palette.EnabledColor;
                 __instance.KillButton.graphic.material.SetFloat("_Desat", 0f);
                 role.UsesText.color = Palette.EnabledColor;

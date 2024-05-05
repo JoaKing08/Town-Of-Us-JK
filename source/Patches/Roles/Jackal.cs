@@ -17,12 +17,13 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Jackal;
             Faction = Faction.NeutralKilling;
             FactionOverride = FactionOverride.Recruit;
+            RecruitsAlive = true;
             AddToRoleHistory(RoleType);
         }
 
         public PlayerControl ClosestPlayer;
         public DateTime LastKill { get; set; }
-        public bool RecruitsAlive => PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && !x.Data.IsDead && !x.Data.Disconnected) > 0;
+        public bool RecruitsAlive { get; set; }
         public bool JackalWin { get; set; }
 
         public float KillTimer()

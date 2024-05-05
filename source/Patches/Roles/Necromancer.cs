@@ -15,18 +15,24 @@ namespace TownOfUs.Roles
             TaskText = () => "Revive Crewmates to turn them into Undead\nFake Tasks:";
             Color = Patches.Colors.Necromancer;
             LastRevived = DateTime.UtcNow;
+            LastKill = DateTime.UtcNow;
             RoleType = RoleEnum.JKNecromancer;
             Faction = Faction.NeutralKilling;
             FactionOverride = FactionOverride.Undead;
             ReviveCount = 0;
             AddToRoleHistory(RoleType);
         }
+        private KillButton _killButton;
         public DeadBody CurrentTarget;
         public DateTime LastRevived;
+        public DateTime LastKill;
         public int ReviveCount;
+        public PlayerControl ClosestPlayer;
+        public int NecroKills = 0;
         public int UsesLeft => CustomGameOptions.MaxNumberOfUndead - ReviveCount;
         public bool NecromancerWin { get; set; }
         public TextMeshPro UsesText;
+        public bool LastKiller => !PlayerControl.AllPlayerControls.ToArray().Any(x => (x.Is(Faction.NeutralApocalypse) || x.Data.IsImpostor() || (x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.JKNecromancer))) && !x.Data.IsDead && !x.Data.Disconnected);
 
         public float ReviveTimer()
         {
@@ -36,6 +42,16 @@ namespace TownOfUs.Roles
             var flag2 = num - (float) timeSpan.TotalMilliseconds < 0f;
             if (flag2) return 0;
             return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
+        }
+
+        public float KillTimer()
+        {
+            var utcNow = DateTime.UtcNow;
+            var timeSpan = utcNow - LastKill;
+            var num = (CustomGameOptions.RitualKillCooldown + (CustomGameOptions.RitualKillCooldownIncrease * NecroKills)) * 1000f;
+            var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
+            if (flag2) return 0;
+            return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
         }
 
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
@@ -58,6 +74,24 @@ namespace TownOfUs.Roles
         public void Wins()
         {
             NecromancerWin = true;
+        }
+
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__38 __instance)
+        {
+            var necroTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+            necroTeam.Add(PlayerControl.LocalPlayer);
+            __instance.teamToShow = necroTeam;
+        }
+
+        public KillButton KillButton
+        {
+            get => _killButton;
+            set
+            {
+                _killButton = value;
+                ExtraButtons.Clear();
+                ExtraButtons.Add(value);
+            }
         }
     }
 }

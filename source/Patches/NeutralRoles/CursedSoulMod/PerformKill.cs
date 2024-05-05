@@ -79,6 +79,11 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
         {
             var targetRole = Utils.GetRole(target);
             var cursedSoulRole = Role.GetRole<CursedSoul>(cursedSoul);
+            if (target = PlayerControl.LocalPlayer)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.CursedSoul));
+                Role.GetRole(target).Notification("You Were Swapped!", 1000 * CustomGameOptions.NotificationDuration);
+            }
 
             var swapImp = true;
             var swapNeut = true;

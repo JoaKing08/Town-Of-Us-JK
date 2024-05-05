@@ -224,6 +224,9 @@ namespace TownOfUs.Roles
                         case RoleEnum.Hunter:
                             message += " attacked by Hunter";
                             break;
+                        case RoleEnum.JKNecromancer:
+                            message += " attacked by Necromancer";
+                            break;
                     }
                     break;
                 case 2:

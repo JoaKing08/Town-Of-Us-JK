@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using System.Linq;
 using TownOfUs.Roles;
 
@@ -14,6 +15,20 @@ namespace TownOfUs.NeutralRoles.JackalMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Jackal)) return;
             var role = Role.GetRole<Jackal>(PlayerControl.LocalPlayer);
+            if (PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && !x.Data.IsDead && !x.Data.Disconnected) == 0 && role.RecruitsAlive)
+            {
+                role.RecruitsAlive = false;
+                role.RegenTask();
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Jackal));
+                role.Notification("All Your Recruits Died!", 1000 * CustomGameOptions.NotificationDuration);
+            } 
+            else if (PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && !x.Data.IsDead && !x.Data.Disconnected) > 0 && !role.RecruitsAlive)
+            {
+                role.RecruitsAlive = true;
+                role.RegenTask();
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Jackal));
+                role.Notification("Your Recruit Have Been Revived!", 1000 * CustomGameOptions.NotificationDuration);
+            }
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead

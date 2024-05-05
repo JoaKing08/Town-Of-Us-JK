@@ -437,6 +437,12 @@ namespace TownOfUs
                                 var jack = Role.GetRole<Jackal>(player);
                                 jack.LastKill = DateTime.UtcNow;
                             }
+                            else if (player.Is(RoleEnum.JKNecromancer))
+                            {
+                                var necro = Role.GetRole<Roles.Necromancer>(player);
+                                necro.LastKill = DateTime.UtcNow;
+                                necro.NecroKills += 1;
+                            }
                             RpcMurderPlayer(player, target);
                             abilityUsed = true;
                             fullCooldownReset = true;
@@ -475,7 +481,7 @@ namespace TownOfUs
                     else if (player.Is(RoleEnum.Juggernaut))
                     {
                         var jugg = Role.GetRole<Juggernaut>(player);
-                        jugg.JuggKills += 1;
+                        if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death)) jugg.JuggKills += 1;
                         jugg.LastKill = DateTime.UtcNow;
                     }
                     else if (player.Is(RoleEnum.Pestilence))
@@ -501,7 +507,7 @@ namespace TownOfUs
                     else if (player.Is(RoleEnum.Berserker))
                     {
                         var bers = Role.GetRole<Berserker>(player);
-                        bers.KilledPlayers += 1;
+                        if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death)) bers.KilledPlayers += 1;
                         bers.LastKill = DateTime.UtcNow;
                     }
                     else if (player.Is(RoleEnum.RedMember) || player.Is(RoleEnum.BlueMember) || player.Is(RoleEnum.YellowMember) || player.Is(RoleEnum.GreenMember) || player.Is(RoleEnum.SoloKiller))
@@ -512,13 +518,19 @@ namespace TownOfUs
                     else if (player.Is(RoleEnum.SerialKiller))
                     {
                         var sk = Role.GetRole<SerialKiller>(player);
-                        sk.SKKills += 1;
+                        if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death)) sk.SKKills += 1; else sk.SKKills = 0;
                         sk.LastKill = DateTime.UtcNow;
                     }
                     else if (player.Is(RoleEnum.Jackal))
                     {
                         var jack = Role.GetRole<Jackal>(player);
                         jack.LastKill = DateTime.UtcNow;
+                    }
+                    else if (player.Is(RoleEnum.JKNecromancer))
+                    {
+                        var necro = Role.GetRole<Roles.Necromancer>(player);
+                        necro.LastKill = DateTime.UtcNow;
+                        if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death)) necro.NecroKills += 1;
                     }
                     if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death))
                     {
@@ -1524,19 +1536,20 @@ namespace TownOfUs
             {
                 var tavernKeeper = Role.GetRole<TavernKeeper>(PlayerControl.LocalPlayer);
                 tavernKeeper.LastDrink = DateTime.UtcNow;
-                foreach (var player in tavernKeeper.DrunkPlayers)
-                {
-                    Role.GetRole(player).Roleblocked = false;
-                    Utils.Rpc(CustomRPC.UnroleblockPlayer, player.PlayerId);
-                }
                 tavernKeeper.DrunkPlayers = new List<PlayerControl>();
+            }
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                Role.GetRole(player).Roleblocked = false;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Spy))
             {
                 var spy = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
-                spy.BuggedPlayers = new List<byte>();
                 spy.LastBugged = DateTime.UtcNow;
-                Utils.Rpc(CustomRPC.UnbugPlayers, PlayerControl.LocalPlayer.PlayerId);
+            }
+            foreach (Spy spy in Role.GetRoles(RoleEnum.Spy))
+            {
+                spy.BuggedPlayers = new List<byte>();
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Investigator))
             {
@@ -1665,6 +1678,7 @@ namespace TownOfUs
             {
                 var necromancer = Role.GetRole<Roles.Necromancer>(PlayerControl.LocalPlayer);
                 necromancer.LastRevived = DateTime.UtcNow;
+                necromancer.LastKill = DateTime.UtcNow;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Jackal))
             {

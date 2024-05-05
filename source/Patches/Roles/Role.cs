@@ -156,7 +156,7 @@ namespace TownOfUs.Roles
 
         internal virtual bool ProselyteCriteria()
         {
-            if (PlayerControl.LocalPlayer.Is(FactionOverride) && FactionOverride != FactionOverride.None) return true;
+            if ((PlayerControl.LocalPlayer.Is(FactionOverride) && FactionOverride != FactionOverride.None && !(PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && RoleType == RoleEnum.Jackal && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(RoleEnum.Vampire) && RoleType == RoleEnum.Vampire)) return true;
             return false;
         }
 
@@ -230,11 +230,11 @@ namespace TownOfUs.Roles
                 }
                 __instance.teamToShow = apocTeam;
             }
-            else if (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit))
+            if (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit))
             {
                 var jackTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 jackTeam.Add(PlayerControl.LocalPlayer);
-                foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Recruit) && x.PlayerId != PlayerControl.LocalPlayer.PlayerId)) jackTeam.Add(player);
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Recruit) && x.PlayerId != PlayerControl.LocalPlayer.PlayerId && !(x.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal))) jackTeam.Add(player);
                 __instance.teamToShow = jackTeam;
             }
         }
@@ -1092,6 +1092,17 @@ namespace TownOfUs.Roles
             public static void Postfix(ref string __result, [HarmonyArgument(0)] StringNames name)
             {
                 if (ExileController.Instance == null) return;
+                var info = ExileController.Instance.exiled;
+                var ImpsLeft = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor());
+                var KillLeft = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(RoleEnum.Jackal));
+                var ApocLeft = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse));
+                var UndeLeft = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer));
+                var ProsLeft = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && (x.Is(RoleEnum.Vampire) || x.Is(RoleEnum.JKNecromancer) || x.Is(RoleEnum.Jackal)));
+                var ImpsLeftEjected = info == null ? ImpsLeft : ImpsLeft - (info.Object.Is(Faction.Impostors) ? 1 : 0);
+                var KillLeftEjected = info == null ? KillLeft : KillLeft - (info.Object.Is(Faction.NeutralKilling) && !info.Object.Is(RoleEnum.Vampire) && !info.Object.Is(RoleEnum.JKNecromancer) && !info.Object.Is(RoleEnum.Jackal) ? 1 : 0);
+                var ApocLeftEjected = info == null ? ApocLeft : ApocLeft - (info.Object.Is(Faction.NeutralApocalypse) ? 1 : 0);
+                var UndeLeftEjected = info == null ? UndeLeft : UndeLeft - (info.Object.Is(FactionOverride.Undead) && !info.Object.Is(RoleEnum.JKNecromancer) ? 1 : 0);
+                var ProsLeftEjected = info == null ? ProsLeft : ProsLeft - (info.Object.Is(RoleEnum.Vampire) || info.Object.Is(RoleEnum.JKNecromancer) || info.Object.Is(RoleEnum.Jackal) ? 1 : 0);
                 switch (name)
                 {
                     case StringNames.NoExileTie:
@@ -1107,20 +1118,38 @@ namespace TownOfUs.Roles
                                 }
                             }
                         }
+                        __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
                         return;
+                    case StringNames.NoExileSkip:
+                        {
+                            __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
+                            return;
+                        }
                     case StringNames.ExileTextPN:
                     case StringNames.ExileTextSN:
                     case StringNames.ExileTextPP:
                     case StringNames.ExileTextSP:
                         {
                             if (ExileController.Instance.exiled == null) return;
-                            var info = ExileController.Instance.exiled;
                             var role = GetRole(info.Object);
                             if (role == null) return;
                             var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
                             var agentText = info.Object.Is(ObjectiveEnum.ImpostorAgent) ? $" (Impostor)" : info.Object.Is(ObjectiveEnum.ApocalypseAgent) ? " (Apocalypse)" : "";
                             var factionText = info.Object.Is(FactionOverride.Undead) && !info.Object.Is(RoleEnum.JKNecromancer) ? $" (Undead)" : info.Object.Is(FactionOverride.Recruit) && !info.Object.Is(RoleEnum.Jackal) ? $" (Recruit)" : "";
                             __result = $"{info.PlayerName} was {roleName}{agentText}.";
+                            __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
+                            return;
+                        }
+
+                    case StringNames.ImpostorsRemainP:
+                    case StringNames.ImpostorsRemainS:
+                        {
+                            __result = "";
+                            return;
+                        }
+                    case StringNames.ExileTextNonConfirm:
+                        {
+                            __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
                             return;
                         }
                 }

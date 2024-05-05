@@ -39,12 +39,12 @@ namespace TownOfUs.Patches
                 __result = 1;
                 return false;
             }
-            if (CustomGameOptions.GameMode == GameMode.Teams || CustomGameOptions.GameMode == GameMode.SoloKiller || CustomGameOptions.GameMode == GameMode.Horseman)
+            else if (CustomGameOptions.GameMode == GameMode.Teams || CustomGameOptions.GameMode == GameMode.SoloKiller || CustomGameOptions.GameMode == GameMode.Horseman || ((CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny) && !CustomGameOptions.SpawnImps))
             {
                 __result = 0;
                 return false;
             }
-            if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
+            else if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
             {
                 var players = GameData.Instance.PlayerCount;
 

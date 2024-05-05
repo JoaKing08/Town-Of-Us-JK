@@ -17,7 +17,7 @@ namespace TownOfUs
             if (role.NotificationText == null)
             {
                 role.NotificationText = Object.Instantiate(__instance.KillButton.cooldownTimerText, __instance.transform);
-                role.NotificationText.transform.localPosition = new Vector3(role.NotificationText.transform.localPosition.x, role.NotificationText.transform.localPosition.y + 2f, role.NotificationText.transform.localPosition.z);
+                role.NotificationText.transform.localPosition = new Vector3(role.NotificationText.transform.localPosition.x, role.NotificationText.transform.localPosition.y + 1.5f, role.NotificationText.transform.localPosition.z - 10f);
                 role.NotificationText.transform.localScale = new Vector3(role.NotificationText.transform.localScale.x * 0.75f, role.NotificationText.transform.localScale.y * 0.75f, role.NotificationText.transform.localScale.z);
                 role.NotificationText.enableWordWrapping = false;
                 role.NotificationText.alignment = TMPro.TextAlignmentOptions.Center;

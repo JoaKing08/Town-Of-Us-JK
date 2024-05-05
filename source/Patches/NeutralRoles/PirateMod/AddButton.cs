@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.Roles;
@@ -122,6 +123,8 @@ namespace TownOfUs.NeutralRoles.PirateMod
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Pirate))
             {
                 var role = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
+                role.Notification("Ya Ar Duel'g!", 1000 * CustomGameOptions.NotificationDuration);
                 if (role.DueledPlayer == null && !role.DueledPlayer.Data.IsDead && !role.DueledPlayer.Data.Disconnected) return;
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                     if (PlayerControl.LocalPlayer.PlayerId == __instance.playerStates[i].TargetPlayerId)
@@ -132,6 +135,8 @@ namespace TownOfUs.NeutralRoles.PirateMod
             else if (PlayerControl.LocalPlayer.IsDueled())
             {
                 var role = Role.GetRole(PlayerControl.LocalPlayer);
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
+                role.Notification("You Are Dueled!", 1000 * CustomGameOptions.NotificationDuration);
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                     if (PlayerControl.LocalPlayer.PlayerId == __instance.playerStates[i].TargetPlayerId)
                     {

@@ -33,7 +33,8 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.Pirate) || playerInfo._object.Is(RoleEnum.SerialKiller) ||
                             playerInfo._object.Is(RoleEnum.Inquisitor) || playerInfo._object.Is(RoleEnum.Witch) ||
                             playerInfo._object.Is(RoleEnum.CursedSoul) || playerInfo._object.Is(FactionOverride.Undead) ||
-                            playerInfo._object.Is(FactionOverride.Recruit)
+                            playerInfo._object.Is(FactionOverride.Recruit) || playerInfo._object.Is(RoleEnum.Jackal) ||
+                            playerInfo._object.Is(RoleEnum.JKNecromancer)
                         ))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
@@ -74,7 +75,9 @@ namespace TownOfUs
                            || playerControl.Is(RoleEnum.Pirate)
                            || playerControl.Is(RoleEnum.SerialKiller)
                            || playerControl.Is(RoleEnum.Inquisitor)
-                           || playerControl.Is(RoleEnum.Witch);
+                           || playerControl.Is(RoleEnum.Witch)
+                           || playerControl.Is(RoleEnum.Jackal)
+                           || playerControl.Is(RoleEnum.JKNecromancer);
 
                 // If the console is not a sabotage repair console
                 if (flag && !__instance.AllowImpostor)

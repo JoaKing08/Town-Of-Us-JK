@@ -107,7 +107,7 @@ namespace TownOfUs.Roles
         {
             if (!Player.Data.IsDead)
             {
-                Utils.SetClosestPlayer(ref ClosestPlayer, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !(FactionOverride == FactionOverride.Undead && x.Is(FactionOverride.Undead)) && !(FactionOverride == FactionOverride.Recruit && x.Is(FactionOverride.Recruit))).ToList());
+                Utils.SetClosestPlayer(ref ClosestPlayer, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !(FactionOverride == FactionOverride.Undead && x.Is(FactionOverride.Undead)) && !(FactionOverride == FactionOverride.Recruit && x.Is(FactionOverride.Recruit) && !(x.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal))).ToList());
             }
 
             Player.nameText().color = Color;

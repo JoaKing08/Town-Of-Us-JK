@@ -549,10 +549,19 @@ namespace TownOfUs
         public static float WatchVisionMultiplier => Generate.WatchVisionMultiplier.Get();
         public static float NecromancerReviveCooldown => Generate.NecromancerReviveCooldown.Get();
         public static float ReviveCooldownIncrease => Generate.ReviveCooldownIncrease.Get();
+        public static float RitualKillCooldown => Generate.RitualKillCooldown.Get();
+        public static float RitualKillCooldownIncrease => Generate.RitualKillCooldownIncrease.Get();
         public static int MaxNumberOfUndead => (int)Generate.MaxNumberOfUndead.Get();
         public static bool NecromancerVent => Generate.NecromancerVent.Get();
         public static float JackalKCd => Generate.JackalKCd.Get();
         public static bool RecruistLifelink => Generate.RecruitsLifelink.Get();
+        public static bool RecruistSeeJackal => Generate.RecruitsSeeJackal.Get();
         public static bool JackalVent => Generate.JackalVent.Get();
+        public static bool ShowImpostorsRemaining => Generate.ShowImpostorsRemaining.Get();
+        public static bool ShowApocalypseRemaining => Generate.ShowApocalypseRemaining.Get();
+        public static bool ShowUndeadRemaining => Generate.ShowUndeadRemaining.Get();
+        public static bool ShowKillingRemaining => Generate.ShowKillingRemaining.Get();
+        public static bool ShowProselyteRemaining => Generate.ShowProselyteRemaining.Get();
+        public static bool SpawnImps => Generate.SpawnImps.Get();
     }
 }

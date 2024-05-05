@@ -26,6 +26,40 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             var role = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
             if (__instance.isCoolingDown) return false;
             if (!__instance.isActiveAndEnabled) return false;
+            if (__instance == role.KillButton && role.LastKiller)
+            {
+                if (role.KillTimer() == 0)
+                {
+                    if (role.ClosestPlayer == null) return false;
+                    var distBetweenPlayers2 = Utils.GetDistBetweenPlayers(PlayerControl.LocalPlayer, role.ClosestPlayer);
+                    var flag3 = distBetweenPlayers2 <
+                                GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
+                    if (!flag3) return false;
+
+                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
+                    var interact2 = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
+                    if (interact2[4] == true) return false;
+                    if (interact2[0] == true)
+                    {
+                        role.LastKill = DateTime.UtcNow;
+                        return false;
+                    }
+                    else if (interact2[1] == true)
+                    {
+                        role.LastKill = DateTime.UtcNow;
+                        role.LastKill.AddSeconds(CustomGameOptions.ProtectKCReset - (CustomGameOptions.RitualKillCooldown + CustomGameOptions.RitualKillCooldownIncrease * role.NecroKills));
+                        return false;
+                    }
+                    else if (interact2[2] == true)
+                    {
+                        role.LastKill = DateTime.UtcNow;
+                        role.LastKill.AddSeconds(CustomGameOptions.VestKCReset - (CustomGameOptions.RitualKillCooldown + CustomGameOptions.RitualKillCooldownIncrease * role.NecroKills));
+                        return false;
+                    }
+                    return false;
+                }
+                else return false;
+            }
             if (role.ReviveTimer() != 0) return false;
             if (role.UsesLeft <= 0) return false;
 

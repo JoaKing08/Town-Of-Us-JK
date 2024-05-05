@@ -161,7 +161,6 @@ namespace TownOfUs
             var crewRoles = new List<(Type, int, bool)>();
             var neutRoles = new List<(Type, int, bool)>();
             var impRoles = new List<(Type, int, bool)>();
-            bool[] ChooseApocs = new bool[4] { true, true, true, true };
 
             if (CustomGameOptions.GameMode == GameMode.Classic)
             {
@@ -176,7 +175,7 @@ namespace TownOfUs
                 var factions = new List<string>() { "Benign", "Evil", "Chaos", "Killing", "Proselyte", "Apocalypse" };
 
                 // Crew must always start out outnumbering neutrals, so subtract roles until that can be guaranteed.
-                while (Math.Ceiling((double)crewmates.Count/2) <= benign + evil + chaos + killing)
+                while (crewmates.Count <= benign + evil + chaos + killing)
                 {
                     bool canSubtractBenign = canSubtract(benign, CustomGameOptions.MinNeutralBenignRoles);
                     bool canSubtractEvil = canSubtract(evil, CustomGameOptions.MinNeutralEvilRoles);
@@ -296,7 +295,7 @@ namespace TownOfUs
                 var factions = new List<string>() { "Benign", "Evil", "Chaos", "Killing", "Proselyte" };
 
                 // Crew must always start out outnumbering neutrals, so subtract roles until that can be guaranteed.
-                while (Math.Ceiling((double)crewmates.Count / 2) <= benign + evil + killing)
+                while (crewmates.Count <= benign + evil + killing)
                 {
                     bool canSubtractBenign = canSubtract(benign, CustomGameOptions.MinNeutralBenignRoles);
                     bool canSubtractEvil = canSubtract(evil, CustomGameOptions.MinNeutralEvilRoles);
@@ -723,63 +722,60 @@ namespace TownOfUs
                 }
             }
 
-            var nonKillingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var nonKillingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
             var killingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => ((x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer)) || x.Is(Faction.Impostors) || x.Is(Faction.NeutralApocalypse)) && !x.Is(ObjectiveEnum.Lover)).ToList();
-            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Jackal))
             {
-                if (allRecruits.Count > 1)
+                var nonKillingRecruits = 0;
+                var killingRecruits = 0;
+                var otherRecruits = 0;
+                if (killingRecruit.Count > 0)
                 {
-                    var nonKillingRecruits = 0;
-                    var killingRecruits = 0;
-                    var otherRecruits = 0;
-                    if (killingRecruit.Count > 0)
-                    {
-                        killingRecruits += 1;
-                    }
-                    else if (nonKillingRecruit.Count > 1)
-                    {
-                        nonKillingRecruits += 1;
-                    }
-                    else
-                    {
-                        otherRecruits += 1;
-                    }
-                    if (nonKillingRecruit.Count > nonKillingRecruits + 1)
-                    {
-                        nonKillingRecruits += 1;
-                    }
-                    else
-                    {
-                        otherRecruits += 1;
-                    }
-                    if (nonKillingRecruits != 0) for (int i = 0; i < nonKillingRecruits; i++)
-                        {
-                            var recruit = nonKillingRecruit[Random.RandomRangeInt(0, nonKillingRecruit.Count)];
-                            nonKillingRecruit.Remove(recruit);
-                            allRecruits.Remove(recruit);
-                            Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
-
-                            Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
-                        }
-                    if (killingRecruits != 0) for (int i = 0; i < killingRecruits; i++)
-                        {
-                            var recruit = killingRecruit[Random.RandomRangeInt(0, killingRecruit.Count)];
-                            killingRecruit.Remove(recruit);
-                            allRecruits.Remove(recruit);
-                            Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
-
-                            Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
-                        }
-                    if (otherRecruits != 0) for (int i = 0; i < otherRecruits; i++)
-                        {
-                            var recruit = allRecruits[Random.RandomRangeInt(0, allRecruits.Count)];
-                            allRecruits.Remove(recruit);
-                            Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
-
-                            Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
-                        }
+                    killingRecruits += 1;
                 }
+                else if (nonKillingRecruit.Count > 1)
+                {
+                    nonKillingRecruits += 1;
+                }
+                else if (allRecruits.Count > 1)
+                {
+                    otherRecruits += 1;
+                }
+                if (nonKillingRecruit.Count > nonKillingRecruits + 1)
+                {
+                    nonKillingRecruits += 1;
+                }
+                else if (allRecruits.Count > otherRecruits + 1)
+                {
+                    otherRecruits += 1;
+                }
+                if (nonKillingRecruits != 0) for (int i = 0; i < nonKillingRecruits; i++)
+                    {
+                        var recruit = nonKillingRecruit[Random.RandomRangeInt(0, nonKillingRecruit.Count)];
+                        nonKillingRecruit.Remove(recruit);
+                        allRecruits.Remove(recruit);
+                        Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+
+                        Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
+                    }
+                if (killingRecruits != 0) for (int i = 0; i < killingRecruits; i++)
+                    {
+                        var recruit = killingRecruit[Random.RandomRangeInt(0, killingRecruit.Count)];
+                        killingRecruit.Remove(recruit);
+                        allRecruits.Remove(recruit);
+                        Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+
+                        Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
+                    }
+                if (otherRecruits != 0) for (int i = 0; i < otherRecruits; i++)
+                    {
+                        var recruit = allRecruits[Random.RandomRangeInt(0, allRecruits.Count)];
+                        allRecruits.Remove(recruit);
+                        Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+
+                        Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
+                    }
             }
         }
         private static void GenEachRoleKilling(List<GameData.PlayerInfo> infected)
@@ -951,72 +947,37 @@ namespace TownOfUs
             crewmates.Shuffle();
 
             var roles = new List<(Type, int, bool)>();
-            for (int i = 0; i < (crewmates.Count % CustomGameOptions.TeamsAmount >= 1 ? (int)(crewmates.Count / CustomGameOptions.TeamsAmount) + 1 : (int)(crewmates.Count / CustomGameOptions.TeamsAmount)); i++)
+            while (crewmates.Count != 0)
             {
-                Role.GenRole<Role>(typeof(RedMember), crewmates);
+                if (crewmates.Count != 0) Role.GenRole<Role>(typeof(RedMember), crewmates);
+                if (crewmates.Count != 0) Role.GenRole<Role>(typeof(BlueMember), crewmates);
+                if (CustomGameOptions.TeamsAmount >= 3 && crewmates.Count != 0) Role.GenRole<Role>(typeof(YellowMember), crewmates);
+                if (CustomGameOptions.TeamsAmount >= 4 && crewmates.Count != 0) Role.GenRole<Role>(typeof(GreenMember), crewmates);
             }
-            for (int i = 0; i < (crewmates.Count % CustomGameOptions.TeamsAmount >= 2 ? (int)(crewmates.Count / CustomGameOptions.TeamsAmount) + 1 : (int)(crewmates.Count / CustomGameOptions.TeamsAmount)); i++)
-            {
-                Role.GenRole<Role>(typeof(BlueMember), crewmates);
-            }
-            if (CustomGameOptions.TeamsAmount >= 3) for (int i = 0; i < (crewmates.Count % CustomGameOptions.TeamsAmount >= 3 ? (int)(crewmates.Count / CustomGameOptions.TeamsAmount) + 1 : (int)(crewmates.Count / CustomGameOptions.TeamsAmount)); i++)
-            {
-                Role.GenRole<Role>(typeof(YellowMember), crewmates);
-            }
-            if (CustomGameOptions.TeamsAmount >= 4) for (int i = 0; i < (crewmates.Count % CustomGameOptions.TeamsAmount >= 4 ? (int)(crewmates.Count / CustomGameOptions.TeamsAmount) + 1 : (int)(crewmates.Count / CustomGameOptions.TeamsAmount)); i++)
-            {
-                Role.GenRole<Role>(typeof(GreenMember), crewmates);
-            }
-
-            foreach (var impostor in impostors)
-                Role.GenRole<Role>(typeof(Impostor), impostor);
-
-            foreach (var crewmate in crewmates)
-                Role.GenRole<Role>(typeof(Crewmate), crewmate);
         }
         private static void GenEachRoleKiller(List<GameData.PlayerInfo> infected)
         {
             var impostors = Utils.GetImpostors(infected);
             var crewmates = Utils.GetCrewmates(impostors);
-            List<PlayerControl> killer;
+            var killer =  new List<PlayerControl>();
             if (CustomGameOptions.SoloKillerPlayer == 0)
             {
-                killer = new List<PlayerControl> { };
+                killer.Add(Utils.PlayerById(GameData.Instance.GetHost().PlayerId));
             }
-            else
-            {
-                killer = new List<PlayerControl> { Utils.PlayerById(GameData.Instance.GetHost().PlayerId) };
-            }
-            foreach (var k in killer)
-            {
-                crewmates.Remove(k);
-            }
+            crewmates.RemoveAll(x => killer.Contains(x));
             crewmates.Shuffle();
-            var CrewmatesRoles = new List<(Type, int, bool)>();
-            var killerRole = new List<(Type, int, bool)>();
             if (CustomGameOptions.SoloKillerPlayer == 0)
             {
-                CrewmatesRoles.Add((typeof(SoloKiller), 10, false));
+                Role.GenRole<Role>(typeof(SoloKiller), crewmates);
             }
             else
             {
-                killerRole.Add((typeof(SoloKiller), 10, false));
+                Role.GenRole<Role>(typeof(SoloKiller), killer);
             }
-            CrewmatesRoles.SortRoles(crewmates.Count);
-            foreach (var (type, _, unique) in killerRole)
+            while (crewmates.Count > 0)
             {
-                Role.GenRole<Role>(type, killer);
+                Role.GenRole<Role>(typeof(Crewmate), crewmates);
             }
-            foreach (var (type, _, unique) in CrewmatesRoles)
-            {
-                Role.GenRole<Role>(type, crewmates);
-            }
-
-            foreach (var impostor in impostors)
-                Role.GenRole<Role>(typeof(Impostor), impostor);
-
-            foreach (var crewmate in crewmates)
-                Role.GenRole<Role>(typeof(Crewmate), crewmate);
         }
 
 
