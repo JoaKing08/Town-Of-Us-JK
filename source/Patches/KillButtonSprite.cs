@@ -294,7 +294,10 @@ namespace TownOfUs
                  || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
                  || PlayerControl.LocalPlayer.Is(RoleEnum.Vampire) || PlayerControl.LocalPlayer.Is(RoleEnum.Berserker)
                  || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller)
-                 || PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer) || PlayerControl.LocalPlayer.Is(RoleEnum.Jackal))
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer) || PlayerControl.LocalPlayer.Is(RoleEnum.Jackal)
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.Baker) || PlayerControl.LocalPlayer.Is(RoleEnum.Famine)
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector) || PlayerControl.LocalPlayer.Is(RoleEnum.Death)
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer))
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
             }
