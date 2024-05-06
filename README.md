@@ -36,6 +36,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.3.5s & 2024.3.5e | v1.2.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.7) |
 | 2024.3.5s & 2024.3.5e | v1.2.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.6) |
 | 2024.3.5s & 2024.3.5e | v1.2.5 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.5) |
 | 2024.3.5s & 2024.3.5e | v1.2.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.4) |
@@ -1674,7 +1675,7 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 |----------|:-------------:|:------:|:------:|
 | Solo Killer Kill Cooldown | The Cooldown of the Solo Killer's Kill button | Time | 10s |
 | Solo Killer Vent | Whether Solo Killer can Vent | Toggle | True |
-| Solo Killer | Who gets Solo Killer role | Random / Host | Random |
+| Solo Killer | Who gets Solo Killer role | Random / Host / Player 0-14 | Random |
 
 -----------------------
 ## Assassin Ability
