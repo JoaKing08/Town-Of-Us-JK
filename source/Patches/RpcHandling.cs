@@ -959,21 +959,20 @@ namespace TownOfUs
         {
             var impostors = Utils.GetImpostors(infected);
             var crewmates = Utils.GetCrewmates(impostors);
-            var killer =  new List<PlayerControl>();
+            PlayerControl killer;
             if (CustomGameOptions.SoloKillerPlayer == 0)
             {
-                killer.Add(crewmates[Random.RandomRangeInt(0, crewmates.Count)]);
+                killer = crewmates[Random.RandomRangeInt(0, crewmates.Count)];
             }
             else if (CustomGameOptions.SoloKillerPlayer == 1)
             {
-                killer.Add(Utils.PlayerById(GameData.Instance.GetHost().PlayerId));
+                killer = Utils.PlayerById(GameData.Instance.GetHost().PlayerId);
             }
             else
             {
-                killer.Add(Utils.PlayerById((byte)(CustomGameOptions.SoloKillerPlayer - 2)));
+                killer = Utils.PlayerById((byte)(CustomGameOptions.SoloKillerPlayer - 2));
             }
-            crewmates.RemoveAll(x => killer.Contains(x));
-            crewmates.Shuffle();
+            crewmates.RemoveAll(x => x.PlayerId == killer.PlayerId);
             Role.GenRole<Role>(typeof(SoloKiller), killer);
             while (crewmates.Count > 0)
             {
