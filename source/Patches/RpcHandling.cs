@@ -962,18 +962,19 @@ namespace TownOfUs
             var killer =  new List<PlayerControl>();
             if (CustomGameOptions.SoloKillerPlayer == 0)
             {
-                killer.Add(Utils.PlayerById(GameData.Instance.GetHost().PlayerId));
+                killer.Add(crewmates[Random.RandomRangeInt(0, crewmates.Count)]);
             }
-            crewmates.RemoveAll(x => killer.Contains(x));
-            crewmates.Shuffle();
-            if (CustomGameOptions.SoloKillerPlayer == 0)
+            else if (CustomGameOptions.SoloKillerPlayer == 1)
             {
-                Role.GenRole<Role>(typeof(SoloKiller), crewmates);
+                killer.Add(Utils.PlayerById(GameData.Instance.GetHost().PlayerId));
             }
             else
             {
-                Role.GenRole<Role>(typeof(SoloKiller), killer);
+                killer.Add(Utils.PlayerById((byte)(CustomGameOptions.SoloKillerPlayer - 2)));
             }
+            crewmates.RemoveAll(x => killer.Contains(x));
+            crewmates.Shuffle();
+            Role.GenRole<Role>(typeof(SoloKiller), killer);
             while (crewmates.Count > 0)
             {
                 Role.GenRole<Role>(typeof(Crewmate), crewmates);

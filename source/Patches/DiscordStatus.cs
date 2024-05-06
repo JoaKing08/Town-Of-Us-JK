@@ -9,7 +9,7 @@ namespace TownOfUs.Patches
         [HarmonyPrefix]
         public static void Prefix([HarmonyArgument(0)] Activity activity)
         {
-            activity.Details += $" Town of Us v{TownOfUs.VersionString}, Modes v{TownOfUs.ModesVersionString}";
+            activity.Details += $" Town of Us v{TownOfUs.VersionString}, JoaKing's Addon v{TownOfUs.ModesVersionString}";
         }
     }
 }

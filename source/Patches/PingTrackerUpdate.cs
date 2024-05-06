@@ -15,20 +15,25 @@ namespace TownOfUs
             position.DistanceFromEdge = new Vector3(3.6f, 0.1f, 0);
             position.AdjustPosition();
             var host = GameData.Instance?.GetHost();
+            string playerText = "";
+            if (AmongUsClient.Instance.AmHost && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                playerText += $"\nPlayer {player.PlayerId}: {player.Data.DefaultOutfit.PlayerName}";
+            }
 
             __instance.text.text =
                 "<size=2><color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>" + TownOfUs.VersionTag + ", <color=#FFD000FF>JoaKing's addon v" + TownOfUs.ModesVersionString + "</color>\n" +
                 $"Ping: {AmongUsClient.Instance?.Ping}ms\n" +
                 (!MeetingHud.Instance
-                    ? "<color=#00FF00FF>Modded By: Donners &</color>\n" +
-                    "<color=#00FF00FF>MyDragonBreath</color>\n" : "") +
+                    ? "<color=#00FF00FF>Town Of Us By:</color>\n" +
+                    "<color=#00FF00FF>Donners & MyDragonBreath</color>\n" : "") +
                 (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
                     ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>\n" : "") +
                 (!MeetingHud.Instance
-                    ? "<color=#FFD000FF>JoaKing's addon by: JoaKing</color>\n" : "") +
+                    ? "<color=#FFD000FF>JoaKing's Addon By: JoaKing</color>\n" : "") +
                 (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
                     ? $"Host: {host?.PlayerName}" : "") +
-                    "</size>";
+                    "</size><size=1.5>" + playerText + "</size>";
         }
     }
 }

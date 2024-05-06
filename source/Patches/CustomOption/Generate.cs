@@ -1101,7 +1101,7 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.main, "Solo Killer Kill Cooldown", 10f, 0f, 60f, 1f, CooldownFormat);
             SoloKillerVent = new CustomToggleOption(num++, MultiMenu.main, "Solo Killer Vent");
             SoloKillerPlayer =
-                new CustomStringOption(num++, MultiMenu.main, "Solo Killer", new[] { "Random", "Host" });
+                new CustomStringOption(num++, MultiMenu.main, "Solo Killer", new[] { "Random", "Host", "Player 0", "Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8", "Player 9", "Player 10", "Player 11", "Player 12", "Player 13", "Player 14" });
 
             Assassin = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Assassin Ability</color>");
             NumberOfImpostorAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Impostor Assassins", 1, 0, 4, 1);
