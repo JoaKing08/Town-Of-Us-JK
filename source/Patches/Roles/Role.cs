@@ -126,7 +126,7 @@ namespace TownOfUs.Roles
 
         internal virtual bool ColorCriteria()
         {
-            return CustomGameOptions.GameMode == GameMode.Teams || WitchCriteria() || SelfCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || ProselyteCriteria() || RoleCriteria() || GuardianAngelCriteria();
+            return CustomGameOptions.GameMode == GameMode.Teams || (WitchCriteria() && CustomGameOptions.WitchLearns == WitchLearns.Role) || SelfCriteria() || DeadCriteria() || ImpostorCriteria() || ApocalypseCriteria() || ProselyteCriteria() || RoleCriteria() || GuardianAngelCriteria();
         }
 
         internal virtual bool DeadCriteria()
@@ -341,7 +341,7 @@ namespace TownOfUs.Roles
 
         internal bool PauseEndCrit = false;
 
-        protected virtual string NameText(bool revealTasks, bool revealRole, bool revealModifier, bool revealLover, PlayerVoteArea player = null)
+        protected virtual string NameText(bool revealTasks, bool revealRole, bool revealModifier, bool revealLover, bool revealWitch, PlayerVoteArea player = null)
         {
             if (CamouflageUnCamouflage.IsCamoed && player == null) return "";
 
@@ -428,8 +428,144 @@ namespace TownOfUs.Roles
 
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
                                    MeetingHud.Instance.state == MeetingHud.VoteStates.Results)) return PlayerName;
-
-            if (!revealRole) return PlayerName;
+            if (revealWitch && !revealRole) switch (CustomGameOptions.WitchLearns)
+                {
+                    case WitchLearns.Faction:
+                        Player.nameText().transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
+                        if (Faction == Faction.Crewmates)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrewmate";
+                        }
+                        else if (Faction == Faction.NeutralBenign || Faction == Faction.NeutralEvil || Faction == Faction.NeutralKilling || Faction == Faction.NeutralChaos)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral";
+                        }
+                        else if (Faction == Faction.NeutralApocalypse)
+                        {
+                            Player.nameText().color = new Color(0.25f, 0.25f, 0.25f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.25f, 0.25f, 0.25f, 1f);
+                            PlayerName += $"\nApocalypse";
+                        }
+                        else if (Faction == Faction.Impostors)
+                        {
+                            Player.nameText().color = new Color(1f, 0f, 0f, 1f);
+                            if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
+                            PlayerName += $"\nImpostor";
+                        }
+                        break;
+                    case WitchLearns.Aligment:
+                        Player.nameText().transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
+                        if (RoleType == RoleEnum.Aurial || RoleType == RoleEnum.Detective || RoleType == RoleEnum.Investigator ||
+                               RoleType == RoleEnum.Mystic || RoleType == RoleEnum.Seer ||
+                                 RoleType == RoleEnum.Snitch || RoleType == RoleEnum.Spy || RoleType == RoleEnum.Tracker ||
+                                    RoleType == RoleEnum.Trapper || RoleType == RoleEnum.Inspector || RoleType == RoleEnum.Lookout)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrew Investigative";
+                        }
+                        else if (RoleType == RoleEnum.Altruist || RoleType == RoleEnum.Medic)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrew Protective";
+                        }
+                        else if (RoleType == RoleEnum.Sheriff || RoleType == RoleEnum.VampireHunter || RoleType == RoleEnum.Veteran ||
+                               RoleType == RoleEnum.Vigilante || RoleType == RoleEnum.Hunter)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrew Killing";
+                        }
+                        else if (RoleType == RoleEnum.Engineer || RoleType == RoleEnum.Imitator || RoleType == RoleEnum.TavernKeeper ||
+                               RoleType == RoleEnum.Medium || RoleType == RoleEnum.Transporter || RoleType == RoleEnum.Undercover)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrew Support";
+                        }
+                        else if (RoleType == RoleEnum.Mayor || RoleType == RoleEnum.Oracle || RoleType == RoleEnum.Prosecutor || RoleType == RoleEnum.Swapper || RoleType == RoleEnum.Monarch)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrew Power";
+                        }
+                        else if (RoleType == RoleEnum.Crewmate)
+                        {
+                            Player.nameText().color = new Color(0f, 1f, 1f, 1f);
+                            if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
+                            PlayerName += $"\nCrew";
+                        }
+                        else if (Faction == Faction.NeutralBenign)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral Benign";
+                        }
+                        else if (Faction == Faction.NeutralEvil)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral Evil";
+                        }
+                        else if (Faction == Faction.NeutralChaos)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral Chaos";
+                        }
+                        else if (RoleType == RoleEnum.Vampire || RoleType == RoleEnum.JKNecromancer || RoleType == RoleEnum.Jackal)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral Proselyte";
+                        }
+                        else if (Faction == Faction.NeutralKilling)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral Killing";
+                        }
+                        else if (Faction == Faction.NeutralApocalypse)
+                        {
+                            Player.nameText().color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            if (player != null) player.NameText.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+                            PlayerName += $"\nNeutral Apocalypse";
+                        }
+                        else if (RoleType == RoleEnum.Escapist || RoleType == RoleEnum.Morphling || RoleType == RoleEnum.Swooper ||
+                               RoleType == RoleEnum.Grenadier || RoleType == RoleEnum.Venerer)
+                        {
+                            Player.nameText().color = new Color(1f, 0f, 0f, 1f);
+                            if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
+                            PlayerName += $"\nImpostor Concealing";
+                        }
+                        else if (RoleType == RoleEnum.Bomber || RoleType == RoleEnum.Traitor || RoleType == RoleEnum.Warlock ||
+                               RoleType == RoleEnum.Poisoner || RoleType == RoleEnum.Sniper)
+                        {
+                            Player.nameText().color = new Color(1f, 0f, 0f, 1f);
+                            if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
+                            PlayerName += $"\nImpostor Killing";
+                        }
+                        else if (RoleType == RoleEnum.Blackmailer || RoleType == RoleEnum.Janitor || RoleType == RoleEnum.Miner ||
+                               RoleType == RoleEnum.Undertaker)
+                        {
+                            Player.nameText().color = new Color(1f, 0f, 0f, 1f);
+                            if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
+                            PlayerName += $"\nImpostor Support";
+                        }
+                        else if (RoleType == RoleEnum.Impostor)
+                        {
+                            Player.nameText().color = new Color(1f, 0f, 0f, 1f);
+                            if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
+                            PlayerName += $"\nImpostor";
+                        }
+                        break;
+                }
+            if (!(revealRole || (revealWitch && CustomGameOptions.WitchLearns == WitchLearns.Role))) return PlayerName;
 
             Player.nameText().transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
             if (Player.Is(RoleEnum.Undercover) && Player != PlayerControl.LocalPlayer) return PlayerName + "\n" + ((Undercover)this).UndercoverRole.GetRoleName();
@@ -1182,9 +1318,10 @@ namespace TownOfUs.Roles
                         bool witchFlag = role.WitchCriteria();
                         player.NameText.text = role.NameText( //Error
                             selfFlag || deadFlag || role.Local,
-                            selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
+                            selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
                             selfFlag || deadFlag,
                             loverFlag,
+                            witchFlag,
                             player
                         );
                         if (role.ColorCriteria())
@@ -1275,9 +1412,10 @@ namespace TownOfUs.Roles
                             bool witchFlag = role.WitchCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || witchFlag,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
                                 selfFlag || deadFlag,
-                                loverFlag
+                                loverFlag,
+                                witchFlag
                              );
                             if (role.ColorCriteria())
                                 player.nameText().color = role.Color;

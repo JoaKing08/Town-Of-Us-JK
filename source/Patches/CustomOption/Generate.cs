@@ -684,6 +684,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Witch;
         public static CustomNumberOption ControlCooldown;
         public static CustomNumberOption OrderCooldown;
+        public static CustomStringOption WitchLearns;
 
         public static CustomHeaderOption CursedSoul;
         public static CustomNumberOption SoulSwapCooldown;
@@ -1542,11 +1543,13 @@ namespace TownOfUs.CustomOption
             PhantomSpook =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Phantom Spooks Player On Victory", true);
 
-            Arsonist = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#C060FFFF>Witch</color>");
+            Witch = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#C060FFFF>Witch</color>");
             ControlCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Control Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             OrderCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Order Cooldown", 10f, 5f, 60f, 2.5f, CooldownFormat);
+            WitchLearns = new CustomStringOption(num++, MultiMenu.neutral, "Witch Learns About Controled",
+                new[] { "Nothing", "Faction", "Aligment", "Role" });
 
             Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>");
             ObserveCooldown =

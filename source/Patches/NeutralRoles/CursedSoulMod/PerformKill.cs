@@ -79,7 +79,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
         {
             var targetRole = Utils.GetRole(target);
             var cursedSoulRole = Role.GetRole<CursedSoul>(cursedSoul);
-            if (target = PlayerControl.LocalPlayer)
+            if (target == PlayerControl.LocalPlayer)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.CursedSoul));
                 Role.GetRole(target).Notification("You Were Swapped!", 1000 * CustomGameOptions.NotificationDuration);
@@ -200,29 +200,39 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     newCursedSoul.WasSwapped = true;
                     newCursedSoul.BreadLeft = targetBread;
                     newCursedSoul.LastBlood = targetLastBlood;
+                    target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     break;
                 case SwappedBecomes.Amnesiac:
                     var newAmnesiac = new Amnesiac(target);
                     newAmnesiac.WasSwapped = true;
                     newAmnesiac.BreadLeft = targetBread;
                     newAmnesiac.LastBlood = targetLastBlood;
+                    target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     break;
                 case SwappedBecomes.Crewmate:
                     var newCrewmate = new Crewmate(target);
                     newCrewmate.BreadLeft = targetBread;
                     newCrewmate.LastBlood = targetLastBlood;
+                    target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     break;
                 case SwappedBecomes.Jester:
                     var newJester = new Jester(target);
                     newJester.WasSwapped = true;
                     newJester.BreadLeft = targetBread;
                     newJester.LastBlood = targetLastBlood;
+                    target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     break;
                 case SwappedBecomes.Survivor:
                     var newSurvivor = new Survivor(target);
                     newSurvivor.WasSwapped = true;
                     newSurvivor.BreadLeft = targetBread;
                     newSurvivor.LastBlood = targetLastBlood;
+                    target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     break;
                 case SwappedBecomes.DefaultRole:
                     if (swapImp)
@@ -230,6 +240,8 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                         var newDefaultRole = new Impostor(target);
                         newDefaultRole.BreadLeft = targetBread;
                         newDefaultRole.LastBlood = targetLastBlood;
+                        target.Data.Role.TeamType = RoleTeamTypes.Impostor;
+                        RoleManager.Instance.SetRole(target, RoleTypes.Impostor);
                     }
                     else if (swapNeut)
                     {
@@ -237,15 +249,20 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                         newDefaultRole.WasSwapped = true;
                         newDefaultRole.BreadLeft = targetBread;
                         newDefaultRole.LastBlood = targetLastBlood;
+                        target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                        RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     }
                     else
                     {
                         var newDefaultRole = new Crewmate(target);
                         newDefaultRole.BreadLeft = targetBread;
                         newDefaultRole.LastBlood = targetLastBlood;
+                        target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                        RoleManager.Instance.SetRole(target, RoleTypes.Crewmate);
                     }
                     break;
             }
+            Role.GetRole(target).ExtraButtons.Clear();
             target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             Role.GetRole(target).RegenTask();
             if (target.Is(AbilityEnum.Assassin))

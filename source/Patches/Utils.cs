@@ -218,11 +218,13 @@ namespace TownOfUs
 
         public static bool IsKnight(this PlayerControl player)
         {
-            return Role.GetRoles(RoleEnum.Monarch).Any(role =>
+            var result = Role.GetRoles(RoleEnum.Monarch).Any(role =>
             {
                 if (((Monarch)role).Knights == null) return false;
                 return ((Monarch)role).Knights.Contains(player.PlayerId);
             });
+            if (result == true) return true;
+            else return false;
         }
 
         public static bool IsBugged(this PlayerControl player)

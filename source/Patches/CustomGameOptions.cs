@@ -56,6 +56,13 @@ namespace TownOfUs
         Jester,
         DefaultRole
     }
+    public enum WitchLearns
+    {
+        Nothing,
+        Faction,
+        Aligment,
+        Role
+    }
     public static class CustomGameOptions
     {
         public static int MayorOn => (int)Generate.MayorOn.Get();
@@ -539,6 +546,7 @@ namespace TownOfUs
         public static float BugCooldown => Generate.BugCooldown.Get();
         public static float ControlCooldown => Generate.ControlCooldown.Get();
         public static float OrderCooldown => Generate.OrderCooldown.Get();
+        public static WitchLearns WitchLearns => (WitchLearns)Generate.WitchLearns.Get();
         public static float SoulSwapCooldown => Generate.SoulSwapCooldown.Get();
         public static int SoulSwapAccuracy => (int)Generate.SoulSwapAccuracy.Get();
         public static bool SoulSwapImp => Generate.SoulSwapImp.Get();
