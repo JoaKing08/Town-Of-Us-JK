@@ -36,6 +36,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.3.5s & 2024.3.5e | v1.2.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.9) |
 | 2024.3.5s & 2024.3.5e | v1.2.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.8) |
 | 2024.3.5s & 2024.3.5e | v1.2.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.7) |
 | 2024.3.5s & 2024.3.5e | v1.2.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.6) |
@@ -735,7 +736,6 @@ However, if Lovers, or a Neutral Evil role wins the game, the survivor loses.
 | Max Uses | The amount of times the Vest ability can be used | Number | 5 |
 
 -----------------------
-# Neutral Roles
 ## Cursed Soul
 ### **Team: Neutral**
 The Cursed Soul is a Neutral role with no win condition.\
@@ -802,13 +802,14 @@ They become half-invisible when they die and has to complete all their tasks wit
 
 The Witch is a Neutral role with its own win condition.\
 Their goal is to survive to the end where Crewmates lose.\
-To help achieve her goal she can control players to learn their role and force them to use ability.
+To help achieve her goal she can control players to force them to use ability.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Witch | The percentage probability of the Witch appearing | Percentage | 0% |
 | Control Cooldown | The Cooldown of the Witches Control ability | Time | 25s |
 | Order Cooldown | The Cooldown of the Witches Order ability | Time | 10s |
+| Witch Learns About Controled | What Witch knows about controled players | Nothing / Faction / Aligment / Role | Nothing |
 
 -----------------------
 ## Doomsayer
