@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using HarmonyLib;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -47,9 +48,18 @@ namespace TownOfUs.CrewmateRoles.TavernKeeperMod
 
             var notKnighted = PlayerControl.AllPlayerControls
                 .ToArray()
-                .Where(x => !role.DrunkPlayers.Contains(x))
+                .Where(x => !role.DrunkPlayers.Any(y => y.PlayerId == x.PlayerId))
                 .ToList();
-
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.DrunkPlayers.Any(x => x.PlayerId == player.PlayerId))
+                {
+                    if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage &&
+                            player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
+                        player.nameText().color = Patches.Colors.TavernKeeper;
+                    else player.nameText().color = Color.clear;
+                }
+            }
             Utils.SetTarget(ref role.ClosestPlayer, drinkButton, float.NaN, notKnighted);
 
             var renderer = drinkButton.graphic;

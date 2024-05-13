@@ -59,6 +59,10 @@ namespace TownOfUs
         Lookout,
         JKNecromancer,
         Jackal,
+        Bodyguard,
+        Crusader,
+        Cleric,
+        Deputy,
 
         Miner,
         Swooper,

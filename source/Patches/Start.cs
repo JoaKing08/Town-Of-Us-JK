@@ -440,6 +440,27 @@ namespace TownOfUs.Patches
                 jackal.LastKill = DateTime.UtcNow;
                 jackal.LastKill = jackal.LastKill.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.JackalKCd);
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Cleric))
+            {
+                var cleric = Role.GetRole<Cleric>(PlayerControl.LocalPlayer);
+                cleric.LastBarrier = DateTime.UtcNow;
+                cleric.LastBarrier = cleric.LastBarrier.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.BarrierCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Crusader))
+            {
+                var crusader = Role.GetRole<Crusader>(PlayerControl.LocalPlayer);
+                crusader.LastFortified = DateTime.UtcNow;
+                crusader.LastFortified = crusader.LastFortified.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.FortifyCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Bodyguard))
+            {
+                var bodyguard = Role.GetRole<Bodyguard>(PlayerControl.LocalPlayer);
+                bodyguard.LastGuard = DateTime.UtcNow;
+                bodyguard.LastGuard = bodyguard.LastGuard.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.GuardCooldown);
+            }
         }
     }
 }

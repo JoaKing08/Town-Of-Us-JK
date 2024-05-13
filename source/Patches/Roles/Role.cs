@@ -40,6 +40,7 @@ namespace TownOfUs.Roles
         public DateTime NotificationEnds;
         public string NotificationString;
         public bool KilledByAbility;
+        //public Dictionary<ChatType, ChatController> ChatControllers = new Dictionary<ChatType, ChatController>();
 
         protected Role(PlayerControl player)
         {
@@ -468,14 +469,15 @@ namespace TownOfUs.Roles
                             if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
                             PlayerName += $"\nCrew Investigative";
                         }
-                        else if (RoleType == RoleEnum.Altruist || RoleType == RoleEnum.Medic)
+                        else if (RoleType == RoleEnum.Altruist || RoleType == RoleEnum.Medic || RoleType == RoleEnum.Cleric ||
+                            RoleType == RoleEnum.Crusader || RoleType == RoleEnum.Bodyguard)
                         {
                             Player.nameText().color = new Color(0f, 1f, 1f, 1f);
                             if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
                             PlayerName += $"\nCrew Protective";
                         }
                         else if (RoleType == RoleEnum.Sheriff || RoleType == RoleEnum.VampireHunter || RoleType == RoleEnum.Veteran ||
-                               RoleType == RoleEnum.Vigilante || RoleType == RoleEnum.Hunter)
+                               RoleType == RoleEnum.Vigilante || RoleType == RoleEnum.Hunter || RoleType == RoleEnum.Deputy)
                         {
                             Player.nameText().color = new Color(0f, 1f, 1f, 1f);
                             if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
@@ -707,7 +709,8 @@ namespace TownOfUs.Roles
                 {
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
-                    if (modifier != null || objective != null)
+                    var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
+                    if (modifier != null || objective != null || factionOverride != FactionOverride.None)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
@@ -721,7 +724,8 @@ namespace TownOfUs.Roles
                 {
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
-                    if (modifier != null || objective != null)
+                    var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
+                    if (modifier != null || objective != null || factionOverride != FactionOverride.None)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
@@ -812,30 +816,26 @@ namespace TownOfUs.Roles
                     {
                         var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                         var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
-                        if (modifier != null && objective == null)
+                        var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
+                        var modifiers = new List<string>();
+                        if (modifier != null)
                         {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.ColorString + modifier.Name + "</color></size>";
+                            modifiers.Add(modifier.ColorString + modifier.Name + "</color>");
                         }
-                        else if (modifier != null && objective != null)
+                        if (objective != null)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                            modifiers.Add(objective.ColorString + objective.Name + "</color>");
                         }
-                        else if (objective != null)
+                        switch (factionOverride)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
+                            case FactionOverride.Recruit:
+                                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Jackal)) modifiers.Add("<color=#" + Patches.Colors.Jackal.ToHtmlStringRGBA() + ">Recruit</color>");
+                                break;
                         }
-                        if (objective == null)
-                        {
-                            ModifierText.text += "";
-                        }
-                        else if (objective.GetType() == typeof(Lover))
-                        {
-                            ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
-                        }
-                        else
-                        {
-                            ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
-                        }
+                        ModifierText.text = $"<size=3>Modifiers: ";
+                        if (modifiers.Any()) foreach (var name in modifiers) ModifierText.text += name + ", ";
+                        ModifierText.text.Remove(ModifierText.text.Length - 2);
+                        ModifierText.text += "</size>";
                         ModifierText.color = Color.white;
 
                         //
@@ -915,32 +915,29 @@ namespace TownOfUs.Roles
                     {
                         var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                         var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
-                        if (modifier != null && objective == null)
+                        var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
+                        var modifiers = new List<string>();
+                        if (modifier != null)
                         {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.ColorString + modifier.Name + "</color></size>";
+                            modifiers.Add(modifier.ColorString + modifier.Name + "</color>");
                         }
-                        else if (modifier != null && objective != null)
+                        if (objective != null)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                            modifiers.Add(objective.ColorString + objective.Name + "</color>");
                         }
-                        else if (objective != null)
+                        switch (factionOverride)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
+                            case FactionOverride.Recruit:
+                                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Jackal)) modifiers.Add("<color=#" + Patches.Colors.Jackal.ToHtmlStringRGBA() + ">Recruit</color>");
+                                break;
                         }
-                        if (objective == null)
-                        {
-                            ModifierText.text += "";
-                        }
-                        else if (objective.GetType() == typeof(Lover))
-                        {
-                            ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
-                        }
-                        else
-                        {
-                            ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
-                        }
+                        ModifierText.text = $"<size=3>Modifiers: ";
+                        if (modifiers.Any()) foreach (var name in modifiers) ModifierText.text += name + ", ";
+                        ModifierText.text.Remove(ModifierText.text.Length - 2);
+                        ModifierText.text += "</size>";
                         ModifierText.color = Color.white;
 
+                        //
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
                         ModifierText.gameObject.SetActive(true);
@@ -956,8 +953,21 @@ namespace TownOfUs.Roles
                         __instance.__4__this.ImpostorText.text = "There is <color=#FF0000FF>1 Killer</color> among us";
                     else if (CustomGameOptions.GameMode == GameMode.Horseman && role.Faction == Faction.NeutralApocalypse)
                         __instance.__4__this.ImpostorText.text = "";
-                    else if (CustomGameOptions.GameMode == GameMode.Horseman)
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.MinNeutralApocalypseRoles == CustomGameOptions.MaxNeutralApocalypseRoles)
                         __instance.__4__this.ImpostorText.text = CustomGameOptions.MinNeutralApocalypseRoles == 1 ? $"There is <color=#808080FF>1 Horseman of Apocalypse</color> among us" : $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.Horseman)
+                        __instance.__4__this.ImpostorText.text = $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles}-{CustomGameOptions.MaxNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.RoleList)
+                    {
+                        var setImpostorAmount = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.RandomImpostor || x == RLRoleEntry.ImpostorConcealing
+                        || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist
+                        || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
+                        || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
+                        || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
+                        var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any);
+                        if (anySlots == 0 || setImpostorAmount >= CustomGameOptions.MaxImps) __instance.__4__this.ImpostorText.text = $"There {(setImpostorAmount == 1 ? "is" : "are")} <color=#FF0000FF>{setImpostorAmount} Impostor{(setImpostorAmount == 1 ? "" : "s")}</color> among us";
+                        else __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
+                    }
                 }
             }
 
@@ -1030,32 +1040,29 @@ namespace TownOfUs.Roles
                     {
                         var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                         var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
-                        if (modifier != null && objective == null)
+                        var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
+                        var modifiers = new List<string>();
+                        if (modifier != null)
                         {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.ColorString + modifier.Name + "</color></size>";
+                            modifiers.Add(modifier.ColorString + modifier.Name + "</color>");
                         }
-                        else if (modifier != null && objective != null)
+                        if (objective != null)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifiers: " + modifier.ColorString + modifier.Name + "</color>, ";
+                            modifiers.Add(objective.ColorString + objective.Name + "</color>");
                         }
-                        else if (objective != null)
+                        switch (factionOverride)
                         {
-                            ModifierText.text = $"<size={(objective.GetType() == typeof(Lover) ? 3 : 4)}>Modifier: ";
+                            case FactionOverride.Recruit:
+                                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Jackal)) modifiers.Add("<color=#" + Patches.Colors.Jackal.ToHtmlStringRGBA() + ">Recruit</color>");
+                                break;
                         }
-                        if (objective == null)
-                        {
-                            ModifierText.text += "";
-                        }
-                        else if (objective.GetType() == typeof(Lover))
-                        {
-                            ModifierText.text += $"{objective.ColorString}{objective.TaskText()}</color></size>";
-                        }
-                        else
-                        {
-                            ModifierText.text += $"{objective.ColorString}{objective.Name}</color></size>";
-                        }
+                        ModifierText.text = $"<size=3>Modifiers: ";
+                        if (modifiers.Any()) foreach (var name in modifiers) ModifierText.text += name + ", ";
+                        ModifierText.text.Remove(ModifierText.text.Length - 2);
+                        ModifierText.text += "</size>";
                         ModifierText.color = Color.white;
 
+                        //
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
                         ModifierText.gameObject.SetActive(true);
@@ -1075,6 +1082,17 @@ namespace TownOfUs.Roles
                         __instance.__4__this.ImpostorText.text = CustomGameOptions.MinNeutralApocalypseRoles == 1 ? $"There is <color=#808080FF>1 Horseman of Apocalypse</color> among us" : $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
                     else if (CustomGameOptions.GameMode == GameMode.Horseman)
                         __instance.__4__this.ImpostorText.text = $"There are <color=#808080FF>{CustomGameOptions.MinNeutralApocalypseRoles}-{CustomGameOptions.MaxNeutralApocalypseRoles} Horseman of Apocalypse</color> among us";
+                    else if (CustomGameOptions.GameMode == GameMode.RoleList)
+                    {
+                        var setImpostorAmount = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.RandomImpostor || x == RLRoleEntry.ImpostorConcealing
+                        || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist
+                        || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
+                        || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
+                        || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
+                        var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any);
+                        if (anySlots == 0 || setImpostorAmount >= CustomGameOptions.MaxImps) __instance.__4__this.ImpostorText.text = $"There {(setImpostorAmount == 1 ? "is" : "are")} <color=#FF0000FF>{setImpostorAmount} Impostor{(setImpostorAmount == 1 ? "" : "s")}</color> among us";
+                        else __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
+                    }
                 }
             }
         }

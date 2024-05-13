@@ -6,6 +6,7 @@ using TownOfUs.CrewmateRoles.MediumMod;
 using TownOfUs.CrewmateRoles.VampireHunterMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
 using TownOfUs.ImpostorRoles.PoltergeistMod;
+using System.Collections.Generic;
 
 namespace TownOfUs
 {
@@ -23,7 +24,8 @@ namespace TownOfUs
         Cultist,
         Teams,
         SoloKiller,
-        Horseman
+        Horseman,
+        RoleList
     }
     public enum AdminDeadPlayers
     {
@@ -63,6 +65,211 @@ namespace TownOfUs
         Aligment,
         Role
     }
+    public enum RLRoleEntry
+    {
+        Any,
+
+
+        RandomCrewmate,
+        Crewmate,
+
+        CrewmateInvestigative,
+        Aurial,
+        Detective,
+        Investigator,
+        Mystic,
+        Seer,
+        Snitch,
+        Spy,
+        Tracker,
+        Trapper,
+        Inspector,
+        Lookout,
+
+        CrewmateKilling,
+        Hunter,
+        Sheriff,
+        VampireHunter,
+        Veteran,
+        Vigilante,
+        Deputy,
+
+        CrewmateProtective,
+        Altruist,
+        Medic,
+        Bodyguard,
+        Crusader,
+        Cleric,
+
+        CrewmateSupport,
+        Engineer,
+        Imitator,
+        Medium,
+        Transporter,
+        TavernKeeper,
+        Undercover,
+
+        CrewmatePower,
+        Mayor,
+        Oracle,
+        Prosecutor,
+        Swapper,
+        Monarch,
+
+
+        RandomNeutral,
+
+        NeutralBenign,
+        Amnesiac,
+        GuardianAngel,
+        Survivor,
+        CursedSoul,
+
+        NeutralEvil,
+        Executioner,
+        Jester,
+        Witch,
+
+        NeutralChaos,
+        Doomsayer,
+        Pirate,
+        Inquisitor,
+
+        NeutralKilling,
+        Arsonist,
+        Glitch,
+        Werewolf,
+        SerialKiller,
+        Juggernaut,
+
+        NeutralProselyte,
+        Vampire,
+        Necromancer,
+        Jackal,
+
+        NeutralApocalypse,
+        Plaguebearer,
+        Baker,
+        Berserker,
+        SoulCollector,
+
+
+        RandomImpostor,
+        Impostor,
+
+        ImpostorConcealing,
+        Escapist,
+        Grenadier,
+        Morphling,
+        Swooper,
+        Venerer,
+
+        ImpostorKilling,
+        Bomber,
+        Warlock,
+        Poisoner,
+        Sniper,
+
+        ImpostorSupport,
+        Blackmailer,
+        Janitor,
+        Miner,
+        Undertaker
+    }
+    public enum RLBanEntry
+    {
+        None,
+
+
+        Crewmate,
+
+        Aurial,
+        Detective,
+        Investigator,
+        Mystic,
+        Seer,
+        Snitch,
+        Spy,
+        Tracker,
+        Trapper,
+        Inspector,
+        Lookout,
+
+        Hunter,
+        Sheriff,
+        VampireHunter,
+        Veteran,
+        Vigilante,
+        Deputy,
+
+        Altruist,
+        Medic,
+        Bodyguard,
+        Crusader,
+        Cleric,
+
+        Engineer,
+        Imitator,
+        Medium,
+        Transporter,
+        TavernKeeper,
+        Undercover,
+
+        Mayor,
+        Oracle,
+        Prosecutor,
+        Swapper,
+        Monarch,
+
+
+        Amnesiac,
+        GuardianAngel,
+        Survivor,
+        CursedSoul,
+
+        Executioner,
+        Jester,
+        Witch,
+
+        Doomsayer,
+        Pirate,
+        Inquisitor,
+
+        Arsonist,
+        Glitch,
+        Werewolf,
+        SerialKiller,
+        Juggernaut,
+
+        Vampire,
+        Necromancer,
+        Jackal,
+
+        Plaguebearer,
+        Baker,
+        Berserker,
+        SoulCollector,
+
+
+        Impostor,
+
+        Escapist,
+        Grenadier,
+        Morphling,
+        Swooper,
+        Venerer,
+
+        Bomber,
+        Warlock,
+        Poisoner,
+        Sniper,
+
+        Blackmailer,
+        Janitor,
+        Miner,
+        Undertaker
+    }
+
     public static class CustomGameOptions
     {
         public static int MayorOn => (int)Generate.MayorOn.Get();
@@ -132,6 +339,10 @@ namespace TownOfUs
         public static int LookoutOn => (int)Generate.LookoutOn.Get();
         public static int NecromancerOn => (int)Generate.NecromancerOn.Get();
         public static int JackalOn => (int)Generate.JackalOn.Get();
+        public static int DeputyOn => (int)Generate.DeputyOn.Get();
+        public static int BodyguardOn => (int)Generate.BodyguardOn.Get();
+        public static int CrusaderOn => (int)Generate.CrusaderOn.Get();
+        public static int ClericOn => (int)Generate.ClericOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
@@ -571,5 +782,60 @@ namespace TownOfUs
         public static bool ShowKillingRemaining => Generate.ShowKillingRemaining.Get();
         public static bool ShowProselyteRemaining => Generate.ShowProselyteRemaining.Get();
         public static bool SpawnImps => Generate.SpawnImps.Get();
+        public static List<RLRoleEntry> RoleEntries
+        {
+            get
+            {
+                var roleEntries = new List<RLRoleEntry>();
+                if (PlayerControl.AllPlayerControls.Count >= 1) roleEntries.Add((RLRoleEntry)Generate.RoleEntry0.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 2) roleEntries.Add((RLRoleEntry)Generate.RoleEntry1.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 3) roleEntries.Add((RLRoleEntry)Generate.RoleEntry2.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 4) roleEntries.Add((RLRoleEntry)Generate.RoleEntry3.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 5) roleEntries.Add((RLRoleEntry)Generate.RoleEntry4.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 6) roleEntries.Add((RLRoleEntry)Generate.RoleEntry5.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 7) roleEntries.Add((RLRoleEntry)Generate.RoleEntry6.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 8) roleEntries.Add((RLRoleEntry)Generate.RoleEntry7.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 9) roleEntries.Add((RLRoleEntry)Generate.RoleEntry8.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 10) roleEntries.Add((RLRoleEntry)Generate.RoleEntry9.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 11) roleEntries.Add((RLRoleEntry)Generate.RoleEntry10.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 12) roleEntries.Add((RLRoleEntry)Generate.RoleEntry11.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 13) roleEntries.Add((RLRoleEntry)Generate.RoleEntry12.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 14) roleEntries.Add((RLRoleEntry)Generate.RoleEntry13.Get());
+                if (PlayerControl.AllPlayerControls.Count >= 15) roleEntries.Add((RLRoleEntry)Generate.RoleEntry14.Get());
+                return roleEntries;
+            }
+        }
+        public static List<RLBanEntry> BanEntries
+        {
+            get
+            {
+                var banEntries = new List<RLBanEntry>();
+                banEntries.Add((RLBanEntry)Generate.BanEntry0.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry1.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry2.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry3.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry4.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry5.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry6.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry7.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry8.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry9.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry10.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry11.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry12.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry13.Get());
+                banEntries.Add((RLBanEntry)Generate.BanEntry14.Get());
+                return banEntries;
+            }
+        }
+        public static int MaxImps => (int)Generate.MaxImps.Get();
+        public static bool AllUnique => Generate.AllUnique.Get();
+        public static bool RevealDeputy => Generate.RevealDeputy.Get();
+        public static bool MisfireKillsDeputy => Generate.MisfireKillsDeputy.Get();
+        public static float GuardCooldown => Generate.GuardCooldown.Get();
+        public static float FortifyCooldown => Generate.FortifyCooldown.Get();
+        public static int MaxFortify => (int)Generate.MaxFortify.Get();
+        public static float BarrierCooldown => Generate.BarrierCooldown.Get();
+        public static float BarrierCooldownReset => Generate.BarrierCooldownReset.Get();
     }
 }

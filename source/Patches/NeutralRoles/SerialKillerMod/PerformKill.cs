@@ -43,6 +43,12 @@ namespace TownOfUs.NeutralRoles.SerialKillerMod
                 role.LastKill = role.LastKill.AddSeconds(-(role.InBloodlust ? CustomGameOptions.BloodlustCooldown : CustomGameOptions.SerialKillerCooldown) + CustomGameOptions.VestKCReset);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                role.LastKill = DateTime.UtcNow;
+                role.LastKill = role.LastKill.AddSeconds(-(role.InBloodlust ? CustomGameOptions.BloodlustCooldown : CustomGameOptions.SerialKillerCooldown) + CustomGameOptions.BarrierCooldownReset);
+                return false;
+            }
             else if (interact[3] == true) return false;
             return false;
         }

@@ -141,6 +141,13 @@ namespace TownOfUs
         AbilityUsed,
         KillAbilityUsed,
         JKRevive,
-        SetRecruit
+        SetRecruit,
+        DeputyShoot,
+        Fortify,
+        Unfortify,
+        Guard,
+        Unguard,
+        Barrier,
+        Unbarrier
     }
 }

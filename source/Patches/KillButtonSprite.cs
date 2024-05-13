@@ -56,6 +56,9 @@ namespace TownOfUs
         private static Sprite Investigate => TownOfUs.InvestigateSprite;
         private static Sprite Watch => TownOfUs.WatchSprite;
         private static Sprite Revive2 => TownOfUs.Revive2Sprite;
+        private static Sprite Guard => TownOfUs.GuardSprite;
+        private static Sprite Fortify => TownOfUs.FortifySprite;
+        private static Sprite Barrier => TownOfUs.BarrierSprite;
         private static Sprite Nothing => TownOfUs.NothingSprite;
 
         private static Sprite Kill;
@@ -272,6 +275,27 @@ namespace TownOfUs
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.JKNecromancer))
             {
                 __instance.KillButton.graphic.sprite = Revive2;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Bodyguard))
+            {
+                __instance.KillButton.graphic.sprite = Guard;   
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Guard";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Crusader))
+            {
+                __instance.KillButton.graphic.sprite = Fortify;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Fortify";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Cleric))
+            {
+                __instance.KillButton.graphic.sprite = Barrier;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Barrier";
                 flag = true;
             }
             else

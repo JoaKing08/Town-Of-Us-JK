@@ -48,6 +48,12 @@ namespace TownOfUs.ApocalypseRoles.WarMod
                 role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.VestKCReset - CustomGameOptions.WarCooldown);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                role.LastKill = DateTime.UtcNow;
+                role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.WarCooldown);
+                return false;
+            }
             else if (interact[3] == true) return false;
             return false;
         }

@@ -92,6 +92,12 @@ namespace TownOfUs.NeutralRoles.VampireMod
                     role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.VestKCReset - CustomGameOptions.BiteCd);
                     return false;
                 }
+                else if (interact[5] == true)
+                {
+                    role.LastBit = DateTime.UtcNow;
+                    role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.BiteCd);
+                    return false;
+                }
                 else if (interact[3] == true) return false;
                 return false;
             }

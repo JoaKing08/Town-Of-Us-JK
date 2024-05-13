@@ -115,7 +115,7 @@ namespace TownOfUs.CustomOption
 
             try
             {
-                var path = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}");
+                var path = Path.Combine(Application.persistentDataPath, $"GameSettingsJK-Slot{slotId}");
                 text = File.ReadAllText(path);
             }
             catch

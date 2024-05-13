@@ -68,6 +68,12 @@ namespace TownOfUs.CrewmateRoles.HunterMod
                 role.LastKilled = DateTime.UtcNow;
                 role.LastKilled = role.LastKilled.AddSeconds(-CustomGameOptions.HunterKillCd + CustomGameOptions.VestKCReset);
             }
+            else if (interact[5] == true)
+            {
+                role.LastKilled = DateTime.UtcNow;
+                role.LastKilled = role.LastKilled.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.HunterKillCd);
+                return false;
+            }
             return false;
         }
     }

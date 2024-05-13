@@ -32,10 +32,15 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 |                              | [Undercover](#undercover)          |                                  |                              |
 |                              | [Monarch](#monarch)                |                                  |                              |
 |                              | [Lookout](#lookout)                |                                  |                              |
+|                              | [Deputy](#deputy)                  |                                  |                              |
+|                              | [Bodyguard](#bodyguard)            |                                  |                              |
+|                              | [Crusader](#crusader)              |                                  |                              |
+|                              | [Cleric](#cleric)                  |                                  |                              |
 ------------------------
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.3.5s & 2024.3.5e | v2.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.0) |
 | 2024.3.5s & 2024.3.5e | v1.2.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.9) |
 | 2024.3.5s & 2024.3.5e | v1.2.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.8) |
 | 2024.3.5s & 2024.3.5e | v1.2.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.7) |
@@ -450,6 +455,20 @@ During meetings, the Vigilante can choose to kill someone by guessing their role
 | Vigilante Guess After Voting  | Whether the Vigilante can Guess after they have voted | Toggle | False |
 
 -----------------------
+## Deputy
+### **Team: Crewmates**
+
+The Deputy is a Crewmate that can kill once during meetings.\
+During meetings, the Deputy can choose to kill someone and reveal own role,\
+However if they kill a Crewmate he dies with them.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Deputy | The percentage probability of the Deputy appearing | Percentage | 0% |
+| Reveal Deputy While Shooting  | Whether the Deputy role is revealed after they shot | Toggle | True |
+| Misfire Causes Deputy Death  | Whether the Deputy dies when they shoot a Crewmate | Toggle | True |
+
+-----------------------
 ## Altruist
 ### **Team: Crewmates**
 
@@ -518,6 +537,48 @@ A report can contain the name of the killer or the color type (Darker/Lighter)
 | Time Where Medic Reports Will Have Color Type | If a body has been dead for shorter than this amount, the Medic's report will have the type of color | Time | 15s |
 | Who gets murder attempt indicator | Who will receive an indicator when someone tries to Kill them | Medic / Shielded / Everyone / Nobody | Medic |
 | Shield breaks on murder attempt | Whether the Shield breaks when someone attempts to Kill them | Toggle | False |
+
+-----------------------
+## Bodyguard
+### **Team: Crewmates**
+
+The Bodyguard is a Crewmate that can protect other Crewmates.\
+The Bodyguard can Guard a player to die instead of them.\
+If the Bodyguard target is attacked attacker also dies.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Bodyguard | The percentage probability of the Bodyguard appearing | Percentage | 0% |
+| Guard Cooldown | The cooldown of the Bodyguard's Guard button | Time | 25s |
+
+-----------------------
+## Crusader
+### **Team: Crewmates**
+
+The Crusader is a Crewmate that can protect other Crewmates.\
+The Crusader can Guard a player to attack first player which interacts with them.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Crusader | The percentage probability of the Crusader appearing | Percentage | 0% |
+| Fortify Cooldown | The cooldown of the Crusader's Fortify button | Time | 25s |
+| Maximum Uses Of Fortify | The maximum number of times the Crusader can use Fortify | Number | 3 |
+
+-----------------------
+## Cleric
+### **Team: Crewmates**
+
+The Cleric is a Crewmate that can protect other Crewmates.\
+The Cleric can Barrier a player to protect them from one attack.\
+Unlike Medic, Cleric can Barrier infinite amount of times, but doesn't see if target was attacked.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Cleric | The percentage probability of the Cleric appearing | Percentage | 0% |
+| Barrier Cooldown | The cooldown of the Cleric's Barrier button | Time | 25s |
 
 -----------------------
 ## Engineer
@@ -1546,7 +1607,7 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 # Game Mode Settings
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
-| Game Mode | What game mode the next game will be | Classic / All Any / Killing Only / Cultist / Teams / Solo Killer / Horseman | Classic |
+| Game Mode | What game mode the next game will be | Classic / All Any / Killing Only / Cultist / Teams / Solo Killer / Horseman / Role List | Classic |
 
 -----------------------
 # Classic Game Mode Settings
@@ -1668,7 +1729,7 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Kill Cooldown | The Cooldown of the Member's Kill button | Time | 10s |
-| Teams Amount | The amount of teams that spawn | Number | 1 |
+| Teams Amount | The amount of teams that spawn | Number | 2 |
 | Allow Venting | Whether the Members can Vent | Toggle | False |
 
 -----------------------
@@ -1678,6 +1739,15 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 | Solo Killer Kill Cooldown | The Cooldown of the Solo Killer's Kill button | Time | 10s |
 | Solo Killer Vent | Whether Solo Killer can Vent | Toggle | True |
 | Solo Killer | Who gets Solo Killer role | Random / Host / Player 0-14 | Random |
+
+-----------------------
+# Role List
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Role Entry 1-15 | What roles will spawn, if the Role Bucket is selected it will take random role from that Role Bucket | Role Bucket / Role | Any |
+| Ban Entry 1-15 | What roles cannot spawn from Role Bucket | None / Role | None |
+| Maximum Number Of Impostors | The maximum amount of impostors that can spawn | Number | 4 |
+| All Roles Are Unique | Whether all Roles count as Unique | Toggle | False |
 
 -----------------------
 ## Assassin Ability

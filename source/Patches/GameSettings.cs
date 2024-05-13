@@ -57,6 +57,8 @@ namespace TownOfUs
 
                         if (option.Type == CustomOptionType.Header)
                             builder.AppendLine($"\n{option.Name}");
+                        else if (option.Type == CustomOptionType.Spacing)
+                            builder.AppendLine();
                         else
                             builder.AppendLine($"    {option.Name}: {option}");
                     }

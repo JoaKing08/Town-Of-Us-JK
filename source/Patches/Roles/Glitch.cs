@@ -534,6 +534,12 @@ namespace TownOfUs.Roles
                         __gInstance.LastKill = __gInstance.LastKill.AddSeconds(CustomGameOptions.VestKCReset - CustomGameOptions.GlitchKillCooldown);
                         return;
                     }
+                    else if (interact[5] == true)
+                    {
+                        __gInstance.LastKill = DateTime.UtcNow;
+                        __gInstance.LastKill = __gInstance.LastKill.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.GlitchKillCooldown);
+                        return;
+                    }
                     else if (interact[3])
                     {
                         return;

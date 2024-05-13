@@ -77,6 +77,11 @@ namespace TownOfUs
                 PlayerControl.LocalPlayer.SetKillTimer(0.01f);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                PlayerControl.LocalPlayer.SetKillTimer(CustomGameOptions.BarrierCooldownReset);
+                return false;
+            }
             return false;
         }
         [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]

@@ -52,7 +52,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
 
             role.Defense = 0;
             renderer.sprite = DuelDefend0Sprite;
-            newButton.transform.position = confirmButton.transform.position - new Vector3(0.75f, role.RoleType == RoleEnum.Mayor && !((Mayor)role).Revealed ? -0.15f : 0f, 0f);
+            newButton.transform.position = confirmButton.transform.position - new Vector3(0.75f, (role.RoleType == RoleEnum.Mayor && !((Mayor)role).Revealed) || (role.RoleType == RoleEnum.Deputy && !((Deputy)role).Revealed) ? -0.15f : 0f, 0f);
             newButton.transform.localScale *= 0.8f;
             newButton.layer = 5;
             newButton.transform.parent = confirmButton.transform.parent.parent;

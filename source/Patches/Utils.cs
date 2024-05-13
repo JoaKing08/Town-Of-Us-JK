@@ -135,6 +135,38 @@ namespace TownOfUs
         {
             return Objective.GetObjective(player)?.ObjectiveType == objectiveType;
         }
+        public static bool LoverChat(this PlayerControl player)
+        {
+            return player.IsLover();
+        }
+        public static bool VampireChat(this PlayerControl player)
+        {
+            return player.Is(FactionOverride.Vampires);
+        }
+        public static bool RecruitChat(this PlayerControl player)
+        {
+            return player.Is(FactionOverride.Recruit);
+        }
+        public static bool UndeadChat(this PlayerControl player)
+        {
+            return player.Is(FactionOverride.Undead);
+        }
+        public static bool ImpostorChat(this PlayerControl player)
+        {
+            return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent));
+        }
+        public static bool ApocalypseChat(this PlayerControl player)
+        {
+            return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent));
+        }
+        public static bool Chat(this PlayerControl player)
+        {
+            return player.LoverChat() || player.VampireChat() || player.RecruitChat() || player.UndeadChat() || player.ImpostorChat() || player.ApocalypseChat();
+        }
+        public static bool RecieveChat(this PlayerControl player)
+        {
+            return PlayerControl.LocalPlayer.IsLover();
+        }
 
         public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
         {
@@ -252,6 +284,32 @@ namespace TownOfUs
             });
         }
 
+        public static bool IsBarriered(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Cleric).Any(role =>
+            {
+                var barrieredPlayer = ((Cleric)role).BarrieredPlayer;
+                return barrieredPlayer != null && player.PlayerId == barrieredPlayer.PlayerId;
+            });
+        }
+
+        public static bool IsGuarded(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Bodyguard).Any(role =>
+            {
+                var guardedPlayer = ((Bodyguard)role).GuardedPlayer;
+                return guardedPlayer != null && player.PlayerId == guardedPlayer.PlayerId;
+            });
+        }
+
+        public static bool IsFortified(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Crusader).Any(role =>
+            {
+                return ((Crusader)role).FortifiedPlayers.Contains(player.PlayerId);
+            });
+        }
+
         public static bool PoltergeistTasks()
         {
             return Role.GetRoles(RoleEnum.Poltergeist).Any(role =>
@@ -267,6 +325,32 @@ namespace TownOfUs
                 var shieldedPlayer = ((Medic)role).ShieldedPlayer;
                 return shieldedPlayer != null && player.PlayerId == shieldedPlayer.PlayerId;
             }) as Medic;
+        }
+
+        public static Cleric GetCleric(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Cleric).FirstOrDefault(role =>
+            {
+                var barrieredPlayer = ((Cleric)role).BarrieredPlayer;
+                return barrieredPlayer != null && player.PlayerId == barrieredPlayer.PlayerId;
+            }) as Cleric;
+        }
+
+        public static Bodyguard GetBodyguard(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Bodyguard).FirstOrDefault(role =>
+            {
+                var guardedPlayer = ((Bodyguard)role).GuardedPlayer;
+                return guardedPlayer != null && player.PlayerId == guardedPlayer.PlayerId;
+            }) as Bodyguard;
+        }
+
+        public static Crusader GetCrusader(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Crusader).FirstOrDefault(role =>
+            {
+                return ((Crusader)role).FortifiedPlayers.Contains(player.PlayerId);
+            }) as Crusader;
         }
 
         public static bool IsOnAlert(this PlayerControl player)
@@ -313,6 +397,7 @@ namespace TownOfUs
             bool survReset = false;
             bool zeroSecReset = false;
             bool abilityUsed = false;
+            bool barrierCdReset = false;
             if (Role.GetRole(player).Roleblocked)
             {
                 if (player == PlayerControl.LocalPlayer)
@@ -346,6 +431,18 @@ namespace TownOfUs
 
                         StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                     }
+                    else if (player.IsFortified())
+                    {
+                        var crus = player.GetCrusader();
+                        crus.FortifiedPlayers.Remove(player.PlayerId);
+                        Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, player.PlayerId);
+                    }
+                    else if (player.IsBarriered())
+                    {
+                        var cleric = player.GetCleric();
+                        cleric.BarrieredPlayer = null;
+                        Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                    }
                     else if (player.IsProtected()) gaReset = true;
                     else
                     {
@@ -366,6 +463,18 @@ namespace TownOfUs
 
                         StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                     }
+                    else if (player.IsFortified())
+                    {
+                        var crus = player.GetCrusader();
+                        crus.FortifiedPlayers.Remove(player.PlayerId);
+                        Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, player.PlayerId);
+                    }
+                    else if (player.IsBarriered())
+                    {
+                        var cleric = player.GetCleric();
+                        cleric.BarrieredPlayer = null;
+                        Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                    }
                     else if (player.IsProtected()) gaReset = true;
                     else if (!player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
                     {
@@ -373,17 +482,106 @@ namespace TownOfUs
                     }
                     if (toKill && CustomGameOptions.KilledOnAlert)
                     {
-                        if (target.IsShielded())
+                        if (target.IsShielded() && toKill)
                         {
-                            var medic = target.GetMedic().Player.PlayerId;
-                            Rpc(CustomRPC.AttemptSound, medic, target.PlayerId);
+                            if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                            Rpc(CustomRPC.AttemptSound, target.GetMedic().Player.PlayerId, target.PlayerId);
 
+                            System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
                             if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
                             else zeroSecReset = true;
-
-                            StopKill.BreakShield(medic, target.PlayerId, CustomGameOptions.ShieldBreaks);
+                            StopKill.BreakShield(target.GetMedic().Player.PlayerId, target.PlayerId, CustomGameOptions.ShieldBreaks);
                         }
-                        else if (target.IsProtected()) gaReset = true;
+                        else if (target.IsVesting() && toKill)
+                        {
+                            if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                            survReset = true;
+                        }
+                        else if (target.IsFortified())
+                        {
+                            if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                            if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death)) RpcMultiMurderPlayer(target.GetCrusader().Player, player);
+                            var crus = target.GetCrusader();
+                            crus.FortifiedPlayers.Remove(target.PlayerId);
+                            Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, target.PlayerId);
+                            fullCooldownReset = true;
+                        }
+                        else if (target.IsBarriered() && toKill)
+                        {
+                            if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                            var cleric = target.GetCleric();
+                            cleric.BarrieredPlayer = null;
+                            Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                            barrierCdReset = true;
+                        }
+                        else if (target.IsGuarded() && toKill)
+                        {
+                            var bg = target.GetBodyguard().Player;
+                            if (bg.IsShielded())
+                            {
+                                if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                                Rpc(CustomRPC.AttemptSound, bg.GetMedic().Player.PlayerId, bg.PlayerId);
+
+                                System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                                StopKill.BreakShield(bg.GetMedic().Player.PlayerId, bg.PlayerId, CustomGameOptions.ShieldBreaks);
+                            }
+                            else if (target.IsFortified())
+                            {
+                                if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                                fullCooldownReset = true;
+                            }
+                            else if (target.IsBarriered() && toKill)
+                            {
+                                if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                                barrierCdReset = true;
+                            }
+                            else if (bg.IsProtected())
+                            {
+                                if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                                gaReset = true;
+                            }
+                            else
+                            {
+                                if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills += 1;
+                                if (player.Is(RoleEnum.Juggernaut)) Role.GetRole<Juggernaut>(player).JuggKills += 1;
+                                if (player.Is(RoleEnum.Berserker)) Role.GetRole<Berserker>(player).KilledPlayers += 1;
+                                RpcMultiMurderPlayer(player, bg);
+                            }
+                            if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
+                            {
+                                if (player.IsShielded())
+                                {
+                                    Rpc(CustomRPC.AttemptSound, bg.GetMedic().Player.PlayerId, bg.PlayerId);
+
+                                    System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                                    StopKill.BreakShield(bg.GetMedic().Player.PlayerId, bg.PlayerId, CustomGameOptions.ShieldBreaks);
+                                }
+                                else if (player.IsFortified())
+                                {
+                                    var crus = player.GetCrusader();
+                                    crus.FortifiedPlayers.Remove(player.PlayerId);
+                                    Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, player.PlayerId);
+                                }
+                                else if (player.IsBarriered())
+                                {
+                                    var cleric = player.GetCleric();
+                                    cleric.BarrieredPlayer = null;
+                                    Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                                }
+                                else if (!player.IsProtected())
+                                {
+                                    RpcMultiMurderPlayer(bg, player);
+                                }
+                            }
+                            Role.GetRole<Bodyguard>(bg).GuardedPlayer = null;
+                            Rpc(CustomRPC.Unguard, bg.PlayerId);
+                            fullCooldownReset = true;
+                        }
+                        else if (target.IsProtected() && toKill)
+                        {
+                            if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                            gaReset = true;
+                        }
                         else
                         {
                             if (player.Is(RoleEnum.Glitch))
@@ -467,6 +665,86 @@ namespace TownOfUs
                 {
                     if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
                     survReset = true;
+                }
+                else if (target.IsFortified())
+                {
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death)) RpcMultiMurderPlayer(target.GetCrusader().Player, player);
+                    var crus = target.GetCrusader();
+                    crus.FortifiedPlayers.Remove(target.PlayerId);
+                    Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, target.PlayerId);
+                    fullCooldownReset = true;
+                }
+                else if (target.IsBarriered() && toKill)
+                {
+                    if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                    var cleric = target.GetCleric();
+                    cleric.BarrieredPlayer = null;
+                    Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                    barrierCdReset = true;
+                }
+                else if (target.IsGuarded() && toKill)
+                {
+                    var bg = target.GetBodyguard().Player;
+                    if (bg.IsShielded())
+                    {
+                        if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                        Rpc(CustomRPC.AttemptSound, bg.GetMedic().Player.PlayerId, bg.PlayerId);
+
+                        System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                        StopKill.BreakShield(bg.GetMedic().Player.PlayerId, bg.PlayerId, CustomGameOptions.ShieldBreaks);
+                    }
+                    else if (target.IsFortified())
+                    {
+                        if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                        fullCooldownReset = true;
+                    }
+                    else if (target.IsBarriered() && toKill)
+                    {
+                        if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                        barrierCdReset = true;
+                    }
+                    else if (bg.IsProtected())
+                    {
+                        if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
+                        gaReset = true;
+                    }
+                    else
+                    {
+                        if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills += 1;
+                        if (player.Is(RoleEnum.Juggernaut)) Role.GetRole<Juggernaut>(player).JuggKills += 1;
+                        if (player.Is(RoleEnum.Berserker)) Role.GetRole<Berserker>(player).KilledPlayers += 1;
+                        RpcMultiMurderPlayer(player, bg);
+                    }
+                    if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
+                    {
+                        if (player.IsShielded())
+                        {
+                            Rpc(CustomRPC.AttemptSound, bg.GetMedic().Player.PlayerId, bg.PlayerId);
+
+                            System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                            StopKill.BreakShield(bg.GetMedic().Player.PlayerId, bg.PlayerId, CustomGameOptions.ShieldBreaks);
+                        }
+                        else if (player.IsFortified())
+                        {
+                            var crus = player.GetCrusader();
+                            crus.FortifiedPlayers.Remove(player.PlayerId);
+                            Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, player.PlayerId);
+                        }
+                        else if (player.IsBarriered())
+                        {
+                            var cleric = player.GetCleric();
+                            cleric.BarrieredPlayer = null;
+                            Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                        }
+                        else if (!player.IsProtected())
+                        {
+                            RpcMultiMurderPlayer(bg, player);
+                        }
+                    }
+                    Role.GetRole<Bodyguard>(bg).GuardedPlayer = null;
+                    Rpc(CustomRPC.Unguard, bg.PlayerId);
+                    fullCooldownReset = true;
                 }
                 else if (target.IsProtected() && toKill)
                 {
@@ -562,6 +840,7 @@ namespace TownOfUs
             reset.Add(survReset);
             reset.Add(zeroSecReset);
             reset.Add(abilityUsed);
+            reset.Add(barrierCdReset);
             return reset;
         }
 
@@ -1564,6 +1843,33 @@ namespace TownOfUs
                 var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
                 lookout.LastWatched = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Cleric))
+            {
+                var cleric = Role.GetRole<Cleric>(PlayerControl.LocalPlayer);
+                cleric.LastBarrier = DateTime.UtcNow;
+            }
+            foreach (Cleric cleric in Role.GetRoles(RoleEnum.Cleric))
+            {
+                cleric.BarrieredPlayer = null;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Crusader))
+            {
+                var crusader = Role.GetRole<Crusader>(PlayerControl.LocalPlayer);
+                crusader.LastFortified = DateTime.UtcNow;
+            }
+            foreach (Crusader crusader in Role.GetRoles(RoleEnum.Crusader))
+            {
+                crusader.FortifiedPlayers.Clear();
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Bodyguard))
+            {
+                var bodyguard = Role.GetRole<Bodyguard>(PlayerControl.LocalPlayer);
+                bodyguard.LastGuard = DateTime.UtcNow;
+            }
+            foreach (Bodyguard bodyguard in Role.GetRoles(RoleEnum.Bodyguard))
+            {
+                bodyguard.GuardedPlayer = null;
+            }
             #endregion
             #region NeutralRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
@@ -2009,6 +2315,14 @@ namespace TownOfUs
                     return Colors.Inspector;
                 case RoleEnum.Lookout:
                     return Colors.Lookout;
+                case RoleEnum.Deputy:
+                    return Colors.Deputy;
+                case RoleEnum.Crusader:
+                    return Colors.Crusader;
+                case RoleEnum.Cleric:
+                    return Colors.Cleric;
+                case RoleEnum.Bodyguard:
+                    return Colors.Bodyguard;
 
                 case RoleEnum.RedMember:
                     return Colors.RedTeam;
@@ -2185,6 +2499,14 @@ namespace TownOfUs
                     return "Inspector";
                 case RoleEnum.Lookout:
                     return "Lookout";
+                case RoleEnum.Deputy:
+                    return "Deputy";
+                case RoleEnum.Crusader:
+                    return "Crusader";
+                case RoleEnum.Cleric:
+                    return "Cleric";
+                case RoleEnum.Bodyguard:
+                    return "Bodyguard";
 
                 case RoleEnum.RedMember:
                 case RoleEnum.BlueMember:

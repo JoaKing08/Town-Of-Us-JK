@@ -38,6 +38,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                             KillButtonTarget.DontRevive = pirate.DueledPlayer.PlayerId;
                         }
                         pirate.DueledPlayer.Exiled();
+                        SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
                         pirate.DueledPlayer = null;
                     }
                     pirate.DuelsWon += 1;

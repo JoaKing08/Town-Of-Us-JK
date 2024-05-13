@@ -21,6 +21,9 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption CrewProtectiveRoles;
         public static CustomNumberOption AltruistOn;
         public static CustomNumberOption MedicOn;
+        public static CustomNumberOption BodyguardOn;
+        public static CustomNumberOption CrusaderOn;
+        public static CustomNumberOption ClericOn;
 
         public static CustomHeaderOption CrewKillingRoles;
         public static CustomNumberOption SheriffOn;
@@ -28,6 +31,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption VeteranOn;
         public static CustomNumberOption VigilanteOn;
         public static CustomNumberOption HunterOn;
+        public static CustomNumberOption DeputyOn;
 
         public static CustomHeaderOption CrewSupportRoles;
         public static CustomNumberOption EngineerOn;
@@ -711,6 +715,263 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption RecruitsSeeJackal;
         public static CustomToggleOption JackalVent;
 
+        public static CustomHeaderOption Deputy;
+        public static CustomToggleOption RevealDeputy;
+        public static CustomToggleOption MisfireKillsDeputy;
+
+        public static CustomHeaderOption Bodyguard;
+        public static CustomNumberOption GuardCooldown;
+
+        public static CustomHeaderOption Crusader;
+        public static CustomNumberOption FortifyCooldown;
+        public static CustomNumberOption MaxFortify;
+
+        public static CustomHeaderOption Cleric;
+        public static CustomNumberOption BarrierCooldown;
+        public static CustomNumberOption BarrierCooldownReset;
+
+        public static CustomHeaderOption RoleListSettings;
+        public static CustomSpacingOption RoleListSpacing0;
+        public static CustomStringOption RoleEntry0;
+        public static CustomStringOption RoleEntry1;
+        public static CustomStringOption RoleEntry2;
+        public static CustomStringOption RoleEntry3;
+        public static CustomStringOption RoleEntry4;
+        public static CustomStringOption RoleEntry5;
+        public static CustomStringOption RoleEntry6;
+        public static CustomStringOption RoleEntry7;
+        public static CustomStringOption RoleEntry8;
+        public static CustomStringOption RoleEntry9;
+        public static CustomStringOption RoleEntry10;
+        public static CustomStringOption RoleEntry11;
+        public static CustomStringOption RoleEntry12;
+        public static CustomStringOption RoleEntry13;
+        public static CustomStringOption RoleEntry14;
+        public static CustomSpacingOption RoleListSpacing1;
+        public static CustomStringOption BanEntry0;
+        public static CustomStringOption BanEntry1;
+        public static CustomStringOption BanEntry2;
+        public static CustomStringOption BanEntry3;
+        public static CustomStringOption BanEntry4;
+        public static CustomStringOption BanEntry5;
+        public static CustomStringOption BanEntry6;
+        public static CustomStringOption BanEntry7;
+        public static CustomStringOption BanEntry8;
+        public static CustomStringOption BanEntry9;
+        public static CustomStringOption BanEntry10;
+        public static CustomStringOption BanEntry11;
+        public static CustomStringOption BanEntry12;
+        public static CustomStringOption BanEntry13;
+        public static CustomStringOption BanEntry14;
+        public static CustomSpacingOption RoleListSpacing2;
+        public static CustomNumberOption MaxImps;
+        public static CustomToggleOption AllUnique;
+
+        public static string[] RoleEntries => new string[]
+    {
+        "Any",
+
+
+        "<color=#0000FFFF>Random</color> <color=#00FFFFFF>Crewmate</color>",
+        "<color=#80FFFFFF>Crewmate</color>",
+
+        "<color=#00FFFFFF>Crewmate</color> <color=#0000FFFF>Investigative</color>",
+        "<color=#B34D99FF>Aurial</color>",
+        "<color=#4D4DFFFF>Detective</color>",
+        "<color=#00B3B3FF>Investigator</color>",
+        "<color=#4D99E6FF>Mystic</color>",
+        "<color=#FFCC80FF>Seer</color>",
+        "<color=#D4AF37FF>Snitch</color>",
+        "<color=#CCA3CCFF>Spy</color>",
+        "<color=#009900FF>Tracker</color>",
+        "<color=#A7D1B3FF>Trapper</color>",
+        "<color=#8BFFDBFF>Inspector</color>",
+        "<color=#80DFDFFF>Lookout</color>",
+
+        "<color=#00FFFFFF>Crewmate</color> <color=#0000FFFF>Killing</color>",
+        "<color=#29AB87FF>Hunter</color>",
+        "<color=#FFFF00FF>Sheriff</color>",
+        "<color=#B3B3E6FF>Vampire Hunter</color>",
+        "<color=#998040FF>Veteran</color>",
+        "<color=#FFFF99FF>Vigilante</color>",
+        "<color=#AAAAAAFF>Deputy</color>",
+
+        "<color=#00FFFFFF>Crewmate</color> <color=#0000FFFF>Protective</color>",
+        "<color=#660000FF>Altruist</color>",
+        "<color=#006600FF>Medic</color>",
+        "<color=#36454FFF>Bodyguard</color>",
+        "<color=#EFEFEFFF>Crusader</color>",
+        "<color=#90EE90FF>Cleric</color>",
+
+        "<color=#00FFFFFF>Crewmate</color> <color=#0000FFFF>Support</color>",
+        "<color=#FFA60AFF>Engineer</color>",
+        "<color=#B3D94DFF>Imitator</color>",
+        "<color=#A680FFFF>Medium</color>",
+        "<color=#00EEFFFF>Transporter</color>",
+        "<color=#8B4513FF>Tavern Keeper</color>",
+        "<color=#002600FF>Undercover</color>",
+
+        "<color=#00FFFFFF>Crewmate</color> <color=#0000FFFF>Power</color>",
+        "<color=#704FA8FF>Mayor</color>",
+        "<color=#BF00BFFF>Oracle</color>",
+        "<color=#B38000FF>Prosecutor</color>",
+        "<color=#66E666FF>Swapper</color>",
+        "<color=#9628C8FF>Monarch</color>",
+
+
+        "<color=#0000FFFF>Random</color> <color=#808080FF>Neutral</color>",
+
+        "<color=#808080FF>Neutral</color> <color=#0000FFFF>Benign</color>",
+        "<color=#80B2FFFF>Amnesiac</color>",
+        "<color=#B3FFFFFF>Guardian Angel</color>",
+        "<color=#FFE64DFF>Survivor</color>",
+        "<color=#8000FFFF>Cursed Soul</color>",
+
+        "<color=#808080FF>Neutral</color> <color=#0000FFFF>Evil</color>",
+        "<color=#8C4005FF>Executioner</color>",
+        "<color=#FFBFCCFF>Jester</color>",
+        "<color=#C060FFFF>Witch</color>",
+
+        "<color=#808080FF>Neutral</color> <color=#0000FFFF>Chaos</color>",
+        "<color=#00FF80FF>Doomsayer</color>",
+        "<color=#ECC23EFF>Pirate</color>",
+        "<color=#821252FF>Inquisitor</color>",
+
+        "<color=#808080FF>Neutral</color> <color=#0000FFFF>Killing</color>",
+        "<color=#FF4D00FF>Arsonist</color>",
+        "<color=#00FF00FF>The Glitch</color>",
+        "<color=#A86629FF>Werewolf</color>",
+        "<color=#1D4DFCFF>Serial Killer</color>",
+        "<color=#8C004DFF>Juggernaut</color>",
+
+        "<color=#808080FF>Neutral</color> <color=#0000FFFF>Proselyte</color>",
+        "<color=#262626FF>Vampire</color>",
+        "<color=#679556FF>Necromancer</color>",
+        "<color=#666666FF>Jackal</color>",
+
+        "<color=#808080FF>Neutral</color> <color=#0000FFFF>Apocalypse</color>",
+        "<color=#E6FFB3FF>Plaguebearer</color>",
+        "<color=#FFC080FF>Baker</color>",
+        "<color=#FF4F00FF>Berserker</color>",
+        "<color=#E000FFFF>Soul Collector</color>",
+
+
+        "<color=#0000FFFF>Random</color> <color=#FF0000FF>Impostor</color>",
+        "<color=#FF0000FF>Impostor</color>",
+
+        "<color=#FF0000FF>Impostor</color> <color=#0000FFFF>Concealing</color>",
+        "<color=#FF0000FF>Escapist</color>",
+        "<color=#FF0000FF>Grenadier</color>",
+        "<color=#FF0000FF>Morphling</color>",
+        "<color=#FF0000FF>Swooper</color>",
+        "<color=#FF0000FF>Venerer</color>",
+
+        "<color=#FF0000FF>Impostor</color> <color=#0000FFFF>Killing</color>",
+        "<color=#FF0000FF>Bomber</color>",
+        "<color=#FF0000FF>Warlock</color>",
+        "<color=#FF0000FF>Poisoner</color>",
+        "<color=#FF0000FF>Sniper</color>",
+
+        "<color=#FF0000FF>Impostor</color> <color=#0000FFFF>Support</color>",
+        "<color=#FF0000FF>Blackmailer</color>",
+        "<color=#FF0000FF>Janitor</color>",
+        "<color=#FF0000FF>Miner</color>",
+        "<color=#FF0000FF>Undertaker</color>"
+    };
+        public static string[] BanEntries => new string[]
+    {
+        "None",
+
+
+        "<color=#80FFFFFF>Crewmate</color>",
+
+        "<color=#B34D99FF>Aurial</color>",
+        "<color=#4D4DFFFF>Detective</color>",
+        "<color=#00B3B3FF>Investigator</color>",
+        "<color=#4D99E6FF>Mystic</color>",
+        "<color=#FFCC80FF>Seer</color>",
+        "<color=#D4AF37FF>Snitch</color>",
+        "<color=#CCA3CCFF>Spy</color>",
+        "<color=#009900FF>Tracker</color>",
+        "<color=#A7D1B3FF>Trapper</color>",
+        "<color=#8BFFDBFF>Inspector</color>",
+        "<color=#80DFDFFF>Lookout</color>",
+
+        "<color=#29AB87FF>Hunter</color>",
+        "<color=#FFFF00FF>Sheriff</color>",
+        "<color=#B3B3E6FF>Vampire Hunter</color>",
+        "<color=#998040FF>Veteran</color>",
+        "<color=#FFFF99FF>Vigilante</color>",
+        "<color=#AAAAAAFF>Deputy</color>",
+
+        "<color=#660000FF>Altruist</color>",
+        "<color=#006600FF>Medic</color>",
+        "<color=#36454FFF>Bodyguard</color>",
+        "<color=#EFEFEFFF>Crusader</color>",
+        "<color=#90EE90FF>Cleric</color>",
+
+        "<color=#FFA60AFF>Engineer</color>",
+        "<color=#B3D94DFF>Imitator</color>",
+        "<color=#A680FFFF>Medium</color>",
+        "<color=#00EEFFFF>Transporter</color>",
+        "<color=#8B4513FF>Tavern Keeper</color>",
+        "<color=#002600FF>Undercover</color>",
+
+        "<color=#704FA8FF>Mayor</color>",
+        "<color=#BF00BFFF>Oracle</color>",
+        "<color=#B38000FF>Prosecutor</color>",
+        "<color=#66E666FF>Swapper</color>",
+        "<color=#9628C8FF>Monarch</color>",
+
+
+        "<color=#80B2FFFF>Amnesiac</color>",
+        "<color=#B3FFFFFF>Guardian Angel</color>",
+        "<color=#FFE64DFF>Survivor</color>",
+        "<color=#8000FFFF>Cursed Soul</color>",
+
+        "<color=#8C4005FF>Executioner</color>",
+        "<color=#FFBFCCFF>Jester</color>",
+        "<color=#C060FFFF>Witch</color>",
+
+        "<color=#00FF80FF>Doomsayer</color>",
+        "<color=#ECC23EFF>Pirate</color>",
+        "<color=#821252FF>Inquisitor</color>",
+
+        "<color=#FF4D00FF>Arsonist</color>",
+        "<color=#00FF00FF>The Glitch</color>",
+        "<color=#A86629FF>Werewolf</color>",
+        "<color=#1D4DFCFF>Serial Killer</color>",
+        "<color=#8C004DFF>Juggernaut</color>",
+
+        "<color=#262626FF>Vampire</color>",
+        "<color=#679556FF>Necromancer</color>",
+        "<color=#666666FF>Jackal</color>",
+
+        "<color=#E6FFB3FF>Plaguebearer</color>",
+        "<color=#FFC080FF>Baker</color>",
+        "<color=#FF4F00FF>Berserker</color>",
+        "<color=#E000FFFF>Soul Collector</color>",
+
+
+        "<color=#FF0000FF>Impostor</color>",
+
+        "<color=#FF0000FF>Escapist</color>",
+        "<color=#FF0000FF>Grenadier</color>",
+        "<color=#FF0000FF>Morphling</color>",
+        "<color=#FF0000FF>Swooper</color>",
+        "<color=#FF0000FF>Venerer</color>",
+
+        "<color=#FF0000FF>Bomber</color>",
+        "<color=#FF0000FF>Warlock</color>",
+        "<color=#FF0000FF>Poisoner</color>",
+        "<color=#FF0000FF>Sniper</color>",
+
+        "<color=#FF0000FF>Blackmailer</color>",
+        "<color=#FF0000FF>Janitor</color>",
+        "<color=#FF0000FF>Miner</color>",
+        "<color=#FF0000FF>Undertaker</color>"
+    };
+
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
         private static Func<object, string> MultiplierFormat { get; } = value => $"{value:0.0#}x";
@@ -725,7 +986,7 @@ namespace TownOfUs.CustomOption
             Patches.ImportButton = new Import(num++);
 
             CrewInvestigativeRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Investigative Roles");
-            AurialOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#B34D99FF>Aurial</color>", 0f, 0f, 100f, 10f,
+            AurialOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#B34D99FF>Aurial</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             DetectiveOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -761,11 +1022,19 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             VigilanteOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#FFFF99FF>Vigilante</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
+            DeputyOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#AAAAAAFF>Deputy</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
 
             CrewProtectiveRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Protective Roles");
             AltruistOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#660000FF>Altruist</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             MedicOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#006600FF>Medic</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            BodyguardOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#36454FFF>Bodyguard</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            CrusaderOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#EFEFEFFF>Crusader</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            ClericOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#90EE90FF>Cleric</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             CrewSupportRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Support Roles");
@@ -939,7 +1208,7 @@ namespace TownOfUs.CustomOption
 
             GameModeSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Game Mode Settings");
-            GameMode = new CustomStringOption(num++, MultiMenu.main, "Game Mode", new[] { "Classic", "All Any", "Killing Only", "Cultist", "Teams", "Solo Killer", "Horseman" });
+            GameMode = new CustomStringOption(num++, MultiMenu.main, "Game Mode", new[] { "Classic", "All Any", "Killing Only", "Cultist", "Teams", "Solo Killer", "Horseman", "Role List" });
 
             ClassicSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Classic Game Mode Settings");
@@ -1103,6 +1372,75 @@ namespace TownOfUs.CustomOption
             SoloKillerVent = new CustomToggleOption(num++, MultiMenu.main, "Solo Killer Vent");
             SoloKillerPlayer =
                 new CustomStringOption(num++, MultiMenu.main, "Solo Killer", new[] { "Random", "Host", "Player 0", "Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8", "Player 9", "Player 10", "Player 11", "Player 12", "Player 13", "Player 14" });
+
+            RoleListSettings =
+                new CustomHeaderOption(num++, MultiMenu.main, "Role List Settings");
+            RoleEntry0 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 1", RoleEntries);
+            RoleEntry1 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 2", RoleEntries);
+            RoleEntry2 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 3", RoleEntries);
+            RoleEntry3 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 4", RoleEntries);
+            RoleEntry4 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 5", RoleEntries);
+            RoleEntry5 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 6", RoleEntries);
+            RoleEntry6 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 7", RoleEntries);
+            RoleEntry7 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 8", RoleEntries);
+            RoleEntry8 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 9", RoleEntries);
+            RoleEntry9 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 10", RoleEntries);
+            RoleEntry10 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 11", RoleEntries);
+            RoleEntry11 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 12", RoleEntries);
+            RoleEntry12 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 13", RoleEntries);
+            RoleEntry13 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 14", RoleEntries);
+            RoleEntry14 =
+                new CustomStringOption(num++, MultiMenu.main, "Role Entry 15", RoleEntries);
+            RoleListSpacing0 =
+                new CustomSpacingOption(num++, MultiMenu.main);
+            BanEntry0 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 1", BanEntries);
+            BanEntry1 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 2", BanEntries);
+            BanEntry2 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 3", BanEntries);
+            BanEntry3 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 4", BanEntries);
+            BanEntry4 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 5", BanEntries);
+            BanEntry5 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 6", BanEntries);
+            BanEntry6 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 7", BanEntries);
+            BanEntry7 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 8", BanEntries);
+            BanEntry8 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 9", BanEntries);
+            BanEntry9 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 10", BanEntries);
+            BanEntry10 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 11", BanEntries);
+            BanEntry11 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 12", BanEntries);
+            BanEntry12 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 13", BanEntries);
+            BanEntry13 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 14", BanEntries);
+            BanEntry14 =
+                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 15", BanEntries);
+            RoleListSpacing1 =
+                new CustomSpacingOption(num++, MultiMenu.main);
+            MaxImps = new CustomNumberOption(num++, MultiMenu.main, "Maximum Number Of Impostors", 4, 0, 15, 1);
+            AllUnique = new CustomToggleOption(num++, MultiMenu.main, "All Roles Are Unique", false);
 
             Assassin = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Assassin Ability</color>");
             NumberOfImpostorAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Impostor Assassins", 1, 0, 4, 1);
@@ -1339,6 +1677,10 @@ namespace TownOfUs.CustomOption
             VigilanteGuessLovers = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Lovers", false);
             VigilanteAfterVoting = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess After Voting", false);
 
+            Deputy = new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#AAAAAAFF>Deputy</color>");
+            RevealDeputy = new CustomToggleOption(num++, MultiMenu.crewmate, "Reveal Deputy While Shooting");
+            MisfireKillsDeputy = new CustomToggleOption(num++, MultiMenu.crewmate, "Misfire Causes Deputy Death");
+
             Altruist = new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#660000FF>Altruist</color>");
             ReviveDuration =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Altruist Revive Duration", 10f, 1f, 15f, 1f, CooldownFormat);
@@ -1361,6 +1703,25 @@ namespace TownOfUs.CustomOption
             MedicReportColorDuration =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Time Where Medic Will Have Color Type", 15f, 0f, 60f, 2.5f,
                     CooldownFormat);
+
+            Bodyguard =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#36454FFF>Bodyguard</color>");
+            GuardCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Guard Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+
+            Crusader =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#EFEFEFFF>Crusader</color>");
+            FortifyCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Fortify Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MaxFortify =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Uses Of Fortify", 3, 1, 15, 1);
+
+            Cleric =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#90EE90FF>Cleric</color>");
+            BarrierCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Barrier Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            BarrierCooldownReset =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Barrier Kill Cooldown Reset", 10f, 2.5f, 60f, 0.5f, CooldownFormat);
 
             Engineer =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFA60AFF>Engineer</color>");

@@ -8,7 +8,7 @@ namespace TownOfUs.Roles
     public class Inquisitor : Role
     {
         public List<byte> heretics;
-        public bool HereticsDead;
+        public bool HereticsDead = false;
         public KillButton _vanquishButton;
         public bool CanVanquish = true;
 
@@ -109,10 +109,11 @@ namespace TownOfUs.Roles
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Snitch) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Spy) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Tracker) ||
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Trapper) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Inspector) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Lookout))
                         aligment = "<color=#CFFFFFFF>Crew Investigative</color>";
-                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Altruist) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Medic))
+                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Altruist) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Medic) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Cleric) ||
+                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Crusader) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Bodyguard))
                         aligment = "<color=#CFFFFFFF>Crew Protective</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Sheriff) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.VampireHunter) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Veteran) ||
-                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Vigilante) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Hunter))
+                        Utils.PlayerById(_heretics[i]).Is(RoleEnum.Vigilante) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Hunter) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Deputy))
                         aligment = "<color=#CFFFFFFF>Crew Killing</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Engineer) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Imitator) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.TavernKeeper) ||
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Medium) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Transporter) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Undercover))

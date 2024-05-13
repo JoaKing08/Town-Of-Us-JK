@@ -39,7 +39,7 @@ namespace TownOfUs.Patches
                 __result = 1;
                 return false;
             }
-            else if (CustomGameOptions.GameMode == GameMode.Teams || CustomGameOptions.GameMode == GameMode.SoloKiller || CustomGameOptions.GameMode == GameMode.Horseman || ((CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny) && !CustomGameOptions.SpawnImps))
+            else if (CustomGameOptions.GameMode == GameMode.Teams || CustomGameOptions.GameMode == GameMode.SoloKiller || CustomGameOptions.GameMode == GameMode.Horseman || ((CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny) && !CustomGameOptions.SpawnImps) || CustomGameOptions.GameMode == GameMode.RoleList)
             {
                 __result = 0;
                 return false;

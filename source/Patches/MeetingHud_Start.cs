@@ -20,6 +20,7 @@ namespace TownOfUs
 
             HudUpdate.Zooming = false;
             Camera.main.orthographicSize = 3f;
+            HudManager.Instance.Chat.backgroundImage.color = Color.white;
 
             foreach (var cam in Camera.allCameras)
             {

@@ -50,6 +50,12 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
                         role.LastAbility = role.LastAbility.AddSeconds(-CustomGameOptions.InquisitorCooldown + CustomGameOptions.VestKCReset);
                         return false;
                     }
+                    else if (interact[5] == true)
+                    {
+                        role.LastAbility = DateTime.UtcNow;
+                        role.LastAbility = role.LastAbility.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.InquisitorCooldown);
+                        return false;
+                    }
                     else if (interact[3] == true) return false;
                 return false;
             }

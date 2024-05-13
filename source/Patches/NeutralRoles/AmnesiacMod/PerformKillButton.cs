@@ -369,6 +369,34 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 aurialRole.Loaded = true;
             }
 
+            else if (role == RoleEnum.Deputy)
+            {
+                var deputyRole = Role.GetRole<Deputy>(amnesiac);
+                deputyRole.Revealed = false;
+            }
+
+            else if (role == RoleEnum.Cleric)
+            {
+                var clericRole = Role.GetRole<Cleric>(amnesiac);
+                clericRole.BarrieredPlayer = null;
+                clericRole.LastBarrier = DateTime.UtcNow;
+            }
+
+            else if (role == RoleEnum.Crusader)
+            {
+                var crusaderRole = Role.GetRole<Crusader>(amnesiac);
+                crusaderRole.FortifiedPlayers.Clear();
+                crusaderRole.UsesLeft = CustomGameOptions.MaxFortify;
+                crusaderRole.LastFortified = DateTime.UtcNow;
+            }
+
+            else if (role == RoleEnum.Bodyguard)
+            {
+                var bodyguardRole = Role.GetRole<Bodyguard>(amnesiac);
+                bodyguardRole.GuardedPlayer = null;
+                bodyguardRole.LastGuard = DateTime.UtcNow;
+            }
+
             else if (role == RoleEnum.Arsonist)
             {
                 var arsoRole = Role.GetRole<Arsonist>(amnesiac);

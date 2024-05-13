@@ -44,6 +44,12 @@ namespace TownOfUs.NeutralRoles.JackalMod
                 role.LastKill = role.LastKill.AddSeconds(-CustomGameOptions.JackalKCd + CustomGameOptions.VestKCReset);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                role.LastKill = DateTime.UtcNow;
+                role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.JackalKCd);
+                return false;
+            }
             else if (interact[3] == true) return false;
             return false;
         }

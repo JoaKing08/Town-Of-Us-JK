@@ -186,7 +186,7 @@ namespace TownOfUs
                     bool canSubtractNone = !canSubtractBenign && !canSubtractEvil && !canSubtractChaos && !canSubtractKilling && !canSubtractProselyte && !canSubtractApocalypse;
 
                     factions.Shuffle();
-                    switch(factions.First())
+                    switch (factions.First())
                     {
                         case "Benign":
                             if (benign > 0 && (canSubtractBenign || canSubtractNone))
@@ -649,23 +649,23 @@ namespace TownOfUs
             }
 
             var undercoverRoles = new List<RoleEnum>();
-            if (CustomGameOptions.UndercoverBaker && CustomGameOptions.BakerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Baker)) == 0) undercoverRoles.Add(RoleEnum.Baker);
-            if (CustomGameOptions.UndercoverBerserker && CustomGameOptions.BerserkerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Berserker)) == 0) undercoverRoles.Add(RoleEnum.Berserker);
-            if (CustomGameOptions.UndercoverBlackmailer && CustomGameOptions.BlackmailerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Blackmailer)) == 0) undercoverRoles.Add(RoleEnum.Blackmailer);
-            if (CustomGameOptions.UndercoverBomber && CustomGameOptions.BomberOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Bomber)) == 0) undercoverRoles.Add(RoleEnum.Bomber);
-            if (CustomGameOptions.UndercoverEscapist && CustomGameOptions.EscapistOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Escapist)) == 0) undercoverRoles.Add(RoleEnum.Escapist);
-            if (CustomGameOptions.UndercoverGrenadier && CustomGameOptions.GrenadierOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Grenadier)) == 0) undercoverRoles.Add(RoleEnum.Grenadier);
-            if (CustomGameOptions.UndercoverJanitor && CustomGameOptions.JanitorOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Janitor)) == 0) undercoverRoles.Add(RoleEnum.Janitor);
-            if (CustomGameOptions.UndercoverMiner && CustomGameOptions.MinerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Miner)) == 0) undercoverRoles.Add(RoleEnum.Miner);
-            if (CustomGameOptions.UndercoverMorphling && CustomGameOptions.MorphlingOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Morphling)) == 0) undercoverRoles.Add(RoleEnum.Morphling);
-            if (CustomGameOptions.UndercoverPlaguebearer && CustomGameOptions.PlaguebearerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Plaguebearer)) == 0) undercoverRoles.Add(RoleEnum.Plaguebearer);
-            if (CustomGameOptions.UndercoverPoisoner && CustomGameOptions.PoisonerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Poisoner)) == 0) undercoverRoles.Add(RoleEnum.Poisoner);
-            if (CustomGameOptions.UndercoverSniper && CustomGameOptions.SniperOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Sniper)) == 0) undercoverRoles.Add(RoleEnum.Sniper);
-            if (CustomGameOptions.UndercoverSoulCollector && CustomGameOptions.SoulCollectorOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.SoulCollector)) == 0) undercoverRoles.Add(RoleEnum.SoulCollector);
-            if (CustomGameOptions.UndercoverSwooper && CustomGameOptions.SwooperOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Swooper)) == 0) undercoverRoles.Add(RoleEnum.Swooper);
-            if (CustomGameOptions.UndercoverUndertaker && CustomGameOptions.UndertakerOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Undertaker)) == 0) undercoverRoles.Add(RoleEnum.Undertaker);
-            if (CustomGameOptions.UndercoverVenerer && CustomGameOptions.VenererOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Venerer)) == 0) undercoverRoles.Add(RoleEnum.Venerer);
-            if (CustomGameOptions.UndercoverWarlock && CustomGameOptions.WarlockOn > 0 && PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(RoleEnum.Warlock)) == 0) undercoverRoles.Add(RoleEnum.Warlock);
+            if (CustomGameOptions.UndercoverBaker && CustomGameOptions.BakerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Baker))) undercoverRoles.Add(RoleEnum.Baker);
+            if (CustomGameOptions.UndercoverBerserker && CustomGameOptions.BerserkerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Berserker))) undercoverRoles.Add(RoleEnum.Berserker);
+            if (CustomGameOptions.UndercoverBlackmailer && CustomGameOptions.BlackmailerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Blackmailer))) undercoverRoles.Add(RoleEnum.Blackmailer);
+            if (CustomGameOptions.UndercoverBomber && CustomGameOptions.BomberOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Bomber))) undercoverRoles.Add(RoleEnum.Bomber);
+            if (CustomGameOptions.UndercoverEscapist && CustomGameOptions.EscapistOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Escapist))) undercoverRoles.Add(RoleEnum.Escapist);
+            if (CustomGameOptions.UndercoverGrenadier && CustomGameOptions.GrenadierOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Grenadier))) undercoverRoles.Add(RoleEnum.Grenadier);
+            if (CustomGameOptions.UndercoverJanitor && CustomGameOptions.JanitorOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Janitor))) undercoverRoles.Add(RoleEnum.Janitor);
+            if (CustomGameOptions.UndercoverMiner && CustomGameOptions.MinerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Miner))) undercoverRoles.Add(RoleEnum.Miner);
+            if (CustomGameOptions.UndercoverMorphling && CustomGameOptions.MorphlingOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Morphling))) undercoverRoles.Add(RoleEnum.Morphling);
+            if (CustomGameOptions.UndercoverPlaguebearer && CustomGameOptions.PlaguebearerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Plaguebearer))) undercoverRoles.Add(RoleEnum.Plaguebearer);
+            if (CustomGameOptions.UndercoverPoisoner && CustomGameOptions.PoisonerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Poisoner))) undercoverRoles.Add(RoleEnum.Poisoner);
+            if (CustomGameOptions.UndercoverSniper && CustomGameOptions.SniperOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Sniper))) undercoverRoles.Add(RoleEnum.Sniper);
+            if (CustomGameOptions.UndercoverSoulCollector && CustomGameOptions.SoulCollectorOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.SoulCollector))) undercoverRoles.Add(RoleEnum.SoulCollector);
+            if (CustomGameOptions.UndercoverSwooper && CustomGameOptions.SwooperOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Swooper))) undercoverRoles.Add(RoleEnum.Swooper);
+            if (CustomGameOptions.UndercoverUndertaker && CustomGameOptions.UndertakerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undertaker))) undercoverRoles.Add(RoleEnum.Undertaker);
+            if (CustomGameOptions.UndercoverVenerer && CustomGameOptions.VenererOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Venerer))) undercoverRoles.Add(RoleEnum.Venerer);
+            if (CustomGameOptions.UndercoverWarlock && CustomGameOptions.WarlockOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Warlock))) undercoverRoles.Add(RoleEnum.Warlock);
             foreach (var role in Role.GetRoles(RoleEnum.Undercover))
             {
                 var undercover = (Undercover)role;
@@ -683,7 +683,7 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
             {
                 var inq = (Inquisitor)role;
-                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
+                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
                 var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
                 foreach (var heretic in hereticsRaw)
                 {
@@ -978,6 +978,980 @@ namespace TownOfUs
             {
                 Role.GenRole<Role>(typeof(Crewmate), crewmates);
             }
+        }
+
+        private static void GenEachRoleList(List<GameData.PlayerInfo> infected)
+        {
+            var players = Utils.GetImpostors(infected);
+            players.AddRange(Utils.GetCrewmates(players));
+            GenRoleList(players);
+            while (!PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse))) GenRoleList(players);
+            #region Spawn Modifiers and Setup Roles
+            #region Crewmate Modifiers
+            if (Check(CustomGameOptions.TorchOn))
+                CrewmateModifiers.Add((typeof(Torch), CustomGameOptions.TorchOn));
+
+            if (Check(CustomGameOptions.DiseasedOn))
+                CrewmateModifiers.Add((typeof(Diseased), CustomGameOptions.DiseasedOn));
+
+            if (Check(CustomGameOptions.BaitOn))
+                CrewmateModifiers.Add((typeof(Bait), CustomGameOptions.BaitOn));
+
+            if (Check(CustomGameOptions.AftermathOn))
+                CrewmateModifiers.Add((typeof(Aftermath), CustomGameOptions.AftermathOn));
+
+            if (Check(CustomGameOptions.MultitaskerOn))
+                CrewmateModifiers.Add((typeof(Multitasker), CustomGameOptions.MultitaskerOn));
+
+            if (Check(CustomGameOptions.FrostyOn))
+                CrewmateModifiers.Add((typeof(Frosty), CustomGameOptions.FrostyOn));
+
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && Check(CustomGameOptions.ImpostorAgentOn))
+                ObjectiveCrewmateModifiers.Add((typeof(ImpostorAgent), CustomGameOptions.ImpostorAgentOn));
+
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && Check(CustomGameOptions.ApocalypseAgentOn))
+                ObjectiveCrewmateModifiers.Add((typeof(ApocalypseAgent), CustomGameOptions.ApocalypseAgentOn));
+
+            if (Check(CustomGameOptions.FamousOn))
+                CrewmateModifiers.Add((typeof(Famous), CustomGameOptions.FamousOn));
+            #endregion
+            #region Global Modifiers
+            if (Check(CustomGameOptions.TiebreakerOn))
+                GlobalModifiers.Add((typeof(Tiebreaker), CustomGameOptions.TiebreakerOn));
+
+            if (Check(CustomGameOptions.FlashOn))
+                GlobalModifiers.Add((typeof(Flash), CustomGameOptions.FlashOn));
+
+            if (Check(CustomGameOptions.GiantOn))
+                GlobalModifiers.Add((typeof(Giant), CustomGameOptions.GiantOn));
+
+            if (Check(CustomGameOptions.ButtonBarryOn))
+                ButtonModifiers.Add((typeof(ButtonBarry), CustomGameOptions.ButtonBarryOn));
+
+            if (Check(CustomGameOptions.LoversOn))
+                ObjectiveGlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
+
+            if (Check(CustomGameOptions.SleuthOn))
+                GlobalModifiers.Add((typeof(Sleuth), CustomGameOptions.SleuthOn));
+
+            if (Check(CustomGameOptions.RadarOn))
+                GlobalModifiers.Add((typeof(Radar), CustomGameOptions.RadarOn));
+
+            if (Check(CustomGameOptions.DrunkOn))
+                GlobalModifiers.Add((typeof(Drunk), CustomGameOptions.DrunkOn));
+            #endregion
+            #region Impostor Modifiers
+            if (Check(CustomGameOptions.DisperserOn))
+                ImpostorModifiers.Add((typeof(Disperser), CustomGameOptions.DisperserOn));
+
+            if (Check(CustomGameOptions.DoubleShotOn))
+                AssassinModifiers.Add((typeof(DoubleShot), CustomGameOptions.DoubleShotOn));
+
+            if (CustomGameOptions.UnderdogOn > 0)
+                ImpostorModifiers.Add((typeof(Underdog), CustomGameOptions.UnderdogOn));
+
+            if (CustomGameOptions.TaskerOn > 0)
+                ImpostorModifiers.Add((typeof(Tasker), CustomGameOptions.TaskerOn));
+            #endregion
+            #region Assassin Ability
+            AssassinAbility.Add((typeof(Assassin), CustomRPC.SetAssassin, 100));
+            #endregion
+
+            var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().ToList();
+            canHaveObjective.Shuffle();
+
+            foreach (var (type, id) in ObjectiveGlobalModifiers)
+            {
+                if (canHaveObjective.Count == 0) break;
+                if (type.FullName.Contains("Lover"))
+                {
+                    if (canHaveObjective.Count == 1) continue;
+                    Lover.Gen(canHaveObjective);
+                }
+                else
+                {
+                    Role.GenObjective<Objective>(type, canHaveObjective);
+                }
+            }
+            canHaveObjective.RemoveAll(player => !player.Is(Faction.Crewmates) || player.Is(RoleEnum.Undercover));
+            ObjectiveCrewmateModifiers.SortModifiers(canHaveObjective.Count);
+            ObjectiveCrewmateModifiers.Shuffle();
+
+            while (canHaveObjective.Count > 0 && ObjectiveCrewmateModifiers.Count > 0)
+            {
+                var (type, _) = ObjectiveCrewmateModifiers.TakeFirst();
+                Role.GenObjective<Objective>(type, canHaveObjective.TakeFirst());
+            }
+
+            // Hand out assassin ability to killers according to the settings.
+            var canHaveAbility = PlayerControl.AllPlayerControls.ToArray().Where(player => player.Is(Faction.Impostors) || (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode == GameMode.Horseman)).ToList();
+            canHaveAbility.Shuffle();
+            var canHaveAbility2 = PlayerControl.AllPlayerControls.ToArray().Where(player => player.Is(Faction.NeutralKilling) || (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode != GameMode.Horseman)).ToList();
+            canHaveAbility2.Shuffle();
+
+            var assassinConfig = new (List<PlayerControl>, int)[]
+            {
+                (canHaveAbility, CustomGameOptions.NumberOfImpostorAssassins),
+                (canHaveAbility2, CustomGameOptions.NumberOfNeutralAssassins)
+            };
+            foreach ((var abilityList, int maxNumber) in assassinConfig)
+            {
+                int assassinNumber = maxNumber;
+                while (abilityList.Count > 0 && assassinNumber > 0)
+                {
+                    var (type, rpc, _) = AssassinAbility.Ability();
+                    Role.Gen<Ability>(type, abilityList.TakeFirst(), rpc);
+                    assassinNumber -= 1;
+                }
+            }
+
+            // Hand out assassin modifiers, if enabled, to impostor assassins.
+            var canHaveAssassinModifier = PlayerControl.AllPlayerControls.ToArray().Where(player => player.Is(Faction.Impostors) && player.Is(AbilityEnum.Assassin)).ToList();
+            canHaveAssassinModifier.Shuffle();
+            AssassinModifiers.SortModifiers(canHaveAssassinModifier.Count);
+            AssassinModifiers.Shuffle();
+
+            foreach (var (type, _) in AssassinModifiers)
+            {
+                if (canHaveAssassinModifier.Count == 0) break;
+                Role.GenModifier<Modifier>(type, canHaveAssassinModifier);
+            }
+
+            // Hand out impostor modifiers.
+            var canHaveImpModifier = PlayerControl.AllPlayerControls.ToArray().Where(player => player.Is(Faction.Impostors) && !player.Is(ModifierEnum.DoubleShot)).ToList();
+            canHaveImpModifier.Shuffle();
+            ImpostorModifiers.SortModifiers(canHaveImpModifier.Count);
+            ImpostorModifiers.Shuffle();
+
+            foreach (var (type, _) in ImpostorModifiers)
+            {
+                if (canHaveImpModifier.Count == 0) break;
+                Role.GenModifier<Modifier>(type, canHaveImpModifier);
+            }
+
+            // Hand out global modifiers.
+            var canHaveModifier = PlayerControl.AllPlayerControls.ToArray()
+                .Where(player => !player.Is(ModifierEnum.Disperser) && !player.Is(ModifierEnum.DoubleShot) && !player.Is(ModifierEnum.Underdog))
+                .ToList();
+            canHaveModifier.Shuffle();
+            GlobalModifiers.SortModifiers(canHaveModifier.Count);
+            GlobalModifiers.Shuffle();
+
+            foreach (var (type, id) in GlobalModifiers)
+            {
+                if (canHaveModifier.Count == 0) break;
+                Role.GenModifier<Modifier>(type, canHaveModifier);
+            }
+
+            // The Glitch cannot have Button Modifiers.
+            canHaveModifier.RemoveAll(player => player.Is(RoleEnum.Glitch));
+            ButtonModifiers.SortModifiers(canHaveModifier.Count);
+
+            foreach (var (type, id) in ButtonModifiers)
+            {
+                if (canHaveModifier.Count == 0) break;
+                Role.GenModifier<Modifier>(type, canHaveModifier);
+            }
+
+            // Now hand out Crewmate Modifiers to all remaining eligible players.
+            canHaveModifier.RemoveAll(player => !player.Is(Faction.Crewmates) || player.Is(ObjectiveEnum.ImpostorAgent) || player.Is(ObjectiveEnum.ApocalypseAgent));
+            CrewmateModifiers.SortModifiers(canHaveModifier.Count);
+            CrewmateModifiers.Shuffle();
+
+            while (canHaveModifier.Count > 0 && CrewmateModifiers.Count > 0)
+            {
+                var (type, _) = CrewmateModifiers.TakeFirst();
+                Role.GenModifier<Modifier>(type, canHaveModifier.TakeFirst());
+            }
+
+            // Set the Traitor, if there is one enabled.
+            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent)).ToList();
+            if (TraitorOn && toChooseFromCrew.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
+                var pc = toChooseFromCrew[rand];
+
+                SetTraitor.WillBeTraitor = pc;
+
+                Utils.Rpc(CustomRPC.SetTraitor, pc.PlayerId);
+            }
+            else
+            {
+                Utils.Rpc(CustomRPC.SetTraitor, byte.MaxValue);
+            }
+            toChooseFromCrew.RemoveAll(player => SetTraitor.WillBeTraitor == player);
+
+            // Set the Haunter, if there is one enabled.
+            if (HaunterOn && toChooseFromCrew.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
+                var pc = toChooseFromCrew[rand];
+
+                SetHaunter.WillBeHaunter = pc;
+
+                Utils.Rpc(CustomRPC.SetHaunter, pc.PlayerId);
+            }
+            else
+            {
+                Utils.Rpc(CustomRPC.SetHaunter, byte.MaxValue);
+            }
+
+            var toChooseFromNeut = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralBenign) || x.Is(Faction.NeutralEvil) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralBenign)) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            if (PhantomOn && toChooseFromNeut.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromNeut.Count);
+                var pc = toChooseFromNeut[rand];
+
+                SetPhantom.WillBePhantom = pc;
+
+                Utils.Rpc(CustomRPC.SetPhantom, pc.PlayerId);
+            }
+            else
+            {
+                Utils.Rpc(CustomRPC.SetPhantom, byte.MaxValue);
+            }
+
+            var toChooseFromImps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor() && !x.Is(ObjectiveEnum.Lover)).ToList();
+            if (PoltergeistOn && toChooseFromImps.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromImps.Count);
+                var pc = toChooseFromImps[rand];
+
+                SetPoltergeist.WillBePoltergeist = pc;
+
+                Utils.Rpc(CustomRPC.SetPoltergeist, pc.PlayerId);
+            }
+            else
+            {
+                Utils.Rpc(CustomRPC.SetPoltergeist, byte.MaxValue);
+            }
+
+            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && x != SetTraitor.WillBeTraitor).ToList();
+            foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+            {
+                var exe = (Executioner)role;
+                if (exeTargets.Count > 0)
+                {
+                    exe.target = exeTargets[Random.RandomRangeInt(0, exeTargets.Count)];
+                    exeTargets.Remove(exe.target);
+
+                    Utils.Rpc(CustomRPC.SetTarget, role.Player.PlayerId, exe.target.PlayerId);
+                }
+            }
+            var undercoverRoles = new List<RoleEnum>();
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverBaker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Baker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Baker))) undercoverRoles.Add(RoleEnum.Baker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverBerserker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Berserker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Berserker))) undercoverRoles.Add(RoleEnum.Berserker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverBlackmailer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Blackmailer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Blackmailer))) undercoverRoles.Add(RoleEnum.Blackmailer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverBomber && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Bomber) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Bomber))) undercoverRoles.Add(RoleEnum.Bomber);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverEscapist && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Escapist) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Escapist))) undercoverRoles.Add(RoleEnum.Escapist);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverGrenadier && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Grenadier) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Grenadier))) undercoverRoles.Add(RoleEnum.Grenadier);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverJanitor && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Janitor) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Janitor))) undercoverRoles.Add(RoleEnum.Janitor);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverMiner && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Miner) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Miner))) undercoverRoles.Add(RoleEnum.Miner);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverMorphling && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Morphling) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Morphling))) undercoverRoles.Add(RoleEnum.Morphling);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverPlaguebearer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Plaguebearer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Plaguebearer))) undercoverRoles.Add(RoleEnum.Plaguebearer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverPoisoner && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Poisoner) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Poisoner))) undercoverRoles.Add(RoleEnum.Poisoner);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverSniper && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Sniper) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Sniper))) undercoverRoles.Add(RoleEnum.Sniper);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverSoulCollector && !CustomGameOptions.BanEntries.Contains(RLBanEntry.SoulCollector) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.SoulCollector))) undercoverRoles.Add(RoleEnum.SoulCollector);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverSwooper && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Swooper) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Swooper))) undercoverRoles.Add(RoleEnum.Swooper);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverUndertaker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Undertaker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undertaker))) undercoverRoles.Add(RoleEnum.Undertaker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverVenerer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Venerer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Venerer))) undercoverRoles.Add(RoleEnum.Venerer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverWarlock && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Warlock) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Warlock))) undercoverRoles.Add(RoleEnum.Warlock);
+            foreach (var role in Role.GetRoles(RoleEnum.Undercover))
+            {
+                var undercover = (Undercover)role;
+                if (undercoverRoles.Count > 0)
+                {
+                    undercover.UndercoverRole = undercoverRoles[Random.RandomRangeInt(0, undercoverRoles.Count)];
+                    undercoverRoles.Remove((RoleEnum)undercover.UndercoverRole);
+                }
+                else
+                {
+                    undercover.UndercoverRole = RoleEnum.Impostor;
+                }
+                Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
+            }
+
+            var nonKillingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
+            var killingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => ((x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer)) || x.Is(Faction.Impostors) || x.Is(Faction.NeutralApocalypse)) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
+            foreach (var role in Role.GetRoles(RoleEnum.Jackal))
+            {
+                var nonKillingRecruits = 0;
+                var killingRecruits = 0;
+                var otherRecruits = 0;
+                if (killingRecruit.Count > 0)
+                {
+                    killingRecruits += 1;
+                }
+                else if (nonKillingRecruit.Count > 1)
+                {
+                    nonKillingRecruits += 1;
+                }
+                else if (allRecruits.Count > 1)
+                {
+                    otherRecruits += 1;
+                }
+                if (nonKillingRecruit.Count > nonKillingRecruits + 1)
+                {
+                    nonKillingRecruits += 1;
+                }
+                else if (allRecruits.Count > otherRecruits + 1)
+                {
+                    otherRecruits += 1;
+                }
+                if (nonKillingRecruits != 0) for (int i = 0; i < nonKillingRecruits; i++)
+                    {
+                        var recruit = nonKillingRecruit[Random.RandomRangeInt(0, nonKillingRecruit.Count)];
+                        nonKillingRecruit.Remove(recruit);
+                        allRecruits.Remove(recruit);
+                        Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+
+                        Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
+                    }
+                if (killingRecruits != 0) for (int i = 0; i < killingRecruits; i++)
+                    {
+                        var recruit = killingRecruit[Random.RandomRangeInt(0, killingRecruit.Count)];
+                        killingRecruit.Remove(recruit);
+                        allRecruits.Remove(recruit);
+                        Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+
+                        Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
+                    }
+                if (otherRecruits != 0) for (int i = 0; i < otherRecruits; i++)
+                    {
+                        var recruit = allRecruits[Random.RandomRangeInt(0, allRecruits.Count)];
+                        allRecruits.Remove(recruit);
+                        Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+
+                        Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
+                    }
+            }
+
+            foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
+            {
+                var inq = (Inquisitor)role;
+                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
+                var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
+                foreach (var heretic in hereticsRaw)
+                {
+                    heretics.Add(heretic.PlayerId);
+                    Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic.PlayerId);
+                }
+                inq.heretics = heretics;
+            }
+
+            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
+            {
+                var ga = (GuardianAngel)role;
+                if (!(goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
+                    (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
+                    goodGATargets.Count == 0 && evilGATargets.Count == 0)
+                {
+                    if (goodGATargets.Count == 0)
+                    {
+                        ga.target = evilGATargets[Random.RandomRangeInt(0, evilGATargets.Count)];
+                        evilGATargets.Remove(ga.target);
+                    }
+                    else if (evilGATargets.Count == 0 || !Check(CustomGameOptions.EvilTargetPercent))
+                    {
+                        ga.target = goodGATargets[Random.RandomRangeInt(0, goodGATargets.Count)];
+                        goodGATargets.Remove(ga.target);
+                    }
+                    else
+                    {
+                        ga.target = evilGATargets[Random.RandomRangeInt(0, evilGATargets.Count)];
+                        evilGATargets.Remove(ga.target);
+                    }
+
+                    Utils.Rpc(CustomRPC.SetGATarget, role.Player.PlayerId, ga.target.PlayerId);
+                }
+            }
+            #endregion
+        }
+        private static void GenRoleList(List<PlayerControl> players)
+        {
+            var reservedImpostors = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.RandomImpostor || x == RLRoleEntry.ImpostorConcealing
+            || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist
+            || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
+            || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
+            || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
+            #region Buckets
+            var anyBucket = new List<(Type, bool)>();
+            #region Crewmate
+            var randomCrewmateBucket = new List<(Type, bool)>();
+            var crewmateInvestigativeBucket = new List<(Type, bool)>();
+            var crewmateKillingBucket = new List<(Type, bool)>();
+            var crewmateProtectiveBucket = new List<(Type, bool)>();
+            var crewmateSupportBucket = new List<(Type, bool)>();
+            var crewmatePowerBucket = new List<(Type, bool)>();
+            #region Crewmate Investigative
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Aurial) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Aurial) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Aurial), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Detective) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Detective) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Detective), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Investigator) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Investigator) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Investigator), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Mystic) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Mystic) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Mystic), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Seer) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Seer) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Seer), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Snitch) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Snitch)) crewmateInvestigativeBucket.Add((typeof(Snitch), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Spy) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Spy) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Spy), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Tracker) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Tracker) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Tracker), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Trapper) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Trapper) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Trapper), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Inspector) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Inspector) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Inspector), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Lookout) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Lookout) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Lookout), false));
+            #endregion
+            #region Crewmate Killing
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Hunter) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Hunter) && CustomGameOptions.AllUnique)) crewmateKillingBucket.Add((typeof(Hunter), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Sheriff) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Sheriff) && CustomGameOptions.AllUnique)) crewmateKillingBucket.Add((typeof(Sheriff), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.VampireHunter) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.VampireHunter)) crewmateKillingBucket.Add((typeof(VampireHunter), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Veteran) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Veteran) && CustomGameOptions.AllUnique)) crewmateKillingBucket.Add((typeof(Veteran), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Vigilante) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Vigilante) && CustomGameOptions.AllUnique)) crewmateKillingBucket.Add((typeof(Vigilante), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Deputy) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Deputy)) crewmateKillingBucket.Add((typeof(Deputy), true));
+            #endregion
+            #region Crewmate Protective
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Altruist) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Altruist)) crewmateProtectiveBucket.Add((typeof(Altruist), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Medic) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Medic)) crewmateProtectiveBucket.Add((typeof(Medic), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Cleric) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Cleric) && CustomGameOptions.AllUnique)) crewmateProtectiveBucket.Add((typeof(Cleric), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Crusader) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Crusader) && CustomGameOptions.AllUnique)) crewmateProtectiveBucket.Add((typeof(Crusader), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Bodyguard) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Bodyguard) && CustomGameOptions.AllUnique)) crewmateProtectiveBucket.Add((typeof(Bodyguard), false));
+            #endregion
+            #region Crewmate Support
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Engineer) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Engineer) && CustomGameOptions.AllUnique)) crewmateSupportBucket.Add((typeof(Engineer), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Imitator) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Imitator)) crewmateSupportBucket.Add((typeof(Imitator), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Medium) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Medium) && CustomGameOptions.AllUnique)) crewmateSupportBucket.Add((typeof(Medium), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Transporter) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Transporter) && CustomGameOptions.AllUnique)) crewmateSupportBucket.Add((typeof(Transporter), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.TavernKeeper) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.TavernKeeper) && CustomGameOptions.AllUnique)) crewmateSupportBucket.Add((typeof(TavernKeeper), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Undercover) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Undercover)) crewmateSupportBucket.Add((typeof(Undercover), true));
+            #endregion
+            #region Crewmate Power
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Mayor) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Mayor)) crewmatePowerBucket.Add((typeof(Mayor), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Oracle) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Oracle)) crewmatePowerBucket.Add((typeof(Oracle), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Prosecutor) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Prosecutor)) crewmatePowerBucket.Add((typeof(Prosecutor), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Swapper) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Swapper)) crewmatePowerBucket.Add((typeof(Swapper), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Monarch) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Monarch)) crewmatePowerBucket.Add((typeof(Monarch), true));
+            #endregion
+
+            #region Random Crewmate
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Crewmate)) randomCrewmateBucket.Add((typeof(Crewmate), false));
+            randomCrewmateBucket.AddRange(crewmateInvestigativeBucket);
+            randomCrewmateBucket.AddRange(crewmateKillingBucket);
+            randomCrewmateBucket.AddRange(crewmateProtectiveBucket);
+            randomCrewmateBucket.AddRange(crewmateSupportBucket);
+            randomCrewmateBucket.AddRange(crewmatePowerBucket);
+            #endregion
+            #endregion
+            #region Neutral
+            var randomNeutralBucket = new List<(Type, bool)>();
+            var neutralBenignBucket = new List<(Type, bool)>();
+            var neutralEvilBucket = new List<(Type, bool)>();
+            var neutralChaosBucket = new List<(Type, bool)>();
+            var neutralKillingBucket = new List<(Type, bool)>();
+            var neutralProselyteBucket = new List<(Type, bool)>();
+            var neutralApocalypseBucket = new List<(Type, bool)>();
+            #region Neutral Benign
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Amnesiac) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Amnesiac) && CustomGameOptions.AllUnique)) neutralBenignBucket.Add((typeof(Amnesiac), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.GuardianAngel) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.GuardianAngel) && CustomGameOptions.AllUnique)) neutralBenignBucket.Add((typeof(GuardianAngel), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Survivor) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Survivor) && CustomGameOptions.AllUnique)) neutralBenignBucket.Add((typeof(Survivor), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.CursedSoul) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.CursedSoul) && CustomGameOptions.AllUnique)) neutralBenignBucket.Add((typeof(CursedSoul), false));
+            #endregion
+            #region Neutral Evil
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Executioner) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Executioner) && CustomGameOptions.AllUnique)) neutralEvilBucket.Add((typeof(Executioner), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Jester) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Jester) && CustomGameOptions.AllUnique)) neutralEvilBucket.Add((typeof(Jester), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Witch) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Witch)) neutralEvilBucket.Add((typeof(Witch), true));
+            #endregion
+            #region Neutral Chaos
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Doomsayer) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Doomsayer) && CustomGameOptions.AllUnique)) neutralChaosBucket.Add((typeof(Doomsayer), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Pirate) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Pirate)) neutralChaosBucket.Add((typeof(Pirate), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Inquisitor) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Inquisitor)) neutralChaosBucket.Add((typeof(Inquisitor), true));
+            #endregion
+            #region Neutral Killing
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Arsonist) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Arsonist)) neutralKillingBucket.Add((typeof(Arsonist), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Glitch) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Glitch)) neutralKillingBucket.Add((typeof(Glitch), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Werewolf) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Werewolf)) neutralKillingBucket.Add((typeof(Werewolf), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.SerialKiller) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.SerialKiller)) neutralKillingBucket.Add((typeof(SerialKiller), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Juggernaut) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Juggernaut)) neutralKillingBucket.Add((typeof(Juggernaut), true));
+            #endregion
+            #region Neutral Proselyte
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Vampire) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Vampire)) neutralProselyteBucket.Add((typeof(Vampire), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Necromancer) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Necromancer)) neutralProselyteBucket.Add((typeof(Roles.Necromancer), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Jackal) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Jackal)) neutralProselyteBucket.Add((typeof(Jackal), true));
+            #endregion
+            #region Neutral Apocalypse
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Plaguebearer) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Plaguebearer)) neutralApocalypseBucket.Add((typeof(Plaguebearer), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Baker) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Baker)) neutralApocalypseBucket.Add((typeof(Baker), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Berserker) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Berserker)) neutralApocalypseBucket.Add((typeof(Berserker), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.SoulCollector) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.SoulCollector)) neutralApocalypseBucket.Add((typeof(SoulCollector), true));
+            #endregion
+
+            #region Random Neutral
+            randomNeutralBucket.AddRange(neutralBenignBucket);
+            randomNeutralBucket.AddRange(neutralEvilBucket);
+            randomNeutralBucket.AddRange(neutralChaosBucket);
+            randomNeutralBucket.AddRange(neutralKillingBucket);
+            randomNeutralBucket.AddRange(neutralProselyteBucket);
+            randomNeutralBucket.AddRange(neutralApocalypseBucket);
+            #endregion
+            #endregion
+            #region Impostor
+            var randomImpostorBucket = new List<(Type, bool)>();
+            var impostorConcealingBucket = new List<(Type, bool)>();
+            var impostorKillingBucket = new List<(Type, bool)>();
+            var impostorSupportBucket = new List<(Type, bool)>();
+            #region All Impostors
+            var impostorRoles = new List<Type>();
+            impostorRoles.Add(typeof(Escapist));
+            impostorRoles.Add(typeof(Grenadier));
+            impostorRoles.Add(typeof(Morphling));
+            impostorRoles.Add(typeof(Swooper));
+            impostorRoles.Add(typeof(Venerer));
+            impostorRoles.Add(typeof(Bomber));
+            impostorRoles.Add(typeof(Warlock));
+            impostorRoles.Add(typeof(Poisoner));
+            impostorRoles.Add(typeof(Sniper));
+            impostorRoles.Add(typeof(Blackmailer));
+            impostorRoles.Add(typeof(Janitor));
+            impostorRoles.Add(typeof(Undertaker));
+            impostorRoles.Add(typeof(Miner));
+            #endregion
+
+            #region Impostor Concealing
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Escapist) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Escapist) && CustomGameOptions.AllUnique)) impostorConcealingBucket.Add((typeof(Escapist), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Grenadier) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Grenadier)) impostorConcealingBucket.Add((typeof(Grenadier), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Morphling) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Morphling) && CustomGameOptions.AllUnique)) impostorConcealingBucket.Add((typeof(Morphling), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Swooper) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Swooper) && CustomGameOptions.AllUnique)) impostorConcealingBucket.Add((typeof(Swooper), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Venerer) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Venerer)) impostorConcealingBucket.Add((typeof(Venerer), true));
+            #endregion
+            #region Impostor Killing
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Bomber) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Bomber)) impostorKillingBucket.Add((typeof(Bomber), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Warlock) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Warlock) && CustomGameOptions.AllUnique)) impostorKillingBucket.Add((typeof(Warlock), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Poisoner) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Poisoner)) impostorKillingBucket.Add((typeof(Poisoner), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Sniper) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Sniper)) impostorKillingBucket.Add((typeof(Sniper), true));
+            #endregion
+            #region Impostor Support
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Blackmailer) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Blackmailer)) impostorSupportBucket.Add((typeof(Blackmailer), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Janitor) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Janitor) && CustomGameOptions.AllUnique)) impostorSupportBucket.Add((typeof(Janitor), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Miner) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Miner)) impostorSupportBucket.Add((typeof(Miner), true));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Undertaker) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Undertaker)) impostorSupportBucket.Add((typeof(Undertaker), true));
+            #endregion
+
+            #region Random Impostor
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Impostor)) randomImpostorBucket.Add((typeof(Impostor), false));
+            randomImpostorBucket.AddRange(impostorConcealingBucket);
+            randomImpostorBucket.AddRange(impostorKillingBucket);
+            randomImpostorBucket.AddRange(impostorSupportBucket);
+            #endregion
+            #endregion
+
+            #region Any
+            anyBucket.AddRange(randomCrewmateBucket);
+            anyBucket.AddRange(randomNeutralBucket);
+            if (reservedImpostors < CustomGameOptions.MaxImps) anyBucket.AddRange(randomImpostorBucket);
+            #endregion
+            #endregion
+            #region Choose Roles
+            var choosedRoles = new List<Type>();
+            RLRoleEntry vhFrom = RLRoleEntry.Any;
+            int impostors = 0;
+            foreach (var entry in CustomGameOptions.RoleEntries)
+            {
+                (Type, bool) role = (typeof(Crewmate), false);
+                switch (entry)
+                {
+                    case RLRoleEntry.Any:
+                        role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.RandomCrewmate:
+                        role = randomCrewmateBucket.Count > 0 ? randomCrewmateBucket[Random.RandomRangeInt(0, randomCrewmateBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CrewmateInvestigative:
+                        role = crewmateInvestigativeBucket.Count > 0 ? crewmateInvestigativeBucket[Random.RandomRangeInt(0, crewmateInvestigativeBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CrewmateKilling:
+                        role = crewmateKillingBucket.Count > 0 ? crewmateKillingBucket[Random.RandomRangeInt(0, crewmateKillingBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CrewmateProtective:
+                        role = crewmateProtectiveBucket.Count > 0 ? crewmateProtectiveBucket[Random.RandomRangeInt(0, crewmateProtectiveBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CrewmateSupport:
+                        role = crewmateSupportBucket.Count > 0 ? crewmateSupportBucket[Random.RandomRangeInt(0, crewmateSupportBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CrewmatePower:
+                        role = crewmatePowerBucket.Count > 0 ? crewmatePowerBucket[Random.RandomRangeInt(0, crewmatePowerBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.RandomNeutral:
+                        role = randomNeutralBucket.Count > 0 ? randomNeutralBucket[Random.RandomRangeInt(0, randomNeutralBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.NeutralBenign:
+                        role = neutralBenignBucket.Count > 0 ? neutralBenignBucket[Random.RandomRangeInt(0, neutralBenignBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.NeutralEvil:
+                        role = neutralEvilBucket.Count > 0 ? neutralEvilBucket[Random.RandomRangeInt(0, neutralEvilBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.NeutralChaos:
+                        role = neutralChaosBucket.Count > 0 ? neutralChaosBucket[Random.RandomRangeInt(0, neutralChaosBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.NeutralKilling:
+                        role = neutralKillingBucket.Count > 0 ? neutralKillingBucket[Random.RandomRangeInt(0, neutralKillingBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.NeutralProselyte:
+                        role = neutralProselyteBucket.Count > 0 ? neutralProselyteBucket[Random.RandomRangeInt(0, neutralProselyteBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.NeutralApocalypse:
+                        role = neutralApocalypseBucket.Count > 0 ? neutralApocalypseBucket[Random.RandomRangeInt(0, neutralApocalypseBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.RandomImpostor:
+                        role = randomImpostorBucket.Count > 0 ? randomImpostorBucket[Random.RandomRangeInt(0, randomImpostorBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.ImpostorConcealing:
+                        role = impostorConcealingBucket.Count > 0 ? impostorConcealingBucket[Random.RandomRangeInt(0, impostorConcealingBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.ImpostorKilling:
+                        role = impostorKillingBucket.Count > 0 ? impostorKillingBucket[Random.RandomRangeInt(0, impostorKillingBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.ImpostorSupport:
+                        role = impostorSupportBucket.Count > 0 ? impostorSupportBucket[Random.RandomRangeInt(0, impostorSupportBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.Crewmate:
+                        role = (typeof(Crewmate), false);
+                        break;
+                    case RLRoleEntry.Aurial:
+                        if (choosedRoles.Contains(typeof(Aurial)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Aurial), false);
+                        break;
+                    case RLRoleEntry.Detective:
+                        if (choosedRoles.Contains(typeof(Detective)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Detective), false);
+                        break;
+                    case RLRoleEntry.Investigator:
+                        if (choosedRoles.Contains(typeof(Investigator)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Investigator), false);
+                        break;
+                    case RLRoleEntry.Mystic:
+                        if (choosedRoles.Contains(typeof(Mystic)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Mystic), false);
+                        break;
+                    case RLRoleEntry.Seer:
+                        if (choosedRoles.Contains(typeof(Seer)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Seer), false);
+                        break;
+                    case RLRoleEntry.Snitch:
+                        if (choosedRoles.Contains(typeof(Snitch))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Snitch), true);
+                        break;
+                    case RLRoleEntry.Spy:
+                        if (choosedRoles.Contains(typeof(Spy)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Spy), false);
+                        break;
+                    case RLRoleEntry.Tracker:
+                        if (choosedRoles.Contains(typeof(Tracker)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Tracker), false);
+                        break;
+                    case RLRoleEntry.Trapper:
+                        if (choosedRoles.Contains(typeof(Trapper)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Trapper), false);
+                        break;
+                    case RLRoleEntry.Inspector:
+                        if (choosedRoles.Contains(typeof(Inspector)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Inspector), false);
+                        break;
+                    case RLRoleEntry.Lookout:
+                        if (choosedRoles.Contains(typeof(Lookout)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Lookout), false);
+                        break;
+                    case RLRoleEntry.Hunter:
+                        if (choosedRoles.Contains(typeof(Hunter)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Hunter), false);
+                        break;
+                    case RLRoleEntry.Sheriff:
+                        if (choosedRoles.Contains(typeof(Sheriff)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Sheriff), false);
+                        break;
+                    case RLRoleEntry.VampireHunter:
+                        if (choosedRoles.Contains(typeof(VampireHunter))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(VampireHunter), true);
+                        break;
+                    case RLRoleEntry.Veteran:
+                        if (choosedRoles.Contains(typeof(Veteran)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Veteran), false);
+                        break;
+                    case RLRoleEntry.Vigilante:
+                        if (choosedRoles.Contains(typeof(Vigilante)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Vigilante), false);
+                        break;
+                    case RLRoleEntry.Deputy:
+                        if (choosedRoles.Contains(typeof(Deputy))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Deputy), true);
+                        break;
+                    case RLRoleEntry.Altruist:
+                        if (choosedRoles.Contains(typeof(Altruist))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Altruist), true);
+                        break;
+                    case RLRoleEntry.Medic:
+                        if (choosedRoles.Contains(typeof(Medic))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Medic), true);
+                        break;
+                    case RLRoleEntry.Crusader:
+                        if (choosedRoles.Contains(typeof(Crusader)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Crusader), false);
+                        break;
+                    case RLRoleEntry.Cleric:
+                        if (choosedRoles.Contains(typeof(Cleric)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Cleric), false);
+                        break;
+                    case RLRoleEntry.Bodyguard:
+                        if (choosedRoles.Contains(typeof(Bodyguard)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Bodyguard), false);
+                        break;
+                    case RLRoleEntry.Engineer:
+                        if (choosedRoles.Contains(typeof(Engineer)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Engineer), false);
+                        break;
+                    case RLRoleEntry.Imitator:
+                        if (choosedRoles.Contains(typeof(Imitator))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Imitator), true);
+                        break;
+                    case RLRoleEntry.Medium:
+                        if (choosedRoles.Contains(typeof(Medium)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Medium), false);
+                        break;
+                    case RLRoleEntry.Transporter:
+                        if (choosedRoles.Contains(typeof(Transporter)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Transporter), false);
+                        break;
+                    case RLRoleEntry.TavernKeeper:
+                        if (choosedRoles.Contains(typeof(TavernKeeper)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(TavernKeeper), false);
+                        break;
+                    case RLRoleEntry.Undercover:
+                        if (choosedRoles.Contains(typeof(Undercover))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Undercover), true);
+                        break;
+                    case RLRoleEntry.Mayor:
+                        if (choosedRoles.Contains(typeof(Mayor))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Mayor), true);
+                        break;
+                    case RLRoleEntry.Oracle:
+                        if (choosedRoles.Contains(typeof(Oracle))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Oracle), true);
+                        break;
+                    case RLRoleEntry.Prosecutor:
+                        if (choosedRoles.Contains(typeof(Prosecutor))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Prosecutor), true);
+                        break;
+                    case RLRoleEntry.Swapper:
+                        if (choosedRoles.Contains(typeof(Swapper))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Swapper), true);
+                        break;
+                    case RLRoleEntry.Monarch:
+                        if (choosedRoles.Contains(typeof(Monarch))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Monarch), true);
+                        break;
+                    case RLRoleEntry.Amnesiac:
+                        if (choosedRoles.Contains(typeof(Amnesiac)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Amnesiac), false);
+                        break;
+                    case RLRoleEntry.GuardianAngel:
+                        if (choosedRoles.Contains(typeof(GuardianAngel)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(GuardianAngel), false);
+                        break;
+                    case RLRoleEntry.Survivor:
+                        if (choosedRoles.Contains(typeof(Survivor)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Survivor), false);
+                        break;
+                    case RLRoleEntry.CursedSoul:
+                        if (choosedRoles.Contains(typeof(CursedSoul)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(CursedSoul), false);
+                        break;
+                    case RLRoleEntry.Executioner:
+                        if (choosedRoles.Contains(typeof(Executioner)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Executioner), false);
+                        break;
+                    case RLRoleEntry.Jester:
+                        if (choosedRoles.Contains(typeof(Jester)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Jester), false);
+                        break;
+                    case RLRoleEntry.Witch:
+                        if (choosedRoles.Contains(typeof(Witch))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Witch), true);
+                        break;
+                    case RLRoleEntry.Doomsayer:
+                        if (choosedRoles.Contains(typeof(Doomsayer)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Doomsayer), false);
+                        break;
+                    case RLRoleEntry.Pirate:
+                        if (choosedRoles.Contains(typeof(Pirate))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Pirate), true);
+                        break;
+                    case RLRoleEntry.Inquisitor:
+                        if (choosedRoles.Contains(typeof(Inquisitor))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Inquisitor), true);
+                        break;
+                    case RLRoleEntry.Arsonist:
+                        if (choosedRoles.Contains(typeof(Arsonist))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Arsonist), true);
+                        break;
+                    case RLRoleEntry.Glitch:
+                        if (choosedRoles.Contains(typeof(Glitch))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Glitch), true);
+                        break;
+                    case RLRoleEntry.Werewolf:
+                        if (choosedRoles.Contains(typeof(Werewolf))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Werewolf), true);
+                        break;
+                    case RLRoleEntry.SerialKiller:
+                        if (choosedRoles.Contains(typeof(SerialKiller))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(SerialKiller), true);
+                        break;
+                    case RLRoleEntry.Juggernaut:
+                        if (choosedRoles.Contains(typeof(Juggernaut))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Juggernaut), true);
+                        break;
+                    case RLRoleEntry.Vampire:
+                        if (choosedRoles.Contains(typeof(Vampire))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Vampire), true);
+                        break;
+                    case RLRoleEntry.Necromancer:
+                        if (choosedRoles.Contains(typeof(Roles.Necromancer))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Roles.Necromancer), true);
+                        break;
+                    case RLRoleEntry.Jackal:
+                        if (choosedRoles.Contains(typeof(Jackal))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Jackal), true);
+                        break;
+                    case RLRoleEntry.Plaguebearer:
+                        if (choosedRoles.Contains(typeof(Plaguebearer))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Plaguebearer), true);
+                        break;
+                    case RLRoleEntry.Baker:
+                        if (choosedRoles.Contains(typeof(Baker))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Baker), true);
+                        break;
+                    case RLRoleEntry.Berserker:
+                        if (choosedRoles.Contains(typeof(Berserker))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Berserker), true);
+                        break;
+                    case RLRoleEntry.SoulCollector:
+                        if (choosedRoles.Contains(typeof(SoulCollector))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(SoulCollector), true);
+                        break;
+                    case RLRoleEntry.Impostor:
+                        role = (typeof(Impostor), false);
+                        break;
+                    case RLRoleEntry.Escapist:
+                        if (choosedRoles.Contains(typeof(Escapist)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Escapist), false);
+                        break;
+                    case RLRoleEntry.Grenadier:
+                        if (choosedRoles.Contains(typeof(Grenadier))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Grenadier), true);
+                        break;
+                    case RLRoleEntry.Morphling:
+                        if (choosedRoles.Contains(typeof(Morphling)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Morphling), false);
+                        break;
+                    case RLRoleEntry.Swooper:
+                        if (choosedRoles.Contains(typeof(Swooper)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Swooper), false);
+                        break;
+                    case RLRoleEntry.Venerer:
+                        if (choosedRoles.Contains(typeof(Venerer))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Venerer), true);
+                        break;
+                    case RLRoleEntry.Bomber:
+                        if (choosedRoles.Contains(typeof(Bomber))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Bomber), true);
+                        break;
+                    case RLRoleEntry.Warlock:
+                        if (choosedRoles.Contains(typeof(Warlock)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Warlock), false);
+                        break;
+                    case RLRoleEntry.Poisoner:
+                        if (choosedRoles.Contains(typeof(Poisoner))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Poisoner), true);
+                        break;
+                    case RLRoleEntry.Sniper:
+                        if (choosedRoles.Contains(typeof(Sniper))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Sniper), true);
+                        break;
+                    case RLRoleEntry.Blackmailer:
+                        if (choosedRoles.Contains(typeof(Blackmailer))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Blackmailer), true);
+                        break;
+                    case RLRoleEntry.Janitor:
+                        if (choosedRoles.Contains(typeof(Janitor)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Janitor), false);
+                        break;
+                    case RLRoleEntry.Miner:
+                        if (choosedRoles.Contains(typeof(Miner))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Miner), true);
+                        break;
+                    case RLRoleEntry.Undertaker:
+                        if (choosedRoles.Contains(typeof(Undertaker))) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Undertaker), true);
+                        break;
+                }
+                if (impostorRoles.Contains(role.Item1)) impostors += 1;
+                if (role.Item1 == typeof(VampireHunter)) vhFrom = entry;
+                choosedRoles.Add(role.Item1);
+                if ((role.Item2 || CustomGameOptions.AllUnique) && role.Item1 != typeof(Crewmate) && role.Item1 != typeof(Impostor))
+                {
+                    anyBucket.RemoveAll(x => x == role);
+                    randomCrewmateBucket.RemoveAll(x => x == role);
+                    crewmateInvestigativeBucket.RemoveAll(x => x == role);
+                    crewmateKillingBucket.RemoveAll(x => x == role);
+                    crewmateProtectiveBucket.RemoveAll(x => x == role);
+                    crewmateSupportBucket.RemoveAll(x => x == role);
+                    crewmatePowerBucket.RemoveAll(x => x == role);
+                    randomNeutralBucket.RemoveAll(x => x == role);
+                    neutralBenignBucket.RemoveAll(x => x == role);
+                    neutralEvilBucket.RemoveAll(x => x == role);
+                    neutralChaosBucket.RemoveAll(x => x == role);
+                    neutralKillingBucket.RemoveAll(x => x == role);
+                    neutralProselyteBucket.RemoveAll(x => x == role);
+                    neutralApocalypseBucket.RemoveAll(x => x == role);
+                    randomImpostorBucket.RemoveAll(x => x == role);
+                    impostorConcealingBucket.RemoveAll(x => x == role);
+                    impostorKillingBucket.RemoveAll(x => x == role);
+                    impostorSupportBucket.RemoveAll(x => x == role);
+                }
+                if (reservedImpostors + impostors >= CustomGameOptions.MaxImps)
+                {
+                    anyBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
+                }
+            }
+            for (int i = 0; i < choosedRoles.Count; i++)
+            {
+                if (choosedRoles[i] == typeof(VampireHunter) && !choosedRoles.Contains(typeof(Vampire)) && !choosedRoles.Contains(typeof(Roles.Necromancer)))
+                {
+                    switch (vhFrom)
+                    {
+                        case RLRoleEntry.VampireHunter:
+                        case RLRoleEntry.Any:
+                            choosedRoles[i] = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)].Item1;
+                            break;
+                        case RLRoleEntry.RandomCrewmate:
+                            choosedRoles[i] = randomCrewmateBucket.Count > 0 ? randomCrewmateBucket[Random.RandomRangeInt(0, randomCrewmateBucket.Count)].Item1 : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)].Item1;
+                            break;
+                        case RLRoleEntry.CrewmateKilling:
+                            choosedRoles[i] = crewmateKillingBucket.Count > 0 ? crewmateKillingBucket[Random.RandomRangeInt(0, crewmateKillingBucket.Count)].Item1 : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)].Item1;
+                            break;
+                    }
+                }
+                Role.GenRole<Role>(choosedRoles[i], players);
+            }
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (player.Is(Faction.Impostors))
+                {
+                    player.Data.Role.TeamType = RoleTeamTypes.Impostor;
+                    RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
+                }
+                else
+                {
+                    player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                    RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
+                }
+            }
+            #endregion
         }
 
 
@@ -1905,6 +2879,18 @@ namespace TownOfUs
                                     case RoleEnum.Lookout:
                                         CrewmateRoles.LookoutMod.PerformKill.Prefix(__instance);
                                         break;
+                                    case RoleEnum.Cleric:
+                                        Role.GetRole<Cleric>(controled1).ClosestPlayer = target1;
+                                        CrewmateRoles.ClericMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.Crusader:
+                                        Role.GetRole<Crusader>(controled1).ClosestPlayer = target1;
+                                        CrewmateRoles.CrusaderMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.Bodyguard:
+                                        Role.GetRole<Bodyguard>(controled1).ClosestPlayer = target1;
+                                        CrewmateRoles.BodyguardMod.PerformKill.Prefix(__instance);
+                                        break;
                                     default:
                                         Utils.Interact(controled1, target1);
                                         break;
@@ -1955,6 +2941,81 @@ namespace TownOfUs
                     case CustomRPC.KillAbilityUsed:
                         var abilityTarget = Role.GetRole(Utils.PlayerById(reader.ReadByte()));
                         abilityTarget.KilledByAbility = true;
+                        break;
+                    case CustomRPC.DeputyShoot:
+                        var deputy = Utils.PlayerById(reader.ReadByte());
+                        var deputyTarget = Utils.PlayerById(reader.ReadByte());
+                        Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Deputy));
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"Deputy Has Shot {deputyTarget.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole<Deputy>(deputy).Revealed = true;
+                        if (!deputyTarget.Is(RoleEnum.Pestilence) && !deputyTarget.Is(RoleEnum.Famine) && !deputyTarget.Is(RoleEnum.War) && !deputyTarget.Is(RoleEnum.Death))
+                        {
+                            deputyTarget.Exiled();
+                            SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
+                            if (deputyTarget.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
+                            {
+                                Objective.GetObjective<Lover>(deputyTarget).OtherLover.Player.Exiled();
+                            }
+                            if (deputyTarget.Is(FactionOverride.Recruit) && CustomGameOptions.RecruistLifelink)
+                            {
+                                var recruit2 = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && x.PlayerId != deputyTarget.PlayerId);
+                                if (recruit2 != null) recruit2.Exiled();
+                            }
+                            if (deputyTarget.Is(RoleEnum.JKNecromancer))
+                            {
+                                foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead)))
+                                {
+                                    undead.Exiled();
+                                }
+                            }
+                            if (CustomGameOptions.MisfireKillsDeputy && deputyTarget.Is(Faction.Crewmates) && deputyTarget.Is(FactionOverride.None) && !deputyTarget.Is(ObjectiveEnum.ImpostorAgent) && !deputyTarget.Is(ObjectiveEnum.ApocalypseAgent))
+                            {
+                                deputy.Exiled();
+                                if (deputy.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
+                                {
+                                    Objective.GetObjective<Lover>(deputy).OtherLover.Player.Exiled();
+                                }
+                                if (deputy.Is(FactionOverride.Recruit) && CustomGameOptions.RecruistLifelink)
+                                {
+                                    var recruit2 = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && x.PlayerId != deputy.PlayerId);
+                                    if (recruit2 != null) recruit2.Exiled();
+                                }
+                            }
+                        }
+                        break;
+
+                    case CustomRPC.Fortify:
+                        var crusader = Role.GetRole<Crusader>(Utils.PlayerById(reader.ReadByte()));
+                        var fortified = reader.ReadByte();
+                        crusader.FortifiedPlayers.Add(fortified);
+                        break;
+
+                    case CustomRPC.Unfortify:
+                        var crusader1 = Role.GetRole<Crusader>(Utils.PlayerById(reader.ReadByte()));
+                        var fortified1 = reader.ReadByte();
+                        crusader1.FortifiedPlayers.Remove(fortified1);
+                        break;
+
+                    case CustomRPC.Barrier:
+                        var cleric = Role.GetRole<Cleric>(Utils.PlayerById(reader.ReadByte()));
+                        var barriered = Utils.PlayerById(reader.ReadByte());
+                        cleric.BarrieredPlayer = barriered;
+                        break;
+
+                    case CustomRPC.Unbarrier:
+                        var cleric1 = Role.GetRole<Cleric>(Utils.PlayerById(reader.ReadByte()));
+                        cleric1.BarrieredPlayer = null;
+                        break;
+
+                    case CustomRPC.Guard:
+                        var bodyguard = Role.GetRole<Bodyguard>(Utils.PlayerById(reader.ReadByte()));
+                        var guarded = Utils.PlayerById(reader.ReadByte());
+                        bodyguard.GuardedPlayer = guarded;
+                        break;
+
+                    case CustomRPC.Unguard:
+                        var bodyguard1 = Role.GetRole<Bodyguard>(Utils.PlayerById(reader.ReadByte()));
+                        bodyguard1.GuardedPlayer = null;
                         break;
                 }
             }
@@ -2025,7 +3086,7 @@ namespace TownOfUs
 
                 if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return;
 
-                if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny)
+                if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny || CustomGameOptions.GameMode == GameMode.RoleList)
                 {
                     PhantomOn = Check(CustomGameOptions.PhantomOn);
                     HaunterOn = Check(CustomGameOptions.HaunterOn);
@@ -2133,6 +3194,18 @@ namespace TownOfUs
 
                     if (CustomGameOptions.LookoutOn > 0)
                         CrewmatesRoles.Add((typeof(Lookout), CustomGameOptions.LookoutOn, false));
+
+                    if (CustomGameOptions.DeputyOn > 0)
+                        CrewmatesRoles.Add((typeof(Deputy), CustomGameOptions.DeputyOn, true));
+
+                    if (CustomGameOptions.ClericOn > 0)
+                        CrewmatesRoles.Add((typeof(Cleric), CustomGameOptions.ClericOn, false));
+
+                    if (CustomGameOptions.BodyguardOn > 0)
+                        CrewmatesRoles.Add((typeof(Bodyguard), CustomGameOptions.BodyguardOn, false));
+
+                    if (CustomGameOptions.CrusaderOn > 0)
+                        CrewmatesRoles.Add((typeof(Crusader), CustomGameOptions.CrusaderOn, false));
                     #endregion
                     #region Neutral Roles
                     if (CustomGameOptions.JesterOn > 0)
@@ -2260,7 +3333,7 @@ namespace TownOfUs
                     if (Check(CustomGameOptions.FrostyOn))
                         CrewmateModifiers.Add((typeof(Frosty), CustomGameOptions.FrostyOn));
 
-                    if (Check(CustomGameOptions.ImpostorAgentOn))
+                    if (Check(CustomGameOptions.ImpostorAgentOn) && CustomGameOptions.SpawnImps)
                         ObjectiveCrewmateModifiers.Add((typeof(ImpostorAgent), CustomGameOptions.ImpostorAgentOn));
 
                     if (Check(CustomGameOptions.FamousOn))
@@ -2395,6 +3468,18 @@ namespace TownOfUs
 
                     if (CustomGameOptions.LookoutOn > 0)
                         CrewmatesRoles.Add((typeof(Lookout), CustomGameOptions.LookoutOn, false));
+
+                    if (CustomGameOptions.DeputyOn > 0)
+                        CrewmatesRoles.Add((typeof(Deputy), CustomGameOptions.DeputyOn, true));
+
+                    if (CustomGameOptions.ClericOn > 0)
+                        CrewmatesRoles.Add((typeof(Cleric), CustomGameOptions.ClericOn, false));
+
+                    if (CustomGameOptions.BodyguardOn > 0)
+                        CrewmatesRoles.Add((typeof(Bodyguard), CustomGameOptions.BodyguardOn, false));
+
+                    if (CustomGameOptions.CrusaderOn > 0)
+                        CrewmatesRoles.Add((typeof(Crusader), CustomGameOptions.CrusaderOn, false));
                     #endregion
                     #region Neutral Roles
                     if (CustomGameOptions.JesterOn > 0)
@@ -2521,6 +3606,7 @@ namespace TownOfUs
                 else if (CustomGameOptions.GameMode == GameMode.Cultist) GenEachRoleCultist(infected.ToList());
                 else if (CustomGameOptions.GameMode == GameMode.Teams) GenEachRoleTeams(infected.ToList());
                 else if (CustomGameOptions.GameMode == GameMode.SoloKiller) GenEachRoleKiller(infected.ToList());
+                else if (CustomGameOptions.GameMode == GameMode.RoleList) GenEachRoleList(infected.ToList());
                 else GenEachRole(infected.ToList());
             }
         }

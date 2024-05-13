@@ -56,6 +56,12 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
                         role.LastKill.AddSeconds(CustomGameOptions.VestKCReset - (CustomGameOptions.RitualKillCooldown + CustomGameOptions.RitualKillCooldownIncrease * role.NecroKills));
                         return false;
                     }
+                    else if (interact2[5] == true)
+                    {
+                        role.LastKill = DateTime.UtcNow;
+                        role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.BarrierCooldownReset - (CustomGameOptions.RitualKillCooldown + CustomGameOptions.RitualKillCooldownIncrease * role.NecroKills));
+                        return false;
+                    }
                     return false;
                 }
                 else return false;

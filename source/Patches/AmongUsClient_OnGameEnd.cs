@@ -507,10 +507,8 @@ namespace TownOfUs
             }
             foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(FactionOverride.Undead) || x.Is(FactionOverride.Recruit)) && !x.Is(RoleEnum.Phantom)))
             {
-                foreach (var winData in TempData.winners)
-                {
-                    if (winData.ColorId == player.GetDefaultOutfit().ColorId) TempData.winners.Remove(winData);
-                }
+                System.Func<WinningPlayerData, bool> remove = x => x.ColorId == player.GetDefaultOutfit().ColorId;
+                TempData.winners.RemoveAll(remove);
             }
             foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
             {

@@ -10,7 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Linq;
 
-namespace TownOfUs.CrewmateRoles.MayorMod
+namespace TownOfUs
 {
     [HarmonyPatch(typeof(MeetingHud))]
     public class RegisterExtraVotes

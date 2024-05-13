@@ -65,6 +65,12 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
                 role.LastKilled = role.LastKilled.AddSeconds(CustomGameOptions.VestKCReset - CustomGameOptions.RampageKillCd);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                role.LastKilled = DateTime.UtcNow;
+                role.LastKilled = role.LastKilled.AddSeconds(CustomGameOptions.BarrierCooldownReset - CustomGameOptions.RampageKillCd);
+                return false;
+            }
             else if (interact[3] == true) return false;
             return false;
         }

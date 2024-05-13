@@ -118,17 +118,17 @@ namespace TownOfUs.CustomOption
             var builder = new StringBuilder();
             foreach (var option in AllOptions)
             {
-                if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
+                if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header || option.Type == CustomOptionType.Spacing) continue;
                 builder.AppendLine(option.Name);
                 builder.AppendLine(option.Value.ToString());
             }
 
 
-            var text = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}-temp");
+            var text = Path.Combine(Application.persistentDataPath, $"GameSettingsJK-Slot{slotId}-temp");
             try
             {
                 File.WriteAllText(text, builder.ToString());
-                var text2 = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}");
+                var text2 = Path.Combine(Application.persistentDataPath, $"GameSettingsJK-Slot{slotId}");
                 File.Delete(text2);
                 File.Move(text, text2);
                 Cancel(FlashGreen);

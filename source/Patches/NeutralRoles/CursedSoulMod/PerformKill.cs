@@ -404,6 +404,26 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 oracleRole.LastConfessed = DateTime.UtcNow;
             }
 
+            else if (targetRole == RoleEnum.Cleric)
+            {
+                var clericRole = Role.GetRole<Cleric>(cursedSoul);
+                clericRole.BarrieredPlayer = null;
+                clericRole.LastBarrier = DateTime.UtcNow;
+            }
+
+            else if (targetRole == RoleEnum.Crusader)
+            {
+                var crusaderRole = Role.GetRole<Crusader>(cursedSoul);
+                crusaderRole.LastFortified = DateTime.UtcNow;
+            }
+
+            else if (targetRole == RoleEnum.Bodyguard)
+            {
+                var bodyguardRole = Role.GetRole<Bodyguard>(cursedSoul);
+                bodyguardRole.GuardedPlayer = null;
+                bodyguardRole.LastGuard = DateTime.UtcNow;
+            }
+
             else if (targetRole == RoleEnum.Aurial)
             {
                 var aurialRole = Role.GetRole<Aurial>(cursedSoul);
