@@ -66,6 +66,10 @@ namespace TownOfUs.Roles
                 if (CustomGameOptions.TavernKeeperOn > 0) ColorMapping.Add("Tavern Keeper", Colors.TavernKeeper);
                 if (CustomGameOptions.UndercoverOn > 0) ColorMapping.Add("Undercover", Colors.Undercover);
                 if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
+                if (CustomGameOptions.DeputyOn > 0) ColorMapping.Add("Deputy", Colors.Deputy);
+                if (CustomGameOptions.BodyguardOn > 0) ColorMapping.Add("Bodyguard", Colors.Bodyguard);
+                if (CustomGameOptions.CrusaderOn > 0) ColorMapping.Add("Crusader", Colors.Crusader);
+                if (CustomGameOptions.ClericOn > 0) ColorMapping.Add("Cleric", Colors.Cleric);
 
                 if (CustomGameOptions.DoomsayerGuessImpostors && !PlayerControl.LocalPlayer.Is(Faction.Impostors))
                 {
@@ -128,6 +132,102 @@ namespace TownOfUs.Roles
                 if ((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.DoomsayerGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.DoomsayerGuessImpostors)) ColorMapping.Add("Berserker", Colors.Berserker);
                 if ((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.DoomsayerGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.DoomsayerGuessImpostors)) ColorMapping.Add("Soul Collector", Colors.SoulCollector);
                 if (CustomGameOptions.ApocalypseAgentOn > 0 && (((CustomGameOptions.PlaguebearerOn > 0 || CustomGameOptions.BakerOn > 0 || CustomGameOptions.BerserkerOn > 0 || CustomGameOptions.SoulCollectorOn > 0) && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.DoomsayerGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.DoomsayerGuessImpostors))) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
+            }
+            else if (CustomGameOptions.GameMode == GameMode.RoleList)
+            {
+                ColorMapping.Add("Crewmate", Colors.Crewmate);
+                ColorMapping.Add("Mayor", Colors.Mayor);
+                ColorMapping.Add("Sheriff", Colors.Sheriff);
+                ColorMapping.Add("Engineer", Colors.Engineer);
+                ColorMapping.Add("Swapper", Colors.Swapper);
+                ColorMapping.Add("Investigator", Colors.Investigator);
+                ColorMapping.Add("Medic", Colors.Medic);
+                ColorMapping.Add("Seer", Colors.Seer);
+                ColorMapping.Add("Spy", Colors.Spy);
+                ColorMapping.Add("Snitch", Colors.Snitch);
+                ColorMapping.Add("Altruist", Colors.Altruist);
+                ColorMapping.Add("Vigilante", Colors.Vigilante);
+                ColorMapping.Add("Veteran", Colors.Veteran);
+                ColorMapping.Add("Hunter", Colors.Hunter);
+                ColorMapping.Add("Tracker", Colors.Tracker);
+                ColorMapping.Add("Trapper", Colors.Trapper);
+                ColorMapping.Add("Transporter", Colors.Transporter);
+                ColorMapping.Add("Medium", Colors.Medium);
+                ColorMapping.Add("Mystic", Colors.Mystic);
+                ColorMapping.Add("Detective", Colors.Detective);
+                ColorMapping.Add("Imitator", Colors.Imitator);
+                ColorMapping.Add("Vampire Hunter", Colors.VampireHunter);
+                ColorMapping.Add("Prosecutor", Colors.Prosecutor);
+                ColorMapping.Add("Oracle", Colors.Oracle);
+                ColorMapping.Add("Aurial", Colors.Aurial);
+                ColorMapping.Add("Inspector", Colors.Inspector);
+                ColorMapping.Add("Monarch", Colors.Monarch);
+                ColorMapping.Add("Tavern Keeper", Colors.TavernKeeper);
+                ColorMapping.Add("Undercover", Colors.Undercover);
+                ColorMapping.Add("Lookout", Colors.Lookout);
+                ColorMapping.Add("Deputy", Colors.Deputy);
+                ColorMapping.Add("Bodyguard", Colors.Bodyguard);
+                ColorMapping.Add("Crusader", Colors.Crusader);
+                ColorMapping.Add("Cleric", Colors.Cleric);
+
+                if (CustomGameOptions.DoomsayerGuessImpostors && !PlayerControl.LocalPlayer.Is(Faction.Impostors))
+                {
+                    ColorMapping.Add("Impostor", Colors.Impostor);
+                    ColorMapping.Add("Janitor", Colors.Impostor);
+                    ColorMapping.Add("Morphling", Colors.Impostor);
+                    ColorMapping.Add("Miner", Colors.Impostor);
+                    ColorMapping.Add("Swooper", Colors.Impostor);
+                    ColorMapping.Add("Undertaker", Colors.Impostor);
+                    ColorMapping.Add("Escapist", Colors.Impostor);
+                    ColorMapping.Add("Grenadier", Colors.Impostor);
+                    ColorMapping.Add("Traitor", Colors.Impostor);
+                    ColorMapping.Add("Blackmailer", Colors.Impostor);
+                    ColorMapping.Add("Bomber", Colors.Impostor);
+                    ColorMapping.Add("Warlock", Colors.Impostor);
+                    ColorMapping.Add("Venerer", Colors.Impostor);
+                    ColorMapping.Add("Poisoner", Colors.Impostor);
+                    ColorMapping.Add("Sniper", Colors.Impostor);
+                    if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.ImpostorAgent);
+                }
+
+                if (CustomGameOptions.DoomsayerGuessNeutralBenign)
+                {
+                    ColorMapping.Add("Amnesiac", Colors.Amnesiac);
+                    ColorMapping.Add("Guardian Angel", Colors.GuardianAngel);
+                    ColorMapping.Add("Cursed Soul", Colors.CursedSoul);
+                    ColorMapping.Add("Survivor", Colors.Survivor);
+                }
+                if (CustomGameOptions.DoomsayerGuessNeutralEvil)
+                {
+                    ColorMapping.Add("Executioner", Colors.Executioner);
+                    ColorMapping.Add("Jester", Colors.Jester);
+                    ColorMapping.Add("Witch", Colors.Witch);
+                }
+                if (CustomGameOptions.DoomsayerGuessNeutralChaos)
+                {
+                    if (!CustomGameOptions.AllUnique) ColorMapping.Add("Doomsayer", Colors.Doomsayer);
+                    ColorMapping.Add("Pirate", Colors.Pirate);
+                    ColorMapping.Add("Inquisitor", Colors.Inquisitor);
+                }
+                if (CustomGameOptions.DoomsayerGuessNeutralKilling)
+                {
+                    ColorMapping.Add("Arsonist", Colors.Arsonist);
+                    ColorMapping.Add("The Glitch", Colors.Glitch);
+                    ColorMapping.Add("Werewolf", Colors.Werewolf);
+                    ColorMapping.Add("Juggernaut", Colors.Juggernaut);
+                    ColorMapping.Add("Serial Killer", Colors.SerialKiller);
+                    ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                    ColorMapping.Add("Baker", Colors.Baker);
+                    ColorMapping.Add("Berserker", Colors.Berserker);
+                    ColorMapping.Add("Soul Collector", Colors.SoulCollector);
+                    if (CustomGameOptions.ApocalypseAgentOn > 0) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
+                }
+                if (CustomGameOptions.DoomsayerGuessNeutralProselyte)
+                {
+                    ColorMapping.Add("Vampire", Colors.Vampire);
+                    ColorMapping.Add("Jackal", Colors.Jackal);
+                    ColorMapping.Add("Necromancer", Colors.Necromancer);
+                }
             }
 
             SortedColorMapping = ColorMapping.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);

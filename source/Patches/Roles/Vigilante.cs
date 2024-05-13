@@ -49,7 +49,6 @@ namespace TownOfUs.Roles
                     if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
                     if (CustomGameOptions.SniperOn > 0) ColorMapping.Add("Sniper", Colors.Impostor);
                     if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.ImpostorAgent);
-                    if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
                 }
 
                 if (CustomGameOptions.VigilanteGuessNeutralBenign)
@@ -109,6 +108,64 @@ namespace TownOfUs.Roles
                     ColorMapping.Add("The Glitch", Colors.Glitch);
                     ColorMapping.Add("Werewolf", Colors.Werewolf);
                     if (CustomGameOptions.HiddenRoles) ColorMapping.Add("Juggernaut", Colors.Juggernaut);
+                }
+            }
+            else if (CustomGameOptions.GameMode == GameMode.RoleList)
+            {
+                ColorMapping.Add("Impostor", Colors.Impostor);
+                ColorMapping.Add("Janitor", Colors.Impostor);
+                ColorMapping.Add("Morphling", Colors.Impostor);
+                ColorMapping.Add("Miner", Colors.Impostor);
+                ColorMapping.Add("Swooper", Colors.Impostor);
+                ColorMapping.Add("Undertaker", Colors.Impostor);
+                ColorMapping.Add("Escapist", Colors.Impostor);
+                ColorMapping.Add("Grenadier", Colors.Impostor);
+                ColorMapping.Add("Traitor", Colors.Impostor);
+                ColorMapping.Add("Blackmailer", Colors.Impostor);
+                ColorMapping.Add("Bomber", Colors.Impostor);
+                ColorMapping.Add("Warlock", Colors.Impostor);
+                ColorMapping.Add("Venerer", Colors.Impostor);
+                ColorMapping.Add("Poisoner", Colors.Impostor);
+                ColorMapping.Add("Sniper", Colors.Impostor);
+                if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.ImpostorAgent);
+
+                if (CustomGameOptions.VigilanteGuessNeutralBenign)
+                {
+                    ColorMapping.Add("Amnesiac", Colors.Amnesiac);
+                    ColorMapping.Add("Guardian Angel", Colors.GuardianAngel);
+                    ColorMapping.Add("Cursed Soul", Colors.CursedSoul);
+                    ColorMapping.Add("Survivor", Colors.Survivor);
+                }
+                if (CustomGameOptions.VigilanteGuessNeutralEvil)
+                {
+                    ColorMapping.Add("Executioner", Colors.Executioner);
+                    ColorMapping.Add("Jester", Colors.Jester);
+                    ColorMapping.Add("Witch", Colors.Witch);
+                }
+                if (CustomGameOptions.VigilanteGuessNeutralChaos)
+                {
+                    ColorMapping.Add("Doomsayer", Colors.Doomsayer);
+                    ColorMapping.Add("Pirate", Colors.Pirate);
+                    ColorMapping.Add("Inquisitor", Colors.Inquisitor);
+                }
+                if (CustomGameOptions.VigilanteGuessNeutralKilling)
+                {
+                    ColorMapping.Add("Arsonist", Colors.Arsonist);
+                    ColorMapping.Add("The Glitch", Colors.Glitch);
+                    ColorMapping.Add("Werewolf", Colors.Werewolf);
+                    ColorMapping.Add("Juggernaut", Colors.Juggernaut);
+                    ColorMapping.Add("Serial Killer", Colors.SerialKiller);
+                    ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                    ColorMapping.Add("Baker", Colors.Baker);
+                    ColorMapping.Add("Berserker", Colors.Berserker);
+                    ColorMapping.Add("Soul Collector", Colors.SoulCollector);
+                    if (CustomGameOptions.ApocalypseAgentOn > 0) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
+                }
+                if (CustomGameOptions.VigilanteGuessNeutralProselyte)
+                {
+                    ColorMapping.Add("Vampire", Colors.Vampire);
+                    ColorMapping.Add("Jackal", Colors.Jackal);
+                    ColorMapping.Add("Necromancer", Colors.Necromancer);
                 }
             }
             else
