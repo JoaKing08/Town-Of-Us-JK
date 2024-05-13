@@ -72,6 +72,9 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (imitatorRole == RoleEnum.TavernKeeper) new TavernKeeper(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Inspector) new Inspector(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Lookout) new Lookout(ImitatingPlayer);
+            if (imitatorRole == RoleEnum.Bodyguard) new Bodyguard(ImitatingPlayer);
+            if (imitatorRole == RoleEnum.Crusader) new Crusader(ImitatingPlayer);
+            if (imitatorRole == RoleEnum.Cleric) new Cleric(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Medic)
             {
                 var medic = new Medic(ImitatingPlayer);

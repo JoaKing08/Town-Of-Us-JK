@@ -1721,7 +1721,7 @@ namespace TownOfUs.CustomOption
             BarrierCooldown =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Barrier Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             BarrierCooldownReset =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Barrier Kill Cooldown Reset", 10f, 2.5f, 60f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Barrier Kill Cooldown Reset", 10f, 2.5f, 60f, 0.5f, CooldownFormat);
 
             Engineer =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFA60AFF>Engineer</color>");
