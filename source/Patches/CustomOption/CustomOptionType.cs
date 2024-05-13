@@ -6,8 +6,7 @@ namespace TownOfUs.CustomOption
         Toggle,
         Number,
         String,
-        Button,
-        Spacing
+        Button
     }
     public enum MultiMenu
     {

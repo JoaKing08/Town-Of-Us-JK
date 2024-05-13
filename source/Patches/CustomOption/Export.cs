@@ -118,7 +118,7 @@ namespace TownOfUs.CustomOption
             var builder = new StringBuilder();
             foreach (var option in AllOptions)
             {
-                if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header || option.Type == CustomOptionType.Spacing) continue;
+                if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
                 builder.AppendLine(option.Name);
                 builder.AppendLine(option.Value.ToString());
             }

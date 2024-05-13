@@ -77,7 +77,6 @@ namespace TownOfUs.CustomOption
                 switch (option.Type)
                 {
                     case CustomOptionType.Header:
-                    case CustomOptionType.Spacing:
                         var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
                         toggle.transform.GetChild(1).gameObject.SetActive(false);
                         toggle.transform.GetChild(2).gameObject.SetActive(false);

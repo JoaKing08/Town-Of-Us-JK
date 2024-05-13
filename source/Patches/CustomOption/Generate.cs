@@ -731,7 +731,6 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption BarrierCooldownReset;
 
         public static CustomHeaderOption RoleListSettings;
-        public static CustomSpacingOption RoleListSpacing0;
         public static CustomStringOption RoleEntry0;
         public static CustomStringOption RoleEntry1;
         public static CustomStringOption RoleEntry2;
@@ -747,7 +746,7 @@ namespace TownOfUs.CustomOption
         public static CustomStringOption RoleEntry12;
         public static CustomStringOption RoleEntry13;
         public static CustomStringOption RoleEntry14;
-        public static CustomSpacingOption RoleListSpacing1;
+        public static CustomHeaderOption RoleListSpacing0;
         public static CustomStringOption BanEntry0;
         public static CustomStringOption BanEntry1;
         public static CustomStringOption BanEntry2;
@@ -763,7 +762,7 @@ namespace TownOfUs.CustomOption
         public static CustomStringOption BanEntry12;
         public static CustomStringOption BanEntry13;
         public static CustomStringOption BanEntry14;
-        public static CustomSpacingOption RoleListSpacing2;
+        public static CustomHeaderOption RoleListSpacing1;
         public static CustomNumberOption MaxImps;
         public static CustomToggleOption AllUnique;
 
@@ -1406,7 +1405,7 @@ namespace TownOfUs.CustomOption
             RoleEntry14 =
                 new CustomStringOption(num++, MultiMenu.main, "Role Entry 15", RoleEntries);
             RoleListSpacing0 =
-                new CustomSpacingOption(num++, MultiMenu.main);
+                new CustomHeaderOption(num++, MultiMenu.main, "");
             BanEntry0 =
                 new CustomStringOption(num++, MultiMenu.main, "Ban Entry 1", BanEntries);
             BanEntry1 =
@@ -1438,7 +1437,7 @@ namespace TownOfUs.CustomOption
             BanEntry14 =
                 new CustomStringOption(num++, MultiMenu.main, "Ban Entry 15", BanEntries);
             RoleListSpacing1 =
-                new CustomSpacingOption(num++, MultiMenu.main);
+                new CustomHeaderOption(num++, MultiMenu.main, "");
             MaxImps = new CustomNumberOption(num++, MultiMenu.main, "Maximum Number Of Impostors", 4, 0, 15, 1);
             AllUnique = new CustomToggleOption(num++, MultiMenu.main, "All Roles Are Unique", false);
 

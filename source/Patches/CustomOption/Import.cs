@@ -127,7 +127,7 @@ namespace TownOfUs.CustomOption
 
             var splitText = text.Split("\n").ToList();
 
-            while (splitText.Count > 0)
+            while (splitText.Count > 1)
             {
                 var name = splitText[0].Trim();
                 splitText.RemoveAt(0);
