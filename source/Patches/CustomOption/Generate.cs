@@ -772,6 +772,8 @@ namespace TownOfUs.CustomOption
 
 
         "<color=#0000FFFF>Random</color> <color=#00FFFFFF>Crewmate</color>",
+        "<color=#0000FFFF>Common</color> <color=#00FFFFFF>Crewmate</color>",
+        "<color=#0000FFFF>Uncommon</color> <color=#00FFFFFF>Crewmate</color>",
         "<color=#80FFFFFF>Crewmate</color>",
 
         "<color=#00FFFFFF>Crewmate</color> <color=#0000FFFF>Investigative</color>",
@@ -819,6 +821,8 @@ namespace TownOfUs.CustomOption
 
 
         "<color=#0000FFFF>Random</color> <color=#808080FF>Neutral</color>",
+        "<color=#0000FFFF>Common</color> <color=#808080FF>Neutral</color>",
+        "<color=#0000FFFF>Uncommon</color> <color=#808080FF>Neutral</color>",
 
         "<color=#808080FF>Neutral</color> <color=#0000FFFF>Benign</color>",
         "<color=#80B2FFFF>Amnesiac</color>",
@@ -856,6 +860,8 @@ namespace TownOfUs.CustomOption
 
 
         "<color=#0000FFFF>Random</color> <color=#FF0000FF>Impostor</color>",
+        "<color=#0000FFFF>Common</color> <color=#FF0000FF>Impostor</color>",
+        "<color=#0000FFFF>Uncommon</color> <color=#FF0000FF>Impostor</color>",
         "<color=#FF0000FF>Impostor</color>",
 
         "<color=#FF0000FF>Impostor</color> <color=#0000FFFF>Concealing</color>",
@@ -875,7 +881,10 @@ namespace TownOfUs.CustomOption
         "<color=#FF0000FF>Blackmailer</color>",
         "<color=#FF0000FF>Janitor</color>",
         "<color=#FF0000FF>Miner</color>",
-        "<color=#FF0000FF>Undertaker</color>"
+        "<color=#FF0000FF>Undertaker</color>",
+
+
+        "<color=#0000FFFF>Random</color> <color=#FF0000FF>Killer</color>"
     };
         public static string[] BanEntries => new string[]
     {

@@ -505,14 +505,13 @@ namespace TownOfUs
                     TempData.winners.Add(agentWinData);
                 }
             }
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(FactionOverride.Undead) || x.Is(FactionOverride.Recruit)) && !x.Is(RoleEnum.Phantom)))
-            {
-                System.Func<WinningPlayerData, bool> remove = x => x.ColorId == player.GetDefaultOutfit().ColorId;
-                TempData.winners.RemoveAll(remove);
-            }
+            losers = new List<int>();
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(FactionOverride.Undead) || x.Is(FactionOverride.Recruit)) && !x.Is(RoleEnum.Phantom)))losers.Add(player.GetDefaultOutfit().ColorId);
+            toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();
+            for (int i = 0; i < toRemoveWinners.Count(); i++) TempData.winners.Remove(toRemoveWinners[i]);
             foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
             {
-                var necromancer = (Roles.Necromancer)role;
+                var necromancer = (Necromancer)role;
                 if (necromancer.NecromancerWin)
                 {
                     TempData.winners = new List<WinningPlayerData>();

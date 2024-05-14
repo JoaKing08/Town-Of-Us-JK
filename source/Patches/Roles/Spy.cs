@@ -189,6 +189,15 @@ namespace TownOfUs.Roles
                         case RoleEnum.Jackal:
                             message += " attacked by Jackal";
                             break;
+                        case RoleEnum.Bodyguard:
+                            message += " guarded by Bodyguard";
+                            break;
+                        case RoleEnum.Crusader:
+                            message += " fortified by Crusader";
+                            break;
+                        case RoleEnum.Cleric:
+                            message += " barriered by Cleric";
+                            break;
                     }
                     break;
                 case 1:
@@ -226,6 +235,12 @@ namespace TownOfUs.Roles
                             break;
                         case RoleEnum.JKNecromancer:
                             message += " attacked by Necromancer";
+                            break;
+                        case RoleEnum.Bodyguard:
+                            message += " attacked by Bodyguard";
+                            break;
+                        case RoleEnum.Crusader:
+                            message += " attacked by Crusader";
                             break;
                     }
                     break;

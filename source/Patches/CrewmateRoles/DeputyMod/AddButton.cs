@@ -150,7 +150,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
 
         public static void Postfix(MeetingHud __instance)
         {
-            foreach (var role in Role.GetRoles(RoleEnum.Mayor))
+            foreach (var role in Role.GetRoles(RoleEnum.Deputy))
             {
                 var deputy = (Deputy)role;
                 foreach (var button in deputy.ShootButtons) button.Destroy();

@@ -979,7 +979,6 @@ namespace TownOfUs
                 Role.GenRole<Role>(typeof(Crewmate), crewmates);
             }
         }
-
         private static void GenEachRoleList(List<GameData.PlayerInfo> infected)
         {
             var players = Utils.GetImpostors(infected);
@@ -1379,8 +1378,11 @@ namespace TownOfUs
             || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
             #region Buckets
             var anyBucket = new List<(Type, bool)>();
+            var randomKillerBucket = new List<(Type, bool)>();
             #region Crewmate
             var randomCrewmateBucket = new List<(Type, bool)>();
+            var commonCrewmateBucket = new List<(Type, bool)>();
+            var uncommonCrewmateBucket = new List<(Type, bool)>();
             var crewmateInvestigativeBucket = new List<(Type, bool)>();
             var crewmateKillingBucket = new List<(Type, bool)>();
             var crewmateProtectiveBucket = new List<(Type, bool)>();
@@ -1431,6 +1433,12 @@ namespace TownOfUs
             #endregion
 
             #region Random Crewmate
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Crewmate)) commonCrewmateBucket.Add((typeof(Crewmate), false));
+            commonCrewmateBucket.AddRange(crewmateInvestigativeBucket);
+            commonCrewmateBucket.AddRange(crewmateProtectiveBucket);
+            commonCrewmateBucket.AddRange(crewmateSupportBucket);
+            uncommonCrewmateBucket.AddRange(crewmateKillingBucket);
+            uncommonCrewmateBucket.AddRange(crewmatePowerBucket);
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Crewmate)) randomCrewmateBucket.Add((typeof(Crewmate), false));
             randomCrewmateBucket.AddRange(crewmateInvestigativeBucket);
             randomCrewmateBucket.AddRange(crewmateKillingBucket);
@@ -1441,6 +1449,8 @@ namespace TownOfUs
             #endregion
             #region Neutral
             var randomNeutralBucket = new List<(Type, bool)>();
+            var commonNeutralBucket = new List<(Type, bool)>();
+            var uncommonNeutralBucket = new List<(Type, bool)>();
             var neutralBenignBucket = new List<(Type, bool)>();
             var neutralEvilBucket = new List<(Type, bool)>();
             var neutralChaosBucket = new List<(Type, bool)>();
@@ -1483,6 +1493,12 @@ namespace TownOfUs
             #endregion
 
             #region Random Neutral
+            commonNeutralBucket.AddRange(neutralBenignBucket);
+            commonNeutralBucket.AddRange(neutralEvilBucket);
+            commonNeutralBucket.AddRange(neutralChaosBucket);
+            uncommonNeutralBucket.AddRange(neutralKillingBucket);
+            uncommonNeutralBucket.AddRange(neutralProselyteBucket);
+            uncommonNeutralBucket.AddRange(neutralApocalypseBucket);
             randomNeutralBucket.AddRange(neutralBenignBucket);
             randomNeutralBucket.AddRange(neutralEvilBucket);
             randomNeutralBucket.AddRange(neutralChaosBucket);
@@ -1493,6 +1509,8 @@ namespace TownOfUs
             #endregion
             #region Impostor
             var randomImpostorBucket = new List<(Type, bool)>();
+            var commonImpostorBucket = new List<(Type, bool)>();
+            var uncommonImpostorBucket = new List<(Type, bool)>();
             var impostorConcealingBucket = new List<(Type, bool)>();
             var impostorKillingBucket = new List<(Type, bool)>();
             var impostorSupportBucket = new List<(Type, bool)>();
@@ -1511,6 +1529,7 @@ namespace TownOfUs
             impostorRoles.Add(typeof(Janitor));
             impostorRoles.Add(typeof(Undertaker));
             impostorRoles.Add(typeof(Miner));
+            impostorRoles.Add(typeof(Impostor));
             #endregion
 
             #region Impostor Concealing
@@ -1534,6 +1553,10 @@ namespace TownOfUs
             #endregion
 
             #region Random Impostor
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Impostor)) commonImpostorBucket.Add((typeof(Impostor), false));
+            commonImpostorBucket.AddRange(impostorConcealingBucket);
+            commonImpostorBucket.AddRange(impostorSupportBucket);
+            uncommonImpostorBucket.AddRange(impostorKillingBucket);
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Impostor)) randomImpostorBucket.Add((typeof(Impostor), false));
             randomImpostorBucket.AddRange(impostorConcealingBucket);
             randomImpostorBucket.AddRange(impostorKillingBucket);
@@ -1545,6 +1568,10 @@ namespace TownOfUs
             anyBucket.AddRange(randomCrewmateBucket);
             anyBucket.AddRange(randomNeutralBucket);
             if (reservedImpostors < CustomGameOptions.MaxImps) anyBucket.AddRange(randomImpostorBucket);
+            randomKillerBucket.AddRange(neutralKillingBucket);
+            randomKillerBucket.AddRange(neutralProselyteBucket);
+            randomKillerBucket.AddRange(neutralApocalypseBucket);
+            if (reservedImpostors < CustomGameOptions.MaxImps) randomKillerBucket.AddRange(randomImpostorBucket);
             #endregion
             #endregion
             #region Choose Roles
@@ -1561,6 +1588,12 @@ namespace TownOfUs
                         break;
                     case RLRoleEntry.RandomCrewmate:
                         role = randomCrewmateBucket.Count > 0 ? randomCrewmateBucket[Random.RandomRangeInt(0, randomCrewmateBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CommonCrewmate:
+                        role = commonCrewmateBucket.Count > 0 ? commonCrewmateBucket[Random.RandomRangeInt(0, commonCrewmateBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.UncommonCrewmate:
+                        role = uncommonCrewmateBucket.Count > 0 ? uncommonCrewmateBucket[Random.RandomRangeInt(0, uncommonCrewmateBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
                         break;
                     case RLRoleEntry.CrewmateInvestigative:
                         role = crewmateInvestigativeBucket.Count > 0 ? crewmateInvestigativeBucket[Random.RandomRangeInt(0, crewmateInvestigativeBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
@@ -1579,6 +1612,12 @@ namespace TownOfUs
                         break;
                     case RLRoleEntry.RandomNeutral:
                         role = randomNeutralBucket.Count > 0 ? randomNeutralBucket[Random.RandomRangeInt(0, randomNeutralBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.CommonNeutral:
+                        role = commonNeutralBucket.Count > 0 ? commonNeutralBucket[Random.RandomRangeInt(0, commonNeutralBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.UncommonNeutral:
+                        role = uncommonNeutralBucket.Count > 0 ? uncommonNeutralBucket[Random.RandomRangeInt(0, uncommonNeutralBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
                         break;
                     case RLRoleEntry.NeutralBenign:
                         role = neutralBenignBucket.Count > 0 ? neutralBenignBucket[Random.RandomRangeInt(0, neutralBenignBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
@@ -1601,6 +1640,12 @@ namespace TownOfUs
                     case RLRoleEntry.RandomImpostor:
                         role = randomImpostorBucket.Count > 0 ? randomImpostorBucket[Random.RandomRangeInt(0, randomImpostorBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
                         break;
+                    case RLRoleEntry.CommonImpostor:
+                        role = commonImpostorBucket.Count > 0 ? commonImpostorBucket[Random.RandomRangeInt(0, commonImpostorBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.UncommonImpostor:
+                        role = uncommonImpostorBucket.Count > 0 ? uncommonImpostorBucket[Random.RandomRangeInt(0, uncommonImpostorBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
                     case RLRoleEntry.ImpostorConcealing:
                         role = impostorConcealingBucket.Count > 0 ? impostorConcealingBucket[Random.RandomRangeInt(0, impostorConcealingBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
                         break;
@@ -1609,6 +1654,9 @@ namespace TownOfUs
                         break;
                     case RLRoleEntry.ImpostorSupport:
                         role = impostorSupportBucket.Count > 0 ? impostorSupportBucket[Random.RandomRangeInt(0, impostorSupportBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        break;
+                    case RLRoleEntry.RandomKiller:
+                        role = randomKillerBucket.Count > 0 ? randomKillerBucket[Random.RandomRangeInt(0, randomKillerBucket.Count)] : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
                         break;
                     case RLRoleEntry.Crewmate:
                         role = (typeof(Crewmate), false);
@@ -1896,12 +1944,16 @@ namespace TownOfUs
                 {
                     anyBucket.RemoveAll(x => x == role);
                     randomCrewmateBucket.RemoveAll(x => x == role);
+                    commonCrewmateBucket.RemoveAll(x => x == role);
+                    uncommonCrewmateBucket.RemoveAll(x => x == role);
                     crewmateInvestigativeBucket.RemoveAll(x => x == role);
                     crewmateKillingBucket.RemoveAll(x => x == role);
                     crewmateProtectiveBucket.RemoveAll(x => x == role);
                     crewmateSupportBucket.RemoveAll(x => x == role);
                     crewmatePowerBucket.RemoveAll(x => x == role);
                     randomNeutralBucket.RemoveAll(x => x == role);
+                    commonNeutralBucket.RemoveAll(x => x == role);
+                    uncommonNeutralBucket.RemoveAll(x => x == role);
                     neutralBenignBucket.RemoveAll(x => x == role);
                     neutralEvilBucket.RemoveAll(x => x == role);
                     neutralChaosBucket.RemoveAll(x => x == role);
@@ -1909,13 +1961,17 @@ namespace TownOfUs
                     neutralProselyteBucket.RemoveAll(x => x == role);
                     neutralApocalypseBucket.RemoveAll(x => x == role);
                     randomImpostorBucket.RemoveAll(x => x == role);
+                    commonImpostorBucket.RemoveAll(x => x == role);
+                    uncommonImpostorBucket.RemoveAll(x => x == role);
                     impostorConcealingBucket.RemoveAll(x => x == role);
                     impostorKillingBucket.RemoveAll(x => x == role);
                     impostorSupportBucket.RemoveAll(x => x == role);
+                    randomKillerBucket.RemoveAll(x => x == role);
                 }
                 if (reservedImpostors + impostors >= CustomGameOptions.MaxImps)
                 {
                     anyBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
+                    randomKillerBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
                 }
             }
             for (int i = 0; i < choosedRoles.Count; i++)
@@ -1933,6 +1989,9 @@ namespace TownOfUs
                             break;
                         case RLRoleEntry.CrewmateKilling:
                             choosedRoles[i] = crewmateKillingBucket.Count > 0 ? crewmateKillingBucket[Random.RandomRangeInt(0, crewmateKillingBucket.Count)].Item1 : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)].Item1;
+                            break;
+                        case RLRoleEntry.UncommonCrewmate:
+                            choosedRoles[i] = uncommonCrewmateBucket.Count > 0 ? uncommonCrewmateBucket[Random.RandomRangeInt(0, uncommonCrewmateBucket.Count)].Item1 : anyBucket[Random.RandomRangeInt(0, anyBucket.Count)].Item1;
                             break;
                     }
                 }
@@ -1961,10 +2020,11 @@ namespace TownOfUs
             public static void Postfix([HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
             {
                 Assembly asm = typeof(Role).Assembly;
-
+                byte callId1 = 0;
+                if (reader.Length > 0) callId1 = reader.ReadByte();
                 byte readByte, readByte1, readByte2;
                 sbyte readSByte, readSByte2;
-                switch ((CustomRPC) callId)
+                switch ((CustomRPC)(callId + callId1 * 256))
                 {
                     case CustomRPC.SetRole:
                         var player = Utils.PlayerById(reader.ReadByte());

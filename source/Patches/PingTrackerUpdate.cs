@@ -16,7 +16,7 @@ namespace TownOfUs
             position.AdjustPosition();
             var host = GameData.Instance?.GetHost();
             string playerText = "";
-            if (AmongUsClient.Instance.AmHost && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) foreach (var player in PlayerControl.AllPlayerControls)
+            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) foreach (var player in PlayerControl.AllPlayerControls)
             {
                 playerText += $"\nPlayer {player.PlayerId}: {player.Data.DefaultOutfit.PlayerName}";
             }
@@ -33,7 +33,7 @@ namespace TownOfUs
                     ? "<color=#FFD000FF>JoaKing's Addon By: JoaKing</color>\n" : "") +
                 (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
                     ? $"Host: {host?.PlayerName}" : "") +
-                    "</size><size=1.5>" + playerText + "</size>";
+                    "</size><size=1.25>" + playerText + "</size>";
         }
     }
 }

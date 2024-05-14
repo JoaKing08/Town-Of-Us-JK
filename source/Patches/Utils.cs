@@ -499,9 +499,35 @@ namespace TownOfUs
                         }
                         else if (target.IsFortified())
                         {
+                            if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Crusader, (byte)1);
                             if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
-                            if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death)) RpcMultiMurderPlayer(target.GetCrusader().Player, player);
                             var crus = target.GetCrusader();
+                            if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
+                            {
+                                if (player.IsShielded())
+                                {
+                                    Rpc(CustomRPC.AttemptSound, player.GetMedic().Player.PlayerId, player.PlayerId);
+
+                                    System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                                    StopKill.BreakShield(player.GetMedic().Player.PlayerId, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                                }
+                                else if (player.IsFortified())
+                                {
+                                    var crus1 = player.GetCrusader();
+                                    crus1.FortifiedPlayers.Remove(player.PlayerId);
+                                    Rpc(CustomRPC.Unfortify, crus1.Player.PlayerId, player.PlayerId);
+                                }
+                                else if (player.IsBarriered())
+                                {
+                                    var cleric = player.GetCleric();
+                                    cleric.BarrieredPlayer = null;
+                                    Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                                }
+                                else if (!player.IsProtected())
+                                {
+                                    RpcMultiMurderPlayer(crus.Player, player);
+                                }
+                            }
                             crus.FortifiedPlayers.Remove(target.PlayerId);
                             Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, target.PlayerId);
                             fullCooldownReset = true;
@@ -516,6 +542,7 @@ namespace TownOfUs
                         }
                         else if (target.IsGuarded() && toKill)
                         {
+                            if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Bodyguard, (byte)1);
                             var bg = target.GetBodyguard().Player;
                             if (bg.IsShielded())
                             {
@@ -551,10 +578,10 @@ namespace TownOfUs
                             {
                                 if (player.IsShielded())
                                 {
-                                    Rpc(CustomRPC.AttemptSound, bg.GetMedic().Player.PlayerId, bg.PlayerId);
+                                    Rpc(CustomRPC.AttemptSound, player.GetMedic().Player.PlayerId, player.PlayerId);
 
                                     System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                                    StopKill.BreakShield(bg.GetMedic().Player.PlayerId, bg.PlayerId, CustomGameOptions.ShieldBreaks);
+                                    StopKill.BreakShield(player.GetMedic().Player.PlayerId, player.PlayerId, CustomGameOptions.ShieldBreaks);
                                 }
                                 else if (player.IsFortified())
                                 {
@@ -668,9 +695,35 @@ namespace TownOfUs
                 }
                 else if (target.IsFortified())
                 {
+                    if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Crusader, (byte)1);
                     if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
-                    if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death)) RpcMultiMurderPlayer(target.GetCrusader().Player, player);
                     var crus = target.GetCrusader();
+                    if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
+                    {
+                        if (player.IsShielded())
+                        {
+                            Rpc(CustomRPC.AttemptSound, player.GetMedic().Player.PlayerId, player.PlayerId);
+
+                            System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                            StopKill.BreakShield(player.GetMedic().Player.PlayerId, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                        }
+                        else if (player.IsFortified())
+                        {
+                            var crus1 = player.GetCrusader();
+                            crus1.FortifiedPlayers.Remove(player.PlayerId);
+                            Rpc(CustomRPC.Unfortify, crus1.Player.PlayerId, player.PlayerId);
+                        }
+                        else if (player.IsBarriered())
+                        {
+                            var cleric = player.GetCleric();
+                            cleric.BarrieredPlayer = null;
+                            Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                        }
+                        else if (!player.IsProtected())
+                        {
+                            RpcMultiMurderPlayer(crus.Player, player);
+                        }
+                    }
                     crus.FortifiedPlayers.Remove(target.PlayerId);
                     Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, target.PlayerId);
                     fullCooldownReset = true;
@@ -685,6 +738,7 @@ namespace TownOfUs
                 }
                 else if (target.IsGuarded() && toKill)
                 {
+                    if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Bodyguard, (byte)1);
                     var bg = target.GetBodyguard().Player;
                     if (bg.IsShielded())
                     {
@@ -720,10 +774,10 @@ namespace TownOfUs
                     {
                         if (player.IsShielded())
                         {
-                            Rpc(CustomRPC.AttemptSound, bg.GetMedic().Player.PlayerId, bg.PlayerId);
+                            Rpc(CustomRPC.AttemptSound, player.GetMedic().Player.PlayerId, player.PlayerId);
 
                             System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                            StopKill.BreakShield(bg.GetMedic().Player.PlayerId, bg.PlayerId, CustomGameOptions.ShieldBreaks);
+                            StopKill.BreakShield(player.GetMedic().Player.PlayerId, player.PlayerId, CustomGameOptions.ShieldBreaks);
                         }
                         else if (player.IsFortified())
                         {
@@ -1554,10 +1608,12 @@ namespace TownOfUs
         public static void Rpc(params object[] data)
         {
             if (data[0] is not CustomRPC) throw new ArgumentException($"first parameter must be a {typeof(CustomRPC).FullName}");
+            byte firstCallId = (byte)((int)(CustomRPC)data[0] % 256);
+            byte secondCallId = (byte)((int)(CustomRPC)data[0] / 256);
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)(CustomRPC)data[0], SendOption.Reliable, -1);
-
+                        firstCallId, SendOption.Reliable, -1);
+            writer.Write(secondCallId);
             if (data.Length == 1)
             {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);

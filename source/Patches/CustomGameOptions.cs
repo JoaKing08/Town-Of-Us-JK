@@ -71,6 +71,8 @@ namespace TownOfUs
 
 
         RandomCrewmate,
+        CommonCrewmate,
+        UncommonCrewmate,
         Crewmate,
 
         CrewmateInvestigative,
@@ -118,6 +120,8 @@ namespace TownOfUs
 
 
         RandomNeutral,
+        CommonNeutral,
+        UncommonNeutral,
 
         NeutralBenign,
         Amnesiac,
@@ -155,6 +159,8 @@ namespace TownOfUs
 
 
         RandomImpostor,
+        CommonImpostor,
+        UncommonImpostor,
         Impostor,
 
         ImpostorConcealing,
@@ -174,7 +180,10 @@ namespace TownOfUs
         Blackmailer,
         Janitor,
         Miner,
-        Undertaker
+        Undertaker,
+
+
+        RandomKiller
     }
     public enum RLBanEntry
     {
