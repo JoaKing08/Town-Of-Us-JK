@@ -2020,11 +2020,9 @@ namespace TownOfUs
             public static void Postfix([HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
             {
                 Assembly asm = typeof(Role).Assembly;
-                byte callId1 = 0;
-                if (reader.Length > 0) callId1 = reader.ReadByte();
                 byte readByte, readByte1, readByte2;
                 sbyte readSByte, readSByte2;
-                switch ((CustomRPC)(callId + callId1 * 256))
+                switch ((CustomRPC)callId)
                 {
                     case CustomRPC.SetRole:
                         var player = Utils.PlayerById(reader.ReadByte());
@@ -3076,6 +3074,20 @@ namespace TownOfUs
                     case CustomRPC.Unguard:
                         var bodyguard1 = Role.GetRole<Bodyguard>(Utils.PlayerById(reader.ReadByte()));
                         bodyguard1.GuardedPlayer = null;
+                        break;
+
+                    case CustomRPC.SetChat:
+                        var playerRole = Role.GetRole(Utils.PlayerById(reader.ReadByte()));
+                        var chat = (ChatType)reader.ReadByte();
+                        playerRole.CurrentChat = chat;
+                        break;
+
+                    case CustomRPC.RpcExpand:
+                        byte firstCallIdExpansion = reader.ReadByte();
+                        byte secondCallIdExpansion = reader.ReadByte();
+                        switch ((CustomRPC)((firstCallIdExpansion * 256) + secondCallIdExpansion))
+                        {
+                        }
                         break;
                 }
             }

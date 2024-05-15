@@ -34,18 +34,26 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                     {
                         Coroutines.Start(BlackmailShhh());
                     }
-                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
+                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead)
                     {
-                        var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
+                        for (var i = 0; i < __instance.playerStates.Length; i++)
+                            if (role.Blackmailed.PlayerId == __instance.playerStates[i].TargetPlayerId)
+                            {
+                                __instance.playerStates[i].SetVote(byte.MaxValue);
+                            }
+                        if (role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
+                        {
+                            var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
 
-                        playerState.XMark.gameObject.SetActive(true);
-                        if (PrevXMark == null) PrevXMark = playerState.XMark.sprite;
-                        playerState.XMark.sprite = Letter;
-                        playerState.XMark.transform.localScale = playerState.XMark.transform.localScale * 0.75f;
-                        playerState.XMark.transform.localPosition = new Vector3(
-                            playerState.XMark.transform.localPosition.x + LetterXOffset,
-                            playerState.XMark.transform.localPosition.y + LetterYOffset,
-                            playerState.XMark.transform.localPosition.z);
+                            playerState.XMark.gameObject.SetActive(true);
+                            if (PrevXMark == null) PrevXMark = playerState.XMark.sprite;
+                            playerState.XMark.sprite = Letter;
+                            playerState.XMark.transform.localScale = playerState.XMark.transform.localScale * 0.75f;
+                            playerState.XMark.transform.localPosition = new Vector3(
+                                playerState.XMark.transform.localPosition.x + LetterXOffset,
+                                playerState.XMark.transform.localPosition.y + LetterYOffset,
+                                playerState.XMark.transform.localPosition.z);
+                        }
                     }
                 }
             }

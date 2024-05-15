@@ -36,19 +36,27 @@ namespace TownOfUs
             var interact = Utils.Interact(PlayerControl.LocalPlayer, target, true);
             if (interact[4] == true)
             {
-                PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
-                return false;
-            }
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Warlock))
-            {
-                var warlock = Role.GetRole<Warlock>(PlayerControl.LocalPlayer);
-                if (warlock.Charging)
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Warlock))
                 {
-                    warlock.UsingCharge = true;
-                    warlock.ChargeUseDuration = warlock.ChargePercent * CustomGameOptions.ChargeUseDuration / 100f;
-                    if (warlock.ChargeUseDuration == 0f) warlock.ChargeUseDuration += 0.01f;
+                    var warlock = Role.GetRole<Warlock>(PlayerControl.LocalPlayer);
+                    if (warlock.Charging)
+                    {
+                        warlock.UsingCharge = true;
+                        warlock.ChargeUseDuration = warlock.ChargePercent * CustomGameOptions.ChargeUseDuration / 100f;
+                        if (warlock.ChargeUseDuration == 0f) warlock.ChargeUseDuration += 0.01f;
+                    }
+                    PlayerControl.LocalPlayer.SetKillTimer(0.01f);
                 }
-                PlayerControl.LocalPlayer.SetKillTimer(0.01f);
+                else
+                if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
+                {
+                    var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
+                    var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
+                    var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
+                    PlayerControl.LocalPlayer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                }
+                else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                return false;
             }
             else if (interact[0] == true)
             {

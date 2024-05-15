@@ -40,6 +40,9 @@ namespace TownOfUs.Roles
         public DateTime NotificationEnds;
         public string NotificationString;
         public bool KilledByAbility;
+        public GameObject ChatButton;
+        public ChatType CurrentChat = ChatType.VanillaChat;
+        public bool meeting = false;
         //public Dictionary<ChatType, ChatController> ChatControllers = new Dictionary<ChatType, ChatController>();
 
         protected Role(PlayerControl player)
@@ -158,6 +161,12 @@ namespace TownOfUs.Roles
         internal virtual bool ProselyteCriteria()
         {
             if ((PlayerControl.LocalPlayer.Is(FactionOverride) && FactionOverride != FactionOverride.None && !(PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && RoleType == RoleEnum.Jackal && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(RoleEnum.Vampire) && RoleType == RoleEnum.Vampire)) return true;
+            return false;
+        }
+
+        internal virtual bool AgentCriteria()
+        {
+            if ((PlayerControl.LocalPlayer.Data.IsImpostor() && Player.Is(ObjectiveEnum.ImpostorAgent)) || (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) && Player.Is(ObjectiveEnum.ApocalypseAgent))) return true;
             return false;
         }
 
@@ -415,16 +424,13 @@ namespace TownOfUs.Roles
                 var drunk = Modifier.GetModifier<Drunk>(Player);
                 if (CustomGameOptions.DrunkWearsOff && drunk.RoundsLeft > 0) PlayerName += $" {drunk.ColorString}({drunk.RoundsLeft})</color>";
             }
-            if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
+            if (Player.Is(FactionOverride.Undead) && !Player.Is(RoleEnum.JKNecromancer) && ((PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) || PlayerControl.LocalPlayer.Is(FactionOverride.Undead)))
             {
-                if (Player.Is(FactionOverride.Undead) && !Player.Is(RoleEnum.JKNecromancer))
-                {
-                    PlayerName += $" <color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>*</color>";
-                }
-                else if (Player.Is(FactionOverride.Recruit) && !Player.Is(RoleEnum.Jackal))
-                {
-                    PlayerName += $" <color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>*</color>";
-                }
+                PlayerName += $" <color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>*</color>";
+            }
+            else if (Player.Is(FactionOverride.Recruit) && !Player.Is(RoleEnum.Jackal) && ((PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) || PlayerControl.LocalPlayer.Is(FactionOverride.Recruit)))
+            {
+                PlayerName += $" <color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>*</color>";
             }
 
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
@@ -1334,10 +1340,11 @@ namespace TownOfUs.Roles
                         bool gaFlag = role.GuardianAngelCriteria();
                         bool apocalypseFlag = role.ApocalypseCriteria();
                         bool witchFlag = role.WitchCriteria();
+                        bool agentFlag = role.AgentCriteria();
                         player.NameText.text = role.NameText( //Error
                             selfFlag || deadFlag || role.Local,
                             selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
-                            selfFlag || deadFlag,
+                            selfFlag || deadFlag || agentFlag,
                             loverFlag,
                             witchFlag,
                             player
@@ -1428,10 +1435,11 @@ namespace TownOfUs.Roles
                             bool gaFlag = role.GuardianAngelCriteria();
                             bool apocalypseFlag = role.ApocalypseCriteria();
                             bool witchFlag = role.WitchCriteria();
+                            bool agentFlag = role.AgentCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
                                 selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
-                                selfFlag || deadFlag,
+                                selfFlag || deadFlag || agentFlag,
                                 loverFlag,
                                 witchFlag
                              );

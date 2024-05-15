@@ -148,6 +148,9 @@ namespace TownOfUs
         Guard,
         Unguard,
         Barrier,
-        Unbarrier
+        Unbarrier,
+        SetChat,
+
+        RpcExpand = 255
     }
 }

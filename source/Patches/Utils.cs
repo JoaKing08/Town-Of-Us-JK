@@ -135,35 +135,36 @@ namespace TownOfUs
         {
             return Objective.GetObjective(player)?.ObjectiveType == objectiveType;
         }
-        public static bool LoverChat(this PlayerControl player)
+        public static bool LoverChat(this PlayerControl player, bool meeting)
         {
             return player.IsLover();
         }
-        public static bool VampireChat(this PlayerControl player)
+        public static bool VampireChat(this PlayerControl player, bool meeting)
         {
             return player.Is(FactionOverride.Vampires);
         }
-        public static bool RecruitChat(this PlayerControl player)
+        public static bool RecruitChat(this PlayerControl player, bool meeting)
         {
             return player.Is(FactionOverride.Recruit);
         }
-        public static bool UndeadChat(this PlayerControl player)
+        public static bool UndeadChat(this PlayerControl player, bool meeting)
         {
             return player.Is(FactionOverride.Undead);
         }
-        public static bool ImpostorChat(this PlayerControl player)
+        public static bool ImpostorChat(this PlayerControl player, bool meeting)
         {
             return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent));
         }
-        public static bool ApocalypseChat(this PlayerControl player)
+        public static bool ApocalypseChat(this PlayerControl player, bool meeting)
         {
             return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent));
         }
         public static bool Chat(this PlayerControl player)
         {
-            return player.LoverChat() || player.VampireChat() || player.RecruitChat() || player.UndeadChat() || player.ImpostorChat() || player.ApocalypseChat();
+            var meeting = Role.GetRole(player).meeting;
+            return player.LoverChat(meeting) || player.VampireChat(meeting) || player.RecruitChat(meeting) || player.UndeadChat(meeting) || player.ImpostorChat(meeting) || player.ApocalypseChat(meeting);
         }
-        public static bool RecieveChat(this PlayerControl player)
+        public static bool RecieveChat(this PlayerControl player, bool meeting)
         {
             return PlayerControl.LocalPlayer.IsLover();
         }
@@ -250,20 +251,19 @@ namespace TownOfUs
 
         public static bool IsKnight(this PlayerControl player)
         {
-            var result = Role.GetRoles(RoleEnum.Monarch).Any(role =>
+            return Role.GetRoles(RoleEnum.Monarch).Any(role =>
             {
-                if (((Monarch)role).Knights == null) return false;
-                return ((Monarch)role).Knights.Contains(player.PlayerId);
+                var monarch = (Monarch)role;
+                return monarch != null && monarch.Knights.Contains(player.PlayerId);
             });
-            if (result == true) return true;
-            else return false;
         }
 
         public static bool IsBugged(this PlayerControl player)
         {
             return Role.GetRoles(RoleEnum.Spy).Any(role =>
             {
-                return ((Spy)role).BuggedPlayers.Contains(player.PlayerId);
+                var spy = (Spy)role;
+                return spy != null && spy.BuggedPlayers.Contains(player.PlayerId);
             });
         }
 
@@ -271,7 +271,8 @@ namespace TownOfUs
         {
             return Role.GetRoles(RoleEnum.Inquisitor).Any(role =>
             {
-                return ((Inquisitor)role).heretics.Contains(player.PlayerId) && !role.Player.Data.IsDead;
+                var inquisitor = (Inquisitor)role;
+                return inquisitor != null && inquisitor.heretics.Contains(player.PlayerId);
             });
         }
 
@@ -306,7 +307,8 @@ namespace TownOfUs
         {
             return Role.GetRoles(RoleEnum.Crusader).Any(role =>
             {
-                return ((Crusader)role).FortifiedPlayers.Contains(player.PlayerId);
+                var crusader = (Crusader)role;
+                return crusader != null && crusader.FortifiedPlayers.Contains(player.PlayerId);
             });
         }
 
@@ -1608,12 +1610,24 @@ namespace TownOfUs
         public static void Rpc(params object[] data)
         {
             if (data[0] is not CustomRPC) throw new ArgumentException($"first parameter must be a {typeof(CustomRPC).FullName}");
-            byte firstCallId = (byte)((int)(CustomRPC)data[0] % 256);
-            byte secondCallId = (byte)((int)(CustomRPC)data[0] / 256);
+            int callId = (int)(CustomRPC)data[0];
+            byte firstCallIdExpansion = 0;
+            byte secondCallIdExpansion = 0;
+            if (callId > 255)
+            {
+                callId -= 256;
+                firstCallIdExpansion = (byte)(callId / 256);
+                secondCallIdExpansion = (byte)(callId % 256);
+                callId = 255;
+            }
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        firstCallId, SendOption.Reliable, -1);
-            writer.Write(secondCallId);
+                        (byte)callId, SendOption.Reliable, -1);
+            if (callId == 255)
+            {
+                writer.Write(firstCallIdExpansion);
+                writer.Write(secondCallIdExpansion);
+            }
             if (data.Length == 1)
             {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -1715,6 +1729,12 @@ namespace TownOfUs
 
         public static void ResetCustomTimers()
         {
+            foreach (var role in Role.AllRoles)
+            {
+                role.meeting = false;
+            }
+            Role.GetRole(PlayerControl.LocalPlayer).CurrentChat = ChatType.ApocalypseChat;
+            ChatPatches.ChangeChat();
             #region CrewmateRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Medium))
             {

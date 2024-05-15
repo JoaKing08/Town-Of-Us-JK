@@ -3,6 +3,7 @@ using Object = UnityEngine.Object;
 using Reactor.Utilities.Extensions;
 using UnityEngine;
 using TownOfUs.Patches;
+using TownOfUs.Roles;
 
 namespace TownOfUs
 {
@@ -20,8 +21,12 @@ namespace TownOfUs
 
             HudUpdate.Zooming = false;
             Camera.main.orthographicSize = 3f;
-            HudManager.Instance.Chat.backgroundImage.color = Color.white;
-
+            foreach (var role in Role.AllRoles)
+            {
+                role.meeting = true;
+            }
+            Role.GetRole(PlayerControl.LocalPlayer).CurrentChat = ChatType.ApocalypseChat;
+            ChatPatches.ChangeChat();
             foreach (var cam in Camera.allCameras)
             {
                 if (cam?.gameObject.name == "UI Camera")

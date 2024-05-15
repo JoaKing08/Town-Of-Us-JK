@@ -41,7 +41,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             if (interact[4] == true)
             {
                 PlayerControl player;
-                var otherPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.PlayerId != role.ClosestPlayer.PlayerId && x.PlayerId != PlayerControl.LocalPlayer.PlayerId && !(!CustomGameOptions.SoulSwapImp && x.Data.IsImpostor())).ToList();
+                var otherPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.PlayerId != role.ClosestPlayer.PlayerId && x.PlayerId != PlayerControl.LocalPlayer.PlayerId).ToList();
                 if (UnityEngine.Random.RandomRangeInt(1, 101) > CustomGameOptions.SoulSwapAccuracy || otherPlayers.Count == 0)
                 {
                     player = role.ClosestPlayer;
