@@ -183,7 +183,7 @@ namespace TownOfUs
             if (Role.SurvOnlyWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
-                foreach (var role in Role.GetRoles(RoleEnum.Survivor))
+                foreach (var role in Role.GetRoles(RoleEnum.Survivor).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
                 {
                     var surv = (Survivor)role;
                     if (!surv.Player.Data.IsDead && !surv.Player.Data.Disconnected)
@@ -199,7 +199,7 @@ namespace TownOfUs
 
             if (CustomGameOptions.NeutralEvilWinEndsGame)
             {
-                foreach (var role in Role.AllRoles)
+                foreach (var role in Role.AllRoles.ToArray().Where(x => x.FactionOverride == FactionOverride.None || x.RoleType == RoleEnum.Phantom))
                 {
                     var type = role.RoleType;
 
@@ -279,7 +279,7 @@ namespace TownOfUs
                 }
             }
 
-            foreach (var objective in Objective.AllObjectives)
+            foreach (var objective in Objective.AllObjectives.ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
             {
                 var type = objective.ObjectiveType;
 
@@ -304,7 +304,7 @@ namespace TownOfUs
             if (Role.VampireWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
-                foreach (var role in Role.GetRoles(RoleEnum.Vampire))
+                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.Vampires))
                 {
                     var vamp = (Vampire)role;
                     var vampData = new WinningPlayerData(vamp.Player.Data);
@@ -313,7 +313,7 @@ namespace TownOfUs
                 }
             }
 
-            foreach (var role in Role.AllRoles)
+            foreach (var role in Role.AllRoles.ToArray().Where(x => x.FactionOverride == FactionOverride.None))
             {
                 var type = role.RoleType;
 
@@ -355,7 +355,7 @@ namespace TownOfUs
                     if (role.ApocalypseWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
-                        foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse))
+                        foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
                         {
                             var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
                             if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
@@ -455,7 +455,7 @@ namespace TownOfUs
                 }
             }
 
-            foreach (var role in Role.GetRoles(RoleEnum.Survivor))
+            foreach (var role in Role.GetRoles(RoleEnum.Survivor).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
             {
                 var surv = (Survivor)role;
                 if (!surv.Player.Data.IsDead && !surv.Player.Data.Disconnected)
@@ -467,7 +467,7 @@ namespace TownOfUs
                     TempData.winners.Add(survWinData);
                 }
             }
-            foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
+            foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
             {
                 var ga = (GuardianAngel)role;
                 var gaTargetData = new WinningPlayerData(ga.target.Data);
@@ -483,7 +483,7 @@ namespace TownOfUs
                     }
                 }
             }
-            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ImpostorAgent))
+            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ImpostorAgent).ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
             {
                 var agent = (ImpostorAgent)modifier;
                 var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
@@ -495,7 +495,7 @@ namespace TownOfUs
                     TempData.winners.Add(agentWinData);
                 }
             }
-            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent))
+            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent).ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
             {
                 var agent = (ApocalypseAgent)modifier;
                 if (apocWin)
@@ -505,10 +505,6 @@ namespace TownOfUs
                     TempData.winners.Add(agentWinData);
                 }
             }
-            losers = new List<int>();
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(FactionOverride.Undead) || x.Is(FactionOverride.Recruit)) && !x.Is(RoleEnum.Phantom)))losers.Add(player.GetDefaultOutfit().ColorId);
-            toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();
-            for (int i = 0; i < toRemoveWinners.Count(); i++) TempData.winners.Remove(toRemoveWinners[i]);
             foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
             {
                 var necromancer = (Necromancer)role;

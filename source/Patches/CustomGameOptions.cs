@@ -278,6 +278,13 @@ namespace TownOfUs
         Miner,
         Undertaker
     }
+    public enum AllowChat
+    {
+        Off,
+        Rounds,
+        Meeting,
+        Both
+    }
 
     public static class CustomGameOptions
     {
@@ -563,6 +570,7 @@ namespace TownOfUs
         public static float MysticArrowDuration => Generate.MysticArrowDuration.Get();
         public static float BlackmailCd => Generate.BlackmailCooldown.Get();
         public static bool BlackmailInvisible => Generate.BlackmailInvisible.Get();
+        public static bool BlackmailedVote => Generate.BlackmailedVote.Get();
         public static float GiantSlow => Generate.GiantSlow.Get();
         public static float FlashSpeed => Generate.FlashSpeed.Get();
         public static float DiseasedMultiplier => Generate.DiseasedKillMultiplier.Get();
@@ -846,5 +854,11 @@ namespace TownOfUs
         public static int MaxFortify => (int)Generate.MaxFortify.Get();
         public static float BarrierCooldown => Generate.BarrierCooldown.Get();
         public static float BarrierCooldownReset => Generate.BarrierCooldownReset.Get();
+        public static AllowChat LoversChat => (AllowChat)Generate.LoversChat.Get();
+        public static AllowChat VampiresChat => (AllowChat)Generate.VampiresChat.Get();
+        public static AllowChat RecruitsChat => (AllowChat)Generate.RecruitsChat.Get();
+        public static AllowChat UndeadChat => (AllowChat)Generate.UndeadChat.Get();
+        public static AllowChat ImpostorsChat => (AllowChat)Generate.ImpostorsChat.Get();
+        public static AllowChat ApocalypseChat => (AllowChat)Generate.ApocalypseChat.Get();
     }
 }

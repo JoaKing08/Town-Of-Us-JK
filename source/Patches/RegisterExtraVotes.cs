@@ -189,18 +189,22 @@ namespace TownOfUs
                         }
 
                         if (isProsecuting) continue;
-
+                        byte blackmailed = byte.MaxValue;
+                        foreach (Blackmailer blackmailer in Role.GetRoles(RoleEnum.Blackmailer))
+                        {
+                            if (blackmailer.Blackmailed != null) blackmailed = blackmailer.Blackmailed.PlayerId;
+                        }
                         if (playerInfo == null)
                         {
                             Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
                                 voteState.VoterId));
                         }
-                        else if (i == 0 && voteState.SkippedVote)
+                        else if (i == 0 && voteState.SkippedVote && voteState.VoterId != blackmailed)
                         {
                             __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                             amountOfSkippedVoters++;
                         }
-                        else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                        else if (voteState.VotedForId == playerVoteArea.TargetPlayerId && voteState.VoterId != blackmailed)
                         {
                             __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                             allNums[i]++;
@@ -210,7 +214,7 @@ namespace TownOfUs
                             var mayorRole = (Mayor)mayor;
                             if (mayorRole.Revealed)
                             {
-                                if (voteState.VoterId == mayorRole.Player.PlayerId)
+                                if (voteState.VoterId == mayorRole.Player.PlayerId && voteState.VoterId != blackmailed)
                                 {
                                     if (playerInfo == null)
                                     {
@@ -236,7 +240,7 @@ namespace TownOfUs
                         }
                         foreach (var knight in PlayerControl.AllPlayerControls.ToArray().Where(x => x.IsKnight()).ToList())
                         {
-                            if (voteState.VoterId == knight.PlayerId)
+                            if (voteState.VoterId == knight.PlayerId && voteState.VoterId != blackmailed)
                             {
                                 if (playerInfo == null)
                                 {

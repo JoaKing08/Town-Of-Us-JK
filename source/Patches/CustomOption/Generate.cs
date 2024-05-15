@@ -168,6 +168,8 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption ShowKillingRemaining;
         public static CustomToggleOption ShowProselyteRemaining;
         public static CustomToggleOption SpawnImps;
+        public static CustomStringOption ImpostorsChat;
+        public static CustomStringOption ApocalypseChat;
 
         public static CustomHeaderOption BetterPolusSettings;
         public static CustomToggleOption VentImprovements;
@@ -484,6 +486,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Blackmailer;
         public static CustomNumberOption BlackmailCooldown;
         public static CustomToggleOption BlackmailInvisible;
+        public static CustomToggleOption BlackmailedVote;
 
         public static CustomHeaderOption Plaguebearer;
         public static CustomNumberOption InfectCooldown;
@@ -563,6 +566,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption CanBiteNeutralBenign;
         public static CustomToggleOption CanBiteNeutralEvil;
         public static CustomToggleOption CanBiteNeutralChaos;
+        public static CustomStringOption VampiresChat;
 
         public static CustomHeaderOption VampireHunter;
         public static CustomNumberOption StakeCooldown;
@@ -617,6 +621,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption BothLoversDie;
         public static CustomNumberOption LovingImpPercent;
         public static CustomToggleOption NeutralLovers;
+        public static CustomStringOption LoversChat;
 
         public static CustomHeaderOption Frosty;
         public static CustomNumberOption ChillDuration;
@@ -708,12 +713,14 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption RitualKillCooldownIncrease;
         public static CustomNumberOption MaxNumberOfUndead;
         public static CustomToggleOption NecromancerVent;
+        public static CustomStringOption UndeadChat;
 
         public static CustomHeaderOption Jackal;
         public static CustomNumberOption JackalKCd;
         public static CustomToggleOption RecruitsLifelink;
         public static CustomToggleOption RecruitsSeeJackal;
         public static CustomToggleOption JackalVent;
+        public static CustomStringOption RecruitsChat;
 
         public static CustomHeaderOption Deputy;
         public static CustomToggleOption RevealDeputy;
@@ -1358,6 +1365,8 @@ namespace TownOfUs.CustomOption
             ShowKillingRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Neutral Killing Remaining", false);
             ShowProselyteRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Neutral Proselyte Remaining", false);
             SpawnImps = new CustomToggleOption(num++, MultiMenu.main, "Spawn Impostors", true);
+            ImpostorsChat = new CustomStringOption(num++, MultiMenu.main, "Impostors Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
+            ApocalypseChat = new CustomStringOption(num++, MultiMenu.main, "Apocalypse Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
 
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Task Tracking Settings");
@@ -2018,6 +2027,7 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.neutral, "Can Convert Neutral Evil Roles", false);
             CanBiteNeutralChaos =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Can Convert Neutral Chaos Roles", false);
+            VampiresChat = new CustomStringOption(num++, MultiMenu.neutral, "Vampires Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
 
             Necromancer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#679556FF>Necromancer</color>");
             NecromancerReviveCooldown =
@@ -2032,6 +2042,7 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Number Of Undead", 3, 1, 7, 1);
             NecromancerVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Necromancer Can Vent", false);
+            UndeadChat = new CustomStringOption(num++, MultiMenu.neutral, "Undead Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
 
             Jackal = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#666666FF>Jackal</color>");
             JackalKCd =
@@ -2042,6 +2053,7 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.neutral, "Recruits See Who Is Jackal");
             JackalVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jackal Can Vent", false);
+            RecruitsChat = new CustomStringOption(num++, MultiMenu.neutral, "Recruits Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
 
             Plaguebearer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#E6FFB3FF>Plaguebearer</color>");
             InfectCooldown =
@@ -2187,6 +2199,8 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.imposter, "Initial Blackmail Cooldown", 10f, 1f, 15f, 1f, CooldownFormat);
             BlackmailInvisible =
                 new CustomToggleOption(num++, MultiMenu.imposter, "Only Target Sees Blackmail", false);
+            BlackmailedVote =
+                new CustomToggleOption(num++, MultiMenu.imposter, "Blackmailed Vote Doesn't Count", false);
 
             Miner = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Miner</color>");
             MineCooldown =
@@ -2243,6 +2257,7 @@ namespace TownOfUs.CustomOption
             LovingImpPercent = new CustomNumberOption(num++, MultiMenu.modifiers, "Loving Impostor Probability", 20f, 0f, 100f, 10f,
                 PercentFormat);
             NeutralLovers = new CustomToggleOption(num++, MultiMenu.modifiers, "Neutral Roles Can Be Lovers");
+            LoversChat = new CustomStringOption(num++, MultiMenu.modifiers, "Lovers Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
         }
     }
 }

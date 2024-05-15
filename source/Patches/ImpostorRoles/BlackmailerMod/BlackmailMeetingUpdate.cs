@@ -36,11 +36,6 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                     }
                     if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead)
                     {
-                        for (var i = 0; i < __instance.playerStates.Length; i++)
-                            if (role.Blackmailed.PlayerId == __instance.playerStates[i].TargetPlayerId)
-                            {
-                                __instance.playerStates[i].SetVote(byte.MaxValue);
-                            }
                         if (role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
                         {
                             var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
@@ -88,16 +83,19 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
 
                 foreach (var role in blackmailers)
                 {
-                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
+                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead)
                     {
-                        var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
-                        playerState.Overlay.gameObject.SetActive(true);
-                        if (PrevOverlay == null) PrevOverlay = playerState.Overlay.sprite;
-                        playerState.Overlay.sprite = Overlay;
-                        if (__instance.state != MeetingHud.VoteStates.Animating && shookAlready == false)
+                        if (role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
                         {
-                            shookAlready = true;
-                            __instance.StartCoroutine(Effects.SwayX(playerState.transform));
+                            var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
+                            playerState.Overlay.gameObject.SetActive(true);
+                            if (PrevOverlay == null) PrevOverlay = playerState.Overlay.sprite;
+                            playerState.Overlay.sprite = Overlay;
+                            if (__instance.state != MeetingHud.VoteStates.Animating && shookAlready == false)
+                            {
+                                shookAlready = true;
+                                __instance.StartCoroutine(Effects.SwayX(playerState.transform));
+                            }
                         }
                     }
                 }

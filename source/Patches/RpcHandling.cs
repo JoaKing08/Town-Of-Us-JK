@@ -2003,11 +2003,13 @@ namespace TownOfUs
                 {
                     player.Data.Role.TeamType = RoleTeamTypes.Impostor;
                     RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
+                    Utils.Rpc(CustomRPC.SetVanillaRole, player.PlayerId, (byte)RoleTypes.Impostor, (byte)RoleTeamTypes.Impostor);
                 }
                 else
                 {
                     player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
                     RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
+                    Utils.Rpc(CustomRPC.SetVanillaRole, player.PlayerId, (byte)RoleTypes.Crewmate, (byte)RoleTeamTypes.Crewmate);
                 }
             }
             #endregion
@@ -3080,6 +3082,13 @@ namespace TownOfUs
                         var playerRole = Role.GetRole(Utils.PlayerById(reader.ReadByte()));
                         var chat = (ChatType)reader.ReadByte();
                         playerRole.CurrentChat = chat;
+                        break;
+                    case CustomRPC.SetVanillaRole:
+                        var player1 = Utils.PlayerById(reader.ReadByte());
+                        var vanillaRole = (RoleTypes)reader.ReadByte();
+                        var vanillaFaction = (RoleTeamTypes)reader.ReadByte();
+                        player1.Data.Role.TeamType = vanillaFaction;
+                        RoleManager.Instance.SetRole(player1, vanillaRole);
                         break;
 
                     case CustomRPC.RpcExpand:
