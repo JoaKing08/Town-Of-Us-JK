@@ -40,7 +40,8 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
-| 2024.3.5s & 2024.3.5e | v2.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.3) |
+| 2024.3.5s & 2024.3.5e | v2.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.4) |
+| 2024.3.5s & 2024.3.5e | v2.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.3) |
 | 2024.3.5s & 2024.3.5e | v2.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.2) |
 | 2024.3.5s & 2024.3.5e | v2.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.1) |
 | 2024.3.5s & 2024.3.5e | v2.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.0) |
@@ -1043,6 +1044,7 @@ Else they will kill the bitten player.
 | Maximum Vampires Per Game | The maximum amount of players that can be Vampires | Number | 2 |
 | Can Convert Neutral Benign Roles | Whether Neutral Benign Roles can be turned into Vampires | Toggle | False |
 | Can Convert Neutral Evil Roles | Whether Neutral Evil Roles can be turned into Vampires | Toggle | False |
+| Vampires Chat | Whether Vampires Have Their Own Chat | Off / Round / Meeting / Both | Off |
 
 -----------------------
 ## Necromancer
@@ -1062,6 +1064,7 @@ When Necromancer is only killing left he gains ability to kill.
 | Increased Cooldown Per Kill | Additional cooldown of the Necromancer's Kill button multiplied by number of kills | Time | 25s |
 | Maximum Number Of Undead | Maximum amount of times Necromancer can Revive | Number | 3 |
 | Necromancer Can Vent | Whether the Necromancer Can Vent | Toggle | False |
+| Undead Chat | Whether Undead Have Their Own Chat | Off / Round / Meeting / Both | Off |
 
 -----------------------
 ## Jackal
@@ -1080,6 +1083,7 @@ According to settings recruits can see who is the Jackal, however they always se
 | Recruits Are Lifelinked | Whether the recruits die together | Toggle | True |
 | Recruits See Who Is Jackal | Whether the recruits see who is the Jackal | Toggle | True |
 | Jackal Can Vent | Whether the Jackal Can Vent | Toggle | False |
+| Recruits Chat | Whether Recruits Have Their Own Chat | Off / Round / Meeting / Both | Off |
 
 -----------------------
 ## Plaguebearer
@@ -1336,6 +1340,8 @@ This prevents the blackmailed person from speaking during the next meeting.
 |----------|:-------------:|:------:|:------:|
 | Blackmailer | The percentage probability of the Blackmailer appearing | Percentage | 0% |
 | Initial Blackmail Cooldown | The initial cooldown of the Blackmailer's Blackmail button | Time | 10s |
+| Only Target Sees Blackmail | If enabled, only the blackmailed player (and the Blackmailer) will see that the player can't speak. | Toggle | False |
+| Blackmailed Vote Doesn't Count | If enabled, the blackmailed player vote will not count | Toggle | False |
 
 -----------------------
 ## Janitor
@@ -1595,11 +1601,13 @@ However, they can also win with their respective team, hence why the Lovers do n
 | Both Lovers Die | Whether the other Lover automatically dies if the other does | Toggle | True |
 | Loving Impostor Probability | The chances of one lover being an Impostor | Percentage | 20% |
 | Neutral Roles Can Be Lovers | Whether a Lover can be a Neutral Role | Toggle | True |
+| Lovers Chat | Whether Lovers Have Their Own Chat | Off / Round / Meeting / Both | Off |
 
 -----------------------
 ## Agent
 ### **Applied to: Crewmates**
-The Agent loses his orginal win condition, and tries to get his new team win.
+The Agent loses his orginal win condition, and tries to get his new team win.\
+However they still die in punishment for their actions (killing Crewmate as Sheriff etc.).
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -1718,6 +1726,8 @@ The Agent loses his orginal win condition, and tries to get his new team win.
 | Show Neutral Killing Remaining | Whether to show amount of Neutral Killing left after the meeting | Toggle | False |
 | Show Neutral Proselyte Remaining | Whether to show amount of Neutral Proselyte left after the meeting | Toggle | False |
 | Spawn Impostors | Whether to spawn Impostors in Classic/All Any | Toggle | True |
+| Impostors Chat | Whether Impostors Have Their Own Chat | Off / Round / Meeting / Both | Off |
+| Apocalypse Chat | Whether Apocalypse Have Their Own Chat | Off / Round / Meeting / Both | Off |
 
 -----------------------
 # Task Tracking Settings
