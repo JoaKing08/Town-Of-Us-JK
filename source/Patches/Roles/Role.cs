@@ -715,8 +715,9 @@ namespace TownOfUs.Roles
                 {
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
-                    var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
-                    if (modifier != null || objective != null || factionOverride != FactionOverride.None)
+                    var role = GetRole(PlayerControl.LocalPlayer);
+                    var factionOverride = role.FactionOverride;
+                    if (modifier != null || objective != null || (factionOverride == FactionOverride.Recruit && role.RoleType != RoleEnum.Jackal))
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
@@ -731,7 +732,7 @@ namespace TownOfUs.Roles
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     var objective = Objective.GetObjective(PlayerControl.LocalPlayer);
                     var factionOverride = GetRole(PlayerControl.LocalPlayer).FactionOverride;
-                    if (modifier != null || objective != null || factionOverride != FactionOverride.None)
+                    if (modifier != null || objective != null || factionOverride == FactionOverride.Recruit)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
@@ -840,7 +841,7 @@ namespace TownOfUs.Roles
                         }
                         ModifierText.text = $"<size=3>Modifiers: ";
                         if (modifiers.Any()) foreach (var name in modifiers) ModifierText.text += name + ", ";
-                        ModifierText.text.Remove(ModifierText.text.Length - 2);
+                        ModifierText.text = ModifierText.text.Remove(ModifierText.text.Length - 2);
                         ModifierText.text += "</size>";
                         ModifierText.color = Color.white;
 
@@ -939,7 +940,7 @@ namespace TownOfUs.Roles
                         }
                         ModifierText.text = $"<size=3>Modifiers: ";
                         if (modifiers.Any()) foreach (var name in modifiers) ModifierText.text += name + ", ";
-                        ModifierText.text.Remove(ModifierText.text.Length - 2);
+                        ModifierText.text = ModifierText.text.Remove(ModifierText.text.Length - 2);
                         ModifierText.text += "</size>";
                         ModifierText.color = Color.white;
 
@@ -1064,7 +1065,7 @@ namespace TownOfUs.Roles
                         }
                         ModifierText.text = $"<size=3>Modifiers: ";
                         if (modifiers.Any()) foreach (var name in modifiers) ModifierText.text += name + ", ";
-                        ModifierText.text.Remove(ModifierText.text.Length - 2);
+                        ModifierText.text = ModifierText.text.Remove(ModifierText.text.Length - 2);
                         ModifierText.text += "</size>";
                         ModifierText.color = Color.white;
 

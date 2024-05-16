@@ -24,8 +24,13 @@ namespace TownOfUs.Patches
         public static Sprite Sprite => TownOfUs.Arrow;
         public static void Postfix(IntroCutscene._CoBegin_d__35 __instance)
         {
-            Role.GetRole(PlayerControl.LocalPlayer).LastBlood = DateTime.UtcNow;
-            Role.GetRole(PlayerControl.LocalPlayer).LastBlood.AddSeconds(-CustomGameOptions.BloodDuration);
+            if (Role.GetRole(PlayerControl.LocalPlayer) != null)
+            {
+                Role.GetRole(PlayerControl.LocalPlayer).CurrentChat = ChatType.ApocalypseChat;
+                ChatPatches.ChangeChat();
+                Role.GetRole(PlayerControl.LocalPlayer).LastBlood = DateTime.UtcNow;
+                Role.GetRole(PlayerControl.LocalPlayer).LastBlood.AddSeconds(-CustomGameOptions.BloodDuration);
+            }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
             {
                 var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
