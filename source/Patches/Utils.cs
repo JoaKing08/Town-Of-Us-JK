@@ -153,11 +153,11 @@ namespace TownOfUs
         }
         public static bool ImpostorChat(this PlayerControl player, bool meeting)
         {
-            return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent)) && ((meeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both)));
+            return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent)) && ((meeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both))) && !UndercoverIsImpostor();
         }
         public static bool ApocalypseChat(this PlayerControl player, bool meeting)
         {
-            return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent)) && ((meeting && (CustomGameOptions.ApocalypseChat == AllowChat.Meeting || CustomGameOptions.ApocalypseChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.ApocalypseChat == AllowChat.Rounds || CustomGameOptions.ApocalypseChat == AllowChat.Both)));
+            return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent)) && ((meeting && (CustomGameOptions.ApocalypseChat == AllowChat.Meeting || CustomGameOptions.ApocalypseChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.ApocalypseChat == AllowChat.Rounds || CustomGameOptions.ApocalypseChat == AllowChat.Both))) && !UndercoverIsApocalypse();
         }
         public static bool Chat(this PlayerControl player)
         {
