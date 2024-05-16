@@ -19,7 +19,7 @@ namespace TownOfUs.CustomOption
 
         protected internal void Increase()
         {
-            if (Get() >= Values.Length)
+            if (Get() >= Values.Length -1)
                 Set(0);
             else
                 Set(Get() + 1);

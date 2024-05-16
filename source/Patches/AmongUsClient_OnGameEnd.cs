@@ -279,9 +279,11 @@ namespace TownOfUs
                 }
             }
 
-            foreach (var objective in Objective.AllObjectives.ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
+            foreach (var objective in Objective.AllObjectives)
             {
                 var type = objective.ObjectiveType;
+                var role = Role.GetRole(objective.Player);
+                if (role != null) if (role.FactionOverride != FactionOverride.None) return;
 
                 if (type == ObjectiveEnum.Lover)
                 {

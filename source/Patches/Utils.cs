@@ -164,10 +164,6 @@ namespace TownOfUs
             var meeting = Role.GetRole(player).meeting;
             return player.LoverChat(meeting) || player.VampireChat(meeting) || player.RecruitChat(meeting) || player.UndeadChat(meeting) || player.ImpostorChat(meeting) || player.ApocalypseChat(meeting);
         }
-        public static bool RecieveChat(this PlayerControl player, bool meeting)
-        {
-            return PlayerControl.LocalPlayer.IsLover();
-        }
 
         public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
         {
@@ -251,28 +247,73 @@ namespace TownOfUs
 
         public static bool IsKnight(this PlayerControl player)
         {
-            return Role.GetRoles(RoleEnum.Monarch).Any(role =>
+            if (player == null)
             {
-                var monarch = (Monarch)role;
-                return monarch != null && monarch.Knights.Contains(player.PlayerId);
+                return false;
+            }
+
+            var roles = Role.GetRoles(RoleEnum.Monarch);
+            if (roles == null)
+            {
+                return false;
+            }
+
+            return roles.Any(role =>
+            {
+                var monarch = role as Monarch;
+                if (monarch == null)
+                {
+                    return false;
+                }
+                return monarch.Knights != null && monarch.Knights.Contains(player.PlayerId);
             });
         }
 
         public static bool IsBugged(this PlayerControl player)
         {
-            return Role.GetRoles(RoleEnum.Spy).Any(role =>
+            if (player == null)
             {
-                var spy = (Spy)role;
-                return spy != null && spy.BuggedPlayers.Contains(player.PlayerId);
+                return false;
+            }
+
+            var roles = Role.GetRoles(RoleEnum.Spy);
+            if (roles == null)
+            {
+                return false;
+            }
+
+            return roles.Any(role =>
+            {
+                var spy = role as Spy;
+                if (spy == null)
+                {
+                    return false;
+                }
+                return spy.BuggedPlayers != null && spy.BuggedPlayers.Contains(player.PlayerId);
             });
         }
 
         public static bool IsHeretic(this PlayerControl player)
         {
-            return Role.GetRoles(RoleEnum.Inquisitor).Any(role =>
+            if (player == null)
             {
-                var inquisitor = (Inquisitor)role;
-                return inquisitor != null && inquisitor.heretics.Contains(player.PlayerId);
+                return false;
+            }
+
+            var roles = Role.GetRoles(RoleEnum.Inquisitor);
+            if (roles == null)
+            {
+                return false;
+            }
+
+            return roles.Any(role =>
+            {
+                var inquisitor = role as Inquisitor;
+                if (inquisitor == null)
+                {
+                    return false;
+                }
+                return inquisitor.heretics != null && inquisitor.heretics.Contains(player.PlayerId);
             });
         }
 
