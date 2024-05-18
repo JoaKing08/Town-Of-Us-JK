@@ -62,6 +62,10 @@ namespace TownOfUs.Roles.Modifiers
                 if (CustomGameOptions.TavernKeeperOn > 0) ColorMapping.Add("Tavern Keeper", Colors.TavernKeeper);
                 if (CustomGameOptions.UndercoverOn > 0) ColorMapping.Add("Undercover", Colors.Undercover);
                 if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
+                if (CustomGameOptions.DeputyOn > 0) ColorMapping.Add("Deputy", Colors.Deputy);
+                if (CustomGameOptions.BodyguardOn > 0) ColorMapping.Add("Bodyguard", Colors.Bodyguard);
+                if (CustomGameOptions.CrusaderOn > 0) ColorMapping.Add("Crusader", Colors.Crusader);
+                if (CustomGameOptions.ClericOn > 0) ColorMapping.Add("Cleric", Colors.Cleric);
 
                 // Add Neutral roles if enabled
                 if (CustomGameOptions.AssassinGuessNeutralBenign)

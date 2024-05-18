@@ -329,6 +329,25 @@ namespace TownOfUs.Patches
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
                 }
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist))
+            {
+                if (!Role.GetRole<Poltergeist>(PlayerControl.LocalPlayer).Caught)
+                {
+                    var startingVent =
+                        ShipStatus.Instance.AllVents[UnityEngine.Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+                    while (startingVent == ShipStatus.Instance.AllVents[0] || startingVent == ShipStatus.Instance.AllVents[14])
+                    {
+                        startingVent =
+                            ShipStatus.Instance.AllVents[UnityEngine.Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+                    }
+                    ChangeFloor(startingVent.transform.position.y > -7f);
+
+                    Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
+
+                    PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
+                    PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
+                }
+            }
         }
 
         public static void Ghostrolefix(PlayerPhysics __instance)
@@ -355,6 +374,21 @@ namespace TownOfUs.Patches
                 if (player.Is(RoleEnum.Haunter))
                 {
                     if (!Role.GetRole<Haunter>(player).Caught)
+                    {
+
+                        if (player.AmOwner) MoveDeadPlayerElevator(player);
+                        else player.Collider.enabled = false;
+                        Transform transform = __instance.transform;
+                        Vector3 position = transform.position;
+                        position.z = position.y / 1000;
+
+                        transform.position = position;
+                        __instance.myPlayer.gameObject.layer = 8;
+                    }
+                }
+                if (player.Is(RoleEnum.Poltergeist))
+                {
+                    if (!Role.GetRole<Poltergeist>(player).Caught)
                     {
 
                         if (player.AmOwner) MoveDeadPlayerElevator(player);

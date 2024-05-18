@@ -6,8 +6,8 @@ namespace TownOfUs.CustomOption
     {
         protected internal Action Do;
 
-        protected internal CustomButtonOption(int id, MultiMenu menu, string name, Action toDo = null) : base(id, menu, name,
-            CustomOptionType.Button, 0)
+        protected internal CustomButtonOption(int id, MultiMenu menu, string name, Action toDo = null, Func<bool> hideWhen = null) : base(id, menu, name,
+            CustomOptionType.Button, 0, null, hideWhen)
         {
             Do = toDo ?? BaseToDo;
         }

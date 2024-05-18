@@ -7,6 +7,7 @@ using TownOfUs.CrewmateRoles.VampireHunterMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
 using TownOfUs.ImpostorRoles.PoltergeistMod;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TownOfUs
 {
@@ -803,46 +804,19 @@ namespace TownOfUs
         {
             get
             {
-                var roleEntries = new List<RLRoleEntry>();
-                if (PlayerControl.AllPlayerControls.Count >= 1) roleEntries.Add((RLRoleEntry)Generate.RoleEntry0.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 2) roleEntries.Add((RLRoleEntry)Generate.RoleEntry1.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 3) roleEntries.Add((RLRoleEntry)Generate.RoleEntry2.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 4) roleEntries.Add((RLRoleEntry)Generate.RoleEntry3.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 5) roleEntries.Add((RLRoleEntry)Generate.RoleEntry4.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 6) roleEntries.Add((RLRoleEntry)Generate.RoleEntry5.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 7) roleEntries.Add((RLRoleEntry)Generate.RoleEntry6.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 8) roleEntries.Add((RLRoleEntry)Generate.RoleEntry7.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 9) roleEntries.Add((RLRoleEntry)Generate.RoleEntry8.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 10) roleEntries.Add((RLRoleEntry)Generate.RoleEntry9.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 11) roleEntries.Add((RLRoleEntry)Generate.RoleEntry10.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 12) roleEntries.Add((RLRoleEntry)Generate.RoleEntry11.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 13) roleEntries.Add((RLRoleEntry)Generate.RoleEntry12.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 14) roleEntries.Add((RLRoleEntry)Generate.RoleEntry13.Get());
-                if (PlayerControl.AllPlayerControls.Count >= 15) roleEntries.Add((RLRoleEntry)Generate.RoleEntry14.Get());
-                return roleEntries;
+                var options = Generate.RoleEntries.Select(x => (RLRoleEntry)x.Value.Get()).ToList();
+
+                while (options.Count > PlayerControl.AllPlayerControls.Count)
+                    options.Remove(options.Last());
+
+                return options;
             }
         }
         public static List<RLBanEntry> BanEntries
         {
             get
             {
-                var banEntries = new List<RLBanEntry>();
-                banEntries.Add((RLBanEntry)Generate.BanEntry0.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry1.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry2.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry3.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry4.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry5.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry6.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry7.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry8.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry9.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry10.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry11.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry12.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry13.Get());
-                banEntries.Add((RLBanEntry)Generate.BanEntry14.Get());
-                return banEntries;
+                return Generate.BanEntries.Select(x => (RLBanEntry)x.Value.Get()).ToList();
             }
         }
         public static int MaxImps => (int)Generate.MaxImps.Get();

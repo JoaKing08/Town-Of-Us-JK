@@ -1377,17 +1377,17 @@ namespace TownOfUs
             || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
             || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
             #region Buckets
-            var anyBucket = new List<(Type, bool)>();
-            var randomKillerBucket = new List<(Type, bool)>();
+            var anyBucket = new List<(Type type, bool unique)>();
+            var randomKillerBucket = new List<(Type type, bool unique)>();
             #region Crewmate
-            var randomCrewmateBucket = new List<(Type, bool)>();
-            var commonCrewmateBucket = new List<(Type, bool)>();
-            var uncommonCrewmateBucket = new List<(Type, bool)>();
-            var crewmateInvestigativeBucket = new List<(Type, bool)>();
-            var crewmateKillingBucket = new List<(Type, bool)>();
-            var crewmateProtectiveBucket = new List<(Type, bool)>();
-            var crewmateSupportBucket = new List<(Type, bool)>();
-            var crewmatePowerBucket = new List<(Type, bool)>();
+            var randomCrewmateBucket = new List<(Type type, bool unique)>();
+            var commonCrewmateBucket = new List<(Type type, bool unique)>();
+            var uncommonCrewmateBucket = new List<(Type type, bool unique)>();
+            var crewmateInvestigativeBucket = new List<(Type type, bool unique)>();
+            var crewmateKillingBucket = new List<(Type type, bool unique)>();
+            var crewmateProtectiveBucket = new List<(Type type, bool unique)>();
+            var crewmateSupportBucket = new List<(Type type, bool unique)>();
+            var crewmatePowerBucket = new List<(Type type, bool unique)>();
             #region Crewmate Investigative
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Aurial) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Aurial) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Aurial), false));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Detective) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Detective) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Detective), false));
@@ -1448,15 +1448,15 @@ namespace TownOfUs
             #endregion
             #endregion
             #region Neutral
-            var randomNeutralBucket = new List<(Type, bool)>();
-            var commonNeutralBucket = new List<(Type, bool)>();
-            var uncommonNeutralBucket = new List<(Type, bool)>();
-            var neutralBenignBucket = new List<(Type, bool)>();
-            var neutralEvilBucket = new List<(Type, bool)>();
-            var neutralChaosBucket = new List<(Type, bool)>();
-            var neutralKillingBucket = new List<(Type, bool)>();
-            var neutralProselyteBucket = new List<(Type, bool)>();
-            var neutralApocalypseBucket = new List<(Type, bool)>();
+            var randomNeutralBucket = new List<(Type type, bool unique)>();
+            var commonNeutralBucket = new List<(Type type, bool unique)>();
+            var uncommonNeutralBucket = new List<(Type type, bool unique)>();
+            var neutralBenignBucket = new List<(Type type, bool unique)>();
+            var neutralEvilBucket = new List<(Type type, bool unique)>();
+            var neutralChaosBucket = new List<(Type type, bool unique)>();
+            var neutralKillingBucket = new List<(Type type, bool unique)>();
+            var neutralProselyteBucket = new List<(Type type, bool unique)>();
+            var neutralApocalypseBucket = new List<(Type type, bool unique)>();
             #region Neutral Benign
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Amnesiac) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Amnesiac) && CustomGameOptions.AllUnique)) neutralBenignBucket.Add((typeof(Amnesiac), false));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.GuardianAngel) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.GuardianAngel) && CustomGameOptions.AllUnique)) neutralBenignBucket.Add((typeof(GuardianAngel), false));
@@ -1508,12 +1508,12 @@ namespace TownOfUs
             #endregion
             #endregion
             #region Impostor
-            var randomImpostorBucket = new List<(Type, bool)>();
-            var commonImpostorBucket = new List<(Type, bool)>();
-            var uncommonImpostorBucket = new List<(Type, bool)>();
-            var impostorConcealingBucket = new List<(Type, bool)>();
-            var impostorKillingBucket = new List<(Type, bool)>();
-            var impostorSupportBucket = new List<(Type, bool)>();
+            var randomImpostorBucket = new List<(Type type, bool unique)>();
+            var commonImpostorBucket = new List<(Type type, bool unique)>();
+            var uncommonImpostorBucket = new List<(Type type, bool unique)>();
+            var impostorConcealingBucket = new List<(Type type, bool unique)>();
+            var impostorKillingBucket = new List<(Type type, bool unique)>();
+            var impostorSupportBucket = new List<(Type type, bool unique)>();
             #region All Impostors
             var impostorRoles = new List<Type>();
             impostorRoles.Add(typeof(Escapist));
@@ -1580,7 +1580,7 @@ namespace TownOfUs
             int impostors = 0;
             foreach (var entry in CustomGameOptions.RoleEntries)
             {
-                (Type, bool) role = (typeof(Crewmate), false);
+                (Type type, bool unique) role = (null, false);
                 switch (entry)
                 {
                     case RLRoleEntry.Any:
@@ -1937,41 +1937,44 @@ namespace TownOfUs
                         else role = (typeof(Undertaker), true);
                         break;
                 }
-                if (impostorRoles.Contains(role.Item1)) impostors += 1;
-                if (role.Item1 == typeof(VampireHunter)) vhFrom = entry;
-                choosedRoles.Add(role.Item1);
-                if ((role.Item2 || CustomGameOptions.AllUnique) && role.Item1 != typeof(Crewmate) && role.Item1 != typeof(Impostor))
+                if (role.type != null)
                 {
-                    anyBucket.RemoveAll(x => x == role);
-                    randomCrewmateBucket.RemoveAll(x => x == role);
-                    commonCrewmateBucket.RemoveAll(x => x == role);
-                    uncommonCrewmateBucket.RemoveAll(x => x == role);
-                    crewmateInvestigativeBucket.RemoveAll(x => x == role);
-                    crewmateKillingBucket.RemoveAll(x => x == role);
-                    crewmateProtectiveBucket.RemoveAll(x => x == role);
-                    crewmateSupportBucket.RemoveAll(x => x == role);
-                    crewmatePowerBucket.RemoveAll(x => x == role);
-                    randomNeutralBucket.RemoveAll(x => x == role);
-                    commonNeutralBucket.RemoveAll(x => x == role);
-                    uncommonNeutralBucket.RemoveAll(x => x == role);
-                    neutralBenignBucket.RemoveAll(x => x == role);
-                    neutralEvilBucket.RemoveAll(x => x == role);
-                    neutralChaosBucket.RemoveAll(x => x == role);
-                    neutralKillingBucket.RemoveAll(x => x == role);
-                    neutralProselyteBucket.RemoveAll(x => x == role);
-                    neutralApocalypseBucket.RemoveAll(x => x == role);
-                    randomImpostorBucket.RemoveAll(x => x == role);
-                    commonImpostorBucket.RemoveAll(x => x == role);
-                    uncommonImpostorBucket.RemoveAll(x => x == role);
-                    impostorConcealingBucket.RemoveAll(x => x == role);
-                    impostorKillingBucket.RemoveAll(x => x == role);
-                    impostorSupportBucket.RemoveAll(x => x == role);
-                    randomKillerBucket.RemoveAll(x => x == role);
-                }
-                if (reservedImpostors + impostors >= CustomGameOptions.MaxImps)
-                {
-                    anyBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
-                    randomKillerBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
+                    if (impostorRoles.Contains(role.Item1)) impostors += 1;
+                    if (role.type == typeof(VampireHunter)) vhFrom = entry;
+                    choosedRoles.Add(role.type);
+                    if ((role.unique || CustomGameOptions.AllUnique) && role.type != typeof(Crewmate) && role.type != typeof(Impostor))
+                    {
+                        anyBucket.RemoveAll(x => x == role);
+                        randomCrewmateBucket.RemoveAll(x => x == role);
+                        commonCrewmateBucket.RemoveAll(x => x == role);
+                        uncommonCrewmateBucket.RemoveAll(x => x == role);
+                        crewmateInvestigativeBucket.RemoveAll(x => x == role);
+                        crewmateKillingBucket.RemoveAll(x => x == role);
+                        crewmateProtectiveBucket.RemoveAll(x => x == role);
+                        crewmateSupportBucket.RemoveAll(x => x == role);
+                        crewmatePowerBucket.RemoveAll(x => x == role);
+                        randomNeutralBucket.RemoveAll(x => x == role);
+                        commonNeutralBucket.RemoveAll(x => x == role);
+                        uncommonNeutralBucket.RemoveAll(x => x == role);
+                        neutralBenignBucket.RemoveAll(x => x == role);
+                        neutralEvilBucket.RemoveAll(x => x == role);
+                        neutralChaosBucket.RemoveAll(x => x == role);
+                        neutralKillingBucket.RemoveAll(x => x == role);
+                        neutralProselyteBucket.RemoveAll(x => x == role);
+                        neutralApocalypseBucket.RemoveAll(x => x == role);
+                        randomImpostorBucket.RemoveAll(x => x == role);
+                        commonImpostorBucket.RemoveAll(x => x == role);
+                        uncommonImpostorBucket.RemoveAll(x => x == role);
+                        impostorConcealingBucket.RemoveAll(x => x == role);
+                        impostorKillingBucket.RemoveAll(x => x == role);
+                        impostorSupportBucket.RemoveAll(x => x == role);
+                        randomKillerBucket.RemoveAll(x => x == role);
+                    }
+                    if (reservedImpostors + impostors >= CustomGameOptions.MaxImps)
+                    {
+                        anyBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
+                        randomKillerBucket.RemoveAll(x => impostorRoles.Contains(x.Item1));
+                    }
                 }
             }
             for (int i = 0; i < choosedRoles.Count; i++)

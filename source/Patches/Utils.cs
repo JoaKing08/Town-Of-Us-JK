@@ -257,6 +257,10 @@ namespace TownOfUs
             {
                 return false;
             }
+            if (roles.Count() == 0)
+            {
+                return false;
+            }
 
             return roles.Any(role =>
             {

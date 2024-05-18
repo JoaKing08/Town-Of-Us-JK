@@ -114,6 +114,10 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.TavernKeeper:
                 case RoleEnum.Undercover:
                 case RoleEnum.Lookout:
+                case RoleEnum.Deputy:
+                case RoleEnum.Bodyguard:
+                case RoleEnum.Crusader:
+                case RoleEnum.Cleric:
 
                     rememberImp = false;
                     rememberNeut = false;
@@ -143,6 +147,8 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Inquisitor:
                 case RoleEnum.SerialKiller:
                 case RoleEnum.Witch:
+                case RoleEnum.Necromancer:
+                case RoleEnum.Jackal:
 
                     rememberImp = false;
 
@@ -660,11 +666,11 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             Role.GetRole(amnesiac).Roleblocked = false;
             Role.GetRole(amnesiac).Reaped = false;
             Role.GetRole(amnesiac).BreadLeft = oldBread;
-            Role.GetRole(amnesiac).FactionOverride = amneFactionOverride;
-            Role.GetRole(other).FactionOverride = targetFactionOverride;
-            if (amnesiac.Is(RoleEnum.Vampire)) Role.GetRole(amnesiac).FactionOverride = FactionOverride.Vampires;
-            if (amnesiac.Is(RoleEnum.JKNecromancer)) Role.GetRole(amnesiac).FactionOverride = FactionOverride.Undead;
-            if (amnesiac.Is(RoleEnum.Jackal)) Role.GetRole(amnesiac).FactionOverride = FactionOverride.Recruit;
+            if (!amnesiac.Is(RoleEnum.Vampire) && !amnesiac.Is(RoleEnum.JKNecromancer) && !amnesiac.Is(RoleEnum.Jackal))
+            {
+                Role.GetRole(amnesiac).FactionOverride = amneFactionOverride;
+                Role.GetRole(other).FactionOverride = targetFactionOverride;
+            }
             Role.GetRole(amnesiac).RegenTask();
             Role.GetRole(other).RegenTask();
 

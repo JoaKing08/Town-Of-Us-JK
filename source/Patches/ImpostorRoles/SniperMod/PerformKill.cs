@@ -48,7 +48,7 @@ namespace TownOfUs.ImpostorRoles.SniperMod
                 else
                 {
                     if (PlayerControl.LocalPlayer.killTimer != 0) return false;
-                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
+                    if (role.AimedPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.AimedPlayer.PlayerId, (byte)role.RoleType, (byte)1);
 
                     if (!role.AimedPlayer.Is(RoleEnum.Pestilence) && !role.AimedPlayer.Is(RoleEnum.Famine) && !role.AimedPlayer.Is(RoleEnum.War) && !role.AimedPlayer.Is(RoleEnum.Death) && !role.AimedPlayer.IsShielded() && !role.AimedPlayer.IsVesting() && !role.AimedPlayer.IsOnAlert() && !role.AimedPlayer.IsProtected())
                     {

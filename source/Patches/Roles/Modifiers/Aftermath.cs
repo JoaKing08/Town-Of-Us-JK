@@ -176,6 +176,26 @@ namespace TownOfUs.Roles.Modifiers
                 DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
                 bomber.Bomb = BombExtentions.CreateBomb(pos);
             }
+            else if (role is Poisoner poisoner)
+            {
+                if (poisoner.PoisonedPlayer == null) poisoner.PoisonedPlayer = player;
+            }
+            else if (role is Sniper sniper)
+            {
+                if (sniper.AimedPlayer == null) sniper.AimedPlayer = player;
+                else
+                {
+                    if (sniper.AimedPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, sniper.AimedPlayer.PlayerId, (byte)sniper.RoleType, (byte)1);
+
+                    if (!sniper.AimedPlayer.Is(RoleEnum.Pestilence) && !sniper.AimedPlayer.Is(RoleEnum.Famine) && !sniper.AimedPlayer.Is(RoleEnum.War) && !sniper.AimedPlayer.Is(RoleEnum.Death) && !sniper.AimedPlayer.IsShielded() && !sniper.AimedPlayer.IsVesting() && !sniper.AimedPlayer.IsOnAlert() && !sniper.AimedPlayer.IsProtected())
+                    {
+                        Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, sniper.AimedPlayer);
+                        Utils.Rpc(CustomRPC.KillAbilityUsed, sniper.AimedPlayer.PlayerId);
+                    }
+                    sniper.AimedPlayer = null;
+                    Utils.Rpc(CustomRPC.Shoot, player.PlayerId);
+                }
+            }
         }
     }
 }

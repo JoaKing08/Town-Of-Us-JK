@@ -1,10 +1,12 @@
+using System;
+
 namespace TownOfUs.CustomOption
 {
     public class CustomStringOption : CustomOption
     {
-        protected internal CustomStringOption(int id, MultiMenu menu, string name, string[] values) : base(id, menu, name,
+        protected internal CustomStringOption(int id, MultiMenu menu, string name, string[] values, Func<bool> hideWhen = null) : base(id, menu, name,
             CustomOptionType.String,
-            0)
+            0, null, hideWhen)
         {
             Values = values;
             Format = value => Values[(int) value];

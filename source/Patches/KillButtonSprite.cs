@@ -385,6 +385,11 @@ namespace TownOfUs
                     var phantom = Role.GetRole<Phantom>(PlayerControl.LocalPlayer);
                     if (!phantom.Caught) ghostRole = true;
                 }
+                else if (PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist))
+                {
+                    var poltergeist = Role.GetRole<Poltergeist>(PlayerControl.LocalPlayer);
+                    if (!poltergeist.Caught) ghostRole = true;
+                }
                 HudManager.Instance.AbilityButton.gameObject.SetActive(!ghostRole && Utils.ShowDeadBodies && !MeetingHud.Instance);
             }
         }

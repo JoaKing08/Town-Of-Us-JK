@@ -171,6 +171,16 @@ namespace TownOfUs
                 var agent = (ApocalypseAgent)objective;
                 losers.Add(agent.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Jackal))
+            {
+                var jackal = (Jackal)role;
+                losers.Add(jackal.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
+            {
+                var necromancer = (Necromancer)role;
+                losers.Add(necromancer.Player.GetDefaultOutfit().ColorId);
+            }
 
             var toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();
             for (int i = 0; i < toRemoveWinners.Count(); i++) TempData.winners.Remove(toRemoveWinners[i]);
@@ -283,24 +293,45 @@ namespace TownOfUs
             {
                 var type = objective.ObjectiveType;
                 var role = Role.GetRole(objective.Player);
-                if (role != null) if (role.FactionOverride != FactionOverride.None) return;
-
-                if (type == ObjectiveEnum.Lover)
+                if (role == null)
                 {
-                    var lover = (Lover)objective;
-                    if (lover.LoveCoupleWins)
+                    if (type == ObjectiveEnum.Lover)
                     {
-                        var otherLover = lover.OtherLover;
-                        TempData.winners = new List<WinningPlayerData>();
-                        var loverOneData = new WinningPlayerData(lover.Player.Data);
-                        var loverTwoData = new WinningPlayerData(otherLover.Player.Data);
-                        if (PlayerControl.LocalPlayer != lover.Player) loverOneData.IsYou = false;
-                        if (PlayerControl.LocalPlayer != otherLover.Player) loverTwoData.IsYou = false;
-                        TempData.winners.Add(loverOneData);
-                        TempData.winners.Add(loverTwoData);
-                        return;
+                        var lover = (Lover)objective;
+                        if (lover.LoveCoupleWins)
+                        {
+                            var otherLover = lover.OtherLover;
+                            TempData.winners = new List<WinningPlayerData>();
+                            var loverOneData = new WinningPlayerData(lover.Player.Data);
+                            var loverTwoData = new WinningPlayerData(otherLover.Player.Data);
+                            if (PlayerControl.LocalPlayer != lover.Player) loverOneData.IsYou = false;
+                            if (PlayerControl.LocalPlayer != otherLover.Player) loverTwoData.IsYou = false;
+                            TempData.winners.Add(loverOneData);
+                            TempData.winners.Add(loverTwoData);
+                            return;
+                        }
                     }
                 }
+                if (role.FactionOverride == FactionOverride.None)
+                {
+                    if (type == ObjectiveEnum.Lover)
+                    {
+                        var lover = (Lover)objective;
+                        if (lover.LoveCoupleWins)
+                        {
+                            var otherLover = lover.OtherLover;
+                            TempData.winners = new List<WinningPlayerData>();
+                            var loverOneData = new WinningPlayerData(lover.Player.Data);
+                            var loverTwoData = new WinningPlayerData(otherLover.Player.Data);
+                            if (PlayerControl.LocalPlayer != lover.Player) loverOneData.IsYou = false;
+                            if (PlayerControl.LocalPlayer != otherLover.Player) loverTwoData.IsYou = false;
+                            TempData.winners.Add(loverOneData);
+                            TempData.winners.Add(loverTwoData);
+                            return;
+                        }
+                    }
+                }
+
             }
 
             if (Role.VampireWins)
@@ -485,26 +516,54 @@ namespace TownOfUs
                     }
                 }
             }
-            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ImpostorAgent).ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
+            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ImpostorAgent))
             {
                 var agent = (ImpostorAgent)modifier;
-                var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
-                if (isImp)
+                var role = Role.GetRole(modifier.Player);
+                if (role == null)
                 {
-                    var agentWinData = new WinningPlayerData(agent.Player.Data);
-                    if (isImp) agentWinData.IsImpostor = true;
-                    if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
-                    TempData.winners.Add(agentWinData);
+                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
+                    if (isImp)
+                    {
+                        var agentWinData = new WinningPlayerData(agent.Player.Data);
+                        if (isImp) agentWinData.IsImpostor = true;
+                        if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
+                        TempData.winners.Add(agentWinData);
+                    }
+                }
+                else if (role.FactionOverride == FactionOverride.None)
+                {
+                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
+                    if (isImp)
+                    {
+                        var agentWinData = new WinningPlayerData(agent.Player.Data);
+                        if (isImp) agentWinData.IsImpostor = true;
+                        if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
+                        TempData.winners.Add(agentWinData);
+                    }
                 }
             }
             foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent).ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
             {
                 var agent = (ApocalypseAgent)modifier;
-                if (apocWin)
+                var role = Role.GetRole(modifier.Player);
+                if (role == null)
                 {
-                    var agentWinData = new WinningPlayerData(agent.Player.Data);
-                    if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
-                    TempData.winners.Add(agentWinData);
+                    if (apocWin)
+                    {
+                        var agentWinData = new WinningPlayerData(agent.Player.Data);
+                        if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
+                        TempData.winners.Add(agentWinData);
+                    }
+                }
+                else if (role.FactionOverride == FactionOverride.None)
+                {
+                    if (apocWin)
+                    {
+                        var agentWinData = new WinningPlayerData(agent.Player.Data);
+                        if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
+                        TempData.winners.Add(agentWinData);
+                    }
                 }
             }
             foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
@@ -538,7 +597,7 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
             {
                 var witch = (Witch)role;
-                var isCrew = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.GetDefaultOutfit().ColorId == TempData.winners[0].ColorId);
+                var isCrew = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && x.GetDefaultOutfit().ColorId == TempData.winners[0].ColorId);
                 var witchWinData = new WinningPlayerData(witch.Player.Data);
                 if (!isCrew && !witchWinData.IsDead)
                     {

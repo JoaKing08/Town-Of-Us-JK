@@ -30,22 +30,46 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
                 Role.GetRole(role.ClosestPlayer).BreadLeft -= 1;
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    if (!player.Is(Faction.NeutralApocalypse) && !player.Is(ObjectiveEnum.ApocalypseAgent))
+                    if (role.FactionOverride == FactionOverride.None)
                     {
-                        var playerRole = Role.GetRole(player);
-                        playerRole.BreadLeft -= 1;
-                        if (playerRole.BreadLeft <= 0)
+                        if (!player.Is(Faction.NeutralApocalypse) && !player.Is(ObjectiveEnum.ApocalypseAgent))
                         {
-                            Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
-                            Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
+                            var playerRole = Role.GetRole(player);
+                            playerRole.BreadLeft -= 1;
+                            if (playerRole.BreadLeft <= 0)
+                            {
+                                Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                                Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
+                            }
+                            if (player == role.ClosestPlayer)
+                            {
+                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
+                            }
+                            else
+                            {
+                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
+                            }
                         }
-                        if (player == role.ClosestPlayer)
+                    }
+                    else
+                    {
+                        if (!player.Is(role.FactionOverride))
                         {
-                            if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
-                        }
-                        else
-                        {
-                            if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
+                            var playerRole = Role.GetRole(player);
+                            playerRole.BreadLeft -= 1;
+                            if (playerRole.BreadLeft <= 0)
+                            {
+                                Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                                Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
+                            }
+                            if (player == role.ClosestPlayer)
+                            {
+                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
+                            }
+                            else
+                            {
+                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
+                            }
                         }
                     }
                 }

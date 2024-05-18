@@ -304,9 +304,8 @@ namespace TownOfUs.CustomOption
                     x = __instance.Children[1].transform.localPosition.x;
                     z = __instance.Children[1].transform.localPosition.z;
                 }
-
                 var i = 0;
-                foreach (var option in __instance.Children)
+                foreach (var option in __instance.Children.Where(x => x.gameObject.active))
                     option.transform.localPosition = new Vector3(x, y - i++ * 0.5f, z);
 
                 try

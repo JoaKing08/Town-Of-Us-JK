@@ -21,10 +21,6 @@ namespace TownOfUs
 
             HudUpdate.Zooming = false;
             Camera.main.orthographicSize = 3f;
-            foreach (var role in Role.AllRoles)
-            {
-                role.meeting = true;
-            }
             Role.GetRole(PlayerControl.LocalPlayer).CurrentChat = ChatType.ApocalypseChat;
             ChatPatches.ChangeChat();
             foreach (var cam in Camera.allCameras)

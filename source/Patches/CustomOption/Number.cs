@@ -6,7 +6,7 @@ namespace TownOfUs.CustomOption
     public class CustomNumberOption : CustomOption
     {
         protected internal CustomNumberOption(int id, MultiMenu menu, string name, float value, float min, float max, float increment,
-            Func<object, string> format = null) : base(id, menu, name, CustomOptionType.Number, value, format)
+            Func<object, string> format = null, Func<bool> hideWhen = null) : base(id, menu, name, CustomOptionType.Number, value, format, hideWhen)
         {
             Min = min;
             Max = max;

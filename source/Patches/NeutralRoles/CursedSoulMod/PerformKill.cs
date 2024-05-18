@@ -127,6 +127,10 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 case RoleEnum.TavernKeeper:
                 case RoleEnum.Undercover:
                 case RoleEnum.Lookout:
+                case RoleEnum.Deputy:
+                case RoleEnum.Bodyguard:
+                case RoleEnum.Crusader:
+                case RoleEnum.Cleric:
 
                     swapImp = false;
                     swapNeut = false;
@@ -157,6 +161,8 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 case RoleEnum.SerialKiller:
                 case RoleEnum.Witch:
                 case RoleEnum.CursedSoul:
+                case RoleEnum.Necromancer:
+                case RoleEnum.Jackal:
 
                     swapImp = false;
 
@@ -674,11 +680,11 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             Role.GetRole(cursedSoul).Roleblocked = false;
             Role.GetRole(cursedSoul).Reaped = false;
             Role.GetRole(cursedSoul).BreadLeft = cursedSoulBread;
-            Role.GetRole(cursedSoul).FactionOverride = cursedSoulFactionOverride;
-            Role.GetRole(target).FactionOverride = targetFactionOverride;
-            if (cursedSoul.Is(RoleEnum.Vampire)) Role.GetRole(cursedSoul).FactionOverride = FactionOverride.Vampires;
-            if (cursedSoul.Is(RoleEnum.JKNecromancer)) Role.GetRole(cursedSoul).FactionOverride = FactionOverride.Undead;
-            if (cursedSoul.Is(RoleEnum.Jackal)) Role.GetRole(cursedSoul).FactionOverride = FactionOverride.Recruit;
+            if (!cursedSoul.Is(RoleEnum.Vampire) && !cursedSoul.Is(RoleEnum.JKNecromancer) && !cursedSoul.Is(RoleEnum.Jackal))
+            {
+                Role.GetRole(cursedSoul).FactionOverride = cursedSoulFactionOverride;
+                Role.GetRole(target).FactionOverride = targetFactionOverride;
+            }
             Role.GetRole(cursedSoul).RegenTask();
             Role.GetRole(target).RegenTask();
 

@@ -1,10 +1,12 @@
+using System;
+
 namespace TownOfUs.CustomOption
 {
     public class CustomToggleOption : CustomOption
     {
-        protected internal CustomToggleOption(int id, MultiMenu menu, string name, bool value = true) : base(id, menu, name,
+        protected internal CustomToggleOption(int id, MultiMenu menu, string name, bool value = true, Func<bool> hideWhen = null) : base(id, menu, name,
             CustomOptionType.Toggle,
-            value)
+            value, null, hideWhen)
         {
             Format = val => (bool) val ? "On" : "Off";
         }

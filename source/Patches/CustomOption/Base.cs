@@ -10,11 +10,12 @@ namespace TownOfUs.CustomOption
         public readonly MultiMenu Menu;
 
         public Func<object, string> Format;
+        public Func<bool> HideWhen;
         public string Name;
 
 
         protected internal CustomOption(int id, MultiMenu menu, string name, CustomOptionType type, object defaultValue,
-            Func<object, string> format = null)
+            Func<object, string> format = null, Func<bool> hideWhen = null)
         {
             ID = id;
             Menu = menu;
@@ -22,6 +23,7 @@ namespace TownOfUs.CustomOption
             Type = type;
             DefaultValue = Value = defaultValue;
             Format = format ?? (obj => $"{obj}");
+            HideWhen = hideWhen ?? (() => false);
 
             if (Type == CustomOptionType.Button) return;
             AllOptions.Add(this);

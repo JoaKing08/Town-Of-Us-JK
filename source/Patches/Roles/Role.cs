@@ -971,7 +971,7 @@ namespace TownOfUs.Roles
                         || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
                         || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
                         || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
-                        var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any);
+                        var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any || x == RLRoleEntry.RandomKiller);
                         if (anySlots == 0 || setImpostorAmount >= CustomGameOptions.MaxImps) __instance.__4__this.ImpostorText.text = $"There {(setImpostorAmount == 1 ? "is" : "are")} <color=#FF0000FF>{setImpostorAmount} Impostor{(setImpostorAmount == 1 ? "" : "s")}</color> among us";
                         else __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
                     }
@@ -1096,7 +1096,7 @@ namespace TownOfUs.Roles
                         || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
                         || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
                         || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
-                        var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any);
+                        var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any || x == RLRoleEntry.RandomKiller);
                         if (anySlots == 0 || setImpostorAmount >= CustomGameOptions.MaxImps) __instance.__4__this.ImpostorText.text = $"There {(setImpostorAmount == 1 ? "is" : "are")} <color=#FF0000FF>{setImpostorAmount} Impostor{(setImpostorAmount == 1 ? "" : "s")}</color> among us";
                         else __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
                     }

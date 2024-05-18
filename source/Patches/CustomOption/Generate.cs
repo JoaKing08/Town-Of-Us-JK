@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TownOfUs.CustomOption
 {
@@ -738,42 +739,14 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption BarrierCooldownReset;
 
         public static CustomHeaderOption RoleListSettings;
-        public static CustomStringOption RoleEntry0;
-        public static CustomStringOption RoleEntry1;
-        public static CustomStringOption RoleEntry2;
-        public static CustomStringOption RoleEntry3;
-        public static CustomStringOption RoleEntry4;
-        public static CustomStringOption RoleEntry5;
-        public static CustomStringOption RoleEntry6;
-        public static CustomStringOption RoleEntry7;
-        public static CustomStringOption RoleEntry8;
-        public static CustomStringOption RoleEntry9;
-        public static CustomStringOption RoleEntry10;
-        public static CustomStringOption RoleEntry11;
-        public static CustomStringOption RoleEntry12;
-        public static CustomStringOption RoleEntry13;
-        public static CustomStringOption RoleEntry14;
+        public static Dictionary<int, CustomStringOption> RoleEntries;
         public static CustomHeaderOption RoleListSpacing0;
-        public static CustomStringOption BanEntry0;
-        public static CustomStringOption BanEntry1;
-        public static CustomStringOption BanEntry2;
-        public static CustomStringOption BanEntry3;
-        public static CustomStringOption BanEntry4;
-        public static CustomStringOption BanEntry5;
-        public static CustomStringOption BanEntry6;
-        public static CustomStringOption BanEntry7;
-        public static CustomStringOption BanEntry8;
-        public static CustomStringOption BanEntry9;
-        public static CustomStringOption BanEntry10;
-        public static CustomStringOption BanEntry11;
-        public static CustomStringOption BanEntry12;
-        public static CustomStringOption BanEntry13;
-        public static CustomStringOption BanEntry14;
+        public static Dictionary<int, CustomStringOption> BanEntries;
         public static CustomHeaderOption RoleListSpacing1;
         public static CustomNumberOption MaxImps;
         public static CustomToggleOption AllUnique;
 
-        public static string[] RoleEntries => new string[]
+        public static string[] RoleEntriesData => new string[]
     {
         "Any",
 
@@ -893,7 +866,7 @@ namespace TownOfUs.CustomOption
 
         "<color=#0000FFFF>Random</color> <color=#FF0000FF>Killer</color>"
     };
-        public static string[] BanEntries => new string[]
+        public static string[] BanEntriesData => new string[]
     {
         "None",
 
@@ -1392,68 +1365,18 @@ namespace TownOfUs.CustomOption
 
             RoleListSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Role List Settings");
-            RoleEntry0 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 1", RoleEntries);
-            RoleEntry1 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 2", RoleEntries);
-            RoleEntry2 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 3", RoleEntries);
-            RoleEntry3 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 4", RoleEntries);
-            RoleEntry4 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 5", RoleEntries);
-            RoleEntry5 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 6", RoleEntries);
-            RoleEntry6 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 7", RoleEntries);
-            RoleEntry7 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 8", RoleEntries);
-            RoleEntry8 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 9", RoleEntries);
-            RoleEntry9 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 10", RoleEntries);
-            RoleEntry10 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 11", RoleEntries);
-            RoleEntry11 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 12", RoleEntries);
-            RoleEntry12 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 13", RoleEntries);
-            RoleEntry13 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 14", RoleEntries);
-            RoleEntry14 =
-                new CustomStringOption(num++, MultiMenu.main, "Role Entry 15", RoleEntries);
+            RoleEntries = new Dictionary<int, CustomStringOption>();
+            for (int i = 0; i < 15; i++)
+            {
+                RoleEntries.Add(i, new CustomStringOption(num++, MultiMenu.main, "Role Entry " + (i + 1), RoleEntriesData));
+            }
             RoleListSpacing0 =
                 new CustomHeaderOption(num++, MultiMenu.main, "");
-            BanEntry0 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 1", BanEntries);
-            BanEntry1 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 2", BanEntries);
-            BanEntry2 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 3", BanEntries);
-            BanEntry3 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 4", BanEntries);
-            BanEntry4 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 5", BanEntries);
-            BanEntry5 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 6", BanEntries);
-            BanEntry6 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 7", BanEntries);
-            BanEntry7 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 8", BanEntries);
-            BanEntry8 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 9", BanEntries);
-            BanEntry9 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 10", BanEntries);
-            BanEntry10 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 11", BanEntries);
-            BanEntry11 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 12", BanEntries);
-            BanEntry12 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 13", BanEntries);
-            BanEntry13 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 14", BanEntries);
-            BanEntry14 =
-                new CustomStringOption(num++, MultiMenu.main, "Ban Entry 15", BanEntries);
+            BanEntries = new Dictionary<int, CustomStringOption>();
+            for (int i = 0; i < 15; i++)
+            {
+                BanEntries.Add(i, new CustomStringOption(num++, MultiMenu.main, "Ban Entry " + (i + 1), BanEntriesData));
+            }
             RoleListSpacing1 =
                 new CustomHeaderOption(num++, MultiMenu.main, "");
             MaxImps = new CustomNumberOption(num++, MultiMenu.main, "Maximum Number Of Impostors", 4, 0, 15, 1);
