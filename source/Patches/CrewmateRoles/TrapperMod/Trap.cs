@@ -2,6 +2,7 @@
 using Reactor.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -32,7 +33,7 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
                 {
                     if (!players.ContainsKey(player.PlayerId))
                     {
-                        if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Trapper, (byte)0);
+                        if (player.IsBugged() && !Role.GetRoles(RoleEnum.Trapper).Any(x => ((Trapper)x).traps.Contains(this) && x.Player.PlayerId == player.PlayerId)) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Trapper, (byte)0);
                         players.Add(player.PlayerId, 0f);
                     }
                 } else

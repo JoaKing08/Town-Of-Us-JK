@@ -1330,30 +1330,30 @@ namespace TownOfUs.Roles
                     player.ColorBlindName.transform.localPosition = new Vector3(-0.93f, -0.2f, -0.1f);
 
                     var role = GetRole(player);
-                    if (role != null && role.Criteria())
+                    if (role != null)
                     {
-                        bool selfFlag = role.SelfCriteria();
-                        bool deadFlag = role.DeadCriteria();
-                        bool impostorFlag = role.ImpostorCriteria();
-                        bool proselyteFlag = role.ProselyteCriteria();
-                        bool loverFlag = role.LoverCriteria();
-                        bool roleFlag = role.RoleCriteria();
-                        bool gaFlag = role.GuardianAngelCriteria();
-                        bool apocalypseFlag = role.ApocalypseCriteria();
-                        bool witchFlag = role.WitchCriteria();
-                        bool agentFlag = role.AgentCriteria();
-                        player.NameText.text = role.NameText( //Error
-                            selfFlag || deadFlag || role.Local,
-                            selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
-                            selfFlag || deadFlag || agentFlag,
-                            loverFlag,
-                            witchFlag,
-                            player
-                        );
-                        if (role.ColorCriteria())
-                            player.NameText.color = role.Color;
-                        if (role != null)
+                        if (role.Criteria())
                         {
+                            bool selfFlag = role.SelfCriteria();
+                            bool deadFlag = role.DeadCriteria();
+                            bool impostorFlag = role.ImpostorCriteria();
+                            bool proselyteFlag = role.ProselyteCriteria();
+                            bool loverFlag = role.LoverCriteria();
+                            bool roleFlag = role.RoleCriteria();
+                            bool gaFlag = role.GuardianAngelCriteria();
+                            bool apocalypseFlag = role.ApocalypseCriteria();
+                            bool witchFlag = role.WitchCriteria();
+                            bool agentFlag = role.AgentCriteria();
+                            player.NameText.text = role.NameText( //Error
+                                selfFlag || deadFlag || role.Local,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
+                                selfFlag || deadFlag || agentFlag,
+                                loverFlag,
+                                witchFlag,
+                                player
+                            );
+                            if (role.ColorCriteria())
+                                player.NameText.color = role.Color;
                             if (role.RoleType == RoleEnum.Undercover)
                             {
                                 if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
@@ -1362,29 +1362,26 @@ namespace TownOfUs.Roles
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                                 player.NameText.color = Patches.Colors.Impostor;
                         }
-                    }
-                    else if (role.Player.IsKnight() == true)
-                    {
-                        try
+                        if (role.Player.IsKnight())
                         {
-                            player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>"; //Error
+                            try
+                            {
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>"; //Error
+                            }
+                            catch
+                            {
+                            }
                         }
-                        catch
+                        else
                         {
+                            try
+                            {
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName;
+                            }
+                            catch
+                            {
+                            }
                         }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            player.NameText.text = role.Player.GetDefaultOutfit().PlayerName;
-                        }
-                        catch
-                        {
-                        }
-                    }
-                    if (role != null)
-                    {
                         if (role.RoleType == RoleEnum.Undercover)
                         {
                             if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
@@ -1446,16 +1443,13 @@ namespace TownOfUs.Roles
                              );
                             if (role.ColorCriteria())
                                 player.nameText().color = role.Color;
-                            if (role != null)
+                            if (role.RoleType == RoleEnum.Undercover)
                             {
-                                if (role.RoleType == RoleEnum.Undercover)
-                                {
-                                    if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
-                                        player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
-                                }
-                                else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
-                                    player.nameText().color = Patches.Colors.Impostor;
+                                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
+                                    player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
                             }
+                            else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                                player.nameText().color = Patches.Colors.Impostor;
                         }
                         else if (player.IsKnight()) player.nameText().text += "<color=#9628C8FF> +</color>";
                     }

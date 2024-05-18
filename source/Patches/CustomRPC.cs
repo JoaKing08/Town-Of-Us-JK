@@ -150,7 +150,7 @@ namespace TownOfUs
         Barrier,
         Unbarrier,
         SetChat,
-        SetVanillaRole,
+        SetVanillaRoles,
 
         RpcExpand = 255
     }
