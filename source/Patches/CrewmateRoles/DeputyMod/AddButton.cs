@@ -57,27 +57,55 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                 }
                 role.ShootButtons.Clear();
                 var target = Utils.PlayerById(targetId);
+                var voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == targetId);
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Deputy));
                 role.Notification($"Deputy Has Shot {target.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
                 role.Revealed = true;
                 if (!target.Is(RoleEnum.Pestilence) && !target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death))
                 {
                     target.Exiled();
+                    voteArea.AmDead = true;
+                    voteArea.Overlay.gameObject.SetActive(true);
+                    voteArea.Overlay.color = Color.white;
+                    voteArea.XMark.gameObject.SetActive(true);
+                    voteArea.XMark.transform.localScale = Vector3.one;
                     SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
                     if (target.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
                     {
-                        Objective.GetObjective<Lover>(target).OtherLover.Player.Exiled();
+                        var lover = Objective.GetObjective<Lover>(target).OtherLover.Player;
+                        lover.Exiled();
+                        voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == lover.PlayerId);
+                        voteArea.AmDead = true;
+                        voteArea.Overlay.gameObject.SetActive(true);
+                        voteArea.Overlay.color = Color.white;
+                        voteArea.XMark.gameObject.SetActive(true);
+                        voteArea.XMark.transform.localScale = Vector3.one;
                     }
                     if (target.Is(FactionOverride.Recruit) && CustomGameOptions.RecruistLifelink)
                     {
                         var recruit = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && x.PlayerId != targetId);
-                        if (recruit != null) recruit.Exiled();
+                        if (recruit != null)
+                        {
+                            recruit.Exiled();
+                            voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == recruit.PlayerId);
+                            voteArea.AmDead = true;
+                            voteArea.Overlay.gameObject.SetActive(true);
+                            voteArea.Overlay.color = Color.white;
+                            voteArea.XMark.gameObject.SetActive(true);
+                            voteArea.XMark.transform.localScale = Vector3.one;
+                        }
                     }
                     if (target.Is(RoleEnum.JKNecromancer))
                     {
                         foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead)))
                         {
                             undead.Exiled();
+                            voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == undead.PlayerId);
+                            voteArea.AmDead = true;
+                            voteArea.Overlay.gameObject.SetActive(true);
+                            voteArea.Overlay.color = Color.white;
+                            voteArea.XMark.gameObject.SetActive(true);
+                            voteArea.XMark.transform.localScale = Vector3.one;
                         }
                     }
                     if (CustomGameOptions.MisfireKillsDeputy && target.Is(Faction.Crewmates) && target.Is(FactionOverride.None) && !target.Is(ObjectiveEnum.ImpostorAgent) && !target.Is(ObjectiveEnum.ApocalypseAgent))
@@ -85,12 +113,28 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                         role.Player.Exiled();
                         if (role.Player.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
                         {
-                            Objective.GetObjective<Lover>(role.Player).OtherLover.Player.Exiled();
+                            var lover = Objective.GetObjective<Lover>(role.Player).OtherLover.Player;
+                            lover.Exiled();
+                            voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == lover.PlayerId);
+                            voteArea.AmDead = true;
+                            voteArea.Overlay.gameObject.SetActive(true);
+                            voteArea.Overlay.color = Color.white;
+                            voteArea.XMark.gameObject.SetActive(true);
+                            voteArea.XMark.transform.localScale = Vector3.one;
                         }
                         if (role.Player.Is(FactionOverride.Recruit) && CustomGameOptions.RecruistLifelink)
                         {
                             var recruit = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && x.PlayerId != role.Player.PlayerId);
-                            if (recruit != null) recruit.Exiled();
+                            if (recruit != null)
+                            {
+                                recruit.Exiled();
+                                voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == recruit.PlayerId);
+                                voteArea.AmDead = true;
+                                voteArea.Overlay.gameObject.SetActive(true);
+                                voteArea.Overlay.color = Color.white;
+                                voteArea.XMark.gameObject.SetActive(true);
+                                voteArea.XMark.transform.localScale = Vector3.one;
+                            }
                         }
                     }
                 }

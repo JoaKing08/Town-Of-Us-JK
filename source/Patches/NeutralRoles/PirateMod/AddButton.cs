@@ -116,7 +116,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                 var pirate = (Pirate)role;
                 var dueled = Role.GetRole(pirate.DueledPlayer);
                 pirate.DefenseButton.Destroy();
-                dueled.DefenseButton.Destroy();
+                if (dueled != null) dueled.DefenseButton.Destroy();
             }
 
             if (PlayerControl.LocalPlayer.Data.IsDead) return;

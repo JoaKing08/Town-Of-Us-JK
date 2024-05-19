@@ -27,20 +27,56 @@ namespace TownOfUs.NeutralRoles.PirateMod
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
                         dueled.Notification("You Lost The Duel!", 1000 * CustomGameOptions.NotificationDuration);
                     }
-                        if (pirate.DueledPlayer.Is(RoleEnum.Pestilence) || pirate.DueledPlayer.Is(RoleEnum.Famine) || pirate.DueledPlayer.Is(RoleEnum.War) || pirate.DueledPlayer.Is(RoleEnum.Death))
+                    var voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == pirate.DueledPlayer.PlayerId);
+                    if (!pirate.DueledPlayer.Is(RoleEnum.Pestilence) && !pirate.DueledPlayer.Is(RoleEnum.Famine) && !pirate.DueledPlayer.Is(RoleEnum.War) && !pirate.DueledPlayer.Is(RoleEnum.Death))
                     {
-                        pirate.DueledPlayer = null;
-                    }
-                    else
-                    {
-                        if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
-                        {
-                            KillButtonTarget.DontRevive = pirate.DueledPlayer.PlayerId;
-                        }
                         pirate.DueledPlayer.Exiled();
+                        voteArea.AmDead = true;
+                        voteArea.Overlay.gameObject.SetActive(true);
+                        voteArea.Overlay.color = Color.white;
+                        voteArea.XMark.gameObject.SetActive(true);
+                        voteArea.XMark.transform.localScale = Vector3.one;
                         SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
-                        pirate.DueledPlayer = null;
+                        if (pirate.DueledPlayer.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
+                        {
+                            var lover = Objective.GetObjective<Lover>(pirate.DueledPlayer).OtherLover.Player;
+                            lover.Exiled();
+                            voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == lover.PlayerId);
+                            voteArea.AmDead = true;
+                            voteArea.Overlay.gameObject.SetActive(true);
+                            voteArea.Overlay.color = Color.white;
+                            voteArea.XMark.gameObject.SetActive(true);
+                            voteArea.XMark.transform.localScale = Vector3.one;
+                        }
+                        if (pirate.DueledPlayer.Is(FactionOverride.Recruit) && CustomGameOptions.RecruistLifelink)
+                        {
+                            var recruit = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && x.PlayerId != pirate.Player.PlayerId);
+                            if (recruit != null)
+                            {
+                                recruit.Exiled();
+                                voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == recruit.PlayerId);
+                                voteArea.AmDead = true;
+                                voteArea.Overlay.gameObject.SetActive(true);
+                                voteArea.Overlay.color = Color.white;
+                                voteArea.XMark.gameObject.SetActive(true);
+                                voteArea.XMark.transform.localScale = Vector3.one;
+                            }
+                        }
+                        if (pirate.DueledPlayer.Is(RoleEnum.JKNecromancer))
+                        {
+                            foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead)))
+                            {
+                                undead.Exiled();
+                                voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == undead.PlayerId);
+                                voteArea.AmDead = true;
+                                voteArea.Overlay.gameObject.SetActive(true);
+                                voteArea.Overlay.color = Color.white;
+                                voteArea.XMark.gameObject.SetActive(true);
+                                voteArea.XMark.transform.localScale = Vector3.one;
+                            }
+                        }
                     }
+                    pirate.DueledPlayer = null;
                     pirate.DuelsWon += 1;
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
