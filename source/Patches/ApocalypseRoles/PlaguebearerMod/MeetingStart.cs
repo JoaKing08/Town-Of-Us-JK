@@ -20,7 +20,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer)) return;
             var role = Role.GetRole<Plaguebearer>(PlayerControl.LocalPlayer);
             var players = PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse));
-            if (DestroyableSingleton<HudManager>.Instance && players > role.InfectedAlive) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{players - role.InfectedAlive} players to infect remaining.");
+            if (DestroyableSingleton<HudManager>.Instance && players > role.InfectedAlive) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"<b>{players - role.InfectedAlive}</b> more players to infect remaining.");
         }
     }
 }

@@ -187,26 +187,10 @@ namespace TownOfUs.Roles
             }
             return false;
         }
-        internal virtual bool CustomCriteria()
-        {
-            if (RoleType == RoleEnum.Mayor)
-            {
-                if (((Mayor)this).Revealed) return true;
-            }
-            else if (RoleType == RoleEnum.Deputy)
-            {
-                if (((Deputy)this).Revealed && CustomGameOptions.RevealDeputy) return true;
-            }
-            else if (RoleType == RoleEnum.Prosecutor)
-            {
-                if (((Prosecutor)this).Revealed && CustomGameOptions.RevealProsecutor) return true;
-            }
-            return false;
-        }
 
         internal virtual bool SelfCriteria()
         {
-            return GetRole(PlayerControl.LocalPlayer) == this;
+            return PlayerControl.LocalPlayer.PlayerId == Player.PlayerId;
         }
 
         internal virtual bool RoleCriteria()
@@ -1360,10 +1344,9 @@ namespace TownOfUs.Roles
                             bool apocalypseFlag = role.ApocalypseCriteria();
                             bool witchFlag = role.WitchCriteria();
                             bool agentFlag = role.AgentCriteria();
-                            bool customFlag = role.CustomCriteria();
-                            player.NameText.text = role.NameText( //Error
+                            player.NameText.text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || customFlag,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
                                 selfFlag || deadFlag || agentFlag,
                                 loverFlag,
                                 witchFlag,
@@ -1379,11 +1362,11 @@ namespace TownOfUs.Roles
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                                 player.NameText.color = Patches.Colors.Impostor;
                         }
-                        if (role.Player.IsKnight())
+                        else if (role.Player.IsKnight())
                         {
                             try
                             {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>"; //Error
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>";
                             }
                             catch
                             {
@@ -1436,9 +1419,6 @@ namespace TownOfUs.Roles
                         }
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                             player.nameText().color = Patches.Colors.Impostor;
-                    }
-                    if (role != null)
-                    {
                         if (role.Criteria())
                         {
                             bool selfFlag = role.SelfCriteria();
@@ -1451,10 +1431,9 @@ namespace TownOfUs.Roles
                             bool apocalypseFlag = role.ApocalypseCriteria();
                             bool witchFlag = role.WitchCriteria();
                             bool agentFlag = role.AgentCriteria();
-                            bool customFlag = role.CustomCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || customFlag,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
                                 selfFlag || deadFlag || agentFlag,
                                 loverFlag,
                                 witchFlag

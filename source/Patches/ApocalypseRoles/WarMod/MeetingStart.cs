@@ -21,7 +21,7 @@ namespace TownOfUs.ApocalypseRoles.WarMod
             {
                 if (!role.Announced && CustomGameOptions.AnnounceWar)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"The <color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color> has transformed into <color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color>, Horseman of the Apocalypse! Cry 'Havoc!', and let slip the dogs of war.");
+                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"The <b><color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color></b> has transformed into <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b>, <b>Horseman of the Apocalypse</b>! Cry <b>'Havoc!'</b>, and let slip the dogs of war.");
                     role.Announced = true;
                 }
             }

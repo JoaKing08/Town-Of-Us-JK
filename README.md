@@ -40,6 +40,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.3.5s & 2024.3.5e | v2.0.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.9) |
 | 2024.3.5s & 2024.3.5e | v2.0.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.8) |
 | 2024.3.5s & 2024.3.5e | v2.0.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.7) |
 | 2024.3.5s & 2024.3.5e | v2.0.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.6) |
@@ -468,13 +469,16 @@ During meetings, the Vigilante can choose to kill someone by guessing their role
 
 The Deputy is a Crewmate that can kill once during meetings.\
 During meetings, the Deputy can choose to kill someone and reveal own role,\
-However if they kill a Crewmate he dies with them.
+However if they kill a Crewmate he dies with them.\
+In order for Deputy to shoot they first need to aim at the player.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Deputy | The percentage probability of the Deputy appearing | Percentage | 0% |
 | Reveal Deputy While Shooting  | Whether the Deputy role is revealed after they shot | Toggle | True |
 | Misfire Causes Deputy Death  | Whether the Deputy dies when they shoot a Crewmate | Toggle | True |
+| Aim Cooldown | The cooldown of the Deputy's Aim button | Time | 25s |
+| Maximum Alive Aimed Players | The maximum number of alive players the Deputy can Aim at | Number | 3 |
 
 -----------------------
 ## Altruist
@@ -726,6 +730,8 @@ The Prosecutor can also see votes non-anonymously.
 |----------|:-------------:|:------:|:------:|
 | Prosecutor | The percentage probability of the Prosecutor appearing | Percentage | 0% |
 | Prosecutor Dies When They Exile A Crewmate | Whether the Prosecutor also gets exiled when they exile a Crewmate | Toggle | False |
+| Maximum Amount Of Prosecutions | The maximum amount of times the Prosecutor can Prosecute | Number | 1 |
+| Reveal Prosecutor While Prosecuting  | Whether the Prosecutor role is revealed after they shot | Toggle | True |
 
 -----------------------
 ## Swapper

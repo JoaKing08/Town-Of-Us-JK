@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Linq;
 using TownOfUs.Roles;
@@ -15,18 +16,18 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
             var trapperRole = Role.GetRole<Trapper>(PlayerControl.LocalPlayer);
             if (trapperRole.trappedPlayers.Count == 0)
             {
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "No players entered any of your traps");
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players entered any of your traps");
             }
             else if (trapperRole.trappedPlayers.Count < CustomGameOptions.MinAmountOfPlayersInTrap)
             {
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Not enough players triggered your traps");
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>Not enough</b> players triggered your traps");
             }
             else
             {
                 string message = "Roles caught in your trap:\n";
                 foreach (RoleEnum role in trapperRole.trappedPlayers.OrderBy(x => Guid.NewGuid()))
                 {
-                    message += $" {role.GetRoleName()},";
+                    message += $" <b><color=#{role.GetRoleColor().ToHtmlStringRGBA()}>{role.GetRoleName()}</color></b>,";
                 }
                 message.Remove(message.Length - 1, 1);
                 if (DestroyableSingleton<HudManager>.Instance)

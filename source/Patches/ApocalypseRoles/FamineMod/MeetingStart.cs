@@ -20,7 +20,7 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
             {
                 if (!role.Announced && CustomGameOptions.AnnounceFamine)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"The <color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color> has transformed into <color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color>, Horseman of the Apocalypse! A famine has begun!");
+                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"The <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b> has transformed into <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>, <b>Horseman of the Apocalypse</b>! A <b>Famine</b> has begun!");
                     role.Announced = true;
                 }
             }

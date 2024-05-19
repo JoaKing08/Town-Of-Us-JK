@@ -20,7 +20,7 @@ namespace TownOfUs.NeutralRoles.PestilenceMod
             {
                 if (!role.Announced && CustomGameOptions.AnnouncePestilence)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"A <color=#0000FFFF>Plague</color> has consumed the Crew, transforming the <color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color> into <color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color>, Horseman of the Apocalypse!");
+                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"A <b>Plague</b> has consumed the <b><color=#00FFFFFF>Crew</color></b>, transforming the <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b> into <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>, <b>Horseman of the Apocalypse</b>!");
                     role.Announced = true;
                 }
             }

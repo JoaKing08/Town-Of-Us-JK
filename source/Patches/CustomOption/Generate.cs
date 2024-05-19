@@ -1539,7 +1539,7 @@ namespace TownOfUs.CustomOption
             MisfireKillsDeputy = new CustomToggleOption(num++, MultiMenu.crewmate, "Misfire Causes Deputy Death");
             DeputyAimCooldown =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Aim Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            MaxDeputyTargets = new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Alive Aimed Players", 5, 1, 15, 1);
+            MaxDeputyTargets = new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Alive Aimed Players", 3, 1, 15, 1);
 
             Hunter =
                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#29AB87FF>Hunter</color>");

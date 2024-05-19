@@ -19,7 +19,7 @@ namespace TownOfUs.ApocalypseRoles.BakerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Baker)) return;
             var role = Role.GetRole<Baker>(PlayerControl.LocalPlayer);
-            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.BreadNeeded > role.BreadAlive) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{CustomGameOptions.BreadNeeded - role.BreadAlive} players to feed remaining.");
+            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.BreadNeeded > role.BreadAlive) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"<b>{CustomGameOptions.BreadNeeded - role.BreadAlive}</b> more players to feed remaining.");
         }
     }
 }

@@ -3,6 +3,7 @@ using TownOfUs.Roles;
 using System;
 using System.Linq;
 using TownOfUs.CrewmateRoles.OracleMod;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.CrewmateRoles.ImitatorMod
 {
@@ -18,18 +19,18 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             {
                 if (imitatorRole.trappedPlayers.Count == 0)
                 {
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "No players entered any of your traps");
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players entered any of your traps");
                 }
                 else if (imitatorRole.trappedPlayers.Count < CustomGameOptions.MinAmountOfPlayersInTrap)
                 {
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Not enough players triggered your traps");
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>Not enough</b> players triggered your traps");
                 }
                 else
                 {
                     string message = "Roles caught in your trap:\n";
                     foreach (RoleEnum role in imitatorRole.trappedPlayers.OrderBy(x => Guid.NewGuid()))
                     {
-                        message += $" {role},";
+                        message += $" <b><color=#{role.GetRoleColor().ToHtmlStringRGBA()}>{role.GetRoleName()}</color></b>,";
                     }
                     message.Remove(message.Length - 1, 1);
                     if (DestroyableSingleton<HudManager>.Instance)
@@ -53,7 +54,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             }
             else if (imitatorRole.Messages != null)
             {
-                if (imitatorRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "No players triggered any of your bugs");
+                if (imitatorRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players triggered any of your bugs");
                 else
                 {
                     foreach (var message in imitatorRole.Messages)

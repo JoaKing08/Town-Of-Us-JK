@@ -14,7 +14,7 @@ namespace TownOfUs.CrewmateRoles.SpyMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Spy)) return;
             var spyRole = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
-            if (spyRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "No players triggered any of your bugs");
+            if (spyRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players triggered any of your bugs");
             else
             {
                 foreach (var message in spyRole.Messages)

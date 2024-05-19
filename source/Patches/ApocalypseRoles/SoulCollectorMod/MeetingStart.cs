@@ -24,7 +24,7 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
                 role.ReapedSouls += 1;
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"Because you know there will be no more bodies, you collect soul from underground.");
             }
-            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.SoulsNeeded > role.ReapedSouls) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{CustomGameOptions.SoulsNeeded - role.ReapedSouls} souls to reap remaining.");
+            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.SoulsNeeded > role.ReapedSouls) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"<b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> more souls to reap remaining.");
         }
     }
 }

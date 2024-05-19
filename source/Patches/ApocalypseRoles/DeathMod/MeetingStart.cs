@@ -20,7 +20,7 @@ namespace TownOfUs.ApocalypseRoles.DeathMod
             {
                 if (!role.Announced && CustomGameOptions.AnnounceDeath)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"Now <color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color> has become <color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color>, Destroyer of Worlds and Horseman of the Apocalypse!");
+                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"Now <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b> has become <b><color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color></b>, <b>Destroyer of Worlds</b> and <b>Horseman of the Apocalypse</b>!");
                     role.Announced = true;
                 }
             }
