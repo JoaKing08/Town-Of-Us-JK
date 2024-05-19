@@ -1942,6 +1942,12 @@ namespace TownOfUs
             {
                 bodyguard.GuardedPlayer = null;
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Deputy))
+            {
+                var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                deputy.LastAimed = DateTime.UtcNow;
+            }
             #endregion
             #region NeutralRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
@@ -2214,7 +2220,7 @@ namespace TownOfUs
                 return "(Investigator, Tracker, Werewolf, Hunter, Berserker or Inquisitor)";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                  || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
-                return "(Arsonist, Miner, Plaguebearer, Seer, Transporter or Pirate)";
+                return GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "(Arsonist, Mycologist, Plaguebearer, Seer, Transporter or Pirate)" : "(Arsonist, Miner, Plaguebearer, Seer, Transporter or Pirate)";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Bodyguard) || player.Is(RoleEnum.Escapist)
                  || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Swooper))
                 return "(Engineer, Escapist, Medic, Survivor, Swooper or Bodyguard)";
@@ -2444,7 +2450,7 @@ namespace TownOfUs
                 case RoleEnum.Janitor:
                     return "Janitor";
                 case RoleEnum.Miner:
-                    return "Miner";
+                    return GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner";
                 case RoleEnum.Undertaker:
                     return "Undertaker";
                 case RoleEnum.Whisperer:

@@ -10,7 +10,7 @@ namespace TownOfUs.CrewmateRoles.ProsecutorMod
         public static void UpdateButton(Prosecutor role, MeetingHud __instance)
         {
             var skip = __instance.SkipVoteButton;
-            role.Prosecute.gameObject.SetActive(skip.gameObject.active && !role.Prosecuted);
+            role.Prosecute.gameObject.SetActive(skip.gameObject.active && role.ProsecutionsLeft > 0);
             role.Prosecute.voteComplete = skip.voteComplete;
             role.Prosecute.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
             role.Prosecute.GetComponentsInChildren<TextMeshPro>()[0].text = "Prosecute";

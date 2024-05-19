@@ -14,9 +14,9 @@ namespace TownOfUs.Roles
 
         public Miner(PlayerControl player) : base(player)
         {
-            Name = "Miner";
-            ImpostorText = () => "From The Top, Make It Drop, That's A Vent";
-            TaskText = () => "Place vents around the map";
+            Name = GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner";
+            ImpostorText = () => GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "From The Top, Make It Drop, That's A Mushroom" : "From The Top, Make It Drop, That's A Vent";
+            TaskText = () => GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Place mushrooms around the map" : "Place vents around the map";
             Color = Patches.Colors.Impostor;
             LastMined = DateTime.UtcNow;
             RoleType = RoleEnum.Miner;

@@ -9,6 +9,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
     public class HudManagerUpdate
     {
         public static Sprite MineSprite => TownOfUs.MineSprite;
+        public static Sprite GrowSprite => TownOfUs.GrowSprite;
 
         public static void Postfix(HudManager __instance)
         {
@@ -24,7 +25,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
                 role.MineButton.gameObject.SetActive(false);
             }
 
-            role.MineButton.graphic.sprite = MineSprite;
+            role.MineButton.graphic.sprite = GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? GrowSprite : MineSprite;
             role.MineButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);

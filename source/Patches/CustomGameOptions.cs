@@ -79,45 +79,45 @@ namespace TownOfUs
         CrewmateInvestigative,
         Aurial,
         Detective,
+        Inspector,
         Investigator,
+        Lookout,
         Mystic,
         Seer,
         Snitch,
         Spy,
         Tracker,
         Trapper,
-        Inspector,
-        Lookout,
 
         CrewmateKilling,
+        Deputy,
         Hunter,
         Sheriff,
         VampireHunter,
         Veteran,
         Vigilante,
-        Deputy,
 
         CrewmateProtective,
         Altruist,
-        Medic,
         Bodyguard,
-        Crusader,
         Cleric,
+        Crusader,
+        Medic,
 
         CrewmateSupport,
         Engineer,
         Imitator,
         Medium,
-        Transporter,
         TavernKeeper,
+        Transporter,
         Undercover,
 
         CrewmatePower,
         Mayor,
+        Monarch,
         Oracle,
         Prosecutor,
         Swapper,
-        Monarch,
 
 
         RandomNeutral,
@@ -126,9 +126,9 @@ namespace TownOfUs
 
         NeutralBenign,
         Amnesiac,
+        CursedSoul,
         GuardianAngel,
         Survivor,
-        CursedSoul,
 
         NeutralEvil,
         Executioner,
@@ -137,25 +137,25 @@ namespace TownOfUs
 
         NeutralChaos,
         Doomsayer,
-        Pirate,
         Inquisitor,
+        Pirate,
 
         NeutralKilling,
         Arsonist,
+        Juggernaut,
+        SerialKiller,
         Glitch,
         Werewolf,
-        SerialKiller,
-        Juggernaut,
 
         NeutralProselyte,
-        Vampire,
-        Necromancer,
         Jackal,
+        Necromancer,
+        Vampire,
 
         NeutralApocalypse,
-        Plaguebearer,
         Baker,
         Berserker,
+        Plaguebearer,
         SoulCollector,
 
 
@@ -173,9 +173,9 @@ namespace TownOfUs
 
         ImpostorKilling,
         Bomber,
-        Warlock,
         Poisoner,
         Sniper,
+        Warlock,
 
         ImpostorSupport,
         Blackmailer,
@@ -195,69 +195,69 @@ namespace TownOfUs
 
         Aurial,
         Detective,
+        Inspector,
         Investigator,
+        Lookout,
         Mystic,
         Seer,
         Snitch,
         Spy,
         Tracker,
         Trapper,
-        Inspector,
-        Lookout,
 
+        Deputy,
         Hunter,
         Sheriff,
         VampireHunter,
         Veteran,
         Vigilante,
-        Deputy,
 
         Altruist,
-        Medic,
         Bodyguard,
-        Crusader,
         Cleric,
+        Crusader,
+        Medic,
 
         Engineer,
         Imitator,
         Medium,
-        Transporter,
         TavernKeeper,
+        Transporter,
         Undercover,
 
         Mayor,
+        Monarch,
         Oracle,
         Prosecutor,
         Swapper,
-        Monarch,
 
 
         Amnesiac,
+        CursedSoul,
         GuardianAngel,
         Survivor,
-        CursedSoul,
 
         Executioner,
         Jester,
         Witch,
 
         Doomsayer,
-        Pirate,
         Inquisitor,
+        Pirate,
 
         Arsonist,
+        Juggernaut,
+        SerialKiller,
         Glitch,
         Werewolf,
-        SerialKiller,
-        Juggernaut,
 
-        Vampire,
-        Necromancer,
         Jackal,
+        Necromancer,
+        Vampire,
 
-        Plaguebearer,
         Baker,
         Berserker,
+        Plaguebearer,
         SoulCollector,
 
 
@@ -270,9 +270,9 @@ namespace TownOfUs
         Venerer,
 
         Bomber,
-        Warlock,
         Poisoner,
         Sniper,
+        Warlock,
 
         Blackmailer,
         Janitor,
@@ -360,6 +360,7 @@ namespace TownOfUs
         public static int BodyguardOn => (int)Generate.BodyguardOn.Get();
         public static int CrusaderOn => (int)Generate.CrusaderOn.Get();
         public static int ClericOn => (int)Generate.ClericOn.Get();
+        public static int JuggernautOn => (int)Generate.JuggernautOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
@@ -459,7 +460,6 @@ namespace TownOfUs
         public static bool SwooperVent => Generate.SwooperVent.Get();
         public static bool ImpostorSeeRoles => Generate.ImpostorSeeRoles.Get();
         public static bool DeadSeeRoles => Generate.DeadSeeRoles.Get();
-        public static bool HiddenRoles => Generate.HiddenRoles.Get();
         public static bool FirstDeathShield => Generate.FirstDeathShield.Get();
         public static bool NeutralEvilWinEndsGame => Generate.NeutralEvilWinEndsGame.Get();
         public static bool SeeTasksDuringRound => Generate.SeeTasksDuringRound.Get();
@@ -834,5 +834,9 @@ namespace TownOfUs
         public static AllowChat UndeadChat => (AllowChat)Generate.UndeadChat.Get();
         public static AllowChat ImpostorsChat => (AllowChat)Generate.ImpostorsChat.Get();
         public static AllowChat ApocalypseChat => (AllowChat)Generate.ApocalypseChat.Get();
+        public static int MaxDeputyTargets => (int)Generate.MaxDeputyTargets.Get();
+        public static float DeputyAimCooldown => Generate.DeputyAimCooldown.Get();
+        public static int MaxProsecutions => (int)Generate.MaxProsecutions.Get();
+        public static bool RevealProsecutor => Generate.RevealProsecutor.Get();
     }
 }

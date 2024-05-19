@@ -11,12 +11,25 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Prosecutor;
             AddToRoleHistory(RoleType);
             StartProsecute = false;
-            Prosecuted = false;
+            Revealed = false;
             ProsecuteThisMeeting = false;
+            ProsecutionsLeft = CustomGameOptions.MaxProsecutions;
         }
         public bool ProsecuteThisMeeting { get; set; }
-        public bool Prosecuted { get; set; }
+        public bool Revealed { get; set; }
+        public int ProsecutionsLeft { get; set; }
         public bool StartProsecute { get; set; }
         public PlayerVoteArea Prosecute { get; set; }
+
+        internal override bool Criteria()
+        {
+            return Revealed && CustomGameOptions.RevealProsecutor && !Player.Data.IsDead || base.Criteria();
+        }
+
+        internal override bool RoleCriteria()
+        {
+            if (!Player.Data.IsDead && CustomGameOptions.RevealProsecutor) return Revealed || base.RoleCriteria();
+            return false || base.RoleCriteria();
+        }
     }
 }

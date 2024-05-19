@@ -187,6 +187,22 @@ namespace TownOfUs.Roles
             }
             return false;
         }
+        internal virtual bool CustomCriteria()
+        {
+            if (RoleType == RoleEnum.Mayor)
+            {
+                if (((Mayor)this).Revealed) return true;
+            }
+            else if (RoleType == RoleEnum.Deputy)
+            {
+                if (((Deputy)this).Revealed && CustomGameOptions.RevealDeputy) return true;
+            }
+            else if (RoleType == RoleEnum.Prosecutor)
+            {
+                if (((Prosecutor)this).Revealed && CustomGameOptions.RevealProsecutor) return true;
+            }
+            return false;
+        }
 
         internal virtual bool SelfCriteria()
         {
@@ -1344,9 +1360,10 @@ namespace TownOfUs.Roles
                             bool apocalypseFlag = role.ApocalypseCriteria();
                             bool witchFlag = role.WitchCriteria();
                             bool agentFlag = role.AgentCriteria();
+                            bool customFlag = role.CustomCriteria();
                             player.NameText.text = role.NameText( //Error
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || customFlag,
                                 selfFlag || deadFlag || agentFlag,
                                 loverFlag,
                                 witchFlag,
@@ -1434,9 +1451,10 @@ namespace TownOfUs.Roles
                             bool apocalypseFlag = role.ApocalypseCriteria();
                             bool witchFlag = role.WitchCriteria();
                             bool agentFlag = role.AgentCriteria();
+                            bool customFlag = role.CustomCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag,
+                                selfFlag || deadFlag || impostorFlag || proselyteFlag || roleFlag || gaFlag || apocalypseFlag || customFlag,
                                 selfFlag || deadFlag || agentFlag,
                                 loverFlag,
                                 witchFlag

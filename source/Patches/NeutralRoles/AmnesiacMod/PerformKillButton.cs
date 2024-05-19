@@ -279,7 +279,8 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             else if (role == RoleEnum.Prosecutor)
             {
                 var prosRole = Role.GetRole<Prosecutor>(amnesiac);
-                prosRole.Prosecuted = false;
+                prosRole.Revealed = false;
+                prosRole.ProsecutionsLeft = CustomGameOptions.MaxProsecutions;
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
             }
 

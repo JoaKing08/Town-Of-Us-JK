@@ -466,6 +466,13 @@ namespace TownOfUs.Patches
                 bodyguard.LastGuard = DateTime.UtcNow;
                 bodyguard.LastGuard = bodyguard.LastGuard.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.GuardCooldown);
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Deputy))
+            {
+                var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                deputy.LastAimed = DateTime.UtcNow;
+                deputy.LastAimed = deputy.LastAimed.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DeputyAimCooldown);
+            }
         }
     }
 }

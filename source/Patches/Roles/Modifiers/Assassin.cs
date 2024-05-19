@@ -92,7 +92,7 @@ namespace TownOfUs.Roles.Modifiers
                     if (CustomGameOptions.ArsonistOn > 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist)) ColorMapping.Add("Arsonist", Colors.Arsonist);
                     if (CustomGameOptions.GlitchOn > 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)) ColorMapping.Add("The Glitch", Colors.Glitch);
                     if (CustomGameOptions.WerewolfOn > 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)) ColorMapping.Add("Werewolf", Colors.Werewolf);
-                    if (!PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut) && CustomGameOptions.HiddenRoles && CustomGameOptions.GameMode != GameMode.Horseman) ColorMapping.Add("Juggernaut", Colors.Juggernaut);
+                    if (!PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut) && CustomGameOptions.JuggernautOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman) ColorMapping.Add("Juggernaut", Colors.Juggernaut);
                     if (CustomGameOptions.SerialKillerOn > 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller)) ColorMapping.Add("Serial Killer", Colors.SerialKiller);
                 }
                 if (CustomGameOptions.AssassinGuessNeutralProselyte)
@@ -106,7 +106,7 @@ namespace TownOfUs.Roles.Modifiers
                     ColorMapping.Add("Impostor", Colors.Impostor);
                     if (CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
                     if (CustomGameOptions.MorphlingOn > 0) ColorMapping.Add("Morphling", Colors.Impostor);
-                    if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Impostor);
+                    if (CustomGameOptions.MinerOn > 0) ColorMapping.Add(GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner", Colors.Impostor);
                     if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Impostor);
                     if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Impostor);
                     if (CustomGameOptions.EscapistOn > 0) ColorMapping.Add("Escapist", Colors.Impostor);
@@ -171,7 +171,7 @@ namespace TownOfUs.Roles.Modifiers
                     ColorMapping.Add("Impostor", Colors.Impostor);
                     ColorMapping.Add("Janitor", Colors.Impostor);
                     ColorMapping.Add("Morphling", Colors.Impostor);
-                    ColorMapping.Add("Miner", Colors.Impostor);
+                    ColorMapping.Add(GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner", Colors.Impostor);
                     ColorMapping.Add("Swooper", Colors.Impostor);
                     ColorMapping.Add("Undertaker", Colors.Impostor);
                     ColorMapping.Add("Escapist", Colors.Impostor);

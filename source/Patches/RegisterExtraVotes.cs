@@ -162,7 +162,8 @@ namespace TownOfUs
                                     {
                                         Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
                                             voteState.VoterId));
-                                        prosRole.Prosecuted = true;
+                                        prosRole.Revealed = true;
+                                        prosRole.ProsecutionsLeft -= 1;
                                     }
                                     else if (i == 0 && voteState.SkippedVote)
                                     {
@@ -172,7 +173,8 @@ namespace TownOfUs
                                         __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                                         __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                                         amountOfSkippedVoters += 5;
-                                        prosRole.Prosecuted = true;
+                                        prosRole.Revealed = true;
+                                        prosRole.ProsecutionsLeft -= 1;
                                     }
                                     else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
                                     {
@@ -182,7 +184,8 @@ namespace TownOfUs
                                         __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                                         __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                                         allNums[i] += 5;
-                                        prosRole.Prosecuted = true;
+                                        prosRole.Revealed = true;
+                                        prosRole.ProsecutionsLeft -= 1;
                                     }
                                 }
                             }

@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace TownOfUs.Roles
@@ -18,6 +21,11 @@ namespace TownOfUs.Roles
         public bool Revealed { get; set; }
 
         public List<GameObject> ShootButtons = new List<GameObject>();
+        public List<byte> Targets = new List<byte>();
+        public int AliveTargets => Revealed ? CustomGameOptions.MaxDeputyTargets : Targets.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected);
+        public DateTime LastAimed;
+        public PlayerControl ClosestPlayer;
+        public TextMeshPro UsesText;
 
         internal override bool Criteria()
         {
@@ -28,6 +36,16 @@ namespace TownOfUs.Roles
         {
             if (!Player.Data.IsDead && CustomGameOptions.RevealDeputy) return Revealed || base.RoleCriteria();
             return false || base.RoleCriteria();
+        }
+
+        public float AimTimer()
+        {
+            var utcNow = DateTime.UtcNow;
+            var timeSpan = utcNow - LastAimed;
+            var num = CustomGameOptions.DeputyAimCooldown * 1000f;
+            var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
+            if (flag2) return 0;
+            return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
         }
     }
 }
