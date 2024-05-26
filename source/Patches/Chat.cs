@@ -84,7 +84,7 @@ namespace TownOfUs
         {
             public static void Postfix(HudManager __instance)
             {
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
+                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && Role.GetRole(PlayerControl.LocalPlayer) != null)
                 {
                     if (PlayerControl.LocalPlayer.Data.IsDead || !PlayerControl.LocalPlayer.Chat())
                     {
