@@ -1174,7 +1174,7 @@ namespace TownOfUs.Roles
                 var result = true;
                 foreach (var role in AllRoles)
                 {
-                    var roleIsEnd = role.NeutralWin(__instance);
+                    var roleIsEnd = role.NeutralWin(__instance) || role.Player.Is(ObjectiveEnum.ApocalypseAgent) || role.Player.Is(ObjectiveEnum.ImpostorAgent);
                     var modifier = Modifier.GetModifier(role.Player);
                     var objective = Objective.GetObjective(role.Player);
                     bool modifierIsEnd = true;

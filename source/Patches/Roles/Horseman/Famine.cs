@@ -31,7 +31,7 @@ namespace TownOfUs.Roles.Horseman
             var AliveApocs = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse)).ToList();
             if (AliveCrew.Count <= (((!CKExists && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK) || CustomGameOptions.OvertakeWin == OvertakeWin.On) ? AliveApocs.Count : 0) &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling))) == 0 &&
+                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.ApocalypseAgent)) == 0 &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
                     (x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence))) == 0 && !AliveApocs.Any(x => !x.Is(FactionOverride.None)))
             {
