@@ -4,6 +4,7 @@ using TownOfUs.Extensions;
 using UnityEngine;
 using System;
 using TownOfUs.Modifiers.UnderdogMod;
+using TownOfUs.CrewmateRoles.MedicMod;
 
 namespace TownOfUs.ImpostorRoles.SniperMod
 {
@@ -49,8 +50,26 @@ namespace TownOfUs.ImpostorRoles.SniperMod
                 {
                     if (PlayerControl.LocalPlayer.killTimer != 0) return false;
                     if (role.AimedPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.AimedPlayer.PlayerId, (byte)role.RoleType, (byte)1);
+                    if (role.AimedPlayer.IsShielded())
+                    {
+                        Utils.Rpc(CustomRPC.AttemptSound, role.AimedPlayer.GetMedic().Player.PlayerId, role.AimedPlayer.PlayerId);
 
-                    if (!role.AimedPlayer.Is(RoleEnum.Pestilence) && !role.AimedPlayer.Is(RoleEnum.Famine) && !role.AimedPlayer.Is(RoleEnum.War) && !role.AimedPlayer.Is(RoleEnum.Death) && !role.AimedPlayer.IsShielded() && !role.AimedPlayer.IsVesting() && !role.AimedPlayer.IsOnAlert() && !role.AimedPlayer.IsProtected())
+                        System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                        StopKill.BreakShield(role.AimedPlayer.GetMedic().Player.PlayerId, role.AimedPlayer.PlayerId, CustomGameOptions.ShieldBreaks);
+                    }
+                    else if (role.AimedPlayer.IsFortified())
+                    {
+                        var crus = role.AimedPlayer.GetCrusader();
+                        crus.FortifiedPlayers.Remove(role.AimedPlayer.PlayerId);
+                        Utils.Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, role.AimedPlayer.PlayerId);
+                    }
+                    else if (role.AimedPlayer.IsBarriered())
+                    {
+                        var cleric = role.AimedPlayer.GetCleric();
+                        cleric.BarrieredPlayer = null;
+                        Utils.Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                    }
+                    else if (!role.AimedPlayer.Is(RoleEnum.Pestilence) && !role.AimedPlayer.Is(RoleEnum.Famine) && !role.AimedPlayer.Is(RoleEnum.War) && !role.AimedPlayer.Is(RoleEnum.Death) && !role.AimedPlayer.IsVesting() && !role.AimedPlayer.IsOnAlert() && !role.AimedPlayer.IsProtected())
                     {
                         Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, role.AimedPlayer);
                         Utils.Rpc(CustomRPC.KillAbilityUsed, role.AimedPlayer.PlayerId);

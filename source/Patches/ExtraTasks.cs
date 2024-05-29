@@ -39,7 +39,7 @@ namespace TownOfUs.Patches
                 __result = 1;
                 return false;
             }
-            else if (CustomGameOptions.GameMode == GameMode.Teams || CustomGameOptions.GameMode == GameMode.SoloKiller || CustomGameOptions.GameMode == GameMode.Horseman || ((CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny) && !CustomGameOptions.SpawnImps) || CustomGameOptions.GameMode == GameMode.RoleList)
+            else if (CustomGameOptions.GameMode == GameMode.Teams || CustomGameOptions.GameMode == GameMode.SoloKiller || CustomGameOptions.GameMode == GameMode.Horseman || CustomGameOptions.GameMode == GameMode.RoleList)
             {
                 __result = 0;
                 return false;
@@ -103,7 +103,8 @@ namespace TownOfUs.Patches
                 __result = impostors;
                 return false;
             }
-            return true;
+            __result = GameOptionsManager.Instance.currentNormalGameOptions.NumImpostors;
+            return false;
         }
     }
 }

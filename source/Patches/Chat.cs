@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -48,27 +49,27 @@ namespace TownOfUs
                             roleSeeMessage = meeting && (MeetingHud.Instance != null || LobbyBehaviour.Instance != null);
                             break;
                         case ChatType.LoversChat:
-                            chatText = $"[Lovers Chat]\n" + chatText;
+                            chatText = $"<b><color=#{Patches.Colors.Lovers.ToHtmlStringRGBA()}>Lovers Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.LoverChat(meeting);
                             break;
                         case ChatType.VampiresChat:
-                            chatText = $"[Vampire Chat]\n" + chatText;
+                            chatText = $"<b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.VampireChat(meeting);
                             break;
                         case ChatType.RecruitsChat:
-                            chatText = $"[Recruit Chat]\n" + chatText;
+                            chatText = $"<b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Recruit Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.RecruitChat(meeting);
                             break;
                         case ChatType.UndeadChat:
-                            chatText = $"[Undead Chat]\n" + chatText;
+                            chatText = $"<b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Undead Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.UndeadChat(meeting);
                             break;
                         case ChatType.ImpostorsChat:
-                            chatText = $"[Impostor Chat]\n" + chatText;
+                            chatText = $"<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.ImpostorChat(meeting);
                             break;
                         case ChatType.ApocalypseChat:
-                            chatText = $"[Apocalypse Chat]\n" + chatText;
+                            chatText = $"<b><color=#{new Color(0.25f, 0.35f, 0.25f, 1f).ToHtmlStringRGBA()}>Apocalypse Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.ApocalypseChat(meeting);
                             break;
                     }

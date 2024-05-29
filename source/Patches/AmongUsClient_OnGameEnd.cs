@@ -14,7 +14,6 @@ namespace TownOfUs
     {
         public static void Prefix()
         {
-            bool apocWin = false;
             List<int> losers = new List<int>();
             foreach (var role in Role.GetRoles(RoleEnum.Amnesiac))
             {
@@ -184,15 +183,40 @@ namespace TownOfUs
 
             var toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();
             for (int i = 0; i < toRemoveWinners.Count(); i++) TempData.winners.Remove(toRemoveWinners[i]);
+            var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
+            bool isApoc = false;
+            bool isNeut = false;
+            bool isCrew = !isImp;
+            bool isOther = false;
 
             if (Role.NobodyWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
+                isImp = false;
+                isApoc = false;
+                isNeut = false;
+                isCrew = false;
+                isOther = true;
+                foreach (var role in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                {
+                    var witch = (Witch)role;
+                    if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                    {
+                        var witchData = new WinningPlayerData(witch.Player.Data);
+                        if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                        TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                    }
+                }
                 return;
             }
             if (Role.SurvOnlyWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
+                isImp = false;
+                isApoc = false;
+                isNeut = false;
+                isCrew = false;
+                isOther = true;
                 foreach (var role in Role.GetRoles(RoleEnum.Survivor).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
                 {
                     var surv = (Survivor)role;
@@ -201,6 +225,16 @@ namespace TownOfUs
                         var survData = new WinningPlayerData(surv.Player.Data);
                         if (PlayerControl.LocalPlayer != surv.Player) survData.IsYou = false;
                         TempData.winners.Add(new WinningPlayerData(surv.Player.Data));
+                    }
+                }
+                foreach (var role in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                {
+                    var witch = (Witch)role;
+                    if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                    {
+                        var witchData = new WinningPlayerData(witch.Player.Data);
+                        if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                        TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
                     }
                 }
 
@@ -219,10 +253,25 @@ namespace TownOfUs
                         if (jester.VotedOut)
                         {
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = true;
+                            isCrew = false;
+                            isOther = false;
                             var jestData = new WinningPlayerData(jester.Player.Data);
                             jestData.IsDead = false;
                             if (PlayerControl.LocalPlayer != jester.Player) jestData.IsYou = false;
                             TempData.winners.Add(jestData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -232,9 +281,24 @@ namespace TownOfUs
                         if (executioner.TargetVotedOut)
                         {
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = true;
+                            isCrew = false;
+                            isOther = false;
                             var exeData = new WinningPlayerData(executioner.Player.Data);
                             if (PlayerControl.LocalPlayer != executioner.Player) exeData.IsYou = false;
                             TempData.winners.Add(exeData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -244,9 +308,24 @@ namespace TownOfUs
                         if (doom.WonByGuessing)
                         {
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = true;
+                            isCrew = false;
+                            isOther = false;
                             var doomData = new WinningPlayerData(doom.Player.Data);
                             if (PlayerControl.LocalPlayer != doom.Player) doomData.IsYou = false;
                             TempData.winners.Add(doomData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -256,9 +335,24 @@ namespace TownOfUs
                         if (phantom.CompletedTasks)
                         {
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = true;
+                            isCrew = false;
+                            isOther = false;
                             var phantomData = new WinningPlayerData(phantom.Player.Data);
                             if (PlayerControl.LocalPlayer != phantom.Player) phantomData.IsYou = false;
                             TempData.winners.Add(phantomData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -268,9 +362,24 @@ namespace TownOfUs
                         if (pirate.WonByDuel)
                         {
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = true;
+                            isCrew = false;
+                            isOther = false;
                             var pirateData = new WinningPlayerData(pirate.Player.Data);
                             if (PlayerControl.LocalPlayer != pirate.Player) pirateData.IsYou = false;
                             TempData.winners.Add(pirateData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -280,9 +389,24 @@ namespace TownOfUs
                         if (inquisitor.HereticsDead && !inquisitor.Player.Data.IsDead && !inquisitor.Player.Data.Disconnected)
                         {
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = true;
+                            isCrew = false;
+                            isOther = false;
                             var inquisitorData = new WinningPlayerData(inquisitor.Player.Data);
                             if (PlayerControl.LocalPlayer != inquisitor.Player) inquisitorData.IsYou = false;
                             TempData.winners.Add(inquisitorData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -302,12 +426,27 @@ namespace TownOfUs
                         {
                             var otherLover = lover.OtherLover;
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = false;
+                            isCrew = false;
+                            isOther = true;
                             var loverOneData = new WinningPlayerData(lover.Player.Data);
                             var loverTwoData = new WinningPlayerData(otherLover.Player.Data);
                             if (PlayerControl.LocalPlayer != lover.Player) loverOneData.IsYou = false;
                             if (PlayerControl.LocalPlayer != otherLover.Player) loverTwoData.IsYou = false;
                             TempData.winners.Add(loverOneData);
                             TempData.winners.Add(loverTwoData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -321,12 +460,27 @@ namespace TownOfUs
                         {
                             var otherLover = lover.OtherLover;
                             TempData.winners = new List<WinningPlayerData>();
+                            isImp = false;
+                            isApoc = false;
+                            isNeut = false;
+                            isCrew = false;
+                            isOther = true;
                             var loverOneData = new WinningPlayerData(lover.Player.Data);
                             var loverTwoData = new WinningPlayerData(otherLover.Player.Data);
                             if (PlayerControl.LocalPlayer != lover.Player) loverOneData.IsYou = false;
                             if (PlayerControl.LocalPlayer != otherLover.Player) loverTwoData.IsYou = false;
                             TempData.winners.Add(loverOneData);
                             TempData.winners.Add(loverTwoData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                }
+                            }
                             return;
                         }
                     }
@@ -341,6 +495,11 @@ namespace TownOfUs
                 {
                     var vamp = (Vampire)role;
                     var vampData = new WinningPlayerData(vamp.Player.Data);
+                    isImp = false;
+                    isApoc = false;
+                    isNeut = true;
+                    isCrew = false;
+                    isOther = false;
                     if (PlayerControl.LocalPlayer != vamp.Player) vampData.IsYou = false;
                     TempData.winners.Add(vampData);
                 }
@@ -356,6 +515,11 @@ namespace TownOfUs
                     if (glitch.GlitchWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
+                        isImp = false;
+                        isApoc = false;
+                        isNeut = true;
+                        isCrew = false;
+                        isOther = false;
                         var glitchData = new WinningPlayerData(glitch.Player.Data);
                         if (PlayerControl.LocalPlayer != glitch.Player) glitchData.IsYou = false;
                         TempData.winners.Add(glitchData);
@@ -367,6 +531,11 @@ namespace TownOfUs
                     if (juggernaut.JuggernautWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
+                        isImp = false;
+                        isApoc = false;
+                        isNeut = true;
+                        isCrew = false;
+                        isOther = false;
                         var juggData = new WinningPlayerData(juggernaut.Player.Data);
                         if (PlayerControl.LocalPlayer != juggernaut.Player) juggData.IsYou = false;
                         TempData.winners.Add(juggData);
@@ -378,6 +547,11 @@ namespace TownOfUs
                     if (arsonist.ArsonistWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
+                        isImp = false;
+                        isApoc = false;
+                        isNeut = true;
+                        isCrew = false;
+                        isOther = false;
                         var arsonistData = new WinningPlayerData(arsonist.Player.Data);
                         if (PlayerControl.LocalPlayer != arsonist.Player) arsonistData.IsYou = false;
                         TempData.winners.Add(arsonistData);
@@ -388,13 +562,17 @@ namespace TownOfUs
                     if (role.ApocalypseWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
+                        isImp = false;
+                        isApoc = true;
+                        isNeut = false;
+                        isCrew = false;
+                        isOther = false;
                         foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
                         {
                             var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
                             if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
                             TempData.winners.Add(apocalypseMemberData);
                         }
-                        apocWin = true;
                     }
                 }
                 else if (type == RoleEnum.Werewolf)
@@ -403,6 +581,11 @@ namespace TownOfUs
                     if (werewolf.WerewolfWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
+                        isImp = false;
+                        isApoc = false;
+                        isNeut = true;
+                        isCrew = false;
+                        isOther = false;
                         var werewolfData = new WinningPlayerData(werewolf.Player.Data);
                         if (PlayerControl.LocalPlayer != werewolf.Player) werewolfData.IsYou = false;
                         TempData.winners.Add(werewolfData);
@@ -414,6 +597,11 @@ namespace TownOfUs
                     if (serialKiller.SerialKillerWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
+                        isImp = false;
+                        isApoc = false;
+                        isNeut = true;
+                        isCrew = false;
+                        isOther = false;
                         var serialKillerData = new WinningPlayerData(serialKiller.Player.Data);
                         if (PlayerControl.LocalPlayer != serialKiller.Player) serialKillerData.IsYou = false;
                         TempData.winners.Add(serialKillerData);
@@ -493,7 +681,6 @@ namespace TownOfUs
                 var surv = (Survivor)role;
                 if (!surv.Player.Data.IsDead && !surv.Player.Data.Disconnected)
                 {
-                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
                     var survWinData = new WinningPlayerData(surv.Player.Data);
                     if (isImp) survWinData.IsImpostor = true;
                     if (PlayerControl.LocalPlayer != surv.Player) survWinData.IsYou = false;
@@ -508,7 +695,6 @@ namespace TownOfUs
                 {
                     if (gaTargetData.ColorId == winner.ColorId)
                     {
-                        var isImp = TempData.winners[0].IsImpostor;
                         var gaWinData = new WinningPlayerData(ga.Player.Data);
                         if (isImp) gaWinData.IsImpostor = true;
                         if (PlayerControl.LocalPlayer != ga.Player) gaWinData.IsYou = false;
@@ -522,7 +708,6 @@ namespace TownOfUs
                 var role = Role.GetRole(modifier.Player);
                 if (role == null)
                 {
-                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
                     if (isImp)
                     {
                         var agentWinData = new WinningPlayerData(agent.Player.Data);
@@ -533,7 +718,6 @@ namespace TownOfUs
                 }
                 else if (role.FactionOverride == FactionOverride.None)
                 {
-                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
                     if (isImp)
                     {
                         var agentWinData = new WinningPlayerData(agent.Player.Data);
@@ -549,7 +733,7 @@ namespace TownOfUs
                 var role = Role.GetRole(modifier.Player);
                 if (role == null)
                 {
-                    if (apocWin)
+                    if (isApoc)
                     {
                         var agentWinData = new WinningPlayerData(agent.Player.Data);
                         if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
@@ -558,7 +742,7 @@ namespace TownOfUs
                 }
                 else if (role.FactionOverride == FactionOverride.None)
                 {
-                    if (apocWin)
+                    if (isApoc)
                     {
                         var agentWinData = new WinningPlayerData(agent.Player.Data);
                         if (PlayerControl.LocalPlayer != agent.Player) agentWinData.IsYou = false;
@@ -572,6 +756,11 @@ namespace TownOfUs
                 if (necromancer.NecromancerWin)
                 {
                     TempData.winners = new List<WinningPlayerData>();
+                    isImp = false;
+                    isApoc = false;
+                    isNeut = true;
+                    isCrew = false;
+                    isOther = false;
                     foreach (var undead in Role.AllRoles.ToArray().Where(x => x.FactionOverride == FactionOverride.Undead))
                     {
                         var undeadData = new WinningPlayerData(undead.Player.Data);
@@ -586,6 +775,11 @@ namespace TownOfUs
                 if (jackal.JackalWin)
                 {
                     TempData.winners = new List<WinningPlayerData>();
+                    isImp = false;
+                    isApoc = false;
+                    isNeut = true;
+                    isCrew = false;
+                    isOther = false;
                     foreach (var recruit in Role.AllRoles.ToArray().Where(x => x.FactionOverride == FactionOverride.Recruit))
                     {
                         var recruitData = new WinningPlayerData(recruit.Player.Data);
@@ -597,11 +791,9 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
             {
                 var witch = (Witch)role;
-                var isCrew = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && x.GetDefaultOutfit().ColorId == TempData.winners[0].ColorId);
                 var witchWinData = new WinningPlayerData(witch.Player.Data);
                 if (!isCrew && !witchWinData.IsDead)
                     {
-                        var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
                         if (isImp) witchWinData.IsImpostor = true;
                         if (PlayerControl.LocalPlayer != witch.Player) witchWinData.IsYou = false;
                         TempData.winners.Add(witchWinData);

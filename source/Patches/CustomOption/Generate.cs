@@ -168,7 +168,6 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption ShowUndeadRemaining;
         public static CustomToggleOption ShowKillingRemaining;
         public static CustomToggleOption ShowProselyteRemaining;
-        public static CustomToggleOption SpawnImps;
         public static CustomStringOption ImpostorsChat;
         public static CustomStringOption ApocalypseChat;
 
@@ -300,6 +299,8 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption NeutEvilRed;
         public static CustomToggleOption NeutChaosRed;
         public static CustomToggleOption NeutKillingRed;
+        public static CustomToggleOption NeutProselyteRed;
+        public static CustomToggleOption NeutApocalypseRed;
         public static CustomToggleOption TraitorColourSwap;
 
         public static CustomHeaderOption Spy;
@@ -592,6 +593,8 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption NeutralEvilShowsEvil;
         public static CustomToggleOption NeutralChaosShowsEvil;
         public static CustomToggleOption NeutralKillingShowsEvil;
+        public static CustomToggleOption NeutralProselyteShowsEvil;
+        public static CustomToggleOption NeutralApocalypseShowsEvil;
 
         public static CustomHeaderOption Venerer;
         public static CustomNumberOption AbilityCooldown;
@@ -1342,7 +1345,6 @@ namespace TownOfUs.CustomOption
             ShowUndeadRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Undead Remaining", false);
             ShowKillingRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Neutral Killing Remaining", false);
             ShowProselyteRemaining = new CustomToggleOption(num++, MultiMenu.main, "Show Neutral Proselyte Remaining", false);
-            SpawnImps = new CustomToggleOption(num++, MultiMenu.main, "Spawn Impostors", true);
             ImpostorsChat = new CustomStringOption(num++, MultiMenu.main, "Impostors Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
             ApocalypseChat = new CustomStringOption(num++, MultiMenu.main, "Apocalypse Chat", new[] { "Off", "Rounds", "Meeting", "Both" });
 
@@ -1491,6 +1493,10 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Chaos Roles Are Red", false);
             NeutKillingRed =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Killing Roles Are Red", true);
+            NeutProselyteRed =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Proselyte Roles Are Red", true);
+            NeutApocalypseRed =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Apocalypse Roles Are Red", true);
             TraitorColourSwap =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Traitor Does Not Swap Colours", false);
 
@@ -1764,6 +1770,10 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Chaos Roles Show Evil", false);
             NeutralKillingShowsEvil =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Killing Roles Show Evil", true);
+            NeutralProselyteShowsEvil =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Proselyte Roles Show Evil", true);
+            NeutralApocalypseShowsEvil =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Apocalypse Roles Show Evil", true);
 
             Prosecutor =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#B38000FF>Prosecutor</color>");

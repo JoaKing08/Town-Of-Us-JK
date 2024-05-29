@@ -25,8 +25,9 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                             (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
                             (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||
                             (player.Is(Faction.NeutralChaos) && !CustomGameOptions.NeutChaosRed) ||
-                            ((player.Is(Faction.NeutralKilling) || (player.Is(Faction.NeutralApocalypse) &&
-                            CustomGameOptions.GameMode != GameMode.Horseman)) && !CustomGameOptions.NeutKillingRed))
+                            (player.Is(Faction.NeutralKilling) && !player.Is(RoleEnum.JKNecromancer) && !player.Is(RoleEnum.Vampire) && !player.Is(RoleEnum.Jackal) && !CustomGameOptions.NeutKillingRed) ||
+                            ((player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.Jackal)) && !CustomGameOptions.NeutProselyteRed) ||
+                            (player.Is(Faction.NeutralApocalypse) && !CustomGameOptions.NeutApocalypseRed))
                             {
                                 state.NameText.color = Color.green;
                             }
@@ -72,12 +73,13 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                 {
                     default:
                         if ((player.Is(Faction.Crewmates) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter))) ||
-                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter)) && !CustomGameOptions.CrewKillingRed) ||
-                            (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
-                            (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||
-                            (player.Is(Faction.NeutralChaos) && !CustomGameOptions.NeutChaosRed) ||
-                            ((player.Is(Faction.NeutralKilling) || (player.Is(Faction.NeutralApocalypse) &&
-                            CustomGameOptions.GameMode != GameMode.Horseman)) && !CustomGameOptions.NeutKillingRed))
+                        ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter)) && !CustomGameOptions.CrewKillingRed) ||
+                        (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
+                        (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||
+                        (player.Is(Faction.NeutralChaos) && !CustomGameOptions.NeutChaosRed) ||
+                        (player.Is(Faction.NeutralKilling) && !player.Is(RoleEnum.JKNecromancer) && !player.Is(RoleEnum.Vampire) && !player.Is(RoleEnum.Jackal) && !CustomGameOptions.NeutKillingRed) ||
+                        ((player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.Jackal)) && !CustomGameOptions.NeutProselyteRed) ||
+                        (player.Is(Faction.NeutralApocalypse) && !CustomGameOptions.NeutApocalypseRed))
                         {
                             player.nameText().color = Color.green;
                         }

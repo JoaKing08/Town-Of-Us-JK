@@ -4,6 +4,7 @@ using HarmonyLib;
 using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
+using Reactor.Utilities;
 
 namespace TownOfUs.CustomOption
 {
@@ -291,6 +292,7 @@ namespace TownOfUs.CustomOption
             {
                 if (__instance.Children == null || __instance.Children.Length == 0)
                     return;
+                //foreach (var child in __instance.Children) PluginSingleton<TownOfUs>.Instance.Log.LogMessage(child.name);
                 var y = __instance.GetComponentsInChildren<OptionBehaviour>()
                     .Max(option => option.transform.localPosition.y);
                 float x, z;
@@ -318,6 +320,9 @@ namespace TownOfUs.CustomOption
 
                     var longTasks = __instance.Children.FirstOrDefault(x => x.name == "NumLongTasks").TryCast<NumberOption>();
                     if (longTasks != null) longTasks.ValidRange = new FloatRange(0f, 15f);
+
+                    var impostors = __instance.Children.FirstOrDefault(x => x.name == "NumImpostors").TryCast<NumberOption>();
+                    if (impostors != null) impostors.ValidRange = new FloatRange(0f, 5f);
                 }
                 catch
                 {

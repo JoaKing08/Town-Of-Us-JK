@@ -27,10 +27,10 @@ namespace TownOfUs.CrewmateRoles.OracleMod
             var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x != PlayerControl.LocalPlayer && x != player).ToList();
             if (allPlayers.Count < 2) return "Too <b>few people alive</b> to receive a confessional";
             var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected &&
-            (x.Is(Faction.Impostors) || ((x.Is(Faction.NeutralKilling) || (x.Is(Faction.NeutralApocalypse) && CustomGameOptions.GameMode != GameMode.Horseman)) &&
+            (x.Is(Faction.Impostors) || (x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.Vampire) &&
             CustomGameOptions.NeutralKillingShowsEvil) || (x.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralEvilShowsEvil) || (x.Is(Faction.NeutralBenign) &&
             CustomGameOptions.NeutralBenignShowsEvil) || (x.Is(Faction.NeutralChaos) && CustomGameOptions.NeutralChaosShowsEvil) || (x.Is(Faction.NeutralApocalypse) &&
-            CustomGameOptions.GameMode == GameMode.Horseman))).ToList();
+            CustomGameOptions.NeutralApocalypseShowsEvil) || ((x.Is(RoleEnum.JKNecromancer) || x.Is(RoleEnum.Jackal) || x.Is(RoleEnum.Vampire)) && CustomGameOptions.NeutralProselyteShowsEvil))).ToList();
             if (evilPlayers.Count == 0) return $"<b>{player.GetDefaultOutfit().PlayerName}</b> confesses to knowing that there are <b>no more evil players</b>!"; 
             allPlayers.Shuffle();
             evilPlayers.Shuffle();

@@ -3467,7 +3467,7 @@ namespace TownOfUs
                     if (Check(CustomGameOptions.FrostyOn))
                         CrewmateModifiers.Add((typeof(Frosty), CustomGameOptions.FrostyOn));
 
-                    if (Check(CustomGameOptions.ImpostorAgentOn) && CustomGameOptions.SpawnImps)
+                    if (Check(CustomGameOptions.ImpostorAgentOn) && (GameOptionsManager.Instance.currentNormalGameOptions.NumImpostors > 0 || (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)))
                         ObjectiveCrewmateModifiers.Add((typeof(ImpostorAgent), CustomGameOptions.ImpostorAgentOn));
 
                     if (Check(CustomGameOptions.FamousOn))

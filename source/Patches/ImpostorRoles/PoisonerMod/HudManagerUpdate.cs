@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using TownOfUs.Extensions;
 using AmongUs.GameOptions;
+using TownOfUs.CrewmateRoles.MedicMod;
 
 namespace TownOfUs.ImpostorRoles.PoisonerMod
 {
@@ -27,8 +28,30 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
             }
             if (role.PoisonTimer() == 0 && role.PoisonedPlayer != null)
             {
-                Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, role.PoisonedPlayer);
-                Utils.Rpc(CustomRPC.KillAbilityUsed, role.PoisonedPlayer.PlayerId);
+                if (role.PoisonedPlayer.IsShielded())
+                {
+                    Utils.Rpc(CustomRPC.AttemptSound, role.PoisonedPlayer.GetMedic().Player.PlayerId, role.PoisonedPlayer.PlayerId);
+
+                    System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
+                    StopKill.BreakShield(role.PoisonedPlayer.GetMedic().Player.PlayerId, role.PoisonedPlayer.PlayerId, CustomGameOptions.ShieldBreaks);
+                }
+                else if (role.PoisonedPlayer.IsFortified())
+                {
+                    var crus = role.PoisonedPlayer.GetCrusader();
+                    crus.FortifiedPlayers.Remove(role.PoisonedPlayer.PlayerId);
+                    Utils.Rpc(CustomRPC.Unfortify, crus.Player.PlayerId, role.PoisonedPlayer.PlayerId);
+                }
+                else if (role.PoisonedPlayer.IsBarriered())
+                {
+                    var cleric = role.PoisonedPlayer.GetCleric();
+                    cleric.BarrieredPlayer = null;
+                    Utils.Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
+                }
+                else if (!role.PoisonedPlayer.Is(RoleEnum.Pestilence) && !role.PoisonedPlayer.Is(RoleEnum.Famine) && !role.PoisonedPlayer.Is(RoleEnum.War) && !role.PoisonedPlayer.Is(RoleEnum.Death) && !role.PoisonedPlayer.IsVesting() && !role.PoisonedPlayer.IsOnAlert() && !role.PoisonedPlayer.IsProtected())
+                {
+                    Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, role.PoisonedPlayer);
+                    Utils.Rpc(CustomRPC.KillAbilityUsed, role.PoisonedPlayer.PlayerId);
+                }
                 role.PoisonedPlayer = null;
             }
 
@@ -45,7 +68,8 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
 
             Utils.SetTarget(ref role.ClosestPlayer, role.PoisonButton, GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance], notImpostor);
 
-            role.PoisonButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+            if (role.PoisonedPlayer == null) role.PoisonButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+            else role.PoisonButton.SetCoolDown(role.PoisonTimer(), CustomGameOptions.PoisonDelay);
 
             if (role.PoisonedPlayer != null && !role.PoisonedPlayer.Data.IsDead && !role.PoisonedPlayer.Data.Disconnected)
             {

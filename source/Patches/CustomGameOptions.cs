@@ -432,6 +432,8 @@ namespace TownOfUs
         public static bool NeutEvilRed => Generate.NeutEvilRed.Get();
         public static bool NeutChaosRed => Generate.NeutChaosRed.Get();
         public static bool NeutKillingRed => Generate.NeutKillingRed.Get();
+        public static bool NeutProselyteRed => Generate.NeutProselyteRed.Get();
+        public static bool NeutApocalypseRed => Generate.NeutApocalypseRed.Get();
         public static bool TraitorColourSwap => Generate.TraitorColourSwap.Get();
         public static float MimicCooldown => Generate.MimicCooldownOption.Get();
         public static float MimicDuration => Generate.MimicDurationOption.Get();
@@ -634,6 +636,8 @@ namespace TownOfUs
         public static bool NeutralEvilShowsEvil => Generate.NeutralEvilShowsEvil.Get();
         public static bool NeutralChaosShowsEvil => Generate.NeutralChaosShowsEvil.Get();
         public static bool NeutralKillingShowsEvil => Generate.NeutralKillingShowsEvil.Get();
+        public static bool NeutralProselyteShowsEvil => Generate.NeutralProselyteShowsEvil.Get();
+        public static bool NeutralApocalypseShowsEvil => Generate.NeutralApocalypseShowsEvil.Get();
         public static float AbilityCd => Generate.AbilityCooldown.Get();
         public static float AbilityDuration => Generate.AbilityDuration.Get();
         public static float SprintSpeed => Generate.SprintSpeed.Get();
@@ -799,7 +803,6 @@ namespace TownOfUs
         public static bool ShowUndeadRemaining => Generate.ShowUndeadRemaining.Get();
         public static bool ShowKillingRemaining => Generate.ShowKillingRemaining.Get();
         public static bool ShowProselyteRemaining => Generate.ShowProselyteRemaining.Get();
-        public static bool SpawnImps => Generate.SpawnImps.Get();
         public static List<RLRoleEntry> RoleEntries
         {
             get
