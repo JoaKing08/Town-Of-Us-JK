@@ -206,7 +206,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
             var deputyrole = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
             if (deputyrole.Revealed) return;
             for (var i = 0; i < __instance.playerStates.Length; i++)
-                if (PlayerControl.LocalPlayer.PlayerId != __instance.playerStates[i].TargetPlayerId && deputyrole.Targets.Contains(__instance.playerStates[i].TargetPlayerId))
+                if (PlayerControl.LocalPlayer.PlayerId != __instance.playerStates[i].TargetPlayerId && deputyrole.Targets.Contains(__instance.playerStates[i].TargetPlayerId) && !Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Data.IsDead && !Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Data.Disconnected)
                 {
                     GenButton(deputyrole, i, __instance.playerStates[i].TargetPlayerId);
                 }

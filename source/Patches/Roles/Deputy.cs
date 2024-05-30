@@ -17,12 +17,13 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Deputy;
             AddToRoleHistory(RoleType);
             Revealed = false;
+            Targets = new List<byte>();
         }
         public bool Revealed { get; set; }
 
         public List<GameObject> ShootButtons = new List<GameObject>();
         public List<byte> Targets = new List<byte>();
-        public int AliveTargets => Revealed ? CustomGameOptions.MaxDeputyTargets : Targets.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected);
+        public int AliveTargets => Revealed ? CustomGameOptions.MaxDeputyTargets : Targets.Any() ? Targets.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) : 0;
         public DateTime LastAimed;
         public PlayerControl ClosestPlayer;
         public TextMeshPro UsesText;

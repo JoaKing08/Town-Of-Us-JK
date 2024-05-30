@@ -44,6 +44,8 @@ using TownOfUs.Patches.NeutralRoles;
 using BepInEx.Logging;
 using TownOfUs.Roles.Teams;
 using TownOfUs.NeutralRoles.PirateMod;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using UnityEngine.UI;
 
 namespace TownOfUs
 {
@@ -2140,6 +2142,7 @@ namespace TownOfUs
                             var prosRole = Role.GetRole<Prosecutor>(prosecutor);
                             prosRole.ProsecuteThisMeeting = true;
                         }
+                        
                         break;
 
                     case CustomRPC.Bite:
@@ -3010,6 +3013,7 @@ namespace TownOfUs
                         var voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == deputyTarget.PlayerId);
                         Role.GetRole(PlayerControl.LocalPlayer).Notification($"Deputy Has Shot {deputyTarget.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
                         Role.GetRole<Deputy>(deputy).Revealed = true;
+                        if (CustomGameOptions.RevealDeputy) CrewmateRoles.DeputyMod.AddShootButton.RemoveAssassin(Role.GetRole<Deputy>(deputy));
                         if (!deputyTarget.Is(RoleEnum.Pestilence) && !deputyTarget.Is(RoleEnum.Famine) && !deputyTarget.Is(RoleEnum.War) && !deputyTarget.Is(RoleEnum.Death))
                         {
                             deputyTarget.Exiled();
@@ -3019,6 +3023,101 @@ namespace TownOfUs
                             voteArea.XMark.gameObject.SetActive(true);
                             voteArea.XMark.transform.localScale = Vector3.one;
                             SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
+                            var amOwner = deputyTarget.AmOwner;
+                            var hudManager = HudManager.Instance;
+                            if (amOwner)
+                            {
+                                Utils.ShowDeadBodies = true;
+                                hudManager.ShadowQuad.gameObject.SetActive(false);
+                                deputyTarget.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+                                deputyTarget.RpcSetScanner(false);
+                                ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
+                                importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
+                                if (!GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks)
+                                {
+                                    for (int i = 0; i < deputyTarget.myTasks.Count; i++)
+                                    {
+                                        PlayerTask playerTask = deputyTarget.myTasks.ToArray()[i];
+                                        playerTask.OnRemove();
+                                        UnityEngine.Object.Destroy(playerTask.gameObject);
+                                    }
+
+                                    deputyTarget.myTasks.Clear();
+                                    importantTextTask.Text = DestroyableSingleton<TranslationController>.Instance.GetString(
+                                        StringNames.GhostIgnoreTasks,
+                                        new Il2CppReferenceArray<Il2CppSystem.Object>(0)
+                                    );
+                                }
+                                else
+                                {
+                                    importantTextTask.Text = DestroyableSingleton<TranslationController>.Instance.GetString(
+                                        StringNames.GhostDoTasks,
+                                        new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+                                }
+
+                                deputyTarget.myTasks.Insert(0, importantTextTask);
+
+                                if (deputyTarget.Is(RoleEnum.Swapper))
+                                {
+                                    var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
+                                    swapper.ListOfActives.Clear();
+                                    swapper.Buttons.Clear();
+                                    SwapVotes.Swap1 = null;
+                                    SwapVotes.Swap2 = null;
+                                    Utils.Rpc(CustomRPC.SetSwaps, sbyte.MaxValue, sbyte.MaxValue);
+                                    var buttons = Role.GetRole<Swapper>(deputyTarget).Buttons;
+                                    foreach (var button in buttons)
+                                    {
+                                        button.SetActive(false);
+                                        button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+                                    }
+                                }
+
+                                if (deputyTarget.Is(RoleEnum.Imitator))
+                                {
+                                    var imi = Role.GetRole<Imitator>(PlayerControl.LocalPlayer);
+                                    imi.ListOfActives.Clear();
+                                    imi.Buttons.Clear();
+                                    SetImitate.Imitate = null;
+                                    var buttons = Role.GetRole<Imitator>(deputyTarget).Buttons;
+                                    foreach (var button in buttons)
+                                    {
+                                        button.SetActive(false);
+                                        button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+                                    }
+                                }
+
+                                if (deputyTarget.Is(AbilityEnum.Assassin))
+                                {
+                                    var assas = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
+                                    ShowHideButtons.HideButtons(assas);
+                                }
+
+                                if (deputyTarget.Is(RoleEnum.Vigilante))
+                                {
+                                    var vigilante = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
+                                    ShowHideButtonsVigi.HideButtonsVigi(vigilante);
+                                }
+
+                                if (deputyTarget.Is(RoleEnum.Doomsayer))
+                                {
+                                    var dooms = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
+                                    ShowHideButtonsDoom.HideButtonsDoom(dooms);
+                                }
+
+                                if (deputyTarget.Is(RoleEnum.Mayor))
+                                {
+                                    var may = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
+                                    may.RevealButton.Destroy();
+                                }
+
+                                if (deputyTarget.Is(RoleEnum.Deputy))
+                                {
+                                    var dep = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                                    foreach (var button in dep.ShootButtons) button.Destroy();
+                                    dep.ShootButtons.Clear();
+                                }
+                            }
                             if (deputyTarget.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
                             {
                                 var lover = Objective.GetObjective<Lover>(deputyTarget).OtherLover.Player;

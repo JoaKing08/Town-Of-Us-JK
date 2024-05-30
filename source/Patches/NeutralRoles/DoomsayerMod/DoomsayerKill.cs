@@ -150,6 +150,13 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     var mayor = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
                     mayor.RevealButton.Destroy();
                 }
+
+                if (player.Is(RoleEnum.Deputy))
+                {
+                    var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                    foreach (var button in deputy.ShootButtons) button.Destroy();
+                    deputy.ShootButtons.Clear();
+                }
             }
             player.Die(DeathReason.Kill, false);
             if (checkLover && player.IsLover() && CustomGameOptions.BothLoversDie)
