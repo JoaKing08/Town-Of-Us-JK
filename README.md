@@ -1815,7 +1815,7 @@ Custom hats have been added, made by some very talented artists. These are mostl
 
 -----------------------
 # Bug / Suggestions
-If you have any bugs or any need to contact me, join the [Discord Server](https://discord.gg/EWSkUD2SaD) or create a ticket on GitHub.
+If you have any bugs or any need to contact me, create a ticket on GitHub.
 
 -----------------------
 # Credits & Resources
