@@ -43,7 +43,7 @@ namespace TownOfUs
                 if (localPlayer == null) return true;
                 bool roleSeeMessage = false;
                 bool meeting = DateTime.UtcNow - MeetingStartTime >= TimeSpan.FromSeconds(1);
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) switch (Role.GetRole(sourcePlayer).CurrentChat)
+                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !chatText.Contains('<')) switch (Role.GetRole(sourcePlayer).CurrentChat)
                     {
                         case ChatType.VanillaChat:
                             roleSeeMessage = meeting && (MeetingHud.Instance != null || LobbyBehaviour.Instance != null);
@@ -76,6 +76,14 @@ namespace TownOfUs
                 else roleSeeMessage = MeetingHud.Instance != null || LobbyBehaviour.Instance != null;
                 bool shouldSeeMessage = localPlayer.Data.IsDead || roleSeeMessage ||
                     sourcePlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId;
+                /*sourcePlayer.Data.DefaultOutfit.PlayerName = "???";
+                sourcePlayer.Data.DefaultOutfit.ColorId = 15;
+                sourcePlayer.Data.DefaultOutfit.PetId = "";
+                sourcePlayer.Data.DefaultOutfit.HatId = "";
+                sourcePlayer.Data.DefaultOutfit.SkinId = "";
+                sourcePlayer.Data.DefaultOutfit.VisorId = "";
+                sourcePlayer.Data.DefaultOutfit.NamePlateId = "";
+                sourcePlayer.Data.PlayerLevel = 0;*/
                 return shouldSeeMessage;
             }
         }

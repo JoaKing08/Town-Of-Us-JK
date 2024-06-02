@@ -503,6 +503,7 @@ namespace TownOfUs
         public static bool AssassinGuessNeutralChaos => Generate.AssassinGuessNeutralChaos.Get();
         public static bool AssassinGuessNeutralKilling => Generate.AssassinGuessNeutralKilling.Get();
         public static bool AssassinGuessNeutralProselyte => Generate.AssassinGuessNeutralProselyte.Get();
+        public static bool AssassinGuessNeutralApocalypse => Generate.AssassinGuessNeutralApocalypse.Get();
         public static bool AssassinGuessImpostors => Generate.AssassinGuessImpostors.Get();
         public static bool AssassinGuessModifiers => Generate.AssassinGuessModifiers.Get();
         public static bool AssassinGuessLovers => Generate.AssassinGuessLovers.Get();
@@ -524,6 +525,7 @@ namespace TownOfUs
         public static bool VigilanteGuessNeutralChaos => Generate.VigilanteGuessNeutralChaos.Get();
         public static bool VigilanteGuessNeutralKilling => Generate.VigilanteGuessNeutralKilling.Get();
         public static bool VigilanteGuessNeutralProselyte => Generate.VigilanteGuessNeutralProselyte.Get();
+        public static bool VigilanteGuessNeutralApocalypse => Generate.VigilanteGuessNeutralApocalypse.Get();
         public static bool VigilanteGuessLovers => Generate.VigilanteGuessLovers.Get();
         public static int VigilanteKills => (int)Generate.VigilanteKills.Get();
         public static bool VigilanteMultiKill => Generate.VigilanteMultiKill.Get();
@@ -611,6 +613,7 @@ namespace TownOfUs
         public static bool DoomsayerGuessNeutralChaos => Generate.DoomsayerGuessNeutralChaos.Get();
         public static bool DoomsayerGuessNeutralKilling => Generate.DoomsayerGuessNeutralKilling.Get();
         public static bool DoomsayerGuessNeutralProselyte => Generate.DoomsayerGuessNeutralProselyte.Get();
+        public static bool DoomsayerGuessNeutralApocalypse => Generate.DoomsayerGuessNeutralApocalypse.Get();
         public static bool DoomsayerGuessImpostors => Generate.DoomsayerGuessImpostors.Get();
         public static bool DoomsayerAfterVoting => Generate.DoomsayerAfterVoting.Get();
         public static int DoomsayerGuessesToWin => (int)Generate.DoomsayerGuessesToWin.Get();

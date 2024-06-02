@@ -84,11 +84,11 @@ namespace TownOfUs.Roles
                     if (CustomGameOptions.JackalOn > 0) ColorMapping.Add("Jackal", Colors.Jackal);
                     if (CustomGameOptions.NecromancerOn > 0) ColorMapping.Add("Necromancer", Colors.Necromancer);
                 }
-                if ((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                if ((CustomGameOptions.BakerOn > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Baker", Colors.Baker);
-                if ((CustomGameOptions.BerserkerOn > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Berserker", Colors.Berserker);
-                if ((CustomGameOptions.SoulCollectorOn > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Soul Collector", Colors.SoulCollector);
-                if (CustomGameOptions.ApocalypseAgentOn > 0 && (((CustomGameOptions.PlaguebearerOn > 0 || CustomGameOptions.BakerOn > 0 || CustomGameOptions.BerserkerOn > 0 || CustomGameOptions.SoulCollectorOn > 0) && CustomGameOptions.VigilanteGuessNeutralKilling) || CustomGameOptions.GameMode == GameMode.Horseman)) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
+                if ((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.VigilanteGuessNeutralApocalypse) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                if ((CustomGameOptions.BakerOn > 0 && CustomGameOptions.VigilanteGuessNeutralApocalypse) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Baker", Colors.Baker);
+                if ((CustomGameOptions.BerserkerOn > 0 && CustomGameOptions.VigilanteGuessNeutralApocalypse) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Berserker", Colors.Berserker);
+                if ((CustomGameOptions.SoulCollectorOn > 0 && CustomGameOptions.VigilanteGuessNeutralApocalypse) || CustomGameOptions.GameMode == GameMode.Horseman) ColorMapping.Add("Soul Collector", Colors.SoulCollector);
+                if (CustomGameOptions.ApocalypseAgentOn > 0 && (((CustomGameOptions.PlaguebearerOn > 0 || CustomGameOptions.BakerOn > 0 || CustomGameOptions.BerserkerOn > 0 || CustomGameOptions.SoulCollectorOn > 0) && CustomGameOptions.VigilanteGuessNeutralApocalypse) || CustomGameOptions.GameMode == GameMode.Horseman)) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
                 if (CustomGameOptions.VigilanteGuessLovers && CustomGameOptions.LoversOn > 0) ColorMapping.Add("Lover", Colors.Lovers);
             }
             else if (CustomGameOptions.GameMode == GameMode.KillingOnly)
@@ -155,17 +155,20 @@ namespace TownOfUs.Roles
                     ColorMapping.Add("Werewolf", Colors.Werewolf);
                     ColorMapping.Add("Juggernaut", Colors.Juggernaut);
                     ColorMapping.Add("Serial Killer", Colors.SerialKiller);
-                    ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                    ColorMapping.Add("Baker", Colors.Baker);
-                    ColorMapping.Add("Berserker", Colors.Berserker);
-                    ColorMapping.Add("Soul Collector", Colors.SoulCollector);
-                    if (CustomGameOptions.ApocalypseAgentOn > 0) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
                 }
                 if (CustomGameOptions.VigilanteGuessNeutralProselyte)
                 {
                     ColorMapping.Add("Vampire", Colors.Vampire);
                     ColorMapping.Add("Jackal", Colors.Jackal);
                     ColorMapping.Add("Necromancer", Colors.Necromancer);
+                }
+                if (CustomGameOptions.DoomsayerGuessNeutralApocalypse)
+                {
+                    ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                    ColorMapping.Add("Baker", Colors.Baker);
+                    ColorMapping.Add("Berserker", Colors.Berserker);
+                    ColorMapping.Add("Soul Collector", Colors.SoulCollector);
+                    if (CustomGameOptions.ApocalypseAgentOn > 0) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
                 }
             }
             else

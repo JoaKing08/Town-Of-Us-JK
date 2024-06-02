@@ -398,6 +398,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption AssassinGuessNeutralChaos;
         public static CustomToggleOption AssassinGuessNeutralKilling;
         public static CustomToggleOption AssassinGuessNeutralProselyte;
+        public static CustomToggleOption AssassinGuessNeutralApocalypse;
         public static CustomToggleOption AssassinGuessImpostors;
         public static CustomToggleOption AssassinGuessModifiers;
         public static CustomToggleOption AssassinGuessLovers;
@@ -415,6 +416,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption VigilanteGuessNeutralChaos;
         public static CustomToggleOption VigilanteGuessNeutralKilling;
         public static CustomToggleOption VigilanteGuessNeutralProselyte;
+        public static CustomToggleOption VigilanteGuessNeutralApocalypse;
         public static CustomToggleOption VigilanteGuessLovers;
         public static CustomToggleOption VigilanteAfterVoting;
 
@@ -554,6 +556,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption DoomsayerGuessNeutralChaos;
         public static CustomToggleOption DoomsayerGuessNeutralKilling;
         public static CustomToggleOption DoomsayerGuessNeutralProselyte;
+        public static CustomToggleOption DoomsayerGuessNeutralApocalypse;
         public static CustomToggleOption DoomsayerGuessImpostors;
         public static CustomToggleOption DoomsayerAfterVoting;
         public static CustomNumberOption DoomsayerGuessesToWin;
@@ -1401,8 +1404,9 @@ namespace TownOfUs.CustomOption
             AssassinGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Benign Roles", false);
             AssassinGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Evil Roles", false);
             AssassinGuessNeutralChaos = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Chaos Roles", false);
-            AssassinGuessNeutralProselyte = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Proselyte Roles", false);
             AssassinGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Killing Roles", false);
+            AssassinGuessNeutralProselyte = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Proselyte Roles", false);
+            AssassinGuessNeutralApocalypse = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Apocalypse Roles", false);
             AssassinGuessImpostors = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Impostor Roles", false);
             AssassinGuessModifiers = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Crewmate Modifiers", false);
             AssassinGuessLovers = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Lovers", false);
@@ -1632,6 +1636,7 @@ namespace TownOfUs.CustomOption
             VigilanteGuessNeutralChaos = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Chaos Roles", false);
             VigilanteGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Killing Roles", false);
             VigilanteGuessNeutralProselyte = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Proselyte Roles", false);
+            VigilanteGuessNeutralApocalypse = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Apocalypse Roles", false);
             VigilanteGuessLovers = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Lovers", false);
             VigilanteAfterVoting = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess After Voting", false);
 
@@ -1880,6 +1885,7 @@ namespace TownOfUs.CustomOption
             DoomsayerGuessNeutralChaos = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Chaos Roles", false);
             DoomsayerGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Killing Roles", false);
             DoomsayerGuessNeutralProselyte = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Proselyte Roles", false);
+            DoomsayerGuessNeutralApocalypse = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Apocalypse Roles", false);
             DoomsayerGuessImpostors = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Impostor Roles", false);
             DoomsayerAfterVoting = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess After Voting", false);
             DoomsayerGuessesToWin = new CustomNumberOption(num++, MultiMenu.neutral, "Number Of Doomsayer Kills To Win", 3, 1, 5, 1);

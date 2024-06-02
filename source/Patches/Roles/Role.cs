@@ -1448,7 +1448,7 @@ namespace TownOfUs.Roles
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                                 player.nameText().color = Patches.Colors.Impostor;
                         }
-                        else if (player.IsKnight()) player.nameText().text += "<color=#9628C8FF> +</color>";
+                        else if (player.IsKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C8FF> +</color>";
                     }
 
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;

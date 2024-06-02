@@ -120,11 +120,11 @@ namespace TownOfUs.Roles.Modifiers
                     if (CustomGameOptions.SniperOn > 0) ColorMapping.Add("Sniper", Colors.Impostor);
                     if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.Impostor);
                 }
-                if (((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessImpostors)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                if (((CustomGameOptions.BakerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessImpostors)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Baker", Colors.Baker);
-                if (((CustomGameOptions.BerserkerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessImpostors)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Berserker", Colors.Berserker);
-                if (((CustomGameOptions.SoulCollectorOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessImpostors)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Soul Collector", Colors.SoulCollector);
-                if (CustomGameOptions.ApocalypseAgentOn > 0 && (((CustomGameOptions.PlaguebearerOn > 0 || CustomGameOptions.BakerOn > 0 || CustomGameOptions.BerserkerOn > 0 || CustomGameOptions.SoulCollectorOn > 0) && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.DoomsayerGuessNeutralKilling) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.DoomsayerGuessImpostors)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
+                if (((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                if (((CustomGameOptions.BakerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Baker", Colors.Baker);
+                if (((CustomGameOptions.BerserkerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Berserker", Colors.Berserker);
+                if (((CustomGameOptions.SoulCollectorOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Soul Collector", Colors.SoulCollector);
+                if (CustomGameOptions.ApocalypseAgentOn > 0 && (((CustomGameOptions.PlaguebearerOn > 0 || CustomGameOptions.BakerOn > 0 || CustomGameOptions.BerserkerOn > 0 || CustomGameOptions.SoulCollectorOn > 0) && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
 
                 // Add vanilla crewmate if enabled
                 if (CustomGameOptions.AssassinCrewmateGuess) ColorMapping.Add("Crewmate", Colors.Crewmate);
@@ -212,17 +212,20 @@ namespace TownOfUs.Roles.Modifiers
                     if (!PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)) ColorMapping.Add("Werewolf", Colors.Werewolf);
                     if (!PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)) ColorMapping.Add("Juggernaut", Colors.Juggernaut);
                     if (!PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller)) ColorMapping.Add("Serial Killer", Colors.SerialKiller);
-                    if (!PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                    if (!PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Baker", Colors.Baker);
-                    if (!PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Berserker", Colors.Berserker);
-                    if (!PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Soul Collector", Colors.SoulCollector);
-                    if (CustomGameOptions.ApocalypseAgentOn > 0 && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
                 }
                 if (CustomGameOptions.AssassinGuessNeutralProselyte)
                 {
                     if (!PlayerControl.LocalPlayer.Is(FactionOverride.Vampires)) ColorMapping.Add("Vampire", Colors.Vampire);
                     if (!PlayerControl.LocalPlayer.Is(FactionOverride.Recruit)) ColorMapping.Add("Jackal", Colors.Jackal);
                     if (!PlayerControl.LocalPlayer.Is(FactionOverride.Undead)) ColorMapping.Add("Necromancer", Colors.Necromancer);
+                }
+                if (CustomGameOptions.DoomsayerGuessNeutralApocalypse && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse))
+                {
+                    ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                    ColorMapping.Add("Baker", Colors.Baker);
+                    ColorMapping.Add("Berserker", Colors.Berserker);
+                    ColorMapping.Add("Soul Collector", Colors.SoulCollector);
+                    if (CustomGameOptions.ApocalypseAgentOn > 0) ColorMapping.Add("Agent (Apoc)", Colors.ApocalypseAgent);
                 }
             }
             //Add modifiers if enabled
