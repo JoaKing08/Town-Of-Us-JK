@@ -20,6 +20,8 @@ namespace TownOfUs.Roles
         public int DuelsWon = 0;
         public bool WonByDuel = false;
         public DateTime LastDueled;
+        public DateTime MeetingStart;
+        public bool notify = false;
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__38 __instance)
         {
@@ -43,6 +45,16 @@ namespace TownOfUs.Roles
             var utcNow = DateTime.UtcNow;
             var timeSpan = utcNow - LastDueled;
             var num = CustomGameOptions.DuelCooldown * 1000f;
+            var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
+            if (flag2) return 0;
+            return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
+        }
+
+        public float NotificationTimer()
+        {
+            var utcNow = DateTime.UtcNow;
+            var timeSpan = utcNow - MeetingStart;
+            var num = 2000f;
             var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
             if (flag2) return 0;
             return (num - (float)timeSpan.TotalMilliseconds) / 1000f;

@@ -3281,6 +3281,7 @@ namespace TownOfUs
                 Role.NobodyWins = false;
                 Role.SurvOnlyWins = false;
                 Role.VampireWins = false;
+                CustomGameData.IsMeeting = true;
                 ExileControllerPatch.lastExiled = null;
                 PatchKillTimer.GameStarted = false;
                 StartImitate.ImitatingPlayer = null;

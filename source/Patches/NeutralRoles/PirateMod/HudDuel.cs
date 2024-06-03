@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -13,6 +14,12 @@ namespace TownOfUs.NeutralRoles.PirateMod
         [HarmonyPatch(nameof(HudManager.Update))]
         public static void Postfix(HudManager __instance)
         {
+            if (PlayerControl.LocalPlayer.IsDueled()) if (PlayerControl.LocalPlayer.GetPirate().notify && PlayerControl.LocalPlayer.GetPirate().NotificationTimer() == 0f)
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate, 2000));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Ya Ar Duel'g!", 1000 * CustomGameOptions.NotificationDuration);
+                    PlayerControl.LocalPlayer.GetPirate().notify = false;
+                }
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
@@ -20,6 +27,12 @@ namespace TownOfUs.NeutralRoles.PirateMod
             var duelButton = __instance.KillButton;
 
             var role = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
+            if (role.notify && role.NotificationTimer() == 0f)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate, 2000));
+                role.Notification("Ya Ar Duel'g!", 1000 * CustomGameOptions.NotificationDuration);
+                role.notify = false;
+            }
 
             duelButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead

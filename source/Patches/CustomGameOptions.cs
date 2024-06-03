@@ -498,6 +498,7 @@ namespace TownOfUs
         public static float UndertakerDragSpeed => Generate.UndertakerDragSpeed.Get();
         public static bool UndertakerVent => Generate.UndertakerVent.Get();
         public static bool UndertakerVentWithBody => Generate.UndertakerVentWithBody.Get();
+        public static bool AssassinGuessCrewInvestigative => Generate.AssassinGuessCrewInvestigative.Get();
         public static bool AssassinGuessNeutralBenign => Generate.AssassinGuessNeutralBenign.Get();
         public static bool AssassinGuessNeutralEvil => Generate.AssassinGuessNeutralEvil.Get();
         public static bool AssassinGuessNeutralChaos => Generate.AssassinGuessNeutralChaos.Get();
@@ -608,6 +609,7 @@ namespace TownOfUs
         public static float DetonateRadius => Generate.DetonateRadius.Get();
         public static bool BomberVent => Generate.BomberVent.Get();
         public static float ObserveCooldown => Generate.ObserveCooldown.Get();
+        public static bool DoomsayerGuessCrewInvestigative => Generate.DoomsayerGuessCrewInvestigative.Get();
         public static bool DoomsayerGuessNeutralBenign => Generate.DoomsayerGuessNeutralBenign.Get();
         public static bool DoomsayerGuessNeutralEvil => Generate.DoomsayerGuessNeutralEvil.Get();
         public static bool DoomsayerGuessNeutralChaos => Generate.DoomsayerGuessNeutralChaos.Get();

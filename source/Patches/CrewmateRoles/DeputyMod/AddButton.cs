@@ -110,6 +110,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                     }
                     if (CustomGameOptions.MisfireKillsDeputy && target.Is(Faction.Crewmates) && target.Is(FactionOverride.None) && !target.Is(ObjectiveEnum.ImpostorAgent) && !target.Is(ObjectiveEnum.ApocalypseAgent))
                     {
+                        Utils.ShowDeadBodies = true;
                         role.Player.Exiled();
                         if (role.Player.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
                         {

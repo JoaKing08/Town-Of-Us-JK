@@ -42,7 +42,6 @@ namespace TownOfUs.Roles
         public bool KilledByAbility;
         public GameObject ChatButton;
         public ChatType CurrentChat = ChatType.VanillaChat;
-        public bool meeting = false;
         //public Dictionary<ChatType, ChatController> ChatControllers = new Dictionary<ChatType, ChatController>();
 
         protected Role(PlayerControl player)

@@ -393,6 +393,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption AssassinKills;
         public static CustomToggleOption AssassinMultiKill;
         public static CustomToggleOption AssassinCrewmateGuess;
+        public static CustomToggleOption AssassinGuessCrewInvestigative;
         public static CustomToggleOption AssassinGuessNeutralBenign;
         public static CustomToggleOption AssassinGuessNeutralEvil;
         public static CustomToggleOption AssassinGuessNeutralChaos;
@@ -551,6 +552,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Doomsayer;
         public static CustomNumberOption ObserveCooldown;
+        public static CustomToggleOption DoomsayerGuessCrewInvestigative;
         public static CustomToggleOption DoomsayerGuessNeutralBenign;
         public static CustomToggleOption DoomsayerGuessNeutralEvil;
         public static CustomToggleOption DoomsayerGuessNeutralChaos;
@@ -1401,6 +1403,7 @@ namespace TownOfUs.CustomOption
             AssassinKills = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Assassin Kills", 1, 1, 15, 1);
             AssassinMultiKill = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Kill More Than Once Per Meeting", false);
             AssassinCrewmateGuess = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess \"Crewmate\"", false);
+            AssassinGuessCrewInvestigative = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Crew Investigative Roles", false);
             AssassinGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Benign Roles", false);
             AssassinGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Evil Roles", false);
             AssassinGuessNeutralChaos = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Chaos Roles", false);
@@ -1880,6 +1883,7 @@ namespace TownOfUs.CustomOption
             Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>");
             ObserveCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Observe Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            DoomsayerGuessCrewInvestigative = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Crew Investigative Roles", true);
             DoomsayerGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Benign Roles", false);
             DoomsayerGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Evil Roles", false);
             DoomsayerGuessNeutralChaos = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Chaos Roles", false);

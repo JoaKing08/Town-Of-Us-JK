@@ -33,35 +33,38 @@ namespace TownOfUs.Roles.Modifiers
             // Adds all the roles that have a non-zero chance of being in the game.
             if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny || CustomGameOptions.GameMode == GameMode.Horseman)
             {
+                if (CustomGameOptions.AssassinGuessCrewInvestigative)
+                {
+                    if (CustomGameOptions.InvestigatorOn > 0) ColorMapping.Add("Investigator", Colors.Investigator);
+                    if (CustomGameOptions.SeerOn > 0) ColorMapping.Add("Seer", Colors.Seer);
+                    if (CustomGameOptions.SpyOn > 0) ColorMapping.Add("Spy", Colors.Spy);
+                    if (CustomGameOptions.SnitchOn > 0) ColorMapping.Add("Snitch", Colors.Snitch);
+                    if (CustomGameOptions.TrackerOn > 0) ColorMapping.Add("Tracker", Colors.Tracker);
+                    if (CustomGameOptions.TrapperOn > 0) ColorMapping.Add("Trapper", Colors.Trapper);
+                    if (CustomGameOptions.MysticOn > 0) ColorMapping.Add("Mystic", Colors.Mystic);
+                    if (CustomGameOptions.DetectiveOn > 0) ColorMapping.Add("Detective", Colors.Detective);
+                    if (CustomGameOptions.AurialOn > 0) ColorMapping.Add("Aurial", Colors.Aurial);
+                    if (CustomGameOptions.InspectorOn > 0) ColorMapping.Add("Inspector", Colors.Inspector);
+                    if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
+                }
                 if (CustomGameOptions.MayorOn > 0) ColorMapping.Add("Mayor", Colors.Mayor);
                 if (CustomGameOptions.SheriffOn > 0 || (CustomGameOptions.VampireHunterOn > 0 && (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && (CustomGameOptions.VampireOn > 0 || CustomGameOptions.NecromancerOn > 0) && CustomGameOptions.BecomeOnVampDeaths == BecomeEnum.Sheriff)) ColorMapping.Add("Sheriff", Colors.Sheriff);
                 if (CustomGameOptions.EngineerOn > 0) ColorMapping.Add("Engineer", Colors.Engineer);
                 if (CustomGameOptions.SwapperOn > 0) ColorMapping.Add("Swapper", Colors.Swapper);
-                if (CustomGameOptions.InvestigatorOn > 0) ColorMapping.Add("Investigator", Colors.Investigator);
                 if (CustomGameOptions.MedicOn > 0) ColorMapping.Add("Medic", Colors.Medic);
-                if (CustomGameOptions.SeerOn > 0) ColorMapping.Add("Seer", Colors.Seer);
-                if (CustomGameOptions.SpyOn > 0) ColorMapping.Add("Spy", Colors.Spy);
-                if (CustomGameOptions.SnitchOn > 0) ColorMapping.Add("Snitch", Colors.Snitch);
                 if (CustomGameOptions.AltruistOn > 0) ColorMapping.Add("Altruist", Colors.Altruist);
                 if (CustomGameOptions.VigilanteOn > 0 || (CustomGameOptions.VampireHunterOn > 0 && (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && (CustomGameOptions.VampireOn > 0 || CustomGameOptions.NecromancerOn > 0) && CustomGameOptions.BecomeOnVampDeaths == BecomeEnum.Vigilante)) ColorMapping.Add("Vigilante", Colors.Vigilante);
                 if (CustomGameOptions.VeteranOn > 0 || (CustomGameOptions.VampireHunterOn > 0 && (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && (CustomGameOptions.VampireOn > 0 || CustomGameOptions.NecromancerOn > 0) && CustomGameOptions.BecomeOnVampDeaths == BecomeEnum.Veteran)) ColorMapping.Add("Veteran", Colors.Veteran);
                 if (CustomGameOptions.HunterOn > 0 || (CustomGameOptions.VampireHunterOn > 0 && CustomGameOptions.GameMode == GameMode.Classic && (CustomGameOptions.VampireOn > 0 || CustomGameOptions.NecromancerOn > 0) && CustomGameOptions.BecomeOnVampDeaths == BecomeEnum.Hunter)) ColorMapping.Add("Hunter", Colors.Hunter);
-                if (CustomGameOptions.TrackerOn > 0) ColorMapping.Add("Tracker", Colors.Tracker);
-                if (CustomGameOptions.TrapperOn > 0) ColorMapping.Add("Trapper", Colors.Trapper);
                 if (CustomGameOptions.TransporterOn > 0) ColorMapping.Add("Transporter", Colors.Transporter);
                 if (CustomGameOptions.MediumOn > 0) ColorMapping.Add("Medium", Colors.Medium);
-                if (CustomGameOptions.MysticOn > 0) ColorMapping.Add("Mystic", Colors.Mystic);
-                if (CustomGameOptions.DetectiveOn > 0) ColorMapping.Add("Detective", Colors.Detective);
                 if (CustomGameOptions.ImitatorOn > 0) ColorMapping.Add("Imitator", Colors.Imitator);
                 if (CustomGameOptions.VampireHunterOn > 0 && (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && CustomGameOptions.VampireOn > 0) ColorMapping.Add("Vampire Hunter", Colors.VampireHunter);
                 if (CustomGameOptions.ProsecutorOn > 0) ColorMapping.Add("Prosecutor", Colors.Prosecutor);
                 if (CustomGameOptions.OracleOn > 0) ColorMapping.Add("Oracle", Colors.Oracle);
-                if (CustomGameOptions.AurialOn > 0) ColorMapping.Add("Aurial", Colors.Aurial);
-                if (CustomGameOptions.InspectorOn > 0) ColorMapping.Add("Inspector", Colors.Inspector);
                 if (CustomGameOptions.MonarchOn > 0) ColorMapping.Add("Monarch", Colors.Monarch);
                 if (CustomGameOptions.TavernKeeperOn > 0) ColorMapping.Add("Tavern Keeper", Colors.TavernKeeper);
                 if (CustomGameOptions.UndercoverOn > 0) ColorMapping.Add("Undercover", Colors.Undercover);
-                if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
                 if (CustomGameOptions.DeputyOn > 0) ColorMapping.Add("Deputy", Colors.Deputy);
                 if (CustomGameOptions.BodyguardOn > 0) ColorMapping.Add("Bodyguard", Colors.Bodyguard);
                 if (CustomGameOptions.CrusaderOn > 0) ColorMapping.Add("Crusader", Colors.Crusader);
@@ -132,35 +135,38 @@ namespace TownOfUs.Roles.Modifiers
             else if (CustomGameOptions.GameMode == GameMode.RoleList)
             {
                 if (CustomGameOptions.AssassinCrewmateGuess) ColorMapping.Add("Crewmate", Colors.Crewmate);
+                if (CustomGameOptions.AssassinGuessCrewInvestigative)
+                {
+                    ColorMapping.Add("Investigator", Colors.Investigator);
+                    ColorMapping.Add("Seer", Colors.Seer);
+                    ColorMapping.Add("Spy", Colors.Spy);
+                    ColorMapping.Add("Snitch", Colors.Snitch);
+                    ColorMapping.Add("Tracker", Colors.Tracker);
+                    ColorMapping.Add("Trapper", Colors.Trapper);
+                    ColorMapping.Add("Mystic", Colors.Mystic);
+                    ColorMapping.Add("Detective", Colors.Detective);
+                    ColorMapping.Add("Aurial", Colors.Aurial);
+                    ColorMapping.Add("Inspector", Colors.Inspector);
+                    ColorMapping.Add("Lookout", Colors.Lookout);
+                }
                 ColorMapping.Add("Mayor", Colors.Mayor);
                 ColorMapping.Add("Sheriff", Colors.Sheriff);
                 ColorMapping.Add("Engineer", Colors.Engineer);
                 ColorMapping.Add("Swapper", Colors.Swapper);
-                ColorMapping.Add("Investigator", Colors.Investigator);
                 ColorMapping.Add("Medic", Colors.Medic);
-                ColorMapping.Add("Seer", Colors.Seer);
-                ColorMapping.Add("Spy", Colors.Spy);
-                ColorMapping.Add("Snitch", Colors.Snitch);
                 ColorMapping.Add("Altruist", Colors.Altruist);
                 ColorMapping.Add("Vigilante", Colors.Vigilante);
                 ColorMapping.Add("Veteran", Colors.Veteran);
                 ColorMapping.Add("Hunter", Colors.Hunter);
-                ColorMapping.Add("Tracker", Colors.Tracker);
-                ColorMapping.Add("Trapper", Colors.Trapper);
                 ColorMapping.Add("Transporter", Colors.Transporter);
                 ColorMapping.Add("Medium", Colors.Medium);
-                ColorMapping.Add("Mystic", Colors.Mystic);
-                ColorMapping.Add("Detective", Colors.Detective);
                 ColorMapping.Add("Imitator", Colors.Imitator);
                 ColorMapping.Add("Vampire Hunter", Colors.VampireHunter);
                 ColorMapping.Add("Prosecutor", Colors.Prosecutor);
                 ColorMapping.Add("Oracle", Colors.Oracle);
-                ColorMapping.Add("Aurial", Colors.Aurial);
-                ColorMapping.Add("Inspector", Colors.Inspector);
                 ColorMapping.Add("Monarch", Colors.Monarch);
                 ColorMapping.Add("Tavern Keeper", Colors.TavernKeeper);
                 ColorMapping.Add("Undercover", Colors.Undercover);
-                ColorMapping.Add("Lookout", Colors.Lookout);
                 ColorMapping.Add("Deputy", Colors.Deputy);
                 ColorMapping.Add("Bodyguard", Colors.Bodyguard);
                 ColorMapping.Add("Crusader", Colors.Crusader);

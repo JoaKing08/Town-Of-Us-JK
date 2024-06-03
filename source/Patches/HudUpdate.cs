@@ -25,7 +25,7 @@ namespace TownOfUs.Patches
             if ((PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive) || (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(PlayerControl.LocalPlayer).Watching == true) || PlayerControl.LocalPlayer.Data.IsDead) DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(false);
             else DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(true);
 
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !PlayerControl.LocalPlayer.Data.IsDead && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive)
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !PlayerControl.LocalPlayer.Data.IsDead && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive && !CustomGameData.IsMeeting)
             {
                 Camera.main.orthographicSize = 3f * CustomGameOptions.AurialVisionMultiplier;
 
@@ -35,7 +35,7 @@ namespace TownOfUs.Patches
                         cam.orthographicSize = 3f * CustomGameOptions.AurialVisionMultiplier;
                 }
             }
-            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(PlayerControl.LocalPlayer).Watching == true)
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(PlayerControl.LocalPlayer).Watching == true && !CustomGameData.IsMeeting)
             {
                 Camera.main.orthographicSize = 3f * CustomGameOptions.WatchVisionMultiplier;
             }
