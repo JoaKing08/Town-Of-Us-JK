@@ -1815,7 +1815,7 @@ Custom hats have been added, made by some very talented artists. These are mostl
 
 -----------------------
 # Bug / Suggestions
-If you have any bugs or any need to contact me, join the [Discord Server](https://discord.gg/EWSkUD2SaD) or create a ticket on GitHub.
+If you have any bugs or any need to contact me, create a ticket on GitHub.
 
 -----------------------
 # Credits & Resources
@@ -1823,10 +1823,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 [BepInEx](https://github.com/BepInEx) - For hooking game functions\
 [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R) - For base version of the mod
 
-[Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
-v1.0.3 uses [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) directly.\
-v1.1.0 uses a modified version of Essentials that can be found [here](https://github.com/slushiegoose/Reactor-Essentials).\
-v1.2.0 has Essentials embedded and can be found [here](https://github.com/slushiegoose/Town-Of-Us/tree/master/source/Patches/CustomOption).
+[Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.
 
 #
 <p align="center">This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC.</p>
