@@ -3159,6 +3159,12 @@ namespace TownOfUs
                             if (CustomGameOptions.MisfireKillsDeputy && deputyTarget.Is(Faction.Crewmates) && deputyTarget.Is(FactionOverride.None) && !deputyTarget.Is(ObjectiveEnum.ImpostorAgent) && !deputyTarget.Is(ObjectiveEnum.ApocalypseAgent))
                             {
                                 deputy.Exiled();
+                                voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == deputy.PlayerId);
+                                voteArea.AmDead = true;
+                                voteArea.Overlay.gameObject.SetActive(true);
+                                voteArea.Overlay.color = Color.white;
+                                voteArea.XMark.gameObject.SetActive(true);
+                                voteArea.XMark.transform.localScale = Vector3.one;
                                 if (deputy.Is(ObjectiveEnum.Lover) && CustomGameOptions.BothLoversDie)
                                 {
                                     var lover = Objective.GetObjective<Lover>(deputy).OtherLover.Player;

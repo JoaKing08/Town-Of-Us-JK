@@ -812,12 +812,12 @@ namespace TownOfUs
         {
             get
             {
-                var options = Generate.RoleEntries.Select(x => (RLRoleEntry)x.Value.Get()).ToList();
+                var options = Generate.RoleEntries;
 
                 while (options.Count > PlayerControl.AllPlayerControls.Count)
-                    options.Remove(options.Last());
+                    options.Remove(options.Count - 1);
 
-                return options;
+                return options.Select(x => (RLRoleEntry)x.Value.Get()).ToList();
             }
         }
         public static List<RLBanEntry> BanEntries

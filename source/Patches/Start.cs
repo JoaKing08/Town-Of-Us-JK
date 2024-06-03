@@ -24,6 +24,7 @@ namespace TownOfUs.Patches
         public static Sprite Sprite => TownOfUs.Arrow;
         public static void Postfix(IntroCutscene._CoBegin_d__35 __instance)
         {
+            CustomGameData.IsMeeting = false;
             if (Role.GetRole(PlayerControl.LocalPlayer) != null)
             {
                 Role.GetRole(PlayerControl.LocalPlayer).CurrentChat = ChatType.ApocalypseChat;
