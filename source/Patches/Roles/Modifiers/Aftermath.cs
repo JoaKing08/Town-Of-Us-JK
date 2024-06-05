@@ -87,9 +87,33 @@ namespace TownOfUs.Roles.Modifiers
             else if (role is Miner miner)
             {
                 var position = PlayerControl.LocalPlayer.transform.position;
-                var id = ImpostorRoles.MinerMod.PlaceVent.GetAvailableId();
-                Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
-                ImpostorRoles.MinerMod.PlaceVent.SpawnVent(id, miner, position, position.z + 0.001f);
+                if (CustomGameOptions.InstantVent)
+                {
+                    var id = ImpostorRoles.MinerMod.PlaceVent.GetAvailableId();
+                    Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
+                    ImpostorRoles.MinerMod.PlaceVent.SpawnVent(id, miner, position, position.z + 0.001f);
+                }
+                else
+                {
+                    var ventPrefab = Object.FindObjectOfType<Vent>();
+                    var vent = new GameObject("PlannedVent");
+                    vent.transform.parent = ventPrefab.transform.parent;
+                    var renderer = vent.AddComponent<SpriteRenderer>();
+                    var sourceRenderer = ventPrefab.myRend;
+                    var collider = vent.AddComponent<BoxCollider2D>();
+                    var sourceCollider = ventPrefab.GetComponent<BoxCollider2D>();
+                    renderer.sprite = sourceRenderer.sprite;
+                    renderer.color = sourceRenderer.color * new Color(1f, 1f, 1f, 0.5f);
+                    renderer.sortingLayerID = sourceRenderer.sortingLayerID;
+                    renderer.sortingOrder = sourceRenderer.sortingOrder;
+                    renderer.size = sourceRenderer.size;
+                    collider.size = sourceCollider.size;
+                    collider.offset = sourceCollider.offset;
+                    collider.isTrigger = sourceCollider.isTrigger;
+                    vent.transform.position = position + new Vector3(0f, 0f, 0.001f);
+                    vent.transform.localScale = ventPrefab.transform.localScale;
+                    miner.PlannedVents.Add(vent);
+                }
                 miner.LastMined = DateTime.UtcNow;
             }
             else if (role is Morphling morphling)

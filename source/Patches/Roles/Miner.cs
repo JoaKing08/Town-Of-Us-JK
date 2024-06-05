@@ -7,6 +7,7 @@ namespace TownOfUs.Roles
     public class Miner : Role
     {
         public readonly List<Vent> Vents = new List<Vent>();
+        public readonly List<GameObject> PlannedVents = new List<GameObject>();
 
         public KillButton _mineButton;
         public DateTime LastMined;

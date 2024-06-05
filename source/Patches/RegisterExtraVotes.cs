@@ -42,7 +42,11 @@ namespace TownOfUs
                     return dictionary;
                 }
             }
-
+            byte blackmailed = byte.MaxValue;
+            foreach (Blackmailer blackmailer in Role.GetRoles(RoleEnum.Blackmailer))
+            {
+                if (blackmailer.Blackmailed != null) blackmailed = blackmailer.Blackmailed.PlayerId;
+            }
             for (var i = 0; i < __instance.playerStates.Length; i++)
             {
                 var playerVoteArea = __instance.playerStates[i];
@@ -52,30 +56,33 @@ namespace TownOfUs
                     || playerVoteArea.VotedFor == PlayerVoteArea.DeadVote) continue;
 
                 var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
-                if (player.Is(RoleEnum.Mayor))
+                if (player.PlayerId != blackmailed)
                 {
-                    var mayor = Role.GetRole<Mayor>(player);
-                    if (mayor.Revealed)
+                    if (player.Is(RoleEnum.Mayor))
                     {
-                        if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
-                            dictionary[playerVoteArea.VotedFor] = num2 + 2;
-                        else
-                            dictionary[playerVoteArea.VotedFor] = 2;
+                        var mayor = Role.GetRole<Mayor>(player);
+                        if (mayor.Revealed)
+                        {
+                            if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
+                                dictionary[playerVoteArea.VotedFor] = num2 + 2;
+                            else
+                                dictionary[playerVoteArea.VotedFor] = 2;
+                        }
                     }
-                }
-                if (player.IsKnight())
-                {
-                    var role = Role.GetRole(player);
-                    if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
-                        dictionary[playerVoteArea.VotedFor] = num2 + 1;
+                    if (player.IsKnight())
+                    {
+                        var role = Role.GetRole(player);
+                        if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
+                            dictionary[playerVoteArea.VotedFor] = num2 + 1;
+                        else
+                            dictionary[playerVoteArea.VotedFor] = 1;
+                    }
+
+                    if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num))
+                        dictionary[playerVoteArea.VotedFor] = num + 1;
                     else
                         dictionary[playerVoteArea.VotedFor] = 1;
                 }
-
-            if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num))
-                    dictionary[playerVoteArea.VotedFor] = num + 1;
-                else
-                    dictionary[playerVoteArea.VotedFor] = 1;
             }
 
             dictionary.MaxPair(out var tie);

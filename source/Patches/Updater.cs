@@ -23,8 +23,7 @@ namespace TownOfUs
         {
             //Check if there's a ToU update
             ModUpdater.LaunchUpdater();
-
-            var data = GetVersioning().FirstOrDefault(x => x.ModVersion.Equals(TownOfUs.VersionString));
+            var data = GetVersioning().FirstOrDefault(x => x.ModVersion.Split(' ').Any(y => y == TownOfUs.ModesVersionString));
             if (data != null)
             {
                 var RequiredVersions = data.InternalVersions;
@@ -33,7 +32,7 @@ namespace TownOfUs
                 {
                     string action = AUversion > RequiredVersions.Keys.Max() ? "downgrade" : "update";
                     string info =
-                        $"ALERT\nTown of Us {TownOfUs.VersionString} requires {RequiredVersions.Values.Last()}\nyou have {Application.version}\nPlease {action} your among us version"
+                        $"ALERT\nTown of Us JoaKing's addon {TownOfUs.ModesVersionString} requires {RequiredVersions.Values.Last()}\nyou have {Application.version}\nPlease {action} your among us version"
                         + "\nvisit Github or Discord for any help";
                     TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
                     ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
@@ -106,7 +105,7 @@ namespace TownOfUs
 
         private static List<ModUpdater.UpdateData> GetVersioning()
         {
-            var text = ModUpdater.Httpclient.GetAsync("https://github.com/eDonnes124/Town-Of-Us-R/raw/master/source/Versioning.json")
+            var text = ModUpdater.Httpclient.GetAsync("https://github.com/JoaKing08/Town-Of-Us-JK/raw/master/source/Versioning.json")
                                  .GetAwaiter().GetResult().Content.ReadAsStringAsync().Result;
             var data = JsonSerializer.Deserialize<List<ModUpdater.UpdateData>>(text, options: new() { ReadCommentHandling = JsonCommentHandling.Skip });
             return data;

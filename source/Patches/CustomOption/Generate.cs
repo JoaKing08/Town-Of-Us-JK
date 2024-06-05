@@ -253,6 +253,9 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SheriffKillsArsonist;
         public static CustomToggleOption SheriffKillsJuggernaut;
         public static CustomToggleOption SheriffKillsPlaguebearer;
+        public static CustomToggleOption SheriffKillsBaker;
+        public static CustomToggleOption SheriffKillsBerserker;
+        public static CustomToggleOption SheriffKillsSoulCollector;
         public static CustomToggleOption SheriffKillsGlitch;
         public static CustomToggleOption SheriffKillsWerewolf;
         public static CustomToggleOption SheriffKillsSerialKiller;
@@ -301,6 +304,9 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption NeutKillingRed;
         public static CustomToggleOption NeutProselyteRed;
         public static CustomToggleOption NeutApocalypseRed;
+        public static CustomToggleOption AgentRed;
+        public static CustomToggleOption UndeadRed;
+        public static CustomToggleOption RecruitRed;
         public static CustomToggleOption TraitorColourSwap;
 
         public static CustomHeaderOption Spy;
@@ -366,6 +372,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Miner;
         public static CustomNumberOption MineCooldown;
+        public static CustomToggleOption InstantVent;
 
         public static CustomHeaderOption Swooper;
         public static CustomNumberOption SwoopCooldown;
@@ -645,6 +652,8 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Monarch;
         public static CustomNumberOption KnightCooldown;
         public static CustomNumberOption MaxKnights;
+        public static CustomToggleOption KnightFirstRound;
+        public static CustomToggleOption InstantKnight;
 
         public static CustomHeaderOption Inquisitor;
         public static CustomNumberOption InquisitorCooldown;
@@ -1504,6 +1513,12 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Proselyte Roles Are Red", true);
             NeutApocalypseRed =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Apocalypse Roles Are Red", true);
+            AgentRed =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Agents Are Red", true);
+            UndeadRed =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Undead Are Red", true);
+            RecruitRed =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Recruits Are Red", true);
             TraitorColourSwap =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Traitor Does Not Swap Colours", false);
 
@@ -1605,8 +1620,14 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Jackal", false);
             SheriffKillsRecruits =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Recruits", false);
+            SheriffKillsBaker =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Baker", false);
+            SheriffKillsBerserker =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Berserker", false);
             SheriffKillsPlaguebearer =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Apocalypse Acolytes", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Plaguebearer", false);
+            SheriffKillsSoulCollector =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Soul Collector", false);
             SheriffKillCd =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Sheriff Kill Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
             SheriffBodyReport = new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Can Report Who They've Killed");
@@ -1763,6 +1784,10 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Knight Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             MaxKnights =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Knights", 2, 1, 5, 1);
+            KnightFirstRound =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Allow Knighting Round One", false);
+            InstantKnight =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Show Knight Immediately", false);
 
             Oracle =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#BF00BFFF>Oracle</color>");
@@ -2158,6 +2183,8 @@ namespace TownOfUs.CustomOption
             Miner = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Miner</color>");
             MineCooldown =
                 new CustomNumberOption(num++, MultiMenu.imposter, "Mine Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            InstantVent =
+                new CustomToggleOption(num++, MultiMenu.imposter, "Show Vents Immediately", true);
 
             Poltergeist =
                 new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Poltergeist</color>");

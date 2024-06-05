@@ -179,7 +179,14 @@ namespace TownOfUs.Modifiers.AssassinMod
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
                 if (playerModifier != null)
-                    toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
+                {
+                    if (playerObjective != null)
+                        toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess || playerObjective.Name == currentGuess) ? playerRole.Player : role.Player;
+                    else
+                        toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
+                }
+                else if (playerObjective != null)
+                    toDie = (playerRole.Name == currentGuess || playerObjective.Name == currentGuess) ? playerRole.Player : role.Player;
 
                 if (!toDie.Is(RoleEnum.Pestilence) || !toDie.Is(RoleEnum.Famine) || !toDie.Is(RoleEnum.War) || !toDie.Is(RoleEnum.Death) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Famine) || PlayerControl.LocalPlayer.Is(RoleEnum.War) || PlayerControl.LocalPlayer.Is(RoleEnum.Death))
                 {

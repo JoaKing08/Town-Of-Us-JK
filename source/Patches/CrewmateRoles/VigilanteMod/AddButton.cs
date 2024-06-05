@@ -169,8 +169,15 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
                 if (playerModifier != null)
-                    toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
-                
+                {
+                    if (playerObjective != null)
+                        toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess || playerObjective.Name == currentGuess) ? playerRole.Player : role.Player;
+                    else
+                        toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
+                }
+                else if (playerObjective != null)
+                    toDie = (playerRole.Name == currentGuess || playerObjective.Name == currentGuess) ? playerRole.Player : role.Player;
+
                 if (toDie.Is(RoleEnum.Necromancer) || toDie.Is(RoleEnum.Whisperer))
                 {
                     foreach (var player in PlayerControl.AllPlayerControls)

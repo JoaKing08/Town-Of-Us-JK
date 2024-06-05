@@ -268,6 +268,10 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     }
                     break;
             }
+            if (Role.GetRole(target).ExtraButtons.Any()) foreach (var button in Role.GetRole(target).ExtraButtons)
+                {
+                    GameObject.Destroy(button);
+                }
             Role.GetRole(target).ExtraButtons.Clear();
             target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             Role.GetRole(target).RegenTask();

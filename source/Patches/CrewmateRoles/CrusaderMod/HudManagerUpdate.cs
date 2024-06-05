@@ -46,7 +46,7 @@ namespace TownOfUs.CrewmateRoles.CrusaderMod
                 {
                     if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage &&
                             player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
-                        player.nameText().color = Patches.Colors.Crusader;
+                        player.nameText().color = new Color(0.75f, 0.75f, 0.75f, 1f);
                     else player.nameText().color = Color.clear;
                 }
             }

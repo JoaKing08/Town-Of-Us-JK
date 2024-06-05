@@ -8,6 +8,25 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.ImpostorRoles.MinerMod
 {
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+    public class MeetingStart
+    {
+        public static bool Prefix(MeetingHud __instance)
+        {
+            var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Miner);
+            if (!flag) return true;
+            var role = Role.GetRole<Miner>(PlayerControl.LocalPlayer);
+            if (role.PlannedVents.Any()) foreach (var vent in role.PlannedVents)
+                {
+                    var id = PlaceVent.GetAvailableId();
+                    Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, vent.transform.position, vent.transform.position.z + 0.001f);
+                    PlaceVent.SpawnVent(id, role, vent.transform.position, vent.transform.position.z);
+                    Object.Destroy(vent);
+                }
+            role.PlannedVents.Clear();
+            return true;
+        }
+    }
     [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PlaceVent
     {
@@ -26,9 +45,34 @@ namespace TownOfUs.ImpostorRoles.MinerMod
                 if (role.MineTimer() != 0) return false;
                 if (SubmergedCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1) return false;
                 var position = PlayerControl.LocalPlayer.transform.position;
-                var id = GetAvailableId();
-                Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
-                SpawnVent(id, role, position, position.z + 0.001f);
+                if (CustomGameOptions.InstantVent)
+                {
+                    var id = GetAvailableId();
+                    Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
+                    SpawnVent(id, role, position, position.z + 0.001f);
+                }
+                else
+                {
+                    var ventPrefab = Object.FindObjectOfType<Vent>();
+                    var vent = new GameObject("PlannedVent");
+                    vent.transform.parent = ventPrefab.transform.parent;
+                    var renderer = vent.AddComponent<SpriteRenderer>();
+                    var sourceRenderer = ventPrefab.myRend;
+                    var collider = vent.AddComponent<BoxCollider2D>();
+                    var sourceCollider = ventPrefab.GetComponent<BoxCollider2D>();
+                    renderer.sprite = sourceRenderer.sprite;
+                    renderer.color = sourceRenderer.color * new Color(1f, 1f, 1f, 0.5f);
+                    renderer.sortingLayerID = sourceRenderer.sortingLayerID;
+                    renderer.sortingOrder = sourceRenderer.sortingOrder;
+                    renderer.size = sourceRenderer.size;
+                    collider.size = sourceCollider.size;
+                    collider.offset = sourceCollider.offset;
+                    collider.isTrigger = sourceCollider.isTrigger;
+                    vent.transform.position = position + new Vector3(0f, 0f, 0.001f);
+                    vent.transform.localScale = ventPrefab.transform.localScale;
+                    role.PlannedVents.Add(vent);
+                    role.LastMined = DateTime.UtcNow;
+                }
                 return false;
             }
 

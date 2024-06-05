@@ -392,6 +392,9 @@ namespace TownOfUs
         public static bool SheriffKillsArsonist => Generate.SheriffKillsArsonist.Get();
         public static bool SheriffKillsJuggernaut => Generate.SheriffKillsJuggernaut.Get();
         public static bool SheriffKillsPlaguebearer => Generate.SheriffKillsPlaguebearer.Get();
+        public static bool SheriffKillsBaker => Generate.SheriffKillsBaker.Get();
+        public static bool SheriffKillsBerserker => Generate.SheriffKillsBerserker.Get();
+        public static bool SheriffKillsSoulCollector => Generate.SheriffKillsSoulCollector.Get();
         public static bool SheriffKillsGlitch => Generate.SheriffKillsGlitch.Get();
         public static bool SheriffKillsVampire => Generate.SheriffKillsVampire.Get();
         public static bool SheriffKillsWerewolf => Generate.SheriffKillsWerewolf.Get();
@@ -434,6 +437,9 @@ namespace TownOfUs
         public static bool NeutKillingRed => Generate.NeutKillingRed.Get();
         public static bool NeutProselyteRed => Generate.NeutProselyteRed.Get();
         public static bool NeutApocalypseRed => Generate.NeutApocalypseRed.Get();
+        public static bool AgentRed => Generate.AgentRed.Get();
+        public static bool UndeadRed => Generate.UndeadRed.Get();
+        public static bool RecruitRed => Generate.RecruitRed.Get();
         public static bool TraitorColourSwap => Generate.TraitorColourSwap.Get();
         public static float MimicCooldown => Generate.MimicCooldownOption.Get();
         public static float MimicDuration => Generate.MimicDurationOption.Get();
@@ -457,6 +463,7 @@ namespace TownOfUs
         public static bool SnitchSeesImpInMeeting => Generate.SnitchSeesImpInMeeting.Get();
         public static bool SnitchSeesTraitor => Generate.SnitchSeesTraitor.Get();
         public static float MineCd => Generate.MineCooldown.Get();
+        public static bool InstantVent => Generate.InstantVent.Get();
         public static float SwoopCd => Generate.SwoopCooldown.Get();
         public static float SwoopDuration => Generate.SwoopDuration.Get();
         public static bool SwooperVent => Generate.SwooperVent.Get();
@@ -740,6 +747,8 @@ namespace TownOfUs
         public static float BloodDuration => Generate.BloodDuration.Get();
         public static float KnightCooldown => Generate.KnightCooldown.Get();
         public static int MaxKnights => (int)Generate.MaxKnights.Get();
+        public static bool KnightFirstRound => Generate.KnightFirstRound.Get();
+        public static bool InstantKnight => Generate.InstantKnight.Get();
         public static float InquisitorCooldown => Generate.InquisitorCooldown.Get();
         public static int NumberOfHeretics => (int)Generate.NumberOfHeretics.Get();
         public static HereticsInfo HereticsInfo => (HereticsInfo)Generate.HereticsInfo.Get();

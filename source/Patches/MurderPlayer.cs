@@ -1,4 +1,6 @@
 using HarmonyLib;
+using System.Linq;
+using UnityEngine;
 
 namespace TownOfUs.Patches
 {
@@ -11,6 +13,15 @@ namespace TownOfUs.Patches
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
             {
                 Utils.MurderPlayer(__instance, target, true);
+                if (MeetingHud.Instance != null)
+                {
+                    var voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == target.PlayerId);
+                    voteArea.AmDead = true;
+                    voteArea.Overlay.gameObject.SetActive(true);
+                    voteArea.Overlay.color = Color.white;
+                    voteArea.XMark.gameObject.SetActive(true);
+                    voteArea.XMark.transform.localScale = Vector3.one;
+                }
                 return false;
             }
         }

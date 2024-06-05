@@ -1,4 +1,6 @@
 using HarmonyLib;
+using System.Linq;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -37,8 +39,18 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
             role.UsesText.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.Targets.Any(x => x == player.PlayerId))
+                {
+                    if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage &&
+                            player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
+                        player.nameText().color = Patches.Colors.Deputy;
+                    else player.nameText().color = Color.clear;
+                }
+            }
 
-            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
+            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !role.Targets.Contains(x.PlayerId)).ToList());
             if (role.AliveTargets < CustomGameOptions.MaxDeputyTargets)
             {
                 __instance.KillButton.SetCoolDown(role.AimTimer(), CustomGameOptions.DeputyAimCooldown);

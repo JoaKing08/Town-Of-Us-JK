@@ -7,9 +7,11 @@ namespace TownOfUs.Roles
     public class Monarch : Role
     {
         public List<byte> Knights = new List<byte>();
-        public bool CanKnight => Knights.Count < CustomGameOptions.MaxKnights;
-        public int UsesLeft => CustomGameOptions.MaxKnights - Knights.Count;
+        public List<byte> toKnight = new List<byte>();
+        public bool CanKnight => Knights.Count < CustomGameOptions.MaxKnights && !(FirstRound && !CustomGameOptions.KnightFirstRound);
+        public int UsesLeft => CustomGameOptions.MaxKnights - Knights.Count - toKnight.Count;
         public TextMeshPro UsesText;
+        public bool FirstRound { get; set; }
 
         public Monarch(PlayerControl player) : base(player)
         {
@@ -20,6 +22,7 @@ namespace TownOfUs.Roles
             LastKnighted = DateTime.UtcNow;
             RoleType = RoleEnum.Monarch;
             Knights = new List<byte>();
+            FirstRound = true;
             AddToRoleHistory(RoleType);
         }
 

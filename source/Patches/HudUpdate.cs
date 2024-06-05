@@ -25,7 +25,7 @@ namespace TownOfUs.Patches
             if ((PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive) || (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(PlayerControl.LocalPlayer).Watching == true) || PlayerControl.LocalPlayer.Data.IsDead) DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(false);
             else DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(true);
 
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !PlayerControl.LocalPlayer.Data.IsDead && !ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive && !CustomGameData.IsMeeting)
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !PlayerControl.LocalPlayer.Data.IsDead && (!ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>().IsActive || PlayerControl.LocalPlayer.Is(ModifierEnum.Torch)) && !CustomGameData.IsMeeting)
             {
                 Camera.main.orthographicSize = 3f * CustomGameOptions.AurialVisionMultiplier;
 

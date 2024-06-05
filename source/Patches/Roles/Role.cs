@@ -1186,7 +1186,7 @@ namespace TownOfUs.Roles
                         if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Data.IsImpostor();
                         impga.Add(player.PlayerId, i);
                     }
-                    var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId] && CustomGameOptions.OvertakeWin != OvertakeWin.On) && !(x.Is(RoleEnum.Survivor) && CustomGameOptions.OvertakeWin != OvertakeWin.On) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother));
+                    var onlyNonstopping = !alives.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId] && CustomGameOptions.OvertakeWin != OvertakeWin.On) && !(x.Is(RoleEnum.Survivor) && CustomGameOptions.OvertakeWin != OvertakeWin.On) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother) && !x.Data.IsImpostor());
                     var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
                     var recruitImp = PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor() && x.Is(FactionOverride.Recruit));
                     var traitorIsEnd = true;
@@ -1471,10 +1471,10 @@ namespace TownOfUs.Roles
         {
             foreach (var arrow in SnipeArrows)
             {
-                if (arrow != null)
-                    Object.Destroy(arrow);
                 if (arrow.gameObject != null)
                     Object.Destroy(arrow.gameObject);
+                if (arrow != null)
+                    Object.Destroy(arrow);
                 SnipeArrows.Remove(arrow);
             }
         }

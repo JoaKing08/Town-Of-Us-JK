@@ -37,6 +37,16 @@ namespace TownOfUs.NeutralRoles.PirateMod
             duelButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.DueledPlayer.PlayerId== player.PlayerId)
+                {
+                    if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage &&
+                            player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
+                        player.nameText().color = Patches.Colors.Pirate;
+                    else player.nameText().color = Color.clear;
+                }
+            }
             //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.DuelTimer(), (byte)CustomGameOptions.DuelCooldown);
             duelButton.SetCoolDown(role.DuelTimer(), CustomGameOptions.DuelCooldown);
             var notDueled = PlayerControl.AllPlayerControls.ToArray().Where(x => x != role.DueledPlayer).ToList();

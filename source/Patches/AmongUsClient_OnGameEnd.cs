@@ -451,7 +451,7 @@ namespace TownOfUs
                         }
                     }
                 }
-                if (role.FactionOverride == FactionOverride.None)
+                else if (role.FactionOverride == FactionOverride.None)
                 {
                     if (type == ObjectiveEnum.Lover)
                     {

@@ -156,7 +156,14 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
                 if (playerModifier != null)
-                    toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
+                {
+                    if (playerObjective != null)
+                        toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess || playerObjective.Name == currentGuess) ? playerRole.Player : role.Player;
+                    else
+                        toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : role.Player;
+                }
+                else if (playerObjective != null)
+                    toDie = (playerRole.Name == currentGuess || playerObjective.Name == currentGuess) ? playerRole.Player : role.Player;
 
                 if (toDie == playerRole.Player)
                 {

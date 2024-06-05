@@ -504,7 +504,7 @@ namespace TownOfUs
                             if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
                             survReset = true;
                         }
-                        else if (target.IsFortified())
+                        else if (target.IsFortified() && player.PlayerId != target.GetCrusader().Player.PlayerId)
                         {
                             if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Crusader, (byte)1);
                             if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
@@ -1065,8 +1065,14 @@ namespace TownOfUs
                     if (target.Is(Faction.Impostors) ||
                         target.Is(RoleEnum.Glitch) && CustomGameOptions.SheriffKillsGlitch ||
                         target.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist ||
-                        target.Is(Faction.NeutralApocalypse) && (CustomGameOptions.SheriffKillsPlaguebearer || CustomGameOptions.GameMode == GameMode.Horseman) ||
+                        target.Is(RoleEnum.Plaguebearer) && CustomGameOptions.SheriffKillsPlaguebearer ||
                         target.Is(RoleEnum.Pestilence) && CustomGameOptions.SheriffKillsPlaguebearer ||
+                        target.Is(RoleEnum.Baker) && CustomGameOptions.SheriffKillsBaker ||
+                        target.Is(RoleEnum.Famine) && CustomGameOptions.SheriffKillsBaker ||
+                        target.Is(RoleEnum.Berserker) && CustomGameOptions.SheriffKillsBerserker ||
+                        target.Is(RoleEnum.War) && CustomGameOptions.SheriffKillsBerserker ||
+                        target.Is(RoleEnum.SoulCollector) && CustomGameOptions.SheriffKillsSoulCollector ||
+                        target.Is(RoleEnum.Death) && CustomGameOptions.SheriffKillsSoulCollector ||
                         target.Is(RoleEnum.Werewolf) && CustomGameOptions.SheriffKillsWerewolf ||
                         target.Is(RoleEnum.Juggernaut) && CustomGameOptions.SheriffKillsJuggernaut ||
                         target.Is(RoleEnum.Vampire) && CustomGameOptions.SheriffKillsVampire ||
@@ -2166,6 +2172,7 @@ namespace TownOfUs
             {
                 var sniper = Role.GetRole<Sniper>(PlayerControl.LocalPlayer);
                 sniper.LastAim = DateTime.UtcNow;
+                sniper.AimedPlayer = null;
             }
             #endregion
             #region Modifiers
