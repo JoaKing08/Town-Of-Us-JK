@@ -12,6 +12,10 @@ namespace TownOfUs.CrewmateRoles.MonarchMod
     {
         public static bool Prefix(MeetingHud __instance)
         {
+            if (Role.GetRoles(RoleEnum.Monarch).Any()) foreach (Monarch monarch in Role.GetRoles(RoleEnum.Monarch))
+                {
+                    monarch.FirstRound = false;
+                }
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Monarch);
             if (!flag) return true;
             var role = Role.GetRole<Monarch>(PlayerControl.LocalPlayer);

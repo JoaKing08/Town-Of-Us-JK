@@ -39,12 +39,20 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (role.DueledPlayer.PlayerId== player.PlayerId)
+                if (role.DueledPlayer.PlayerId == player.PlayerId)
                 {
                     if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage &&
                             player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
                         player.nameText().color = Patches.Colors.Pirate;
                     else player.nameText().color = Color.clear;
+                    if (MeetingHud.Instance != null)
+                    {
+                        foreach (var state in MeetingHud.Instance.playerStates)
+                        {
+                            if (player.PlayerId != state.TargetPlayerId) continue;
+                            state.NameText.color = Patches.Colors.Pirate;
+                        }
+                    }
                 }
             }
             //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)role.DuelTimer(), (byte)CustomGameOptions.DuelCooldown);
