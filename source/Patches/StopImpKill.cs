@@ -19,7 +19,7 @@ namespace TownOfUs
             if (!PlayerControl.LocalPlayer.Data.IsImpostor()) return true;
             var target = __instance.currentTarget;
             if (target == null) return true;
-            if ((PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && target.Is(FactionOverride.Undead)) || (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && target.Is(FactionOverride.Recruit) && !(target.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(FactionOverride.None) && ((target.Is(ObjectiveEnum.ImpostorAgent) || ((target.Data.IsImpostor() || (target.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor()) && !Utils.CheckImpostorFriendlyFire())))))) return false;
+            if ((PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && target.Is(FactionOverride.Undead)) || (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && target.Is(FactionOverride.Recruit) && !(target.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(FactionOverride.None) && (target.Is(ObjectiveEnum.ImpostorAgent) || ((target.Data.IsImpostor() || target.Is(RoleEnum.Undercover)) && !Utils.CheckImpostorFriendlyFire())))) return false;
             if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return true;
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
