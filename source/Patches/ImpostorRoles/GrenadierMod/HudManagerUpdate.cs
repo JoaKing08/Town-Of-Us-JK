@@ -32,7 +32,7 @@ namespace TownOfUs.ImpostorRoles.GrenadierMod
                         var data = player?.Data;
                         if (data == null || data.Disconnected || data.IsDead || PlayerControl.LocalPlayer.Data.IsDead)
                             continue;
-                        if (role.flashedPlayers.Contains(player)) {
+                        if (role.flashedPlayers.Contains(player) && !(player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) {
                             player.myRend().material.SetColor("_VisorColor", Color.black);
                             player.nameText().color = Color.black;
                         } else {

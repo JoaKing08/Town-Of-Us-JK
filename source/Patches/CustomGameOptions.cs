@@ -286,6 +286,12 @@ namespace TownOfUs
         Meeting,
         Both
     }
+    public enum AllowSabotage
+    {
+        Off,
+        AfterImpsDeath,
+        On
+    }
 
     public static class CustomGameOptions
     {
@@ -855,5 +861,7 @@ namespace TownOfUs
         public static float DeputyAimCooldown => Generate.DeputyAimCooldown.Get();
         public static int MaxProsecutions => (int)Generate.MaxProsecutions.Get();
         public static bool RevealProsecutor => Generate.RevealProsecutor.Get();
+        //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
+        //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }
 }

@@ -33,7 +33,7 @@ namespace TownOfUs
                     string action = AUversion > RequiredVersions.Keys.Max() ? "downgrade" : "update";
                     string info =
                         $"ALERT\nTown of Us JoaKing's addon {TownOfUs.ModesVersionString} requires {RequiredVersions.Values.Last()}\nyou have {Application.version}\nPlease {action} your among us version"
-                        + "\nvisit Github or Discord for any help";
+                        + "\nvisit Github for any help";
                     TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
                     ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
                     ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.68f;

@@ -1927,7 +1927,7 @@ namespace TownOfUs.CustomOption
             NumberOfHeretics =
                  new CustomNumberOption(num++, MultiMenu.neutral, "Number Of Heretics", 3, 1, 7, 1);
             HereticsInfo =
-                new CustomStringOption(num++, MultiMenu.neutral, "What Inquisitor Knows About Hertics", new[] { "Nothing", "Count", "Faction", "Aligment", "Role" });
+                new CustomStringOption(num++, MultiMenu.neutral, "What Inquisitor Knows About Heretics", new[] { "Nothing", "Count", "Faction", "Aligment", "Role" });
 
             Pirate =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#ECC23EFF>Pirate</color>");
