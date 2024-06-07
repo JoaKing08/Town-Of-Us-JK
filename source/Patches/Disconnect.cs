@@ -44,18 +44,18 @@ namespace TownOfUs.Patches
                         if (player2.Is(FactionOverride.Undead)) Utils.MurderPlayer(player2, player2, true);
                     }
                 }
-                foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
-                {
-                    if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
+                if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected)) foreach (Inquisitor inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
                     {
-                        ((Inquisitor)inq).Wins();
-                        if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                        if (inq.heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
                         {
-                            KillButtonTarget.DontRevive = inq.Player.PlayerId;
-                            inq.Player.Exiled();
+                            inq.Wins();
+                            if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                            {
+                                KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                                inq.Player.Exiled();
+                            }
                         }
                     }
-                }
                 if (AmongUsClient.Instance.AmHost)
                 {
                     if (player == SetTraitor.WillBeTraitor)

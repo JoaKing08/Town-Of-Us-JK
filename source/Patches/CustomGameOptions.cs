@@ -68,6 +68,7 @@ namespace TownOfUs
     }
     public enum RLRoleEntry
     {
+        None,
         Any,
 
 
@@ -827,12 +828,14 @@ namespace TownOfUs
         {
             get
             {
-                var options = Generate.RoleEntries;
+                var options = Generate.RoleEntries.Select(x => (RLRoleEntry)x.Value.Get()).Where(x => x != RLRoleEntry.None).ToList();
 
                 while (options.Count > PlayerControl.AllPlayerControls.Count)
-                    options.Remove(options.Count - 1);
+                    options.Remove(options.Last());
+                while (options.Count < PlayerControl.AllPlayerControls.Count)
+                    options.Add(RLRoleEntry.Any);
 
-                return options.Select(x => (RLRoleEntry)x.Value.Get()).ToList();
+                return options;
             }
         }
         public static List<RLBanEntry> BanEntries

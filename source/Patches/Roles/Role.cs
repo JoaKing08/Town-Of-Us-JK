@@ -431,6 +431,10 @@ namespace TownOfUs.Roles
             {
                 PlayerName += $" <color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>*</color>";
             }
+            if (Player.Data.Disconnected)
+            {
+                PlayerName += " <color=#808080FF>(D/C)</color>";
+            }
 
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
                                    MeetingHud.Instance.state == MeetingHud.VoteStates.Results)) return PlayerName;
@@ -1383,7 +1387,7 @@ namespace TownOfUs.Roles
                         {
                             try
                             {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName;
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() ? "<color=#9628C8FF> +</color>" : "");
                             }
                             catch
                             {
@@ -1397,6 +1401,7 @@ namespace TownOfUs.Roles
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                             player.NameText.color = Patches.Colors.Impostor;
                     }
+                    if (Utils.PlayerById(player.TargetPlayerId).Data.Disconnected) player.NameText.text += "<color=#808080FF> (D/C)</color>";
                 }
             }
 

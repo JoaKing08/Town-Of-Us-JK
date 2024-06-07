@@ -769,6 +769,7 @@ namespace TownOfUs.CustomOption
 
         public static string[] RoleEntriesData => new string[]
     {
+        "None",
         "Any",
 
 

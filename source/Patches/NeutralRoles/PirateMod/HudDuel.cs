@@ -16,7 +16,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
         {
             if (PlayerControl.LocalPlayer.IsDueled()) if (PlayerControl.LocalPlayer.GetPirate().notify && PlayerControl.LocalPlayer.GetPirate().NotificationTimer() == 0f)
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate, 2000));
+                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
                     Role.GetRole(PlayerControl.LocalPlayer).Notification("Ya Ar Duel'g!", 1000 * CustomGameOptions.NotificationDuration);
                     PlayerControl.LocalPlayer.GetPirate().notify = false;
                 }
@@ -29,7 +29,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
             var role = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
             if (role.notify && role.NotificationTimer() == 0f)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate, 2000));
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
                 role.Notification("Ya Ar Duel'g!", 1000 * CustomGameOptions.NotificationDuration);
                 role.notify = false;
             }

@@ -2961,18 +2961,6 @@ namespace TownOfUs
                                 }
                         }
                         break;
-                    case CustomRPC.ControlCooldown:
-                        var isEnabled = reader.ReadBoolean();
-                        var cooldown = reader.ReadByte();
-                        var isActive = reader.ReadBoolean();
-                        if (PlayerControl.LocalPlayer.Is(RoleEnum.Witch))
-                        {
-                            var witchRole = Role.GetRole<Witch>(PlayerControl.LocalPlayer);
-                            witchRole.TargetIsEnabled = isEnabled;
-                            witchRole.TargetCooldown = cooldown;
-                            witchRole.TargetIsActive = isActive;
-                        }
-                        break;
 
                     case CustomRPC.HunterStalk:
                         var stalker = Utils.PlayerById(reader.ReadByte());

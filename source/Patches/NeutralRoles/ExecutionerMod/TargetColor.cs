@@ -48,6 +48,9 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
 
         public static void ExeToJes(PlayerControl player)
         {
+            var role = Role.GetRole(player);
+            var oldBread = role.BreadLeft;
+            var oldFaction = role.FactionOverride;
             player.myTasks.RemoveAt(0);
             Role.RoleDictionary.Remove(player.PlayerId);
 
@@ -56,29 +59,39 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
             {
                 var jester = new Jester(player);
                 jester.SpawnedAs = false;
+                jester.BreadLeft = oldBread;
+                jester.FactionOverride = oldFaction;
                 jester.RegenTask();
             }
             else if (CustomGameOptions.OnTargetDead == OnTargetDead.Amnesiac)
             {
                 var amnesiac = new Amnesiac(player);
                 amnesiac.SpawnedAs = false;
+                amnesiac.BreadLeft = oldBread;
+                amnesiac.FactionOverride = oldFaction;
                 amnesiac.RegenTask();
             }
             else if (CustomGameOptions.OnTargetDead == OnTargetDead.Survivor)
             {
                 var surv = new Survivor(player);
                 surv.SpawnedAs = false;
+                surv.BreadLeft = oldBread;
+                surv.FactionOverride = oldFaction;
                 surv.RegenTask();
             }
             else if (CustomGameOptions.OnTargetDead == OnTargetDead.CursedSoul)
             {
                 var cursedSoul = new CursedSoul(player);
                 cursedSoul.SpawnedAs = false;
+                cursedSoul.BreadLeft = oldBread;
+                cursedSoul.FactionOverride = oldFaction;
                 cursedSoul.RegenTask();
             }
             else
             {
-                new Crewmate(player);
+                var crewmate = new Crewmate(player);
+                crewmate.BreadLeft = oldBread;
+                crewmate.FactionOverride = oldFaction;
             }
         }
     }

@@ -51,6 +51,9 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
 
         public static void GAToSurv(PlayerControl player)
         {
+            var role = Role.GetRole(player);
+            var oldBread = role.BreadLeft;
+            var oldFaction = role.FactionOverride;
             player.myTasks.RemoveAt(0);
             Role.RoleDictionary.Remove(player.PlayerId);
 
@@ -58,29 +61,39 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
             {
                 var jester = new Jester(player);
                 jester.SpawnedAs = false;
+                jester.BreadLeft = oldBread;
+                jester.FactionOverride = oldFaction;
                 jester.RegenTask();
             }
             else if (CustomGameOptions.GaOnTargetDeath == BecomeOptions.Amnesiac)
             {
                 var amnesiac = new Amnesiac(player);
                 amnesiac.SpawnedAs = false;
+                amnesiac.BreadLeft = oldBread;
+                amnesiac.FactionOverride = oldFaction;
                 amnesiac.RegenTask();
             }
             else if (CustomGameOptions.GaOnTargetDeath == BecomeOptions.Survivor)
             {
                 var surv = new Survivor(player);
                 surv.SpawnedAs = false;
+                surv.BreadLeft = oldBread;
+                surv.FactionOverride = oldFaction;
                 surv.RegenTask();
             }
             else if (CustomGameOptions.GaOnTargetDeath == BecomeOptions.CursedSoul)
             {
                 var cursedSoul = new CursedSoul(player);
                 cursedSoul.SpawnedAs = false;
+                cursedSoul.BreadLeft = oldBread;
+                cursedSoul.FactionOverride = oldFaction;
                 cursedSoul.RegenTask();
             }
             else
             {
-                new Crewmate(player);
+                var crewmate = new Crewmate(player);
+                crewmate.BreadLeft = oldBread;
+                crewmate.FactionOverride = oldFaction;
             }
         }
     }

@@ -14,9 +14,6 @@ namespace TownOfUs.Roles
         public PlayerControl ClosestPlayer;
         public PlayerControl ControledPlayer;
         public List<byte> RevealedPlayers;
-        public bool TargetIsEnabled;
-        public float TargetCooldown;
-        public bool TargetIsActive;
 
         public Witch(PlayerControl player) : base(player)
         {
@@ -28,9 +25,6 @@ namespace TownOfUs.Roles
             AddToRoleHistory(RoleType);
             Faction = Faction.NeutralEvil;
             RevealedPlayers = new List<byte>();
-            TargetIsEnabled = false;
-            TargetCooldown = 0f;
-            TargetIsActive = false;
         }
         public float ControlTimer()
         {

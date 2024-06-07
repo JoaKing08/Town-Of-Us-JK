@@ -136,7 +136,6 @@ namespace TownOfUs
         BugMessage,
         ControlSet,
         ControlPerform,
-        ControlCooldown,
         SoulSwap,
         AbilityUsed,
         KillAbilityUsed,

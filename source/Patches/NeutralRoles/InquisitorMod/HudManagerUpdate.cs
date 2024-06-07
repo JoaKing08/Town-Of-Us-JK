@@ -13,11 +13,11 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
 
         public static void Postfix(HudManager __instance)
         {
-            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
+            if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected)) foreach (Inquisitor inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
             {
-                if (((Inquisitor)inq).heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
+                if (inq.heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
                 {
-                    ((Inquisitor)inq).Wins();
+                    inq.Wins();
                     if (!CustomGameOptions.NeutralEvilWinEndsGame)
                     {
                         KillButtonTarget.DontRevive = inq.Player.PlayerId;
@@ -90,18 +90,18 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
-            {
-                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
+            if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected)) foreach (Inquisitor inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
                 {
-                    ((Inquisitor)inq).Wins();
-                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                    if (inq.heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
                     {
-                        KillButtonTarget.DontRevive = inq.Player.PlayerId;
-                        inq.Player.Exiled();
+                        inq.Wins();
+                        if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                        {
+                            KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                            inq.Player.Exiled();
+                        }
                     }
                 }
-            }
         }
     }
 
@@ -110,18 +110,18 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
     {
         private static void Postfix(ExileController __instance)
         {
-            foreach (var inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
-            {
-                if (((Inquisitor)inq).heretics.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) == 0)
+            if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected)) foreach (Inquisitor inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
                 {
-                    ((Inquisitor)inq).Wins();
-                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                    if (inq.heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
                     {
-                        KillButtonTarget.DontRevive = inq.Player.PlayerId;
-                        inq.Player.Exiled();
+                        inq.Wins();
+                        if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                        {
+                            KillButtonTarget.DontRevive = inq.Player.PlayerId;
+                            inq.Player.Exiled();
+                        }
                     }
                 }
-            }
         }
     }
 }
