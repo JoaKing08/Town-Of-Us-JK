@@ -1186,12 +1186,12 @@ namespace TownOfUs.Roles
                         if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Data.IsImpostor();
                         impga.Add(player.PlayerId, i);
                     }
-                    var onlyNonstopping = !alives.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId] && CustomGameOptions.OvertakeWin != OvertakeWin.On) && !(x.Is(RoleEnum.Survivor) && CustomGameOptions.OvertakeWin != OvertakeWin.On) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother) && !x.Data.IsImpostor());
+                    var onlyNonstopping = !alives.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother) && !x.Data.IsImpostor());
                     var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
                     var recruitImp = PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor() && x.Is(FactionOverride.Recruit));
                     var traitorIsEnd = true;
                     var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ObjectiveEnum.ImpostorAgent)) > 0;
-                    bool stopImpOvertake = ((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count || onlyNonstopping) && impsAlive.Count != 0;
+                    bool stopImpOvertake = (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count && !onlyNonstopping && impsAlive.Count != 0;
                     if (SetTraitor.WillBeTraitor != null)
                     {
                         traitorIsEnd = SetTraitor.WillBeTraitor.Data.IsDead || SetTraitor.WillBeTraitor.Data.Disconnected || alives.Count < CustomGameOptions.LatestSpawn || !(((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count || onlyNonstopping) && impsAlive.Count != 0);
