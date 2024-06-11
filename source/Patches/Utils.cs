@@ -254,6 +254,15 @@ namespace TownOfUs
             });
         }
 
+        public static bool ToKnight(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Monarch).Any(role =>
+            {
+                var monarch = (Monarch)role;
+                return monarch != null && monarch.toKnight.Contains(player.PlayerId);
+            });
+        }
+
         public static bool IsBugged(this PlayerControl player)
         {
             return Role.GetRoles(RoleEnum.Spy).Any(role =>

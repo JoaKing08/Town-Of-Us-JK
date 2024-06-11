@@ -385,14 +385,13 @@ namespace TownOfUs.Roles
                     PlayerName += "<color=#821252FF> X</color>";
                 }
             }
-
-            foreach (var role in GetRoles(RoleEnum.Monarch))
+            if (Player.IsKnight())
             {
-                var mon = (Monarch)role;
-                if (mon.Knights.Contains(Player.PlayerId))
-                {
-                    PlayerName += "<color=#9628C8FF> +</color>";
-                }
+                PlayerName += "<color=#9628C8FF> +</color>";
+            }
+            else if (Player.ToKnight())
+            {
+                PlayerName += "<color=#9628C880> +</color>";
             }
 
             var modifier = Modifier.GetModifier(Player);
@@ -1373,21 +1372,11 @@ namespace TownOfUs.Roles
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                                 player.NameText.color = Patches.Colors.Impostor;
                         }
-                        else if (role.Player.IsKnight())
-                        {
-                            try
-                            {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + "<color=#9628C8FF> +</color>";
-                            }
-                            catch
-                            {
-                            }
-                        }
                         else
                         {
                             try
                             {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() ? "<color=#9628C8FF> +</color>" : "");
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.Data.Disconnected ? "<color=#808080FF> (D/C)</color>" : "");
                             }
                             catch
                             {
@@ -1401,7 +1390,6 @@ namespace TownOfUs.Roles
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                             player.NameText.color = Patches.Colors.Impostor;
                     }
-                    if (Utils.PlayerById(player.TargetPlayerId).Data.Disconnected) player.NameText.text += "<color=#808080FF> (D/C)</color>";
                 }
             }
 
@@ -1461,6 +1449,7 @@ namespace TownOfUs.Roles
                                 player.nameText().color = Patches.Colors.Impostor;
                         }
                         else if (player.IsKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C8FF> +</color>";
+                        else if (player.ToKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C880> +</color>";
                     }
 
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;

@@ -8,7 +8,7 @@ namespace TownOfUs.Roles
     {
         public List<byte> Knights = new List<byte>();
         public List<byte> toKnight = new List<byte>();
-        public bool CanKnight => Knights.Count < CustomGameOptions.MaxKnights && !(FirstRound && !CustomGameOptions.KnightFirstRound);
+        public bool CanKnight => UsesLeft > 0 && !(FirstRound && !CustomGameOptions.KnightFirstRound);
         public int UsesLeft => CustomGameOptions.MaxKnights - Knights.Count - toKnight.Count;
         public TextMeshPro UsesText;
         public bool FirstRound { get; set; }

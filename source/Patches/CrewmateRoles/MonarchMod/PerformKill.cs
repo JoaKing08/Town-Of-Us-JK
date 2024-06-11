@@ -19,11 +19,11 @@ namespace TownOfUs.CrewmateRoles.MonarchMod
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Monarch);
             if (!flag) return true;
             var role = Role.GetRole<Monarch>(PlayerControl.LocalPlayer);
-            if (role.toKnight.ToArray().Where(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected).Any()) foreach (var vent in role.toKnight.ToArray().Where(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
+            if (role.toKnight.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected)) foreach (var knight in role.toKnight.ToArray().Where(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
                 {
-                    role.Knights.Add(role.ClosestPlayer.PlayerId);
-                    Utils.Rpc(CustomRPC.MonarchKnight, PlayerControl.LocalPlayer.PlayerId, role.ClosestPlayer.PlayerId);
-                }
+                    role.Knights.Add(knight);
+                    Utils.Rpc(CustomRPC.MonarchKnight, PlayerControl.LocalPlayer.PlayerId, knight);
+                }   
             role.toKnight.Clear();
             return true;
         }

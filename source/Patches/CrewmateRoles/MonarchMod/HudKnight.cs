@@ -52,7 +52,7 @@ namespace TownOfUs.CrewmateRoles.MonarchMod
 
             var notKnighted = PlayerControl.AllPlayerControls
                 .ToArray()
-                .Where(x => !role.Knights.Contains(x.PlayerId))
+                .Where(x => !role.Knights.Contains(x.PlayerId) && !role.toKnight.Contains(x.PlayerId))
                 .ToList();
 
             Utils.SetTarget(ref role.ClosestPlayer, knightButton, float.NaN, notKnighted);
