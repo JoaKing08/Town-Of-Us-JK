@@ -2014,7 +2014,6 @@ namespace TownOfUs
                     RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
                 }
             }
-            Utils.Rpc(CustomRPC.SetVanillaRoles);
             #endregion
         }
 
@@ -3221,21 +3220,6 @@ namespace TownOfUs
                         var chat = (ChatType)reader.ReadByte();
                         playerRole.CurrentChat = chat;
                         break;
-                    case CustomRPC.SetVanillaRoles:
-                        foreach (var p in PlayerControl.AllPlayerControls)
-                        {
-                            if (p.Is(Faction.Impostors))
-                            {
-                                p.Data.Role.TeamType = RoleTeamTypes.Impostor;
-                                RoleManager.Instance.SetRole(p, RoleTypes.Impostor);
-                            }
-                            else
-                            {
-                                p.Data.Role.TeamType = RoleTeamTypes.Crewmate;
-                                RoleManager.Instance.SetRole(p, RoleTypes.Crewmate);
-                            }
-                        }
-                        break;
 
                     case CustomRPC.RpcExpand:
                         byte firstCallIdExpansion = reader.ReadByte();
@@ -3245,6 +3229,34 @@ namespace TownOfUs
                         }
                         break;
                 }
+            }
+        }
+        [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+        public static class FixImps
+        {
+            public static void Postfix()
+            {
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.Data.IsImpostor() && !player.Is(Faction.Impostors)) ChangeRole(player, false);
+                    if (!player.Data.IsImpostor() && player.Is(Faction.Impostors)) ChangeRole(player, true);
+                }
+            }
+            public static void ChangeRole(PlayerControl player, bool impostor)
+            {
+                player.Data.Role.TeamType = impostor ? RoleTeamTypes.Impostor : RoleTeamTypes.Crewmate;
+                RoleManager.Instance.SetRole(player, impostor ? RoleTypes.Impostor : RoleTypes.Crewmate);
+                if (impostor) player.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+
+                System.Console.WriteLine("PROOF I AM IMP VANILLA ROLE: " + player.Data.Role.IsImpostor);
+
+                if (impostor) foreach (var player2 in PlayerControl.AllPlayerControls)
+                    {
+                        if (player2.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor())
+                        {
+                            player2.nameText().color = Patches.Colors.Impostor;
+                        }
+                    }
             }
         }
 

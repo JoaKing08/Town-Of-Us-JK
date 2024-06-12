@@ -33,7 +33,7 @@ namespace TownOfUs
                 return false;
             }
             if (target.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, target.PlayerId, (byte)RoleEnum.Impostor, (byte)0);
-            var interact = Utils.Interact(PlayerControl.LocalPlayer, target, true);
+            var interact = Utils.Interact(PlayerControl.LocalPlayer, Role.GetRole(PlayerControl.LocalPlayer).ClosestPlayer, true);
             if (interact[4] == true)
             {
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Warlock))
@@ -112,6 +112,7 @@ namespace TownOfUs
 
                 Utils.SetTarget(ref target, __instance.KillButton, GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance], notImpostor);
                 __instance.KillButton.SetTarget(target);
+                Role.GetRole(PlayerControl.LocalPlayer).ClosestPlayer = target;
             }
         }
     }

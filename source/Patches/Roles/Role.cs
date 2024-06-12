@@ -42,12 +42,14 @@ namespace TownOfUs.Roles
         public bool KilledByAbility;
         public GameObject ChatButton;
         public ChatType CurrentChat = ChatType.VanillaChat;
+        public PlayerControl ClosestPlayer;
         //public Dictionary<ChatType, ChatController> ChatControllers = new Dictionary<ChatType, ChatController>();
 
         protected Role(PlayerControl player)
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
+            ClosestPlayer = null;
             //TotalTasks = player.Data.Tasks.Count;
             //TasksLeft = TotalTasks;
         }
