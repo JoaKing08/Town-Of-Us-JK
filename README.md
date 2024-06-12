@@ -40,41 +40,42 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
-| 2024.6.4s & 2024.6.4e | v2.0.21 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.21) |
-| 2024.6.4s & 2024.6.4e | v2.0.20 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.20) |
-| 2024.6.4s & 2024.6.4e | v2.0.19 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.19) |
-| 2024.6.4s & 2024.6.4e | v2.0.18 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.18) |
-| 2024.6.4s & 2024.6.4e | v2.0.17 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.17) |
-| 2024.3.5s & 2024.3.5e | v2.0.16 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.16) |
-| 2024.3.5s & 2024.3.5e | v2.0.15 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.15) |
-| 2024.3.5s & 2024.3.5e | v2.0.14 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.14) |
-| 2024.3.5s & 2024.3.5e | v2.0.13 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.13) |
-| 2024.3.5s & 2024.3.5e | v2.0.12 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.12) |
-| 2024.3.5s & 2024.3.5e | v2.0.11 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.11) |
-| 2024.3.5s & 2024.3.5e | v2.0.10 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.10) |
-| 2024.3.5s & 2024.3.5e | v2.0.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.9) |
-| 2024.3.5s & 2024.3.5e | v2.0.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.8) |
-| 2024.3.5s & 2024.3.5e | v2.0.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.7) |
-| 2024.3.5s & 2024.3.5e | v2.0.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.6) |
-| 2024.3.5s & 2024.3.5e | v2.0.5 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.5) |
-| 2024.3.5s & 2024.3.5e | v2.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.4) |
-| 2024.3.5s & 2024.3.5e | v2.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.3) |
-| 2024.3.5s & 2024.3.5e | v2.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.2) |
-| 2024.3.5s & 2024.3.5e | v2.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.1) |
-| 2024.3.5s & 2024.3.5e | v2.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.0) |
-| 2024.3.5s & 2024.3.5e | v1.2.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.9) |
-| 2024.3.5s & 2024.3.5e | v1.2.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.8) |
-| 2024.3.5s & 2024.3.5e | v1.2.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.7) |
-| 2024.3.5s & 2024.3.5e | v1.2.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.6) |
-| 2024.3.5s & 2024.3.5e | v1.2.5 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.5) |
-| 2024.3.5s & 2024.3.5e | v1.2.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.4) |
-| 2024.3.5s & 2024.3.5e | v1.2.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.3) |
-| 2024.3.5s & 2024.3.5e | v1.2.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.2) |
-| 2024.3.5s & 2024.3.5e | v1.2.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.1) |
-| 2024.3.5s & 2024.3.5e | v1.2.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.0) |
-| 2024.3.5s & 2024.3.5e | v1.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.1.0) |
-| 2024.3.5s & 2024.3.5e | v1.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.4) |
-| 2024.3.5s & 2024.3.5e | v1.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.3) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.22 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.22) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.21 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.21) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.20 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.20) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.19 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.19) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.18 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.18) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.17 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.17) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.16 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.16) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.15 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.15) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.14 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.14) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.13 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.13) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.12 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.12) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.11 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.11) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.10 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.10) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.9) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.8) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.7) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.6) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.5 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.5) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.4) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.3) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.2) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.1) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.0) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.9 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.9) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.8 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.8) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.7 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.7) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.6) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.5 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.5) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.4) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.3) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.2) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.1) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.2.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.2.0) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.1.0) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.0.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.4) |
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v1.0.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.3) |
 | 2023.11.28s & 2023.11.28e | v1.0.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.2) |
 | 2023.11.28s & 2023.11.28e | v1.0.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.1) |
 | 2023.11.28s & 2023.11.28e | v1.0.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v1.0.0) |
