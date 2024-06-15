@@ -25,6 +25,11 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 List<string> Messages = null;
                 PlayerControl LastInspectedPlayer = null;
                 PlayerControl confessingPlayer = null;
+                byte firstPlayer = byte.MaxValue;
+                byte secondPlayer = byte.MaxValue;
+                byte visionPlayer = byte.MaxValue;
+                List<byte> playersInteracted = null;
+                List<byte> interactingPlayers = null;
 
                 if (PlayerControl.LocalPlayer == StartImitate.ImitatingPlayer)
                 {
@@ -131,6 +136,21 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                         tavernKeeperRole.DrunkPlayers = new List<PlayerControl>();
                     }
 
+                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Sage))
+                    {
+                        var sageRole = Role.GetRole<Sage>(PlayerControl.LocalPlayer);
+                        firstPlayer = sageRole.FirstPlayer;
+                        secondPlayer = sageRole.SecondPlayer;
+                    }
+
+                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic))
+                    {
+                        var mysticRole = Role.GetRole<Mystic>(PlayerControl.LocalPlayer);
+                        visionPlayer = mysticRole.VisionPlayer;
+                        interactingPlayers = mysticRole.InteractingPlayers;
+                        playersInteracted = mysticRole.PlayersInteracted;
+                    }
+
                     if (!PlayerControl.LocalPlayer.Is(RoleEnum.Investigator) && !PlayerControl.LocalPlayer.Is(RoleEnum.Mystic)) DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
                 }
 
@@ -149,6 +169,11 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 imitator.confessingPlayer = confessingPlayer;
                 imitator.LastInspectedPlayer = LastInspectedPlayer;
                 imitator.Messages = Messages;
+                imitator.SageFirst = firstPlayer;
+                imitator.SageSecond = secondPlayer;
+                imitator.VisionPlayer = visionPlayer;
+                imitator.PlayersInteracted = playersInteracted;
+                imitator.InteractingPlayers = interactingPlayers;
                 var newRole = Role.GetRole(StartImitate.ImitatingPlayer);
                 newRole.RemoveFromRoleHistory(newRole.RoleType);
                 newRole.Kills = killsList.Kills;

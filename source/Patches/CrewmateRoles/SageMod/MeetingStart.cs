@@ -47,7 +47,7 @@ namespace TownOfUs.CrewmateRoles.SageMod
                 {
                     result = true;
                 }
-                if (secondPlayer.Is(Objective.GetObjective(firstPlayer).ObjectiveType) && firstPlayer.Is(FactionOverride.None) && secondPlayer.Is(FactionOverride.None))
+                if (Objective.GetObjective(firstPlayer) != null && secondPlayer.Is(Objective.GetObjective(firstPlayer).ObjectiveType) && firstPlayer.Is(FactionOverride.None) && secondPlayer.Is(FactionOverride.None))
                 {
                     result = true;
                 }
@@ -86,7 +86,7 @@ namespace TownOfUs.CrewmateRoles.SageMod
                     {
                         result = true;
                     }
-                    if (secondPlayer.Is(Objective.GetObjective(target).ObjectiveType) && target.Is(FactionOverride.None) && secondPlayer.Is(FactionOverride.None))
+                    if (Objective.GetObjective(target) != null && secondPlayer.Is(Objective.GetObjective(target).ObjectiveType) && target.Is(FactionOverride.None) && secondPlayer.Is(FactionOverride.None))
                     {
                         result = true;
                     }
@@ -126,7 +126,7 @@ namespace TownOfUs.CrewmateRoles.SageMod
                     {
                         result = true;
                     }
-                    if (target.Is(Objective.GetObjective(firstPlayer).ObjectiveType) && firstPlayer.Is(FactionOverride.None) && target.Is(FactionOverride.None))
+                    if (Objective.GetObjective(firstPlayer) != null && target.Is(Objective.GetObjective(firstPlayer).ObjectiveType) && firstPlayer.Is(FactionOverride.None) && target.Is(FactionOverride.None))
                     {
                         result = true;
                     }
