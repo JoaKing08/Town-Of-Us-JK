@@ -280,14 +280,9 @@ Based on settings Compare is not always accurate.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
-| Seer | The percentage probability of the Seer appearing | Percentage | 0% |
-| Seer Cooldown | The Cooldown of the Seer's Reveal button | Time | 25s |
-| Crewmate Killing Roles Are Red | Crewmate Killing roles show up as Red | Toggle | False |
-| Neutral Benign Roles Are Red | Neutral Benign roles show up as Red | Toggle | False |
-| Neutral Evil Roles Are Red | Neutral Evil roles show up as Red | Toggle | False |
-| Neutral Killing Roles Are Red | Neutral Killing roles show up as Red | Toggle | True |
-| Traitor does not swap Colours | The Traitor remains their original colour | Toggle | False |
-
+| Sage | The percentage probability of the Sage appearing | Percentage | 0% |
+| Compare Cooldown | The Cooldown of the Sage's Compare button | Time | 25s |
+| Compare Accuracy | The chance for Sage information to be correct | Percentage | 90% |
 -----------------------
 ## Seer
 ### **Team: Crewmates**
