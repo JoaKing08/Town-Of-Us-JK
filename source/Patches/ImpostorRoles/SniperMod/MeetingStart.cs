@@ -13,7 +13,7 @@ namespace TownOfUs.ImpostorRoles.SniperMod
     {
         public static void Postfix(MeetingHud __instance)
         {
-            Role.GetRole(PlayerControl.LocalPlayer).DestroySnipeArrows();
+            if (Role.GetRole(PlayerControl.LocalPlayer).SnipeArrows.Any()) Role.GetRole(PlayerControl.LocalPlayer).DestroySnipeArrows();
         }
     }
 }

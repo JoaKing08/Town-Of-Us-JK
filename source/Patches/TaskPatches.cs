@@ -1,4 +1,5 @@
 using HarmonyLib;
+using System.Linq;
 using TownOfUs.Extensions;
 
 namespace TownOfUs
@@ -16,7 +17,7 @@ namespace TownOfUs
                 {
                     var playerInfo = __instance.AllPlayers.ToArray()[i];
                     if (!playerInfo.Disconnected && playerInfo.Tasks != null && playerInfo.Object &&
-                        (GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks || !playerInfo.IsDead) && !playerInfo.IsImpostor() &&
+                        ((GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks || !playerInfo.IsDead) && !playerInfo.IsImpostor() &&
                         !(
                             playerInfo._object.Is(RoleEnum.Jester) || playerInfo._object.Is(RoleEnum.Amnesiac) ||
                             playerInfo._object.Is(RoleEnum.Survivor) || playerInfo._object.Is(RoleEnum.GuardianAngel) ||
@@ -35,7 +36,7 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.CursedSoul) || playerInfo._object.Is(FactionOverride.Undead) ||
                             playerInfo._object.Is(FactionOverride.Recruit) || playerInfo._object.Is(RoleEnum.Jackal) ||
                             playerInfo._object.Is(RoleEnum.JKNecromancer)
-                        ))
+                        )) || !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Data.IsDead && !x.Data.Disconnected))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
                             __instance.TotalTasks++;

@@ -1181,7 +1181,7 @@ namespace TownOfUs.Roles
                     }
                 }
 
-                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks && PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None) && !x.Data.IsDead && !x.Data.Disconnected)) return true;
+                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks) return true;
                 
                 var result = true;
                 foreach (var role in AllRoles)
@@ -1221,54 +1221,6 @@ namespace TownOfUs.Roles
                 return result;
             }
         }
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
-        public static class TaskMeetingOverride
-        {
-            public static bool Prefix(PlayerControl __instance, ref GameData.PlayerInfo target)
-            {
-                var totalCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None) && !x.Data.IsDead && !x.Data.Disconnected).ToList();
-
-                if (AmongUsClient.Instance.IsGameOver)
-                {
-                    return false;
-                }
-                if (MeetingHud.Instance)
-                {
-                    return false;
-                }
-                if (target == null && PlayerControl.LocalPlayer.myTasks.Find(new Func<PlayerTask, bool>(PlayerTask.TaskIsEmergency)))
-                {
-                    return false;
-                }
-                if (__instance.Data.IsDead)
-                {
-                    return false;
-                }
-                MeetingRoomManager.Instance.AssignSelf(__instance, target);
-                if (!AmongUsClient.Instance.AmHost)
-                {
-                    return false;
-                }
-                if (totalCrew.Any())
-                {
-                    if (GameManager.Instance.CheckTaskCompletion())
-                    {
-                        return false;
-                    }
-                }
-                if (target == null)
-                {
-                    __instance.logger.Debug("Calling emergency meeting", null);
-                }
-                else
-                {
-                    __instance.logger.Debug(string.Format("Reporting dead body {0}", target.PlayerId), null);
-                }
-                DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(__instance);
-                __instance.RpcStartMeeting(target);
-                return false;
-            }
-        }
 
         [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
         public static class LobbyBehaviour_Start
@@ -1303,7 +1255,7 @@ namespace TownOfUs.Roles
                 }
                 foreach (var role in AllRoles)
                 {
-                    role.DestroySnipeArrows();
+                    if (role.SnipeArrows.Any()) role.DestroySnipeArrows();
                 }
 
                 RoleDictionary.Clear();

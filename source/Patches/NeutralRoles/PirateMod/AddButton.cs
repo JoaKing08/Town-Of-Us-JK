@@ -111,21 +111,18 @@ namespace TownOfUs.NeutralRoles.PirateMod
         }
         public static void Postfix(MeetingHud __instance)
         {
-            foreach (var role in Role.GetRoles(RoleEnum.Pirate))
+            foreach (var role in Role.AllRoles)
             {
-                var pirate = (Pirate)role;
-                var dueled = Role.GetRole(pirate.DueledPlayer);
-                pirate.DefenseButton.Destroy();
-                if (dueled != null) dueled.DefenseButton.Destroy();
+                if (role.DefenseButton) role.DefenseButton.Destroy();
             }
 
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Pirate))
             {
                 var role = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
+                if (role.DueledPlayer == null && !role.DueledPlayer.Data.IsDead && !role.DueledPlayer.Data.Disconnected) return;
                 role.MeetingStart = DateTime.UtcNow;
                 role.notify = true;
-                if (role.DueledPlayer == null && !role.DueledPlayer.Data.IsDead && !role.DueledPlayer.Data.Disconnected) return;
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                     if (PlayerControl.LocalPlayer.PlayerId == __instance.playerStates[i].TargetPlayerId)
                     {
@@ -135,6 +132,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
             else if (PlayerControl.LocalPlayer.IsDueled())
             {
                 var pirate = PlayerControl.LocalPlayer.GetPirate();
+                if (pirate == null && !pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected) return;
                 pirate.MeetingStart = DateTime.UtcNow;
                 pirate.notify = true;
                 var role = Role.GetRole(PlayerControl.LocalPlayer);

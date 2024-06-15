@@ -17,7 +17,7 @@ namespace TownOfUs.Roles
         public byte FirstPlayer;
         public byte SecondPlayer;
 
-        public bool ButtonUsable => FirstPlayer == byte.MaxValue || Utils.PlayerById(FirstPlayer).Data.IsDead || Utils.PlayerById(FirstPlayer).Data.Disconnected || SecondPlayer == byte.MaxValue || Utils.PlayerById(SecondPlayer).Data.IsDead || Utils.PlayerById(SecondPlayer).Data.Disconnected;
+        public bool ButtonUsable => FirstPlayer == byte.MaxValue || Utils.PlayerById(FirstPlayer) == null || Utils.PlayerById(FirstPlayer).Data.IsDead || Utils.PlayerById(FirstPlayer).Data.Disconnected || SecondPlayer == byte.MaxValue || Utils.PlayerById(SecondPlayer) == null || Utils.PlayerById(SecondPlayer).Data.IsDead || Utils.PlayerById(SecondPlayer).Data.Disconnected;
 
         public Sage(PlayerControl player) : base(player)
         {

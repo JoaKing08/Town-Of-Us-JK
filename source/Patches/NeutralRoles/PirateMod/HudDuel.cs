@@ -17,7 +17,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
             if (PlayerControl.LocalPlayer.IsDueled()) if (PlayerControl.LocalPlayer.GetPirate().notify && PlayerControl.LocalPlayer.GetPirate().NotificationTimer() == 0f)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Ya Ar Duel'g!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification("You Are Dueled!", 1000 * CustomGameOptions.NotificationDuration);
                     PlayerControl.LocalPlayer.GetPirate().notify = false;
                 }
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
