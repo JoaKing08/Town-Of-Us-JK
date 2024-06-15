@@ -98,11 +98,6 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
 
         public static void Revive(DeadBody target, Necromancer role)
         {
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
-            {
-                Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification("Someone Has Been Revived!", 1000 * CustomGameOptions.NotificationDuration);
-            }
             var parentId = target.ParentId;
             var position = target.TruePosition;
             var player = Utils.PlayerById(parentId);

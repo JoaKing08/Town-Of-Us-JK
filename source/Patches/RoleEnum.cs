@@ -63,6 +63,7 @@ namespace TownOfUs
         Crusader,
         Cleric,
         Deputy,
+        Sage,
 
         Miner,
         Swooper,

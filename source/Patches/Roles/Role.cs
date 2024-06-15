@@ -473,7 +473,8 @@ namespace TownOfUs.Roles
                         if (RoleType == RoleEnum.Aurial || RoleType == RoleEnum.Detective || RoleType == RoleEnum.Investigator ||
                                RoleType == RoleEnum.Mystic || RoleType == RoleEnum.Seer ||
                                  RoleType == RoleEnum.Snitch || RoleType == RoleEnum.Spy || RoleType == RoleEnum.Tracker ||
-                                    RoleType == RoleEnum.Trapper || RoleType == RoleEnum.Inspector || RoleType == RoleEnum.Lookout)
+                                    RoleType == RoleEnum.Trapper || RoleType == RoleEnum.Inspector || RoleType == RoleEnum.Lookout ||
+                                    RoleType == RoleEnum.Sage)
                         {
                             Player.nameText().color = new Color(0f, 1f, 1f, 1f);
                             if (player != null) player.NameText.color = new Color(0f, 1f, 1f, 1f);
@@ -698,6 +699,13 @@ namespace TownOfUs.Roles
         {
             var player = PlayerControl.AllPlayerControls.ToArray()
                 .FirstOrDefault(x => x.PlayerId == area.TargetPlayerId);
+            return player == null ? null : GetRole(player);
+        }
+
+        public static Role GetRole(PoolablePlayer poolablePlayer)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray()
+                .FirstOrDefault(x => x.GetDefaultOutfit().ColorId == poolablePlayer.ColorId);
             return player == null ? null : GetRole(player);
         }
 
@@ -1173,7 +1181,7 @@ namespace TownOfUs.Roles
                     }
                 }
 
-                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks && PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None))) return true;
+                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks && PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None) && !x.Data.IsDead && !x.Data.Disconnected)) return true;
                 
                 var result = true;
                 foreach (var role in AllRoles)
@@ -1211,6 +1219,54 @@ namespace TownOfUs.Roles
                 if (!NobodyEndCriteria(__instance)) result = false;
 
                 return result;
+            }
+        }
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
+        public static class TaskMeetingOverride
+        {
+            public static bool Prefix(PlayerControl __instance, ref GameData.PlayerInfo target)
+            {
+                var totalCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None) && !x.Data.IsDead && !x.Data.Disconnected).ToList();
+
+                if (AmongUsClient.Instance.IsGameOver)
+                {
+                    return false;
+                }
+                if (MeetingHud.Instance)
+                {
+                    return false;
+                }
+                if (target == null && PlayerControl.LocalPlayer.myTasks.Find(new Func<PlayerTask, bool>(PlayerTask.TaskIsEmergency)))
+                {
+                    return false;
+                }
+                if (__instance.Data.IsDead)
+                {
+                    return false;
+                }
+                MeetingRoomManager.Instance.AssignSelf(__instance, target);
+                if (!AmongUsClient.Instance.AmHost)
+                {
+                    return false;
+                }
+                if (totalCrew.Any())
+                {
+                    if (GameManager.Instance.CheckTaskCompletion())
+                    {
+                        return false;
+                    }
+                }
+                if (target == null)
+                {
+                    __instance.logger.Debug("Calling emergency meeting", null);
+                }
+                else
+                {
+                    __instance.logger.Debug(string.Format("Reporting dead body {0}", target.PlayerId), null);
+                }
+                DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(__instance);
+                __instance.RpcStartMeeting(target);
+                return false;
             }
         }
 

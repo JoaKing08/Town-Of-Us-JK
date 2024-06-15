@@ -49,7 +49,11 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             }
             var playerId = role.CurrentTarget.ParentId;
             var player = Utils.PlayerById(playerId);
-            if ((player.IsInfected() || role.Player.IsInfected()) && !player.Is(RoleEnum.Plaguebearer))
+            if (PlayerControl.LocalPlayer.IsInVision() || player.IsInVision())
+            {
+                Utils.Rpc(CustomRPC.VisionInteract, PlayerControl.LocalPlayer.PlayerId, player.PlayerId);
+            }
+            if (player.IsInfected() || role.Player.IsInfected())
             {
                 foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
             }
@@ -118,6 +122,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Bodyguard:
                 case RoleEnum.Crusader:
                 case RoleEnum.Cleric:
+                case RoleEnum.Sage:
 
                     rememberImp = false;
                     rememberNeut = false;
@@ -328,7 +333,10 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var mysticRole = Role.GetRole<Mystic>(amnesiac);
                 mysticRole.BodyArrows.Values.DestroyAll();
                 mysticRole.BodyArrows.Clear();
-                DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+                mysticRole.InteractingPlayers.Clear();
+                mysticRole.PlayersInteracted.Clear();
+                mysticRole.VisionPlayer = byte.MaxValue;
+                mysticRole.UsedAbility = false;
             }
 
             else if (role == RoleEnum.Transporter)

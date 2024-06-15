@@ -84,6 +84,7 @@ namespace TownOfUs
         Investigator,
         Lookout,
         Mystic,
+        Sage,
         Seer,
         Snitch,
         Spy,
@@ -200,6 +201,7 @@ namespace TownOfUs
         Investigator,
         Lookout,
         Mystic,
+        Sage,
         Seer,
         Snitch,
         Spy,
@@ -368,6 +370,7 @@ namespace TownOfUs
         public static int CrusaderOn => (int)Generate.CrusaderOn.Get();
         public static int ClericOn => (int)Generate.ClericOn.Get();
         public static int JuggernautOn => (int)Generate.JuggernautOn.Get();
+        public static int SageOn => (int)Generate.SageOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
@@ -864,6 +867,10 @@ namespace TownOfUs
         public static float DeputyAimCooldown => Generate.DeputyAimCooldown.Get();
         public static int MaxProsecutions => (int)Generate.MaxProsecutions.Get();
         public static bool RevealProsecutor => Generate.RevealProsecutor.Get();
+        public static float VisionCooldown => Generate.VisionCooldown.Get();
+        public static bool AllowVision => Generate.AllowVision.Get();
+        public static float CompareCooldown => Generate.CompareCooldown.Get();
+        public static int CompareAccuracy => (int)Generate.CompareAccuracy.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

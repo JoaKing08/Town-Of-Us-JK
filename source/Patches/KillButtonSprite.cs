@@ -60,6 +60,8 @@ namespace TownOfUs
         private static Sprite Fortify => TownOfUs.FortifySprite;
         private static Sprite Barrier => TownOfUs.BarrierSprite;
         private static Sprite DeputyAim => TownOfUs.DeputyAimSprite;
+        private static Sprite Vision => TownOfUs.VisionSprite;
+        private static Sprite Compare => TownOfUs.CompareSprite;
         private static Sprite Nothing => TownOfUs.NothingSprite;
 
         private static Sprite Kill;
@@ -304,6 +306,20 @@ namespace TownOfUs
                 __instance.KillButton.graphic.sprite = DeputyAim;
                 __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
                 __instance.KillButton.buttonLabelText.text = "Aim";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic))
+            {
+                __instance.KillButton.graphic.sprite = Vision;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Vision";
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Sage))
+            {
+                __instance.KillButton.graphic.sprite = Compare;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Compare";
                 flag = true;
             }
             else

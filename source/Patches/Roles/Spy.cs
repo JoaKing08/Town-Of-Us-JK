@@ -202,6 +202,12 @@ namespace TownOfUs.Roles
                         case RoleEnum.Deputy:
                             message += $" aimed by <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>";
                             break;
+                        case RoleEnum.Mystic:
+                            message += $" visioned by <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>";
+                            break;
+                        case RoleEnum.Sage:
+                            message += $" compared by <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>";
+                            break;
                     }
                     break;
                 case 1:

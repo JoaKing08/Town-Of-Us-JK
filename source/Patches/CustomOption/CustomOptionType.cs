@@ -10,6 +10,7 @@ namespace TownOfUs.CustomOption
     }
     public enum MultiMenu
     {
+        vanilla = -1,
         main,
         crewmate,
         neutral,

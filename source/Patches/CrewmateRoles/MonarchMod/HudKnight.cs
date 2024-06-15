@@ -11,10 +11,10 @@ namespace TownOfUs.CrewmateRoles.MonarchMod
         [HarmonyPatch(nameof(HudManager.Update))]
         public static void Postfix(HudManager __instance)
         {
-            UpdateInvButton(__instance);
+            UpdateKnightButton(__instance);
         }
 
-        public static void UpdateInvButton(HudManager __instance)
+        public static void UpdateKnightButton(HudManager __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;

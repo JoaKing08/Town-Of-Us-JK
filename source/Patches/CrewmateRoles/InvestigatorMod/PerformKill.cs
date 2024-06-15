@@ -42,6 +42,14 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
             if (role.Reports[role.CurrentTarget.ParentId].Count == 0) return false;
             var playerId = role.CurrentTarget.ParentId;
             var player = Utils.PlayerById(playerId);
+            if (PlayerControl.LocalPlayer.IsInVision() || player.IsInVision())
+            {
+                Utils.Rpc(CustomRPC.VisionInteract, PlayerControl.LocalPlayer.PlayerId, player.PlayerId);
+            }
+            if (player.IsInfected() || role.Player.IsInfected())
+            {
+                foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
+            }
             if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, playerId, (byte)role.RoleType, (byte)0);
             role.LastInvestigate = DateTime.UtcNow;
             role.GenerateMessage(role.CurrentTarget);

@@ -11,10 +11,10 @@ namespace TownOfUs.CrewmateRoles.SpyMod
         [HarmonyPatch(nameof(HudManager.Update))]
         public static void Postfix(HudManager __instance)
         {
-            UpdateInvButton(__instance);
+            UpdateBugButton(__instance);
         }
 
-        public static void UpdateInvButton(HudManager __instance)
+        public static void UpdateBugButton(HudManager __instance)
         {
             if (CustomGameOptions.GameMode == GameMode.Cultist) return;
             if (PlayerControl.AllPlayerControls.Count <= 1) return;

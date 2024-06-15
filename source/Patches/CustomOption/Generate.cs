@@ -11,6 +11,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption HaunterOn;
         public static CustomNumberOption InvestigatorOn;
         public static CustomNumberOption MysticOn;
+        public static CustomNumberOption SageOn;
         public static CustomNumberOption SeerOn;
         public static CustomNumberOption SnitchOn;
         public static CustomNumberOption SpyOn;
@@ -494,6 +495,8 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Mystic;
         public static CustomNumberOption MysticArrowDuration;
+        public static CustomToggleOption AllowVision;
+        public static CustomNumberOption VisionCooldown;
 
         public static CustomHeaderOption Blackmailer;
         public static CustomNumberOption BlackmailCooldown;
@@ -759,6 +762,10 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption BarrierCooldown;
         public static CustomNumberOption BarrierCooldownReset;
 
+        public static CustomHeaderOption Sage;
+        public static CustomNumberOption CompareCooldown;
+        public static CustomNumberOption CompareAccuracy;
+
         public static CustomHeaderOption RoleListSettings;
         public static Dictionary<int, CustomStringOption> RoleEntries;
         public static CustomHeaderOption RoleListSpacing0;
@@ -785,6 +792,7 @@ namespace TownOfUs.CustomOption
         "<color=#00B3B3FF>Investigator</color>",
         "<color=#80DFDFFF>Lookout</color>",
         "<color=#4D99E6FF>Mystic</color>",
+        "<color=#4B0082FF>Sage</color>",
         "<color=#FFCC80FF>Seer</color>",
         "<color=#D4AF37FF>Snitch</color>",
         "<color=#CCA3CCFF>Spy</color>",
@@ -901,6 +909,7 @@ namespace TownOfUs.CustomOption
         "<color=#00B3B3FF>Investigator</color>",
         "<color=#80DFDFFF>Lookout</color>",
         "<color=#4D99E6FF>Mystic</color>",
+        "<color=#4B0082FF>Sage</color>",
         "<color=#FFCC80FF>Seer</color>",
         "<color=#D4AF37FF>Snitch</color>",
         "<color=#CCA3CCFF>Spy</color>",
@@ -1009,6 +1018,8 @@ namespace TownOfUs.CustomOption
             LookoutOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#80DFDFFF>Lookout</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             MysticOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D99E6FF>Mystic</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            SageOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4B0082FF>Sage</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             SeerOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#FFCC80FF>Seer</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -1495,6 +1506,17 @@ namespace TownOfUs.CustomOption
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4D99E6FF>Mystic</color>");
             MysticArrowDuration =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Dead Body Arrow Duration", 0.1f, 0f, 1f, 0.05f, CooldownFormat);
+            AllowVision =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Allow Vision");
+            VisionCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Vision Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+
+            Sage =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4B0082FF>Sage</color>");
+            CompareCooldown =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Compare Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            CompareAccuracy =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Compare Accuracy", 90f, 0f, 100f, 10f, PercentFormat);
 
             Seer =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFCC80FF>Seer</color>");

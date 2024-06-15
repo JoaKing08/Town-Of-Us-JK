@@ -41,6 +41,14 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
                 PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
             var playerId = role.CurrentTarget.ParentId;
             var player = Utils.PlayerById(playerId);
+            if (PlayerControl.LocalPlayer.IsInVision() || player.IsInVision())
+            {
+                Utils.Rpc(CustomRPC.VisionInteract, PlayerControl.LocalPlayer.PlayerId, player.PlayerId);
+            }
+            if (player.IsInfected() || role.Player.IsInfected())
+            {
+                foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
+            }
             if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, playerId, (byte)role.RoleType, (byte)0);
             role.ReapedSouls += 1;
             Role.GetRole(Utils.PlayerById(role.CurrentTarget.ParentId)).Reaped = true;

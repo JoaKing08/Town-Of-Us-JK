@@ -50,6 +50,7 @@ namespace TownOfUs.Roles
                     if (CustomGameOptions.AurialOn > 0) ColorMapping.Add("Aurial", Colors.Aurial);
                     if (CustomGameOptions.InspectorOn > 0) ColorMapping.Add("Inspector", Colors.Inspector);
                     if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
+                    if (CustomGameOptions.SageOn > 0) ColorMapping.Add("Sage", Colors.Sage);
                 }
                 if (CustomGameOptions.MayorOn > 0) ColorMapping.Add("Mayor", Colors.Mayor);
                 if (CustomGameOptions.SheriffOn > 0 || (CustomGameOptions.VampireHunterOn > 0 && (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.Horseman) && (CustomGameOptions.VampireOn > 0 || CustomGameOptions.NecromancerOn > 0) && CustomGameOptions.BecomeOnVampDeaths == BecomeEnum.Sheriff)) ColorMapping.Add("Sheriff", Colors.Sheriff);
@@ -152,6 +153,7 @@ namespace TownOfUs.Roles
                     ColorMapping.Add("Aurial", Colors.Aurial);
                     ColorMapping.Add("Inspector", Colors.Inspector);
                     ColorMapping.Add("Lookout", Colors.Lookout);
+                    ColorMapping.Add("Sage", Colors.Sage);
                 }
                 ColorMapping.Add("Mayor", Colors.Mayor);
                 ColorMapping.Add("Sheriff", Colors.Sheriff);

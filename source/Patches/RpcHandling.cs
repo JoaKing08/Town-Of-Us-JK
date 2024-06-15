@@ -1394,6 +1394,7 @@ namespace TownOfUs
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Detective) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Detective) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Detective), false));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Investigator) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Investigator) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Investigator), false));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Mystic) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Mystic) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Mystic), false));
+            if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Sage) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Sage) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Sage), false));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Seer) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Seer) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Seer), false));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Snitch) && !CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Snitch)) crewmateInvestigativeBucket.Add((typeof(Snitch), true));
             if (!CustomGameOptions.BanEntries.Contains(RLBanEntry.Spy) && !(CustomGameOptions.RoleEntries.Contains(RLRoleEntry.Spy) && CustomGameOptions.AllUnique)) crewmateInvestigativeBucket.Add((typeof(Spy), false));
@@ -1705,6 +1706,10 @@ namespace TownOfUs
                     case RLRoleEntry.Lookout:
                         if (choosedRoles.Contains(typeof(Lookout)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
                         else role = (typeof(Lookout), false);
+                        break;
+                    case RLRoleEntry.Sage:
+                        if (choosedRoles.Contains(typeof(Sage)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
+                        else role = (typeof(Sage), false);
                         break;
                     case RLRoleEntry.Hunter:
                         if (choosedRoles.Contains(typeof(Hunter)) && CustomGameOptions.AllUnique) role = anyBucket[Random.RandomRangeInt(0, anyBucket.Count)];
@@ -3221,6 +3226,30 @@ namespace TownOfUs
                         playerRole.CurrentChat = chat;
                         break;
 
+                    case CustomRPC.VisionPlayer:
+                        var mystic = Utils.PlayerById(reader.ReadByte());
+                        var visioned = reader.ReadByte();
+                        var mysticRole = Role.GetRole<Mystic>(mystic);
+                        mysticRole.VisionPlayer = visioned;
+                        break;
+
+                    case CustomRPC.VisionInteract:
+                        var interactor = reader.ReadByte();
+                        var interacted0 = reader.ReadByte();
+                        if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic))
+                        {
+                            var lprole = Role.GetRole<Mystic>(PlayerControl.LocalPlayer);
+                            if (lprole.VisionPlayer == interactor)
+                            {
+                                if (!lprole.PlayersInteracted.Contains(interacted0)) lprole.PlayersInteracted.Add(interacted0);
+                            }
+                            else if (lprole.VisionPlayer == interacted0)
+                            {
+                                if (!lprole.InteractingPlayers.Contains(interactor)) lprole.InteractingPlayers.Add(interactor);
+                            }
+                        }
+                        break;
+
                     case CustomRPC.RpcExpand:
                         byte firstCallIdExpansion = reader.ReadByte();
                         byte secondCallIdExpansion = reader.ReadByte();
@@ -3446,6 +3475,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.CrusaderOn > 0)
                         CrewmatesRoles.Add((typeof(Crusader), CustomGameOptions.CrusaderOn, false));
+
+                    if (CustomGameOptions.SageOn > 0)
+                        CrewmatesRoles.Add((typeof(Sage), CustomGameOptions.SageOn, false));
                     #endregion
                     #region Neutral Roles
                     if (CustomGameOptions.JesterOn > 0)
@@ -3720,6 +3752,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.CrusaderOn > 0)
                         CrewmatesRoles.Add((typeof(Crusader), CustomGameOptions.CrusaderOn, false));
+
+                    if (CustomGameOptions.SageOn > 0)
+                        CrewmatesRoles.Add((typeof(Sage), CustomGameOptions.SageOn, false));
                     #endregion
                     #region Neutral Roles
                     if (CustomGameOptions.JesterOn > 0)

@@ -131,6 +131,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 case RoleEnum.Bodyguard:
                 case RoleEnum.Crusader:
                 case RoleEnum.Cleric:
+                case RoleEnum.Sage:
 
                     swapImp = false;
                     swapNeut = false;
@@ -380,7 +381,10 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 var mysticRole = Role.GetRole<Mystic>(cursedSoul);
                 mysticRole.BodyArrows.Values.DestroyAll();
                 mysticRole.BodyArrows.Clear();
-                DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+                mysticRole.InteractingPlayers.Clear();
+                mysticRole.PlayersInteracted.Clear();
+                mysticRole.VisionPlayer = byte.MaxValue;
+                mysticRole.UsedAbility = false;
             }
 
             else if (targetRole == RoleEnum.Transporter)

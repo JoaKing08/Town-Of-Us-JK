@@ -32,7 +32,7 @@ namespace TownOfUs
     {
         public const string Id = "com.slushiegoose.townofus";
         public const string VersionString = "5.0.4";
-        public const string ModesVersionString = "2.0.22";
+        public const string ModesVersionString = "2.1.0";
         public static System.Version Version = System.Version.Parse(ModesVersionString);
         public const string VersionTag = "<color=#ff33fc></color>";
 
@@ -132,6 +132,8 @@ namespace TownOfUs
         public static Sprite GuardSprite;
         public static Sprite GrowSprite;
         public static Sprite DeputyAimSprite;
+        public static Sprite VisionSprite;
+        public static Sprite CompareSprite;
         public static Sprite NothingSprite;
 
         public static Sprite SettingsButtonSprite;
@@ -267,6 +269,8 @@ namespace TownOfUs
             FortifySprite = CreateSprite("TownOfUs.Resources.Fortify.png");
             GrowSprite = CreateSprite("TownOfUs.Resources.Grow.png");
             DeputyAimSprite = CreateSprite("TownOfUs.Resources.DeputyAim.png");
+            VisionSprite = CreateSprite("TownOfUs.Resources.Vision.png");
+            CompareSprite = CreateSprite("TownOfUs.Resources.Compare.png");
             NothingSprite = CreateSprite("TownOfUs.Resources.Nothing.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");

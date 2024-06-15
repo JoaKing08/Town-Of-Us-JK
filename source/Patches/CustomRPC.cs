@@ -149,6 +149,8 @@ namespace TownOfUs
         Barrier,
         Unbarrier,
         SetChat,
+        VisionPlayer,
+        VisionInteract,
 
         RpcExpand = 255
     }

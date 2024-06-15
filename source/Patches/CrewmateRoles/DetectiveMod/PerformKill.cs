@@ -72,6 +72,10 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 }
                 var playerId = role.CurrentTarget.ParentId;
                 var player = Utils.PlayerById(playerId);
+                if (PlayerControl.LocalPlayer.IsInVision() || player.IsInVision())
+                {
+                    Utils.Rpc(CustomRPC.VisionInteract, PlayerControl.LocalPlayer.PlayerId, player.PlayerId);
+                }
                 if (player.IsInfected() || role.Player.IsInfected())
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);

@@ -281,6 +281,15 @@ namespace TownOfUs
             });
         }
 
+        public static bool IsInVision(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Mystic).Any(role =>
+            {
+                var visionPlayer = ((Mystic)role).VisionPlayer;
+                return player.PlayerId == visionPlayer;
+            });
+        }
+
         public static bool IsShielded(this PlayerControl player)
         {
             return Role.GetRoles(RoleEnum.Medic).Any(role =>
@@ -428,6 +437,10 @@ namespace TownOfUs
                 if (target.IsInfected() || player.IsInfected())
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(target, player);
+                }
+                if (target.IsInVision() || player.IsInVision())
+                {
+                    Rpc(CustomRPC.VisionInteract, player.PlayerId, target.PlayerId);
                 }
                 if (target == ShowRoundOneShield.FirstRoundShielded && toKill)
                 {
@@ -1982,6 +1995,25 @@ namespace TownOfUs
                 var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
                 deputy.LastAimed = DateTime.UtcNow;
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic))
+            {
+                var mystic = Role.GetRole<Mystic>(PlayerControl.LocalPlayer);
+                mystic.LastVision = DateTime.UtcNow;
+                mystic.UsedAbility = false;
+            }
+            foreach (Mystic mystic in Role.GetRoles(RoleEnum.Mystic))
+            {
+                mystic.VisionPlayer = byte.MaxValue;
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Sage))
+            {
+                var sage = Role.GetRole<Sage>(PlayerControl.LocalPlayer);
+                sage.LastCompared = DateTime.UtcNow;
+                sage.FirstPlayer = byte.MaxValue;
+                sage.SecondPlayer = byte.MaxValue;
+            }
             #endregion
             #region NeutralRoles
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
@@ -2221,7 +2253,8 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
                 return $"<b>{player.GetDefaultOutfit().PlayerName}</b> is capable of <b>performing relentless attacks</b>";
             else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
-                || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
+                || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter)
+                || player.Is(RoleEnum.Sage))
                 return $"<b>{player.GetDefaultOutfit().PlayerName}</b> knows <b>thing or two about magic</b>";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
                 || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Deputy))
@@ -2266,8 +2299,9 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
                 return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Bomber</color></b>, <b><color=#{Patches.Colors.Juggernaut.ToHtmlStringRGBA()}>Juggernaut</color></b>, <b><color=#{Patches.Colors.Sheriff.ToHtmlStringRGBA()}>Sheriff</color></b>, <b><color=#{Patches.Colors.Vigilante.ToHtmlStringRGBA()}>Vigilante</color></b>, <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b> or <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>)";
             else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
-                 || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter))
-                return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Warlock</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Venerer</color></b>, <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>, <b><color=#{Patches.Colors.Swapper.ToHtmlStringRGBA()}>Swapper</color></b>, <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b> or <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>)";
+                 || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.VampireHunter)
+                 || player.Is(RoleEnum.Sage))
+                return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Warlock</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Venerer</color></b>, <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>, <b><color=#{Patches.Colors.Swapper.ToHtmlStringRGBA()}>Swapper</color></b>, <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b>, <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b> or <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>)";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.GuardianAngel)
                  || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Deputy))
                 return $"(<b><color=#{Patches.Colors.Executioner.ToHtmlStringRGBA()}>Executioner</color></b>, <b><color=#{Patches.Colors.Prosecutor.ToHtmlStringRGBA()}>Prosecutor</color></b>, <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>, <b><color=#{Patches.Colors.Mayor.ToHtmlStringRGBA()}>Mayor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Blackmailer</color></b> or <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>)";
@@ -2436,6 +2470,8 @@ namespace TownOfUs
                     return Colors.Cleric;
                 case RoleEnum.Bodyguard:
                     return Colors.Bodyguard;
+                case RoleEnum.Sage:
+                    return Colors.Sage;
 
                 case RoleEnum.RedMember:
                     return Colors.RedTeam;
@@ -2620,6 +2656,8 @@ namespace TownOfUs
                     return "Cleric";
                 case RoleEnum.Bodyguard:
                     return "Bodyguard";
+                case RoleEnum.Sage:
+                    return "Sage";
 
                 case RoleEnum.RedMember:
                 case RoleEnum.BlueMember:

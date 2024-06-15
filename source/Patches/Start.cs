@@ -474,6 +474,20 @@ namespace TownOfUs.Patches
                 deputy.LastAimed = DateTime.UtcNow;
                 deputy.LastAimed = deputy.LastAimed.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DeputyAimCooldown);
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic))
+            {
+                var mystic = Role.GetRole<Mystic>(PlayerControl.LocalPlayer);
+                mystic.LastVision = DateTime.UtcNow;
+                mystic.LastVision = mystic.LastVision.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.VisionCooldown);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Sage))
+            {
+                var sage = Role.GetRole<Sage>(PlayerControl.LocalPlayer);
+                sage.LastCompared = DateTime.UtcNow;
+                sage.LastCompared = sage.LastCompared.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.CompareCooldown);
+            }
         }
     }
 }

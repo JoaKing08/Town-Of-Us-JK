@@ -30,7 +30,8 @@ namespace TownOfUs
                 var builder = new StringBuilder();
                 builder.AppendLine("Press Tab To Change Page");
                 builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 2)}/6)");
-                if (SettingsPage == 0) builder.AppendLine("General Mod Settings");
+                if (SettingsPage == -1) builder.AppendLine("Vanilla Settings");
+                else if (SettingsPage == 0) builder.AppendLine("General Mod Settings");
                 else if (SettingsPage == 1) builder.AppendLine("Crewmate Settings");
                 else if (SettingsPage == 2) builder.AppendLine("Neutral Settings");
                 else if (SettingsPage == 3) builder.AppendLine("Impostor Settings");
