@@ -36,10 +36,12 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 |                              | [Bodyguard](#bodyguard)            |                                  |                              |
 |                              | [Crusader](#crusader)              |                                  |                              |
 |                              | [Cleric](#cleric)                  |                                  |                              |
+|                              | [Sage](#sage)                      |                                  |                              |
 ------------------------
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.1.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.22 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.22) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.21 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.21) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.0.20 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.0.20) |
@@ -259,12 +261,32 @@ Investigator can also check bodies for information about them and killers.\
 ## Mystic
 ### **Team: Crewmates**
 The Mystic is a Crewmate that gets an alert revealing when someone has died.\
-On top of this, the Mystic briefly gets an arrow pointing in the direction of the body.
+On top of this, the Mystic briefly gets an arrow pointing in the direction of the body.\
+If turned on, Mystic can also use Vision to see who interacted or was interacted by target.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Mystic | The percentage probability of the Mystic appearing | Percentage | 0% |
 | Arrow Duration | The duration of the arrows pointing to the bodies | Time | 0.1s |
+| Allow Vision | Whether Mystic can use Vision | Toggle | True |
+| Vision Cooldown | The Cooldown of the Mystic's Vision button | Time | 25s |
+
+-----------------------
+## Sage
+### **Team: Crewmates**
+The Sage is a Crewmate that can compare win conditions of two players.\
+Sage will learn if the win conditions of two players are similar or are possible to fulfil both at the same time.\
+Based on settings Compare is not always accurate.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Seer | The percentage probability of the Seer appearing | Percentage | 0% |
+| Seer Cooldown | The Cooldown of the Seer's Reveal button | Time | 25s |
+| Crewmate Killing Roles Are Red | Crewmate Killing roles show up as Red | Toggle | False |
+| Neutral Benign Roles Are Red | Neutral Benign roles show up as Red | Toggle | False |
+| Neutral Evil Roles Are Red | Neutral Evil roles show up as Red | Toggle | False |
+| Neutral Killing Roles Are Red | Neutral Killing roles show up as Red | Toggle | True |
+| Traitor does not swap Colours | The Traitor remains their original colour | Toggle | False |
 
 -----------------------
 ## Seer
@@ -1804,9 +1826,13 @@ If they guess wrong, they die instead.
 | Assassin Kill | The number of kill the Assassin can do with his ability | Number | 1 |
 | Assassin Guess Crewmate | Whether the Assassin can Guess "Crewmate" | Toggle | False |
 | Assassin Multiple Kill  | Whether the Assassin can kill more than once per meeting | Toggle | False |
+| Assassin Guess Crew Investigative  | Whether the Assassin can Guess Crewmate Investigative roles | Toggle | True |
 | Assassin Guess Neutral Benign  | Whether the Assassin can Guess Neutral Benign roles | Toggle | False |
 | Assassin Guess Neutral Evil  | Whether the Assassin can Guess Neutral Evil roles | Toggle | False |
+| Assassin Guess Neutral Chaos  | Whether the Assassin can Guess Neutral Chaos roles | Toggle | False |
 | Assassin Guess Neutral Killing  | Whether the Assassin can Guess Neutral Killing roles | Toggle | False |
+| Assassin Guess Neutral Proselyte  | Whether the Assassin can Guess Neutral Proselyte roles | Toggle | False |
+| Assassin Guess Neutral Apocalypse  | Whether the Assassin can Guess Neutral Apocalypse roles | Toggle | False |
 | Assassin Guess Impostors  | Whether the Assassin can Guess Impostor roles | Toggle | False |
 | Assassin Guess Crewmate Modifiers  | Whether the Assassin can Guess Crewmate Modifiers | Toggle | False |
 | Assassin Can Guess Lovers  | Whether the Assassin can Guess Lovers | Toggle | False |

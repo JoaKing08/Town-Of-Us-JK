@@ -2,6 +2,7 @@
 using System.Linq;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs.CrewmateRoles.SageMod
 {
@@ -38,6 +39,18 @@ namespace TownOfUs.CrewmateRoles.SageMod
                 {
                     result = true;
                 }
+                if ((secondPlayer.Data.IsImpostor() && secondPlayer.Is(FactionOverride.None) && firstPlayer.Is(ObjectiveEnum.ImpostorAgent) && firstPlayer.Is(FactionOverride.None)) || (firstPlayer.Data.IsImpostor() && firstPlayer.Is(FactionOverride.None) && secondPlayer.Is(ObjectiveEnum.ImpostorAgent) && secondPlayer.Is(FactionOverride.None)))
+                {
+                    result = true;
+                }
+                if ((secondPlayer.Is(Faction.NeutralApocalypse) && secondPlayer.Is(FactionOverride.None) && firstPlayer.Is(ObjectiveEnum.ApocalypseAgent) && firstPlayer.Is(FactionOverride.None)) || (firstPlayer.Is(Faction.NeutralApocalypse) && firstPlayer.Is(FactionOverride.None) && secondPlayer.Is(ObjectiveEnum.ApocalypseAgent) && secondPlayer.Is(FactionOverride.None)))
+                {
+                    result = true;
+                }
+                if (secondPlayer.Is(Objective.GetObjective(firstPlayer).ObjectiveType) && firstPlayer.Is(FactionOverride.None) && secondPlayer.Is(FactionOverride.None))
+                {
+                    result = true;
+                }
                 if (firstPlayer.Is(RoleEnum.GuardianAngel) && firstPlayer.Is(FactionOverride.None))
                 {
                     var target = Role.GetRole<GuardianAngel>(firstPlayer).target;
@@ -62,6 +75,18 @@ namespace TownOfUs.CrewmateRoles.SageMod
                         result = true;
                     }
                     if (secondPlayer.Is(Role.GetRole(target).FactionOverride))
+                    {
+                        result = true;
+                    }
+                    if ((secondPlayer.Data.IsImpostor() && secondPlayer.Is(FactionOverride.None) && target.Is(ObjectiveEnum.ImpostorAgent) && target.Is(FactionOverride.None)) || (target.Data.IsImpostor() && target.Is(FactionOverride.None) && secondPlayer.Is(ObjectiveEnum.ImpostorAgent) && secondPlayer.Is(FactionOverride.None)))
+                    {
+                        result = true;
+                    }
+                    if ((secondPlayer.Is(Faction.NeutralApocalypse) && secondPlayer.Is(FactionOverride.None) && target.Is(ObjectiveEnum.ApocalypseAgent) && target.Is(FactionOverride.None)) || (target.Is(Faction.NeutralApocalypse) && target.Is(FactionOverride.None) && secondPlayer.Is(ObjectiveEnum.ApocalypseAgent) && secondPlayer.Is(FactionOverride.None)))
+                    {
+                        result = true;
+                    }
+                    if (secondPlayer.Is(Objective.GetObjective(target).ObjectiveType) && target.Is(FactionOverride.None) && secondPlayer.Is(FactionOverride.None))
                     {
                         result = true;
                     }
@@ -90,6 +115,18 @@ namespace TownOfUs.CrewmateRoles.SageMod
                         result = true;
                     }
                     if (target.Is(Role.GetRole(firstPlayer).FactionOverride))
+                    {
+                        result = true;
+                    }
+                    if ((target.Data.IsImpostor() && target.Is(FactionOverride.None) && firstPlayer.Is(ObjectiveEnum.ImpostorAgent) && firstPlayer.Is(FactionOverride.None)) || (firstPlayer.Data.IsImpostor() && firstPlayer.Is(FactionOverride.None) && target.Is(ObjectiveEnum.ImpostorAgent) && target.Is(FactionOverride.None)))
+                    {
+                        result = true;
+                    }
+                    if ((target.Is(Faction.NeutralApocalypse) && target.Is(FactionOverride.None) && firstPlayer.Is(ObjectiveEnum.ApocalypseAgent) && firstPlayer.Is(FactionOverride.None)) || (firstPlayer.Is(Faction.NeutralApocalypse) && firstPlayer.Is(FactionOverride.None) && target.Is(ObjectiveEnum.ApocalypseAgent) && target.Is(FactionOverride.None)))
+                    {
+                        result = true;
+                    }
+                    if (target.Is(Objective.GetObjective(firstPlayer).ObjectiveType) && firstPlayer.Is(FactionOverride.None) && target.Is(FactionOverride.None))
                     {
                         result = true;
                     }
