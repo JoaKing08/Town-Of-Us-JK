@@ -8,58 +8,56 @@ using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.ImpostorRoles.BlackmailerMod;
 using TownOfUs.Extensions;
-using TownOfUs.CrewmateRoles.VigilanteMod;
+using TownOfUs.NeutralRoles.DoomsayerMod;
 using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.Patches;
-using Reactor.Utilities.Extensions;
-using TownOfUs.CrewmateRoles.ImitatorMod;
 using System;
+using TownOfUs.CrewmateRoles.VigilanteMod;
+using TownOfUs.CrewmateRoles.ImitatorMod;
+using Reactor.Utilities.Extensions;
+using Reactor.Utilities;
 
-namespace TownOfUs.NeutralRoles.DoomsayerMod
+namespace TownOfUs.ImpostorRoles.DemagogueMod
 {
-    public class DoomsayerKill
+    public class DemagogueKill
     {
-        public static void RpcMurderPlayer(PlayerControl player, PlayerControl doomsayer)
+        public static void RpcMurderPlayer(PlayerControl player, PlayerControl demagogue)
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == player.PlayerId
             );
-            RpcMurderPlayer(voteArea, player, doomsayer);
+            RpcMurderPlayer(voteArea, player, demagogue);
         }
-        public static void RpcMurderPlayer(PlayerVoteArea voteArea, PlayerControl player, PlayerControl doomsayer)
+        public static void RpcMurderPlayer(PlayerVoteArea voteArea, PlayerControl player, PlayerControl demagogue)
         {
-            DoomKillCount(player, doomsayer);
-            MurderPlayer(voteArea, player);
-            Utils.Rpc(CustomRPC.DoomsayerKill, player.PlayerId, doomsayer.PlayerId);
+            if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death))
+            {
+                MurderPlayer(voteArea, player);
+                DepKillCount(player, demagogue);
+            }
+            Utils.Rpc(CustomRPC.DemagogueKill, demagogue.PlayerId, player.PlayerId);
         }
 
-        public static void MurderPlayer(PlayerControl player, bool checkLover = true, bool showKillAnim = true)
+        public static void MurderPlayer(PlayerControl player, bool checkLover = true)
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == player.PlayerId
             );
-            MurderPlayer(voteArea, player, checkLover, showKillAnim);
+            MurderPlayer(voteArea, player, checkLover);
         }
-        public static void DoomKillCount(PlayerControl player, PlayerControl doomsayer)
+        public static void DepKillCount(PlayerControl player, PlayerControl demagogue)
         {
-            var doom = Role.GetRole<Doomsayer>(doomsayer);
-            doom.CorrectAssassinKills += 1;
-            doom.GuessedCorrectly += 1;
-            if (doom.GuessedCorrectly == CustomGameOptions.DoomsayerGuessesToWin)
-            {
-                doom.WonByGuessing = true;
-                if (!CustomGameOptions.NeutralEvilWinEndsGame) MurderPlayer(doom.Player, true, false);
-            }
+            var dem = Role.GetRole<Demagogue>(demagogue);
+            dem.Kills += 1;
         }
         public static void MurderPlayer(
             PlayerVoteArea voteArea,
             PlayerControl player,
-            bool checkLover = true,
-            bool showKillAnim = true
+            bool checkLover = true
         )
         {
             var hudManager = DestroyableSingleton<HudManager>.Instance;
-            if (showKillAnim)
+            if (checkLover)
             {
                 SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f);
             }
@@ -126,22 +124,22 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     }
                 }
 
+                if (player.Is(RoleEnum.Vigilante))
+                {
+                    var retributionist = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
+                    ShowHideButtonsVigi.HideButtonsVigi(retributionist);
+                }
+
                 if (player.Is(AbilityEnum.Assassin))
                 {
                     var assassin = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
                     ShowHideButtons.HideButtons(assassin);
                 }
 
-                if (player.Is(RoleEnum.Vigilante))
-                {
-                    var vigilante = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
-                    ShowHideButtonsVigi.HideButtonsVigi(vigilante);
-                }
-
                 if (player.Is(RoleEnum.Doomsayer))
                 {
-                    var doom = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
-                    ShowHideButtonsDoom.HideButtonsDoom(doom);
+                    var doomsayer = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
+                    ShowHideButtonsDoom.HideButtonsDoom(doomsayer);
                 }
 
                 if (player.Is(RoleEnum.Mayor))
@@ -152,27 +150,16 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
 
                 if (player.Is(RoleEnum.Deputy))
                 {
-                    var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
-                    foreach (var button in deputy.ShootButtons) button.Value.Destroy();
-                    deputy.ShootButtons.Clear();
-                }
-
-                if (player.Is(RoleEnum.Demagogue))
-                {
-                    var demagogue = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
-                    foreach (var entry in demagogue.MeetingKillButtons)
-                    {
-                        entry.Value.text.Destroy();
-                        entry.Value.button.Destroy();
-                    }
-                    demagogue.MeetingKillButtons.Clear();
+                    var demagogue0 = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                    foreach (var button in demagogue0.ShootButtons) button.Value.Destroy();
+                    demagogue0.ShootButtons.Clear();
                 }
             }
             player.Die(DeathReason.Kill, false);
             if (checkLover && player.IsLover() && CustomGameOptions.BothLoversDie)
             {
                 var otherLover = Objective.GetObjective<Lover>(player).OtherLover.Player;
-                if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Is(RoleEnum.Famine) && !otherLover.Is(RoleEnum.War) && !otherLover.Is(RoleEnum.Death)) MurderPlayer(otherLover, false, false);
+                if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Is(RoleEnum.Famine) && !otherLover.Is(RoleEnum.War) && !otherLover.Is(RoleEnum.Death)) MurderPlayer(otherLover, false);
             }
             else if (checkLover && player.Is(FactionOverride.Recruit) && !player.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink)
             {
@@ -183,7 +170,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             {
                 foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer)))
                 {
-                    MurderPlayer(undead);
+                    MurderPlayer(undead, false);
                 }
             }
 

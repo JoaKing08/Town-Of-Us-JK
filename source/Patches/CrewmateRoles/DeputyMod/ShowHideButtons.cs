@@ -9,7 +9,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Confirm))]
         public static class Confirm
         {
-            public static bool Prefix(MeetingHud __instance)
+            public static bool Prefix(MeetingHud __instance = null)
             {
                 if (!PlayerControl.LocalPlayer.Is(RoleEnum.Deputy)) return true;
                 var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
@@ -17,7 +17,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                 {
                     foreach (var button in deputy.ShootButtons)
                     {
-                        button.Destroy();
+                        button.Value.Destroy();
                     }
                     deputy.ShootButtons.Clear();
                 }

@@ -151,6 +151,11 @@ namespace TownOfUs
         SetChat,
         VisionPlayer,
         VisionInteract,
+        DemagogueKill,
+        DemagogueVotes,
+        DemagogueConvince,
+        DemagogueCharges,
+        GodfatherRecruit,
 
         RpcExpand = 255
     }

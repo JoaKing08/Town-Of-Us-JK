@@ -666,6 +666,38 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 if (inquisitorRole.heretics.Contains(amnesiac.PlayerId)) inquisitorRole.heretics.Remove(amnesiac.PlayerId);
             }
 
+            else if (role == RoleEnum.Godfather)
+            {
+                var gfRole = Role.GetRole<Godfather>(amnesiac);
+                gfRole.LastRecruit = DateTime.UtcNow.AddSeconds(-CustomGameOptions.InitialCooldowns);
+            }
+
+            else if (role == RoleEnum.Undertaker)
+            {
+                var dienerRole = Role.GetRole<Undertaker>(amnesiac);
+                dienerRole.LastDragged = DateTime.UtcNow;
+            }
+
+            else if (role == RoleEnum.Undertaker)
+            {
+                var dienerRole = Role.GetRole<Undertaker>(amnesiac);
+                dienerRole.LastDragged = DateTime.UtcNow;
+            }
+
+            else if (role == RoleEnum.Demagogue)
+            {
+                var demagogueRole = Role.GetRole<Demagogue>(amnesiac);
+                demagogueRole.LastConvince = DateTime.UtcNow;
+                demagogueRole.Charges = CustomGameOptions.StartingCharges;
+                demagogueRole.Convinced.Clear();
+            }
+            else if (role == RoleEnum.Occultist)
+            {
+                var occultistRole = Role.GetRole<Occultist>(amnesiac);
+                occultistRole.LastMark = DateTime.UtcNow;
+                occultistRole.MarkedPlayers.Clear();
+            }
+
             else if (!(amnesiac.Is(RoleEnum.Altruist) || amnesiac.Is(RoleEnum.Amnesiac) || amnesiac.Is(Faction.Impostors)))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);

@@ -32,7 +32,7 @@ namespace TownOfUs
     {
         public const string Id = "com.slushiegoose.townofus";
         public const string VersionString = "5.0.4";
-        public const string ModesVersionString = "2.1.2";
+        public const string ModesVersionString = "2.2.0";
         public static System.Version Version = System.Version.Parse(ModesVersionString);
         public const string VersionTag = "<color=#ff33fc></color>";
 
@@ -134,6 +134,10 @@ namespace TownOfUs
         public static Sprite DeputyAimSprite;
         public static Sprite VisionSprite;
         public static Sprite CompareSprite;
+        public static Sprite ConvinceSprite;
+        public static Sprite SmallKillSprite;
+        public static Sprite RecruitSprite;
+        public static Sprite OccultistMarkSprite;
         public static Sprite NothingSprite;
 
         public static Sprite SettingsButtonSprite;
@@ -271,6 +275,10 @@ namespace TownOfUs
             DeputyAimSprite = CreateSprite("TownOfUs.Resources.DeputyAim.png");
             VisionSprite = CreateSprite("TownOfUs.Resources.Vision.png");
             CompareSprite = CreateSprite("TownOfUs.Resources.Compare.png");
+            ConvinceSprite = CreateSprite("TownOfUs.Resources.Convince.png");
+            SmallKillSprite = CreateSprite("TownOfUs.Resources.Kill.png", 1.5f);
+            RecruitSprite = CreateSprite("TownOfUs.Resources.Recruit.png");
+            OccultistMarkSprite = CreateSprite("TownOfUs.Resources.OccultistMark.png");
             NothingSprite = CreateSprite("TownOfUs.Resources.Nothing.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");
@@ -318,9 +326,9 @@ namespace TownOfUs
             SubmergedCompatibility.Initialize();
         }
 
-        public static Sprite CreateSprite(string name)
+        public static Sprite CreateSprite(string name, float scale = 1f)
         {
-            var pixelsPerUnit = 100f;
+            var pixelsPerUnit = 100f * scale;
             var pivot = new Vector2(0.5f, 0.5f);
 
             var assembly = Assembly.GetExecutingAssembly();

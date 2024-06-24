@@ -13,6 +13,7 @@ namespace TownOfUs.Roles
         public List<byte> InteractingPlayers;
         public bool UsedAbility;
         public DateTime LastVision;
+        public PlayerControl ClosestPlayer;
         public Mystic(PlayerControl player) : base(player)
         {
             Name = "Mystic";

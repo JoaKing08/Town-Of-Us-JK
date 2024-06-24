@@ -12,6 +12,7 @@ using TownOfUs.NeutralRoles.DoomsayerMod;
 using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.Patches;
 using System;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.CrewmateRoles.VigilanteMod
 {
@@ -54,7 +55,6 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
             if (checkLover)
             {
                 SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f);
-                hudManager.KillOverlay.ShowKillAnimation(player.Data, player.Data);
             }
             var amOwner = player.AmOwner;
             if (amOwner)
@@ -99,6 +99,17 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 {
                     var doomsayer = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
                     ShowHideButtonsDoom.HideButtonsDoom(doomsayer);
+                }
+
+                if (player.Is(RoleEnum.Demagogue))
+                {
+                    var demagogue = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
+                    foreach (var entry in demagogue.MeetingKillButtons)
+                    {
+                        entry.Value.text.Destroy();
+                        entry.Value.button.Destroy();
+                    }
+                    demagogue.MeetingKillButtons.Clear();
                 }
             }
             player.Die(DeathReason.Kill, false);
@@ -175,6 +186,22 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
             {
                 var doom = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
                 ShowHideButtonsDoom.HideTarget(doom, voteArea.TargetPlayerId);
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Deputy) && !PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                var dep = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                if (!dep.Revealed)
+                {
+                    dep.ShootButtons[voteArea.TargetPlayerId].Destroy();
+                    dep.ShootButtons.Remove(voteArea.TargetPlayerId);
+                }
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Demagogue) && !PlayerControl.LocalPlayer.Data.IsDead && !player.Is(Faction.Impostors))
+            {
+                var dem = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
+                dem.MeetingKillButtons[voteArea.TargetPlayerId].button.Destroy();
+                dem.MeetingKillButtons[voteArea.TargetPlayerId].text.Destroy();
+                dem.MeetingKillButtons.Remove(voteArea.TargetPlayerId);
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Swapper) && !PlayerControl.LocalPlayer.Data.IsDead)

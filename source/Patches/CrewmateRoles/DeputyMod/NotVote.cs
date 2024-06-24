@@ -16,7 +16,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                 {
                     foreach (var button in deputy.ShootButtons)
                     {
-                        button.Destroy();
+                        button.Value.Destroy();
                     }
                     deputy.ShootButtons.Clear();
                 }

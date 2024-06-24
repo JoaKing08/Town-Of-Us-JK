@@ -6,7 +6,7 @@ using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.CrewmateRoles.AltruistMod;
 
-namespace TownOfUs.CrewmateRoles.ProsecutorMod
+namespace TownOfUs.ImpostorRoles.DemagogueMod
 {
     [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
     public static class AirshipExileController_WrapUpAndSpawn
@@ -19,22 +19,13 @@ namespace TownOfUs.CrewmateRoles.ProsecutorMod
     {
         public static void ExileControllerPostfix(ExileController __instance)
         {
-            foreach (var role in Role.GetRoles(RoleEnum.Prosecutor))
+            foreach (Demagogue demagogue in Role.GetRoles(RoleEnum.Demagogue))
             {
-                var pros = (Prosecutor)role;
-                if (pros.ProsecuteThisMeeting)
+                var exiled = __instance.exiled?.Object;
+                if (exiled != null && exiled.Is(Faction.Crewmates) && exiled.Is(FactionOverride.None) && !exiled.Is(ObjectiveEnum.ImpostorAgent) && !exiled.Is(ObjectiveEnum.ApocalypseAgent) && !exiled.IsLover())
                 {
-                    var exiled = __instance.exiled?.Object;
-                    if (exiled != null && exiled.Is(Faction.Crewmates) && exiled.Is(FactionOverride.None) && !exiled.Is(ObjectiveEnum.ImpostorAgent) && !exiled.Is(ObjectiveEnum.ApocalypseAgent) && !exiled.IsLover())
-                    {
-                        pros.ProsecutionsLeft = 0;
-                        if (CustomGameOptions.ProsDiesOnIncorrectPros)
-                        {
-                            KillButtonTarget.DontRevive = pros.Player.PlayerId;
-                            pros.Player.Exiled();
-                        }
-                    }
-                    pros.ProsecuteThisMeeting = false;
+                    demagogue.Charges += CustomGameOptions.ChargesPerWrongEjection;
+                    Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
                 }
             }
         }

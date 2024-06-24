@@ -185,6 +185,11 @@ namespace TownOfUs
         Miner,
         Undertaker,
 
+        ImpostorPower,
+        Demagogue,
+        Godfather,
+        Occultist,
+
 
         RandomKiller
     }
@@ -280,7 +285,11 @@ namespace TownOfUs
         Blackmailer,
         Janitor,
         Miner,
-        Undertaker
+        Undertaker,
+
+        Demagogue,
+        Godfather,
+        Occultist
     }
     public enum AllowChat
     {
@@ -371,6 +380,9 @@ namespace TownOfUs
         public static int ClericOn => (int)Generate.ClericOn.Get();
         public static int JuggernautOn => (int)Generate.JuggernautOn.Get();
         public static int SageOn => (int)Generate.SageOn.Get();
+        public static int DemagogueOn => (int)Generate.DemagogueOn.Get();
+        public static int GodfatherOn => (int)Generate.GodfatherOn.Get();
+        public static int OccultistOn => (int)Generate.OccultistOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
@@ -791,6 +803,9 @@ namespace TownOfUs
         public static bool UndercoverUndertaker => Generate.UndercoverUndertaker.Get();
         public static bool UndercoverVenerer => Generate.UndercoverVenerer.Get();
         public static bool UndercoverWarlock => Generate.UndercoverWarlock.Get();
+        public static bool UndercoverDemagogue => Generate.UndercoverDemagogue.Get();
+        public static bool UndercoverGodfather => Generate.UndercoverGodfather.Get();
+        public static bool UndercoverOccultist => Generate.UndercoverOccultist.Get();
         public static bool DrunkWearsOff => Generate.DrunkWearsOff.Get();
         public static int DrunkDuration => (int)Generate.DrunkDuration.Get();
         public static int PoltergeistTasksRemainingClicked => (int)Generate.PoltergeistTasksRemainingClicked.Get();
@@ -871,6 +886,19 @@ namespace TownOfUs
         public static bool AllowVision => Generate.AllowVision.Get();
         public static float CompareCooldown => Generate.CompareCooldown.Get();
         public static int CompareAccuracy => (int)Generate.CompareAccuracy.Get();
+        public static float MarkCooldown => Generate.MarkCooldown.Get();
+        public static float MarkCooldownIncrease => Generate.MarkCooldownIncrease.Get();
+        public static bool OccultistCdLinked => Generate.OccultistCdLinked.Get();
+        public static int StartingCharges => (int)Generate.StartingCharges.Get();
+        public static int VotesPerCharge => (int)Generate.VotesPerCharge.Get();
+        public static int ChargesPerWrongEjection => (int)Generate.ChargesPerWrongEjection.Get();
+        public static int ChargesPerRound => (int)Generate.ChargesPerRound.Get();
+        public static int ChargesForExtraVote => (int)Generate.ChargesForExtraVote.Get();
+        public static int MaxExtraVotes => (int)Generate.MaxExtraVotes.Get();
+        public static int ChargesForConvince => (int)Generate.ChargesForConvince.Get();
+        public static float ConvinceCooldown => Generate.ConvinceCooldown.Get();
+        public static int ChargesForMeetingKill => (int)Generate.ChargesForMeetingKill.Get();
+        public static bool MafiosoAssassin => Generate.MafiosoAssassin.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

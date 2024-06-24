@@ -47,15 +47,33 @@ namespace TownOfUs
             {
                 if (blackmailer.Blackmailed != null) blackmailed = blackmailer.Blackmailed.PlayerId;
             }
+            List<byte> convinced = new();
+            foreach (Demagogue demagogue in Role.GetRoles(RoleEnum.Demagogue))
+            {
+                if (demagogue.Convinced != null) convinced = demagogue.Convinced;
+            }
             for (var i = 0; i < __instance.playerStates.Length; i++)
             {
                 var playerVoteArea = __instance.playerStates[i];
+
+                var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
+                if (convinced.Contains(player.PlayerId))
+                {
+                    var demagogue = (Demagogue)Role.GetRoles(RoleEnum.Demagogue).FirstOrDefault();
+                    if (demagogue != null && !demagogue.Player.Data.IsDead && !demagogue.Player.Data.Disconnected)
+                    {
+                        var demagogueVoteArea = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == demagogue.Player.PlayerId);
+                        {
+                            if (!demagogueVoteArea.DidVote) playerVoteArea.UnsetVote();
+                            else playerVoteArea.SetVote(demagogueVoteArea.VotedFor);
+                            playerVoteArea.VotedFor = demagogueVoteArea.VotedFor;
+                        }
+                    }
+                }
                 if (!playerVoteArea.DidVote
                     || playerVoteArea.AmDead
                     || playerVoteArea.VotedFor == PlayerVoteArea.MissedVote
                     || playerVoteArea.VotedFor == PlayerVoteArea.DeadVote) continue;
-
-                var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
                 if (player.PlayerId != blackmailed)
                 {
                     if (player.Is(RoleEnum.Mayor))
@@ -82,6 +100,14 @@ namespace TownOfUs
                         dictionary[playerVoteArea.VotedFor] = num + 1;
                     else
                         dictionary[playerVoteArea.VotedFor] = 1;
+                }
+                if (player.Is(RoleEnum.Demagogue))
+                {
+                    var demagogue = Role.GetRole<Demagogue>(player);
+                    if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
+                        dictionary[playerVoteArea.VotedFor] = num2 + demagogue.ExtraVotes;
+                    else
+                        dictionary[playerVoteArea.VotedFor] = demagogue.ExtraVotes;
                 }
             }
 
@@ -146,6 +172,11 @@ namespace TownOfUs
                         isProsecuting = true;
                     }
                 }
+                List<byte> convinced = new();
+                foreach (Demagogue demagogue in Role.GetRoles(RoleEnum.Demagogue))
+                {
+                    if (demagogue.Convinced != null) convinced = demagogue.Convinced;
+                }
 
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                 {
@@ -156,6 +187,7 @@ namespace TownOfUs
                     for (var stateIdx = 0; stateIdx < states.Length; stateIdx++)
                     {
                         var voteState = states[stateIdx];
+
                         var playerInfo = GameData.Instance.GetPlayerById(voteState.VoterId);
                         foreach (var pros in Role.GetRoles(RoleEnum.Prosecutor))
                         {
@@ -204,17 +236,29 @@ namespace TownOfUs
                         {
                             if (blackmailer.Blackmailed != null) blackmailed = blackmailer.Blackmailed.PlayerId;
                         }
+                        bool skipped = voteState.SkippedVote;
+                        byte votedFor = voteState.VotedForId;
+                        if (convinced.Contains(voteState.VoterId))
+                        {
+                            var demagogue = (Demagogue)Role.GetRoles(RoleEnum.Demagogue).FirstOrDefault();
+                            if (demagogue != null && !demagogue.Player.Data.IsDead && !demagogue.Player.Data.Disconnected)
+                            {
+                                var demagogueVoteState = states.FirstOrDefault(x => x.VoterId == demagogue.Player.PlayerId);
+                                skipped = demagogueVoteState.SkippedVote;
+                                votedFor = voteState.VotedForId;
+                            }
+                        }
                         if (playerInfo == null)
                         {
                             Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
                                 voteState.VoterId));
                         }
-                        else if (i == 0 && voteState.SkippedVote && voteState.VoterId != blackmailed)
+                        else if (i == 0 && skipped && voteState.VoterId != blackmailed)
                         {
                             __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                             amountOfSkippedVoters++;
                         }
-                        else if (voteState.VotedForId == playerVoteArea.TargetPlayerId && voteState.VoterId != blackmailed)
+                        else if (votedFor == playerVoteArea.TargetPlayerId && voteState.VoterId != blackmailed)
                         {
                             __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                             allNums[i]++;
@@ -231,14 +275,14 @@ namespace TownOfUs
                                         Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
                                             voteState.VoterId));
                                     }
-                                    else if (i == 0 && voteState.SkippedVote)
+                                    else if (i == 0 && skipped)
                                     {
                                         __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                                         __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                                         amountOfSkippedVoters++;
                                         amountOfSkippedVoters++;
                                     }
-                                    else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                                    else if (votedFor == playerVoteArea.TargetPlayerId)
                                     {
                                         __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                                         __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
@@ -257,12 +301,12 @@ namespace TownOfUs
                                     Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
                                         voteState.VoterId));
                                 }
-                                else if (i == 0 && voteState.SkippedVote)
+                                else if (i == 0 && skipped)
                                 {
                                     __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                                     amountOfSkippedVoters++;
                                 }
-                                else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                                else if (votedFor == playerVoteArea.TargetPlayerId)
                                 {
                                     __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                                     allNums[i]++;
@@ -270,6 +314,35 @@ namespace TownOfUs
                             }
                         }
                     }
+                }
+                foreach (Demagogue demagogue in Role.GetRoles(RoleEnum.Demagogue))
+                {
+                    if (!demagogue.Player.Data.IsDead && !demagogue.Player.Data.Disconnected && demagogue.ExtraVotes > 0)
+                    {
+                        var playerInfo = GameData.Instance.GetPlayerById(demagogue.Player.PlayerId);
+                        var oldColor = playerInfo.DefaultOutfit.ColorId;
+                        playerInfo.DefaultOutfit.ColorId = 6;
+                        for (var i = 0; i < __instance.playerStates.Length; i++)
+                        {
+                            var playerVoteArea = __instance.playerStates[i];
+                            foreach (var voteState in states.Where(x => x.VoterId == demagogue.Player.PlayerId))
+                            {
+                                if (i == 0 && voteState.SkippedVote)
+                                {
+                                    for (int j = 0; j < demagogue.ExtraVotes; j++) __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                    amountOfSkippedVoters += demagogue.ExtraVotes;
+                                }
+                                else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                                {
+                                    for (int j = 0; j < demagogue.ExtraVotes; j++) __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                    allNums[i] += demagogue.ExtraVotes;
+                                }
+                            }
+                        }
+                        playerInfo.DefaultOutfit.ColorId = oldColor;
+                    }
+                    if (CustomGameOptions.VotesPerCharge > 0) demagogue.Charges += (int)((float)amountOfSkippedVoters / (float)CustomGameOptions.VotesPerCharge);
+                    Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
                 }
                 return false;
             }

@@ -202,6 +202,8 @@ namespace TownOfUs.Modifiers.AssassinMod
                         }
                         else
                         {
+                            Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
                             AssassinKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                             role.RemainingKills--;
                             ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
@@ -226,6 +228,8 @@ namespace TownOfUs.Modifiers.AssassinMod
                     }
                     else
                     {
+                        Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
                         AssassinKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                         role.RemainingKills--;
                         ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);

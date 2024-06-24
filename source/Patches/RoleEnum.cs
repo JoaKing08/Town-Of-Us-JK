@@ -80,6 +80,10 @@ namespace TownOfUs
         Poisoner,
         Sniper,
         Poltergeist,
+        Demagogue,
+        Godfather,
+        Mafioso,
+        Occultist,
 
         Crewmate,
         Impostor,

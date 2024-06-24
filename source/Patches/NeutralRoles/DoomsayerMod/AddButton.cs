@@ -4,6 +4,7 @@ using HarmonyLib;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
@@ -167,6 +168,8 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
 
                 if (toDie == playerRole.Player)
                 {
+                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
                     DoomsayerKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                     ShowHideButtonsDoom.HideSingle(role, targetId, toDie == role.Player);
                     if (toDie.IsLover() && CustomGameOptions.BothLoversDie)

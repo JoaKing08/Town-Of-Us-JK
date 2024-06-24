@@ -488,6 +488,28 @@ namespace TownOfUs.Patches
                 sage.LastCompared = DateTime.UtcNow;
                 sage.LastCompared = sage.LastCompared.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.CompareCooldown);
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Demagogue))
+            {
+                var demagogue = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
+                demagogue.LastConvince = DateTime.UtcNow;
+                demagogue.LastConvince = demagogue.LastConvince.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ConvinceCooldown);
+                demagogue.Charges = CustomGameOptions.StartingCharges;
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Godfather))
+            {
+                var godfather = Role.GetRole<Godfather>(PlayerControl.LocalPlayer);
+                godfather.LastRecruit = DateTime.UtcNow;
+                godfather.LastRecruit = godfather.LastRecruit.AddSeconds(-CustomGameOptions.InitialCooldowns);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Occultist))
+            {
+                var occultist = Role.GetRole<Occultist>(PlayerControl.LocalPlayer);
+                occultist.LastMark = DateTime.UtcNow;
+                occultist.LastMark = occultist.LastMark.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.MarkCooldown);
+            }
         }
     }
 }

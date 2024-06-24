@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using HarmonyLib;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -17,10 +19,93 @@ namespace TownOfUs
         ImpostorsChat,
         ApocalypseChat
     }
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
+    public static class ChatCommands
+    {
+        static bool Prefix(ChatController __instance)
+        {
+            string text = __instance.freeChatField.Text;
+            bool command = false;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                if (text.ToLower().StartsWith("/kick "))
+                {
+                    var component = text[6..];
+                    if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.GetDefaultOutfit().PlayerName == component))
+                    {
+                        AmongUsClient.Instance.KickPlayer(PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component).PlayerId, false);
+                        command = true;
+                    }
+                    else if (component.ToLower().StartsWith("player "))
+                    {
+                        component = component[7..];
+                        if (int.TryParse(component, out int id))
+                        {
+                            AmongUsClient.Instance.KickPlayer(id, false);
+                            command = true;
+                        }
+                    }
+                    else if (int.TryParse(component, out int id))
+                    {
+                        AmongUsClient.Instance.KickPlayer(id, false);
+                        command = true;
+                    }
+                }
+                else if (text.ToLower().StartsWith("/ban "))
+                {
+                    var component = text[5..];
+                    if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.GetDefaultOutfit().PlayerName == component))
+                    {
+                        AmongUsClient.Instance.KickPlayer(PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component).PlayerId, true);
+                        command = true;
+                    }
+                    else if (component.ToLower().StartsWith("player "))
+                    {
+                        component = component[7..];
+                        if (int.TryParse(component, out int id))
+                        {
+                            AmongUsClient.Instance.KickPlayer(id, true);
+                            command = true;
+                        }
+                    }
+                    else if (int.TryParse(component, out int id))
+                    {
+                        AmongUsClient.Instance.KickPlayer(id, true);
+                        command = true;
+                    }
+                }
+            }
+            else if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
+            {
+                if (text.ToLower().StartsWith("/color "))
+                {
+                    var component = text[7..];
+                    if (byte.TryParse(component, out byte id))
+                    {
+                        PlayerControl.LocalPlayer.RpcSetColor((byte)(id % Palette.PlayerColors.Length));
+                    }
+                    else
+                    {
+                        var currentColor = PlayerControl.LocalPlayer.GetDefaultOutfit().ColorId;
+                        for (byte i = 0; i < Palette.PlayerColors.Length; i++)
+                        {
+                            PlayerControl.LocalPlayer.RpcSetColor(i);
+                            if (PlayerControl.LocalPlayer.Data.ColorName.ToLower() == component.ToLower())
+                            {
+                                command = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return !command;
+        }
+    }
     public static class ChatPatches
     {
         private static DateTime MeetingStartTime = DateTime.MinValue;
-
+            
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
         public class MeetingStart
         {

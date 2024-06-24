@@ -106,6 +106,11 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption UndertakerOn;
         public static CustomNumberOption PoltergeistOn;
 
+        public static CustomHeaderOption ImpostorPowerRoles;
+        public static CustomNumberOption DemagogueOn;
+        public static CustomNumberOption GodfatherOn;
+        public static CustomNumberOption OccultistOn;
+
         public static CustomHeaderOption CrewmateModifiers;
         public static CustomNumberOption AftermathOn;
         public static CustomNumberOption BaitOn;
@@ -398,6 +403,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption AmneTurnImpAssassin;
         public static CustomToggleOption AmneTurnNeutAssassin;
         public static CustomToggleOption TraitorCanAssassin;
+        public static CustomToggleOption MafiosoAssassin;
         public static CustomNumberOption AssassinKills;
         public static CustomToggleOption AssassinMultiKill;
         public static CustomToggleOption AssassinCrewmateGuess;
@@ -702,6 +708,9 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption UndercoverBaker;
         public static CustomToggleOption UndercoverBerserker;
         public static CustomToggleOption UndercoverSoulCollector;
+        public static CustomToggleOption UndercoverDemagogue;
+        public static CustomToggleOption UndercoverGodfather;
+        public static CustomToggleOption UndercoverOccultist;
 
         public static CustomHeaderOption Drunk;
         public static CustomToggleOption DrunkWearsOff;
@@ -765,6 +774,22 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Sage;
         public static CustomNumberOption CompareCooldown;
         public static CustomNumberOption CompareAccuracy;
+
+        public static CustomHeaderOption Occultist;
+        public static CustomNumberOption MarkCooldown;
+        public static CustomNumberOption MarkCooldownIncrease;
+        public static CustomToggleOption OccultistCdLinked;
+
+        public static CustomHeaderOption Demagogue;
+        public static CustomNumberOption StartingCharges;
+        public static CustomStringOption VotesPerCharge;
+        public static CustomNumberOption ChargesPerWrongEjection;
+        public static CustomNumberOption ChargesPerRound;
+        public static CustomNumberOption ChargesForExtraVote;
+        public static CustomNumberOption MaxExtraVotes;
+        public static CustomNumberOption ChargesForConvince;
+        public static CustomNumberOption ConvinceCooldown;
+        public static CustomNumberOption ChargesForMeetingKill;
 
         public static CustomHeaderOption RoleListSettings;
         public static Dictionary<int, CustomStringOption> RoleEntries;
@@ -893,6 +918,11 @@ namespace TownOfUs.CustomOption
         "<color=#FF0000FF>Miner</color>",
         "<color=#FF0000FF>Undertaker</color>",
 
+        "<color=#FF0000FF>Impostor</color> <color=#0000FFFF>Power</color>",
+        "<color=#FF0000FF>Demagogue</color>",
+        "<color=#FF0000FF>Godfather</color>",
+        "<color=#FF0000FF>Occultist</color>",
+
 
         "<color=#0000FFFF>Random</color> <color=#FF0000FF>Killer</color>"
     };
@@ -988,7 +1018,11 @@ namespace TownOfUs.CustomOption
         "<color=#FF0000FF>Blackmailer</color>",
         "<color=#FF0000FF>Janitor</color>",
         "<color=#FF0000FF>Miner</color>",
-        "<color=#FF0000FF>Undertaker</color>"
+        "<color=#FF0000FF>Undertaker</color>",
+
+        "<color=#FF0000FF>Demagogue</color>",
+        "<color=#FF0000FF>Godfather</color>",
+        "<color=#FF0000FF>Occultist</color>"
     };
 
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
@@ -1177,6 +1211,14 @@ namespace TownOfUs.CustomOption
             PoltergeistOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Poltergeist</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             UndertakerOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Undertaker</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+
+            ImpostorPowerRoles = new CustomHeaderOption(num++, MultiMenu.imposter, "Impostor Power Roles");
+            DemagogueOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Demagogue</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            GodfatherOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Godfather</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            OccultistOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Occultist</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             CrewmateModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, "Crewmate Modifiers");
@@ -1421,6 +1463,7 @@ namespace TownOfUs.CustomOption
             AmneTurnImpAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Amnesiac Turned Impostor Gets Ability", false);
             AmneTurnNeutAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Amnesiac Turned Neutral Killing Gets Ability", false);
             TraitorCanAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Traitor Gets Ability", false);
+            MafiosoAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Mafioso Gets Ability", false);
             AssassinKills = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Assassin Kills", 1, 1, 15, 1);
             AssassinMultiKill = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Kill More Than Once Per Meeting", false);
             AssassinCrewmateGuess = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess \"Crewmate\"", false);
@@ -1792,6 +1835,12 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Undercover Can Be Miner");
             UndercoverUndertaker =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Undercover Can Be Undertaker");
+            UndercoverDemagogue =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Undercover Can Be Demagogue");
+            UndercoverGodfather =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Undercover Can Be Godfather");
+            UndercoverOccultist =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Undercover Can Be Occultist");
             UndercoverPlaguebearer =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Undercover Can Be Plaguebearer", false);
             UndercoverBaker =
@@ -2227,6 +2276,24 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.imposter, "Undertaker Can Vent", false);
             UndertakerVentWithBody =
                 new CustomToggleOption(num++, MultiMenu.imposter, "Undertaker Can Vent While Dragging", false);
+
+            Occultist = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Occultist</color>");
+            MarkCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Initial Mark Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MarkCooldownIncrease =
+                new CustomNumberOption(num++, MultiMenu.imposter, "Increased Cooldown Per Mark", 7.5f, 0f, 30f, 0.5f, CooldownFormat);
+            OccultistCdLinked =
+                new CustomToggleOption(num++, MultiMenu.imposter, "Occultist Cooldowns Are Linked");
+
+            Demagogue = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Demagogue</color>");
+            StartingCharges = new CustomNumberOption(num++, MultiMenu.imposter, "Charges On Game Start", 0f, 0f, 15f, 1f);
+            VotesPerCharge = new CustomStringOption(num++, MultiMenu.imposter, "Skipped Votes For One Charge", new[] { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" });
+            ChargesPerWrongEjection = new CustomNumberOption(num++, MultiMenu.imposter, "Charges Per Wrongful Ejection", 1f, 0f, 15f, 1f);
+            ChargesPerRound = new CustomNumberOption(num++, MultiMenu.imposter, "Passive Charges Per Meeting", 1f, 0f, 15f, 1f);
+            ChargesForExtraVote = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Extra Vote", 4f, 1f, 15f, 1f);
+            MaxExtraVotes = new CustomNumberOption(num++, MultiMenu.imposter, "Maximum Extra Votes", 4f, 1f, 15f, 1f);
+            ChargesForConvince = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Convince", 6f, 1f, 15f, 1f);
+            ConvinceCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Convince Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            ChargesForMeetingKill = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Meeting Kill", 9f, 1f, 15f, 1f);
 
             Bait = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#00B3B3FF>Bait</color>");
             BaitMinDelay = new CustomNumberOption(num++, MultiMenu.modifiers, "Minimum Delay for the Bait Report", 0f, 0f, 15f, 0.5f, CooldownFormat);

@@ -677,6 +677,17 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 if (inquisitorRole.heretics.Contains(cursedSoul.PlayerId)) inquisitorRole.heretics.Remove(cursedSoul.PlayerId);
             }
 
+            else if (targetRole == RoleEnum.Demagogue)
+            {
+                var demagogueRole = Role.GetRole<Demagogue>(cursedSoul);
+                demagogueRole.LastConvince = DateTime.UtcNow;
+            }
+            else if (targetRole == RoleEnum.Occultist)
+            {
+                var occultistRole = Role.GetRole<Occultist>(cursedSoul);
+                occultistRole.LastMark = DateTime.UtcNow;
+            }
+
             else if (!(cursedSoul.Is(RoleEnum.Altruist) || cursedSoul.Is(RoleEnum.Amnesiac) || cursedSoul.Is(Faction.Impostors)))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);

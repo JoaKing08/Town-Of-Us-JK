@@ -42,14 +42,14 @@ namespace TownOfUs.Roles
         public bool KilledByAbility;
         public GameObject ChatButton;
         public ChatType CurrentChat = ChatType.VanillaChat;
-        public PlayerControl ClosestPlayer;
+        public PlayerControl ClosestPlayerImp;
         //public Dictionary<ChatType, ChatController> ChatControllers = new Dictionary<ChatType, ChatController>();
 
         protected Role(PlayerControl player)
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
-            ClosestPlayer = null;
+            ClosestPlayerImp = null;
             //TotalTasks = player.Data.Tasks.Count;
             //TasksLeft = TotalTasks;
         }
@@ -395,6 +395,14 @@ namespace TownOfUs.Roles
             {
                 PlayerName += "<color=#9628C880> +</color>";
             }
+            if (Player.IsConvinced() && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)))
+            {
+                PlayerName += $" <color=#FF0000FF>#</color>";
+            }
+            if (Player.IsMarked() && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist))
+            {
+                PlayerName += $" <color=#800000FF>@</color>";
+            }
 
             var modifier = Modifier.GetModifier(Player);
             if (modifier != null && modifier.GetColoredSymbol() != null)
@@ -418,6 +426,11 @@ namespace TownOfUs.Roles
                 {
                     PlayerName += $" ({TotalTasks - TasksLeft}/{TotalTasks})";
                 }
+            }
+            if (player != null && Player.Is(RoleEnum.Demagogue))
+            {
+                var demagogue = (Demagogue)this;
+                PlayerName += $" <color=#FF0000FF>({demagogue.Charges})</color>";
             }
             if (Player.Is(ModifierEnum.Drunk) && revealModifier)
             {
@@ -979,10 +992,12 @@ namespace TownOfUs.Roles
                     else if (CustomGameOptions.GameMode == GameMode.RoleList)
                     {
                         var setImpostorAmount = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.RandomImpostor || x == RLRoleEntry.ImpostorConcealing
-                        || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist
-                        || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
-                        || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
-                        || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
+                        || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.ImpostorPower || x == RLRoleEntry.CommonImpostor
+                        || x == RLRoleEntry.UncommonImpostor || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist || x == RLRoleEntry.Grenadier
+                        || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer || x == RLRoleEntry.Bomber
+                        || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper|| x == RLRoleEntry.Blackmailer
+                        || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker || x == RLRoleEntry.Demagogue
+                        || x == RLRoleEntry.Godfather || x == RLRoleEntry.Occultist);
                         var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any || x == RLRoleEntry.RandomKiller);
                         if (anySlots == 0 || setImpostorAmount >= CustomGameOptions.MaxImps) __instance.__4__this.ImpostorText.text = $"There {(setImpostorAmount == 1 ? "is" : "are")} <color=#FF0000FF>{setImpostorAmount} Impostor{(setImpostorAmount == 1 ? "" : "s")}</color> among us";
                         else __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
@@ -1104,10 +1119,12 @@ namespace TownOfUs.Roles
                     else if (CustomGameOptions.GameMode == GameMode.RoleList)
                     {
                         var setImpostorAmount = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.RandomImpostor || x == RLRoleEntry.ImpostorConcealing
-                        || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist
-                        || x == RLRoleEntry.Grenadier || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer
-                        || x == RLRoleEntry.Bomber || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper
-                        || x == RLRoleEntry.Blackmailer || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker);
+                        || x == RLRoleEntry.ImpostorKilling || x == RLRoleEntry.ImpostorSupport || x == RLRoleEntry.ImpostorPower || x == RLRoleEntry.CommonImpostor
+                        || x == RLRoleEntry.UncommonImpostor || x == RLRoleEntry.Impostor || x == RLRoleEntry.Escapist || x == RLRoleEntry.Grenadier
+                        || x == RLRoleEntry.Morphling || x == RLRoleEntry.Swooper || x == RLRoleEntry.Venerer || x == RLRoleEntry.Bomber
+                        || x == RLRoleEntry.Warlock || x == RLRoleEntry.Poisoner || x == RLRoleEntry.Sniper || x == RLRoleEntry.Blackmailer
+                        || x == RLRoleEntry.Janitor || x == RLRoleEntry.Miner || x == RLRoleEntry.Undertaker || x == RLRoleEntry.Demagogue
+                        || x == RLRoleEntry.Godfather || x == RLRoleEntry.Occultist);
                         var anySlots = CustomGameOptions.RoleEntries.Count(x => x == RLRoleEntry.Any || x == RLRoleEntry.RandomKiller);
                         if (anySlots == 0 || setImpostorAmount >= CustomGameOptions.MaxImps) __instance.__4__this.ImpostorText.text = $"There {(setImpostorAmount == 1 ? "is" : "are")} <color=#FF0000FF>{setImpostorAmount} Impostor{(setImpostorAmount == 1 ? "" : "s")}</color> among us";
                         else __instance.__4__this.ImpostorText.text = "There are an <color=#FF0000FF>Unknown Number of Impostors</color> among us";
@@ -1255,7 +1272,7 @@ namespace TownOfUs.Roles
                 }
                 foreach (var role in AllRoles)
                 {
-                    if (role.SnipeArrows.Any()) role.DestroySnipeArrows();
+                    role.DestroySnipeArrows();
                 }
 
                 RoleDictionary.Clear();
@@ -1386,7 +1403,7 @@ namespace TownOfUs.Roles
                         {
                             try
                             {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.Data.Disconnected ? "<color=#808080FF> (D/C)</color>" : "");
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.IsConvinced() && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) ? "<color=#FF0000FF> #</color>" : "") + (role.Player.IsMarked() && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) ? "<color=#800000FF> @</color>" : "");
                             }
                             catch
                             {
@@ -1400,6 +1417,7 @@ namespace TownOfUs.Roles
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                             player.NameText.color = Patches.Colors.Impostor;
                     }
+                    if (Utils.PlayerById(player.TargetPlayerId).Data.Disconnected && !player.NameText.text.Contains("<color=#808080FF> (D/C)</color>")) player.NameText.text += "<color=#808080FF> (D/C)</color>";
                 }
             }
 
@@ -1458,10 +1476,14 @@ namespace TownOfUs.Roles
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                                 player.nameText().color = Patches.Colors.Impostor;
                         }
-                        else if (player.IsKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C8FF> +</color>";
-                        else if (player.ToKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C880> +</color>";
+                        else
+                        {
+                            if (player.IsKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C8FF> +</color>";
+                            else if (player.ToKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C880> +</color>";
+                            if (role.Player.IsConvinced() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) player.nameText().text += "<color=#FF0000FF> #</color>";
+                            if (player.IsMarked() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist)) player.nameText().text += "<color=#800000FF> @</color>";
+                        }
                     }
-
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;
                 }
             }
@@ -1473,14 +1495,14 @@ namespace TownOfUs.Roles
 
         public void DestroySnipeArrows()
         {
-            foreach (var arrow in SnipeArrows)
+            if (SnipeArrows.Any()) foreach (var arrow in SnipeArrows)
             {
                 if (arrow.gameObject != null)
                     Object.Destroy(arrow.gameObject);
                 if (arrow != null)
                     Object.Destroy(arrow);
-                SnipeArrows.Remove(arrow);
             }
+            SnipeArrows.Clear();
         }
 
         public void Notification(string text, double milliseconds)

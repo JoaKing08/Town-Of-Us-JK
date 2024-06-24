@@ -122,6 +122,10 @@ namespace TownOfUs.Roles.Modifiers
                     if (CustomGameOptions.VenererOn > 0) ColorMapping.Add("Venerer", Colors.Impostor);
                     if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
                     if (CustomGameOptions.SniperOn > 0) ColorMapping.Add("Sniper", Colors.Impostor);
+                    if (CustomGameOptions.DemagogueOn > 0) ColorMapping.Add("Demagogue", Colors.Impostor);
+                    if (CustomGameOptions.GodfatherOn > 0) ColorMapping.Add("Godfather", Colors.Impostor);
+                    if (CustomGameOptions.GodfatherOn > 0) ColorMapping.Add("Mafioso", Colors.Impostor);
+                    if (CustomGameOptions.OccultistOn > 0) ColorMapping.Add("Occultist", Colors.Impostor);
                     if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.Impostor);
                 }
                 if (((CustomGameOptions.PlaguebearerOn > 0 && CustomGameOptions.GameMode != GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse) || (CustomGameOptions.GameMode == GameMode.Horseman && CustomGameOptions.AssassinGuessNeutralApocalypse)) && !PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
@@ -191,6 +195,10 @@ namespace TownOfUs.Roles.Modifiers
                     ColorMapping.Add("Venerer", Colors.Impostor);
                     ColorMapping.Add("Poisoner", Colors.Impostor);
                     ColorMapping.Add("Sniper", Colors.Impostor);
+                    ColorMapping.Add("Demagogue", Colors.Impostor);
+                    ColorMapping.Add("Godfather", Colors.Impostor);
+                    ColorMapping.Add("Mafioso", Colors.Impostor);
+                    ColorMapping.Add("Occultist", Colors.Impostor);
                     if (CustomGameOptions.ImpostorAgentOn > 0) ColorMapping.Add("Agent (Imp)", Colors.ImpostorAgent);
                 }
 

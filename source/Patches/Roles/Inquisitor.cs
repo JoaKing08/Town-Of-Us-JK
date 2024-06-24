@@ -144,7 +144,9 @@ namespace TownOfUs.Roles
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Blackmailer) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Janitor) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Miner) ||
                         Utils.PlayerById(_heretics[i]).Is(RoleEnum.Undertaker))
                         aligment = "<color=#FF0000FF>Impostor Support</color>";
-                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Impostor))
+                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Demagogue) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Godfather) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Occultist))
+                        aligment = "<color=#FF0000FF>Impostor Power</color>";
+                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Impostor) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Mafioso))
                         aligment = "<color=#FF0000FF>Impostor</color>";
                     hereticInfo += aligment;
                     if (i == _heretics.Count - 2) hereticInfo += " and ";
