@@ -17,9 +17,9 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 | [Poisoner](#poisoner)        | [Oracle](#oracle)                  | [Werewolf](#werewolf)            | [Sleuth](#sleuth)            |
 | [Sniper](#sniper)            | [Prosecutor](#prosecutor)          | [Berserker](#berserker)          | [Tiebreaker](#tiebreaker)    |
 | [Poltergeist](#poltergeist)  | [Seer](#seer)                      | [Baker](#baker)                  | [Torch](#torch)              |
-|                              | [Sheriff](#sheriff)                | [Soul Collector](#soul-collector)| [Underdog](#underdog)        |
-|                              | [Snitch](#snitch)                  | [Serial Killer](#serial-killer)  | [Famous](#famous)            |
-|                              | [Spy](#spy)                        | [Pirate](#pirate)                | [Drunk](#drunk)              |
+| [Demagogue](#demagogue)      | [Sheriff](#sheriff)                | [Soul Collector](#soul-collector)| [Underdog](#underdog)        |
+| [Godfather](#godfather)      | [Snitch](#snitch)                  | [Serial Killer](#serial-killer)  | [Famous](#famous)            |
+| [Occultist](#occultist)      | [Spy](#spy)                        | [Pirate](#pirate)                | [Drunk](#drunk)              |
 |                              | [Swapper](#swapper)                | [Inquisitor](#inquisitor)        | [Tasker](#tasker)            |
 |                              | [Tracker](#tracker)                | [Cursed Soul](#cursed-soul)      | [Agent](#agent)              |
 |                              | [Trapper](#trapper)                | [Witch](#witch)                  |                              |
@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.2) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.1.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.1.2) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.1.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.1.1) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.1.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.1.0) |
@@ -717,6 +718,9 @@ Impostors/Apocalypse see Undercover as undercovered role.
 | Undercover Can Be Janitor | Can undercover role be Janitor | Toggle | True |
 | Undercover Can Be Miner | Can undercover role be Miner | Toggle | True |
 | Undercover Can Be Undertaker | Can undercover role be Undertaker | Toggle | True |
+| Undercover Can Be Demagogue | Can undercover role be Demagogue | Toggle | True |
+| Undercover Can Be Godfather | Can undercover role be Godfather | Toggle | True |
+| Undercover Can Be Occultist | Can undercover role be Occultist | Toggle | True |
 | Undercover Can Be Plaguebearer | Can undercover role be Plaguebearer | Toggle | False |
 | Undercover Can Be Baker | Can undercover role be Baker | Toggle | False |
 | Undercover Can Be Berserker | Can undercover role be Berserker | Toggle | False |
@@ -1440,6 +1444,67 @@ However, if the Poltergeist is clicked Impostor cooldown gets back to normal and
 | Who can Click Poltergeist | Whether even other Impostors can click the Haunter | All / Non-Imps / Crew Only | All |
 
 -----------------------
+## Demagogue
+### **Team: Impostors**
+
+The Demagogue is an Impostor with various meeting abilities.\
+Every ability needs set number of Charges to work, those Charges will be removed.\
+Demagogue has many ways to gain Charges:\
+    Demagogue will gain one Charge for set number of skipped votes.\
+    Demagogue will also gain Charges when Crewmate gets ejected.\
+    Demagogue can also gain Charges after each meeting.\
+Demagogue's abilities are:\
+    First ability gives Demagogue one Extra Vote, stackable.\
+    Second ability is called Convince and forces a player to vote with Demagogue.\
+    And last ability allows to kill one player one meeting.
+
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Demagogue | The percentage probability of the Demagogue appearing | Percentage | 0% |
+| Charges On Game Start | Number of Charges on game start | Number | 0 |
+| Skipped Votes For One Charge | Number of skipped votes needed to gain one Charge | Number | Off |
+| Charges Per Wrongful Ejection | Number of Charges gained after ejecting a Crewmate | Number | 1 |
+| Passive Charges Per Meeting | Number of Charges gained after each meeting | Number | 1 |
+| Charges For Extra Vote | Charges needed for Extra Vote ability | Number | 4 |
+| Maximum Extra Votes | The maximum number of Extra Votes | Number | 4 |
+| Charges For Convince | Charges needed for Convince ability | Number | 6 |
+| Convince Cooldown | The cooldown of the Demagogue Convince ability | Time | 25s |
+| Charges For Meeting Kill | Charges needed for Meeting Kill ability | Number | 9 |
+
+-----------------------
+## Godfather
+### **Team: Impostors**
+
+The Godfather is an Impostor which can turn one Crewmate into Mafioso.\
+Mafioso will now work with Impostors.\
+Godfather cannot kill while Mafioso is alive.
+
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Godfather | The percentage probability of the Godfather appearing | Percentage | 0% |
+
+-----------------------
+## Occultist
+### **Team: Impostors**
+
+The Occultist is an Impostor which can Mark players to kill everyone.\
+Once all living players are Marked they die.\
+Depending on settings Kill and Mark cooldowns are linked.
+
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Occultist | The percentage probability of the Occultist appearing | Percentage | 0% |
+| Initial Mark Cooldown | The initial cooldown of the Occultist Mark ability | Time | 25s |
+| Increased Cooldown Per Mark | The cooldown increase for the Occultist Mark ability per Marked player | Time | 7.5s |
+| Occultist Cooldowns Are Linked | Whether the Occultist's cooldowns are linked | Toggle | True |
+
+-----------------------
 
 # Modifiers
 Modifiers are added on top of players' roles.
@@ -1820,6 +1885,7 @@ If they guess wrong, they die instead.
 | Amnesiac Turned Impostor Can Assassinate | Whether former Amnesiacs now Impostor can Assassinate | Toggle | False |
 | Amnesiac Turned Neutral Killing Can Assassinate | Whether former Amnesiacs now Neutral Killers can Assassinate | Toggle | False |
 | Traitor Can Assassinate | If someone turns into a Traitor they can Assassinate | Toggle | False |
+| Mafioso Can Assassinate | If someone turns into a Mafioso they can Assassinate | Toggle | False |
 | Assassin Kill | The number of kill the Assassin can do with his ability | Number | 1 |
 | Assassin Guess Crewmate | Whether the Assassin can Guess "Crewmate" | Toggle | False |
 | Assassin Multiple Kill  | Whether the Assassin can kill more than once per meeting | Toggle | False |

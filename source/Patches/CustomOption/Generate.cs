@@ -2277,13 +2277,6 @@ namespace TownOfUs.CustomOption
             UndertakerVentWithBody =
                 new CustomToggleOption(num++, MultiMenu.imposter, "Undertaker Can Vent While Dragging", false);
 
-            Occultist = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Occultist</color>");
-            MarkCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Initial Mark Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            MarkCooldownIncrease =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Increased Cooldown Per Mark", 7.5f, 0f, 30f, 0.5f, CooldownFormat);
-            OccultistCdLinked =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Occultist Cooldowns Are Linked");
-
             Demagogue = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Demagogue</color>");
             StartingCharges = new CustomNumberOption(num++, MultiMenu.imposter, "Charges On Game Start", 0f, 0f, 15f, 1f);
             VotesPerCharge = new CustomStringOption(num++, MultiMenu.imposter, "Skipped Votes For One Charge", new[] { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" });
@@ -2294,6 +2287,13 @@ namespace TownOfUs.CustomOption
             ChargesForConvince = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Convince", 6f, 1f, 15f, 1f);
             ConvinceCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Convince Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             ChargesForMeetingKill = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Meeting Kill", 9f, 1f, 15f, 1f);
+
+            Occultist = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Occultist</color>");
+            MarkCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Initial Mark Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MarkCooldownIncrease =
+                new CustomNumberOption(num++, MultiMenu.imposter, "Increased Cooldown Per Mark", 7.5f, 0f, 30f, 0.5f, CooldownFormat);
+            OccultistCdLinked =
+                new CustomToggleOption(num++, MultiMenu.imposter, "Occultist Cooldowns Are Linked");
 
             Bait = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#00B3B3FF>Bait</color>");
             BaitMinDelay = new CustomNumberOption(num++, MultiMenu.modifiers, "Minimum Delay for the Bait Report", 0f, 0f, 15f, 0.5f, CooldownFormat);
