@@ -2296,7 +2296,7 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Trapper) || player.Is(RoleEnum.Godfather) || player.Is(RoleEnum.Cleric))
                 return $"<b>{player.GetDefaultOutfit().PlayerName}</b> wants to <b>keep his hands clean</b>";
             else if (player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Occultist) || player.Is(RoleEnum.Sage)
-                 || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Crusader))
+                 || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Crusader) || player.Is(RoleEnum.Mafioso))
                 return $"<b>{player.GetDefaultOutfit().PlayerName}</b> is able to <b>hear the gods voice</b>";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return $"<b>{player.GetDefaultOutfit().PlayerName}</b> appears to <b>be roleless</b>";
@@ -2344,8 +2344,8 @@ namespace TownOfUs
                  || player.Is(RoleEnum.Trapper) || player.Is(RoleEnum.Godfather) || player.Is(RoleEnum.Cleric))
                 return $"(<b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Jackal</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>, <b><color=#{Patches.Colors.Monarch.ToHtmlStringRGBA()}>Monarch</color></b>, <b><color=#{Patches.Colors.Trapper.ToHtmlStringRGBA()}>Trapper</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b> or <b><color=#{Patches.Colors.Cleric.ToHtmlStringRGBA()}>Cleric</color></b>)";
             else if (player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Occultist) || player.Is(RoleEnum.Sage)
-                 || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Crusader))
-                return $"(<b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>, <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>, <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>, <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b> or <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>)";
+                 || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Crusader) || player.Is(RoleEnum.Mafioso))
+                return $"(<b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>, <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>, <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>, <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Mafioso</color></b> or <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>)";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return $"(<b><color=#00FFFFFF>Crewmate</color></b> or <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>)";
             else
@@ -2378,6 +2378,10 @@ namespace TownOfUs
                 case RoleEnum.Whisperer:
                 case RoleEnum.Necromancer:
                 case RoleEnum.SoloKiller:
+                case RoleEnum.Demagogue:
+                case RoleEnum.Godfather:
+                case RoleEnum.Occultist:
+                case RoleEnum.Mafioso:
                     return Colors.Impostor;
 
                 case RoleEnum.Plaguebearer:
@@ -2560,6 +2564,14 @@ namespace TownOfUs
                     return GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner";
                 case RoleEnum.Undertaker:
                     return "Undertaker";
+                case RoleEnum.Demagogue:
+                    return "Demagogue";
+                case RoleEnum.Godfather:
+                    return "Godfather";
+                case RoleEnum.Occultist:
+                    return "Occultist";
+                case RoleEnum.Mafioso:
+                    return "Mafioso";
                 case RoleEnum.Whisperer:
                     return "Whisperer";
                 case RoleEnum.Necromancer:
