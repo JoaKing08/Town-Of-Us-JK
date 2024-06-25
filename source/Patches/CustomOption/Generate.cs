@@ -785,6 +785,7 @@ namespace TownOfUs.CustomOption
         public static CustomStringOption VotesPerCharge;
         public static CustomNumberOption ChargesPerWrongEjection;
         public static CustomNumberOption ChargesPerRound;
+        public static CustomNumberOption MaxCharges;
         public static CustomNumberOption ChargesForExtraVote;
         public static CustomNumberOption MaxExtraVotes;
         public static CustomNumberOption ChargesForConvince;
@@ -2282,6 +2283,7 @@ namespace TownOfUs.CustomOption
             VotesPerCharge = new CustomStringOption(num++, MultiMenu.imposter, "Skipped Votes For One Charge", new[] { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" });
             ChargesPerWrongEjection = new CustomNumberOption(num++, MultiMenu.imposter, "Charges Per Wrongful Ejection", 1f, 0f, 15f, 1f);
             ChargesPerRound = new CustomNumberOption(num++, MultiMenu.imposter, "Passive Charges Per Meeting", 1f, 0f, 15f, 1f);
+            MaxCharges = new CustomNumberOption(num++, MultiMenu.imposter, "Maximum Charges", 15f, 5f, 50f, 5f);
             ChargesForExtraVote = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Extra Vote", 4f, 1f, 15f, 1f);
             MaxExtraVotes = new CustomNumberOption(num++, MultiMenu.imposter, "Maximum Extra Votes", 4f, 1f, 15f, 1f);
             ChargesForConvince = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Convince", 6f, 1f, 15f, 1f);

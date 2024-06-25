@@ -11,7 +11,15 @@ namespace TownOfUs.Roles
     public class Demagogue : Role
 
     {
-        public int Charges { get; set; }
+        private int _charges;
+        public int Charges {
+            get => _charges;
+            set
+            {
+                if (value > CustomGameOptions.MaxCharges) _charges = CustomGameOptions.MaxCharges;
+                else _charges = value;
+            }
+        }
         public int ExtraVotes { get; set; }
         public List<byte> Convinced { get; set; }
         public KillButton _convinceButton;

@@ -893,6 +893,7 @@ namespace TownOfUs
         public static int VotesPerCharge => (int)Generate.VotesPerCharge.Get();
         public static int ChargesPerWrongEjection => (int)Generate.ChargesPerWrongEjection.Get();
         public static int ChargesPerRound => (int)Generate.ChargesPerRound.Get();
+        public static int MaxCharges => (int)Generate.MaxCharges.Get();
         public static int ChargesForExtraVote => (int)Generate.ChargesForExtraVote.Get();
         public static int MaxExtraVotes => (int)Generate.MaxExtraVotes.Get();
         public static int ChargesForConvince => (int)Generate.ChargesForConvince.Get();

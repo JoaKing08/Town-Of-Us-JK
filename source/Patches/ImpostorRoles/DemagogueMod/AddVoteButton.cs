@@ -12,7 +12,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
         public static void UpdateButton(Demagogue role, MeetingHud __instance)
         {
             var skip = __instance.SkipVoteButton;
-            role.ExtraVote.gameObject.SetActive(true);
+            role.ExtraVote.gameObject.SetActive(skip.gameObject.active);
             role.ExtraVote.voteComplete = skip.voteComplete;
             role.ExtraVote.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
             var value = role.ExtraVotes / (float)CustomGameOptions.MaxExtraVotes;
@@ -99,9 +99,21 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
             {
                 if (!PlayerControl.LocalPlayer.Is(RoleEnum.Demagogue)) return;
                 var demRole = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
-                foreach (var text in demRole.MeetingKillButtons.Select(x => x.Value.text))
+                foreach (var value in demRole.MeetingKillButtons.Select(x => x.Value))
                 {
-                    text.color = demRole.Charges >= CustomGameOptions.ChargesForMeetingKill ? Color.green : Color.red;
+                    var renderer = value.button.GetComponent<SpriteRenderer>();
+                    if (demRole.Charges < CustomGameOptions.ChargesForMeetingKill)
+                    {
+                        renderer.color = Palette.DisabledClear;
+                        renderer.material.SetFloat("_Desat", 1f);
+                        value.text.color = Color.red;
+                    }
+                    else
+                    {
+                        renderer.color = Palette.EnabledColor;
+                        renderer.material.SetFloat("_Desat", 0f);
+                        value.text.color = Color.green; 
+                    }
                 }
                 switch (__instance.state)
                 {

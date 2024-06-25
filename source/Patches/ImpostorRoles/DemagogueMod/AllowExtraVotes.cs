@@ -1,5 +1,7 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.ImpostorRoles.DemagogueMod
 {
@@ -25,6 +27,12 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                 {
                     if (role.Charges >= CustomGameOptions.ChargesForExtraVote && role.ExtraVotes < CustomGameOptions.MaxExtraVotes)
                     {
+                        if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                            role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                            return false;
+                        }
                         role.ExtraVotes++;
                         role.Charges -= CustomGameOptions.ChargesForExtraVote;
                         Utils.Rpc(CustomRPC.DemagogueCharges, role.Charges, role.Player.PlayerId);

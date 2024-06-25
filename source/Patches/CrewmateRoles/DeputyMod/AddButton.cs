@@ -45,6 +45,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
         {
             void Listener()
             {
+                if (MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion) return;
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));

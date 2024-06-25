@@ -53,6 +53,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
         {
             void Listener()
             {
+                if (MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion) return;
                 if (role.Charges < CustomGameOptions.ChargesForMeetingKill) return;
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
