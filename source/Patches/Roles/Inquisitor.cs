@@ -36,7 +36,7 @@ namespace TownOfUs.Roles
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
             if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
-            if (!HereticsDead || !heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected)) return true;
+            if (!HereticsDead || heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected)) return true;
             if (!Player.Is(FactionOverride.None)) return true;
             Utils.EndGame();
             return false;
