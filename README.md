@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.1) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.1.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.1.2) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.1.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.1.1) |
@@ -1467,6 +1468,7 @@ Demagogue's abilities are:\
 | Skipped Votes For One Charge | Number of skipped votes needed to gain one Charge | Number | Off |
 | Charges Per Wrongful Ejection | Number of Charges gained after ejecting a Crewmate | Number | 1 |
 | Passive Charges Per Meeting | Number of Charges gained after each meeting | Number | 1 |
+| Maximum Charges | The maximum number of Charges | Number | 15 |
 | Charges For Extra Vote | Charges needed for Extra Vote ability | Number | 4 |
 | Maximum Extra Votes | The maximum number of Extra Votes | Number | 4 |
 | Charges For Convince | Charges needed for Convince ability | Number | 6 |
