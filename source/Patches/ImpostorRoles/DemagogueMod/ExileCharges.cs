@@ -24,8 +24,8 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                 var exiled = __instance.exiled?.Object;
                 if (exiled != null && exiled.Is(Faction.Crewmates) && exiled.Is(FactionOverride.None) && !exiled.Is(ObjectiveEnum.ImpostorAgent) && !exiled.Is(ObjectiveEnum.ApocalypseAgent) && !exiled.IsLover())
                 {
-                    demagogue.Charges += CustomGameOptions.ChargesPerWrongEjection;
-                    Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
+                    demagogue.Charges += (byte)CustomGameOptions.ChargesPerWrongEjection;
+                    if (PlayerControl.LocalPlayer.PlayerId == demagogue.Player.PlayerId) Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
                 }
             }
         }

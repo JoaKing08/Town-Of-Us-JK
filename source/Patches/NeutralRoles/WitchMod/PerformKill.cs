@@ -48,7 +48,7 @@ namespace TownOfUs.NeutralRoles.WitchMod
             else
             {
                 role.LastControl = DateTime.UtcNow;
-                Utils.Rpc(CustomRPC.ControlPerform, PlayerControl.LocalPlayer.PlayerId, role.ControledPlayer.PlayerId, role.ClosestPlayer.PlayerId);
+                Utils.Rpc(CustomRPC.ControlPerform, PlayerControl.LocalPlayer.PlayerId, role.ControledPlayer.PlayerId, role.ClosestPlayer == null ? byte.MaxValue : role.ClosestPlayer.PlayerId);
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
             }
             return false;

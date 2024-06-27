@@ -1283,6 +1283,15 @@ namespace TownOfUs.Roles
             }
         }
 
+        [HarmonyPatch(typeof(ExileController), nameof(ExileController.HandleText))]
+        public static class ExileTextPatch
+        {
+            public static void Postfix(ExileController __instance)
+            {
+                __instance.Text.bounds.Expand(new Vector3(20, 20, 20));
+            }
+        }
+
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString), typeof(StringNames),
             typeof(Il2CppReferenceArray<Il2CppSystem.Object>))]
         public static class TranslationController_GetString
@@ -1417,7 +1426,7 @@ namespace TownOfUs.Roles
                         else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
                             player.NameText.color = Patches.Colors.Impostor;
                     }
-                    if (Utils.PlayerById(player.TargetPlayerId).Data.Disconnected && !player.NameText.text.Contains("<color=#808080FF> (D/C)</color>")) player.NameText.text += "<color=#808080FF> (D/C)</color>";
+                    if ((Utils.PlayerById(player.TargetPlayerId) == null || Utils.PlayerById(player.TargetPlayerId).Data.Disconnected) && !player.NameText.text.Contains("<color=#808080FF> (D/C)</color>")) player.NameText.text += "<color=#808080FF> (D/C)</color>";
                 }
             }
 

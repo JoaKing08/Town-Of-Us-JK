@@ -2238,7 +2238,7 @@ namespace TownOfUs
             {
                 var demagogue = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
                 demagogue.LastConvince = DateTime.UtcNow;
-                demagogue.Charges += CustomGameOptions.ChargesPerRound;
+                demagogue.Charges += (byte)CustomGameOptions.ChargesPerRound;
                 Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
             }
             foreach (Demagogue demagogue in Role.GetRoles(RoleEnum.Demagogue))

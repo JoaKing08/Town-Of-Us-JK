@@ -45,6 +45,7 @@ namespace TownOfUs.RainbowMod
                 1000014 => "Neon Pink",
                 1000015 => "Woody Brown",
                 1000016 => "Black & White",
+                1000017 => "Buggy Yellow",
                 _ => null
             };
             if (newResult != null)

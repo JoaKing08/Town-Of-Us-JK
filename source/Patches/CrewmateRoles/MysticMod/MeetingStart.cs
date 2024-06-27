@@ -42,6 +42,7 @@ namespace TownOfUs.CrewmateRoles.MysticMod
                     foreach (var player in players.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName}</b>, ";
                     message = message.Remove(message.Length - 2);
                 }
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);
             }
             mysticRole.InteractingPlayers = new List<byte>();
             mysticRole.PlayersInteracted = new List<byte>();

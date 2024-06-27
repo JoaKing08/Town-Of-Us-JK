@@ -494,7 +494,7 @@ namespace TownOfUs.Patches
                 var demagogue = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
                 demagogue.LastConvince = DateTime.UtcNow;
                 demagogue.LastConvince = demagogue.LastConvince.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ConvinceCooldown);
-                demagogue.Charges = CustomGameOptions.StartingCharges;
+                demagogue.Charges = (byte)CustomGameOptions.StartingCharges;
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Godfather))

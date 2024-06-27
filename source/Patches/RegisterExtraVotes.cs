@@ -57,7 +57,7 @@ namespace TownOfUs
                 var playerVoteArea = __instance.playerStates[i];
 
                 var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
-                if (convinced.Contains(player.PlayerId))
+                if (convinced.Any() && convinced.Contains(player.PlayerId))
                 {
                     var demagogue = (Demagogue)Role.GetRoles(RoleEnum.Demagogue).FirstOrDefault();
                     if (demagogue != null && !demagogue.Player.Data.IsDead && !demagogue.Player.Data.Disconnected)
@@ -341,8 +341,8 @@ namespace TownOfUs
                         }
                         playerInfo.DefaultOutfit.ColorId = oldColor;
                     }
-                    if (CustomGameOptions.VotesPerCharge > 0) demagogue.Charges += (int)((float)amountOfSkippedVoters / (float)CustomGameOptions.VotesPerCharge);
-                    Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
+                    if (CustomGameOptions.VotesPerCharge > 0) demagogue.Charges += (byte)((float)amountOfSkippedVoters / (float)CustomGameOptions.VotesPerCharge);
+                    if (PlayerControl.LocalPlayer.PlayerId == demagogue.Player.PlayerId) Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);
                 }
                 return false;
             }

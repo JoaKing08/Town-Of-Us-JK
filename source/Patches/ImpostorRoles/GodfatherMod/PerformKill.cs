@@ -82,7 +82,6 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
                     player.nameText().color = Patches.Colors.Impostor;
                 }
             }
-            Role.RoleDictionary.Add(target.PlayerId, mafioso);
         }
     }
 }

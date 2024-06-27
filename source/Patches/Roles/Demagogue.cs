@@ -11,12 +11,12 @@ namespace TownOfUs.Roles
     public class Demagogue : Role
 
     {
-        private int _charges;
-        public int Charges {
+        private byte _charges;
+        public byte Charges {
             get => _charges;
             set
             {
-                if (value > CustomGameOptions.MaxCharges) _charges = CustomGameOptions.MaxCharges;
+                if (value > CustomGameOptions.MaxCharges) _charges = (byte)CustomGameOptions.MaxCharges;
                 else _charges = value;
             }
         }
@@ -37,7 +37,7 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Demagogue;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-            Charges = CustomGameOptions.StartingCharges;
+            Charges = (byte)CustomGameOptions.StartingCharges;
             ExtraVotes = 0;
             Convinced = new();
         }

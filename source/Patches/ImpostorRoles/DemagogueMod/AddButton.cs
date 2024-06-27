@@ -61,7 +61,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                     role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
-                role.Charges -= CustomGameOptions.ChargesForMeetingKill;
+                role.Charges -= (byte)CustomGameOptions.ChargesForMeetingKill;
                 Utils.Rpc(CustomRPC.DemagogueCharges, role.Charges, role.Player.PlayerId);
                 AddVoteButton.UpdateButton(role, MeetingHud.Instance);
                 var target = Utils.PlayerById(targetId);
@@ -85,7 +85,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Demagogue)) return;
             var demagoguerole = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
             for (var i = 0; i < __instance.playerStates.Length; i++)
-                if (PlayerControl.LocalPlayer.PlayerId != __instance.playerStates[i].TargetPlayerId && !Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Data.IsDead && !Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Data.Disconnected && !(PlayerControl.LocalPlayer.Is(FactionOverride.None) && (((Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(Faction.Impostors) || (Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && !Utils.CheckImpostorFriendlyFire()) || Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(ObjectiveEnum.ImpostorAgent))) && !(PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(FactionOverride.Undead)) && !(PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(FactionOverride.Recruit) && (!Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(RoleEnum.Jackal) || CustomGameOptions.RecruistSeeJackal)))
+                if (Utils.PlayerById(__instance.playerStates[i].TargetPlayerId) != null && PlayerControl.LocalPlayer.PlayerId != __instance.playerStates[i].TargetPlayerId && !Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Data.IsDead && !Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Data.Disconnected && !(PlayerControl.LocalPlayer.Is(FactionOverride.None) && (((Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(Faction.Impostors) || (Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && !Utils.CheckImpostorFriendlyFire()) || Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(ObjectiveEnum.ImpostorAgent))) && !(PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(FactionOverride.Undead)) && !(PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(FactionOverride.Recruit) && (!Utils.PlayerById(__instance.playerStates[i].TargetPlayerId).Is(RoleEnum.Jackal) || CustomGameOptions.RecruistSeeJackal)))
                 {
                     GenButton(demagoguerole, i, __instance.playerStates[i].TargetPlayerId);
                 }

@@ -688,7 +688,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             {
                 var demagogueRole = Role.GetRole<Demagogue>(amnesiac);
                 demagogueRole.LastConvince = DateTime.UtcNow;
-                demagogueRole.Charges = CustomGameOptions.StartingCharges;
+                demagogueRole.Charges = (byte)CustomGameOptions.StartingCharges;
                 demagogueRole.Convinced.Clear();
             }
             else if (role == RoleEnum.Occultist)
