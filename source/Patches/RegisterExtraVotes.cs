@@ -57,7 +57,7 @@ namespace TownOfUs
                 var playerVoteArea = __instance.playerStates[i];
 
                 var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
-                if (convinced.Any() && convinced.Contains(player.PlayerId))
+                if (convinced.Any() && player != null && convinced.Contains(player.PlayerId))
                 {
                     var demagogue = (Demagogue)Role.GetRoles(RoleEnum.Demagogue).FirstOrDefault();
                     if (demagogue != null && !demagogue.Player.Data.IsDead && !demagogue.Player.Data.Disconnected)

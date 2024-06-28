@@ -75,22 +75,22 @@ namespace TownOfUs
                     }
                 }
             }
-            else if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
+            /*else if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
             {
                 if (text.ToLower().StartsWith("/color "))
                 {
                     var component = text[7..];
                     if (byte.TryParse(component, out byte id))
                     {
-                        PlayerControl.LocalPlayer.RpcSetColor((byte)(id % Palette.PlayerColors.Length));
+                        PlayerControl.LocalPlayer.SetColor((byte)(id % Palette.PlayerColors.Length));
                     }
                     else
                     {
                         var currentColor = PlayerControl.LocalPlayer.GetDefaultOutfit().ColorId;
                         for (byte i = 0; i < Palette.PlayerColors.Length; i++)
                         {
-                            PlayerControl.LocalPlayer.RpcSetColor(i);
-                            if (PlayerControl.LocalPlayer.Data.ColorName.ToLower() == component.ToLower())
+                            PlayerControl.LocalPlayer.SetColor(i);
+                            if (PlayerControl.LocalPlayer.Data.ColorName.RemoveAll(new char[] { '(', ')' }).ToLower() == component.ToLower())
                             {
                                 command = true;
                                 break;
@@ -98,7 +98,7 @@ namespace TownOfUs
                         }
                     }
                 }
-            }
+            }*/
             return !command;
         }
     }

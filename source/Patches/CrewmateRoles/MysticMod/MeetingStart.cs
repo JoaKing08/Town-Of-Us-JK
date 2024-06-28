@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,13 @@ namespace TownOfUs.CrewmateRoles.MysticMod
                 if (!mysticRole.PlayersInteracted.Any())
                 {
                     message += "Your vision was about few ants in diffrent colors picking sugar cube... <b>" + Utils.PlayerById(mysticRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacting</b> and <b>was interacted by</b>: \n";
-                    foreach (var player in mysticRole.InteractingPlayers.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName}</b>, ";
+                    foreach (var player in mysticRole.InteractingPlayers.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName.RemoveAll(new char[] { '(', ')' })}</b>, ";
                     message = message.Remove(message.Length - 2);
                 }
                 else if (!mysticRole.InteractingPlayers.Any())
                 {
                     message += "Your vision was about flytrap catching few colored butterflies... <b>" + Utils.PlayerById(mysticRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacted</b> and <b>interacted with</b>: \n";
-                    foreach (var player in mysticRole.PlayersInteracted.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName}</b>, ";
+                    foreach (var player in mysticRole.PlayersInteracted.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName.RemoveAll(new char[] { '(', ')' })}</b>, ";
                     message = message.Remove(message.Length - 2);
                 }
                 else
@@ -39,7 +40,7 @@ namespace TownOfUs.CrewmateRoles.MysticMod
                     var players = new List<byte>();
                     players.AddRange(mysticRole.PlayersInteracted);
                     players.AddRange(mysticRole.InteractingPlayers);
-                    foreach (var player in players.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName}</b>, ";
+                    foreach (var player in players.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName.RemoveAll(new char[] { '(', ')' })}</b>, ";
                     message = message.Remove(message.Length - 2);
                 }
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);

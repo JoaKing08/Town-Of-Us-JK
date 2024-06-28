@@ -208,7 +208,7 @@ namespace TownOfUs
                     {
                         var witchData = new WinningPlayerData(witch.Player.Data);
                         if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                        TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                        TempData.winners.Add(witchData);
                     }
                 }
                 return;
@@ -229,7 +229,7 @@ namespace TownOfUs
                     {
                         var survData = new WinningPlayerData(surv.Player.Data);
                         if (PlayerControl.LocalPlayer != surv.Player) survData.IsYou = false;
-                        TempData.winners.Add(new WinningPlayerData(surv.Player.Data));
+                        TempData.winners.Add(survData);
                     }
                 }
                 foreach (var role in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
@@ -239,7 +239,7 @@ namespace TownOfUs
                     {
                         var witchData = new WinningPlayerData(witch.Player.Data);
                         if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                        TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                        TempData.winners.Add(witchData);
                     }
                 }
 
@@ -275,7 +275,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -303,7 +303,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -331,7 +331,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -359,7 +359,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -387,7 +387,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -415,7 +415,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -456,7 +456,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;
@@ -491,7 +491,7 @@ namespace TownOfUs
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
-                                    TempData.winners.Add(new WinningPlayerData(witch.Player.Data));
+                                    TempData.winners.Add(witchData);
                                 }
                             }
                             return;

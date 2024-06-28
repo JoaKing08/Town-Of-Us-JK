@@ -208,6 +208,15 @@ namespace TownOfUs.Roles
                         case RoleEnum.Sage:
                             message += $" compared by <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>";
                             break;
+                        case RoleEnum.Demagogue:
+                            message += $" convinced by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Demagogue</color></b>";
+                            break;
+                        case RoleEnum.Godfather:
+                            message += $" recruited by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b>";
+                            break;
+                        case RoleEnum.Occultist:
+                            message += $" marked by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>";
+                            break;
                     }
                     break;
                 case 1:

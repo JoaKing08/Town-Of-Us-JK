@@ -427,7 +427,7 @@ namespace TownOfUs.Roles
                     PlayerName += $" ({TotalTasks - TasksLeft}/{TotalTasks})";
                 }
             }
-            if (player != null && Player.Is(RoleEnum.Demagogue))
+            if (player != null && Player.Is(RoleEnum.Demagogue) && SelfCriteria())
             {
                 var demagogue = (Demagogue)this;
                 PlayerName += $" <color=#FF0000FF>({demagogue.Charges})</color>";
