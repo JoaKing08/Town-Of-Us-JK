@@ -213,7 +213,7 @@ Aurial also can see through walls and has can have slightly larger field of view
 | Radiate Uses To See | The number of times required to radiate to see a player's aura | Number | 3 |
 | Radiate Succeed Chance | The percentage probability of the Aurial successfully radiating someone | Percentage | 100% |
 | Aurial Vision Multiplier | How larger Aurial's field of view is compared to other players | Multiplier | 1x |
-| Aurial See Through Walls | Whether the Aurial sees through walls | Toggle | True |
+| Aurial See Through Walls | Whether the Aurial sees through walls | Toggle | False |
 | Aurial Sees Role Colors | Whether the Aurial sees role colors instead of alignment | Toggle | False |
 | Aurial Can Distinguish Neutrals | Whether the Aurial sees different Neutrals as other colors | Toggle | False |
 
