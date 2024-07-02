@@ -1496,8 +1496,8 @@ namespace TownOfUs.CustomOption
             RadiateSucceedChance =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Succeed Chance", 100f, 0f, 100f, 10f, PercentFormat);
             AurialVisionMultiplier =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Aurial Vision Multiplier", 1.25f, 1f, 1.5f, 0.05f, MultiplierFormat);
-            AurialSeeThrough = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial See Through Walls");
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Aurial Vision Multiplier", 1f, 1f, 1.5f, 0.05f, MultiplierFormat);
+            AurialSeeThrough = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial See Through Walls", false);
             AurialSeeRoles = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial Sees Role Colors", false);
             AurialDistinguishNeutral = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial Can Distinguish Neutrals", false);
 

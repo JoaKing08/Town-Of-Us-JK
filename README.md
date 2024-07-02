@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.6 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.6) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.5 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.5) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.4) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.3) |
@@ -198,10 +199,10 @@ If there any problems with the script please check the [faq](https://github.com/
 ## Aurial
 ### **Team: Crewmates**
 The Aurial is a Crewmate that can see the Auras of other players.\
-At the beginning of the game all players are white, once radiated enough the Aurial can see their alignment.\
+At the beginning of the game all players are white, once radiated enough the Aurial can see their alignment or role.\
 Green is Crewmate, Grey is Neutral and Red is Impostor.\
 However, as a consequence the Aurial cannot see who is who.\
-Aurial also can see through walls and has slightly larger field of view.
+Aurial also can see through walls and has can have slightly larger field of view.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -212,6 +213,9 @@ Aurial also can see through walls and has slightly larger field of view.
 | Radiate Uses To See | The number of times required to radiate to see a player's aura | Number | 3 |
 | Radiate Succeed Chance | The percentage probability of the Aurial successfully radiating someone | Percentage | 100% |
 | Aurial Vision Multiplier | How larger Aurial's field of view is compared to other players | Multiplier | 1x |
+| Aurial See Through Walls | Whether the Aurial sees through walls | Toggle | True |
+| Aurial Sees Role Colors | Whether the Aurial sees role colors instead of alignment | Toggle | False |
+| Aurial Can Distinguish Neutrals | Whether the Aurial sees different Neutrals as other colors | Toggle | False |
 
 -----------------------
 ## Detective
