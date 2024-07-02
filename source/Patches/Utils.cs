@@ -36,6 +36,7 @@ namespace TownOfUs
     {
         internal static bool ShowDeadBodies = false;
         private static GameData.PlayerInfo voteTarget = null;
+        public static bool IsMeeting = true;
 
         public static bool CheckImpostorFriendlyFire()
         {
@@ -161,7 +162,7 @@ namespace TownOfUs
         }
         public static bool Chat(this PlayerControl player)
         {
-            var meeting = CustomGameData.IsMeeting;
+            var meeting = Utils.IsMeeting;
             return player.LoverChat(meeting) || player.VampireChat(meeting) || player.RecruitChat(meeting) || player.UndeadChat(meeting) || player.ImpostorChat(meeting) || player.ApocalypseChat(meeting);
         }
 
@@ -1102,7 +1103,8 @@ namespace TownOfUs
                 if (killer.Is(RoleEnum.Sheriff))
                 {
                     var sheriff = Role.GetRole<Sheriff>(killer);
-                    if (target.Is(Faction.Impostors) ||
+                    if (sheriff.FactionOverride != FactionOverride.None || killer.Is(ObjectiveEnum.ImpostorAgent) || killer.Is(ObjectiveEnum.ApocalypseAgent)) sheriff.Kills += 1;
+                    else if (target.Is(Faction.Impostors) ||
                         target.Is(RoleEnum.Glitch) && CustomGameOptions.SheriffKillsGlitch ||
                         target.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist ||
                         target.Is(RoleEnum.Plaguebearer) && CustomGameOptions.SheriffKillsPlaguebearer ||
@@ -1153,6 +1155,18 @@ namespace TownOfUs
                     else
                     {
                         hunter.IncorrectKills += 1;
+                    }
+                }
+                if (killer.Is(RoleEnum.Crusader))
+                {
+                    var crus = Role.GetRole<Crusader>(killer);
+                    if (target.Is(Faction.Crewmates) && target.Is(FactionOverride.None) && !target.Is(ObjectiveEnum.ImpostorAgent) && !target.Is(ObjectiveEnum.ApocalypseAgent))
+                    {
+                        crus.IncorrectKills += 1;
+                    }
+                    else
+                    {
+                        crus.CorrectKills += 1;
                     }
                 }
 
@@ -1793,7 +1807,7 @@ namespace TownOfUs
 
         public static void ResetCustomTimers()
         {
-            CustomGameData.IsMeeting = false;
+            Utils.IsMeeting = false;
             Role.GetRole(PlayerControl.LocalPlayer).CurrentChat = ChatType.ApocalypseChat;
             ChatPatches.ChangeChat();
             #region CrewmateRoles

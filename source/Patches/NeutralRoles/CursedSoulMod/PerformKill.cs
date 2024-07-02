@@ -16,6 +16,7 @@ using TownOfUs.Roles.Horseman;
 using Reactor.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.NeutralRoles.CursedSoulMod
 {
@@ -179,6 +180,13 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 aurial.NormalVision = true;
                 SeeAll.AllToNormal();
                 CameraEffect.singleton.materials.Clear();
+            }
+
+            if (targetRole == RoleEnum.Glitch && PlayerControl.LocalPlayer == target)
+            {
+                var glitch = Role.GetRole<Glitch>(target);
+                glitch.HackButton.Destroy();
+                glitch.MimicButton.Destroy();
             }
 
             if ((targetRole == RoleEnum.Glitch || targetRole == RoleEnum.Juggernaut || targetRole == RoleEnum.Pestilence ||

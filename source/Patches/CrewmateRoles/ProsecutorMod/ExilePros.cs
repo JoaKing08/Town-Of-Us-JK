@@ -25,7 +25,7 @@ namespace TownOfUs.CrewmateRoles.ProsecutorMod
                 if (pros.ProsecuteThisMeeting)
                 {
                     var exiled = __instance.exiled?.Object;
-                    if (exiled != null && exiled.Is(Faction.Crewmates) && exiled.Is(FactionOverride.None) && !exiled.Is(ObjectiveEnum.ImpostorAgent) && !exiled.Is(ObjectiveEnum.ApocalypseAgent) && !exiled.IsLover())
+                    if (exiled != null && exiled.Is(Faction.Crewmates) && exiled.Is(FactionOverride.None) && !exiled.Is(ObjectiveEnum.ImpostorAgent) && !exiled.Is(ObjectiveEnum.ApocalypseAgent) && !exiled.IsLover() && !pros.Player.Is(ObjectiveEnum.ImpostorAgent) && !pros.Player.Is(ObjectiveEnum.ApocalypseAgent) && pros.FactionOverride == FactionOverride.None)
                     {
                         pros.ProsecutionsLeft = 0;
                         if (CustomGameOptions.ProsDiesOnIncorrectPros)

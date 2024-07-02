@@ -24,7 +24,7 @@ namespace TownOfUs.CrewmateRoles.MysticMod
                 var message = "";
                 if (!mysticRole.PlayersInteracted.Any())
                 {
-                    message += "Your vision was about few ants in diffrent colors picking sugar cube... <b>" + Utils.PlayerById(mysticRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacting</b> and <b>was interacted by</b>: \n";
+                    message += "Your vision was about few ants in different colors picking sugar cube... <b>" + Utils.PlayerById(mysticRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacting</b> and <b>was interacted by</b>: \n";
                     foreach (var player in mysticRole.InteractingPlayers.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName.RemoveAll(new char[] { '(', ')' })}</b>, ";
                     message = message.Remove(message.Length - 2);
                 }

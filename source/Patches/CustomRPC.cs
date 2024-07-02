@@ -31,14 +31,7 @@ namespace TownOfUs
         ArsonistWin,
         PhantomWin,
         NobodyWins,
-        ApocalypseWin0,
-        ApocalypseWin1,
-        ApocalypseWin2,
-        ApocalypseWin3,
-        ApocalypseWin4,
-        ApocalypseWin5,
-        ApocalypseWin6,
-        ApocalypseWin7,
+        ApocalypseWin,
         WerewolfWin,
         SurvivorOnlyWin,
         VampireWin,
@@ -156,6 +149,7 @@ namespace TownOfUs
         DemagogueConvince,
         DemagogueCharges,
         GodfatherRecruit,
+        IsMeeting,
 
         RpcExpand = 255
     }

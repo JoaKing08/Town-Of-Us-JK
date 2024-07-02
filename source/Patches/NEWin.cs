@@ -40,7 +40,7 @@ namespace TownOfUs.Patches
                 if (juggRole != null) return;
                 var skRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.SerialKiller && ((SerialKiller)x).SerialKillerWins);
                 if (skRole != null) return;
-                var apocRole = Role.AllRoles.FirstOrDefault(x => x.Faction == Faction.NeutralApocalypse && x.ApocalypseWins);
+                var apocRole = Role.AllRoles.FirstOrDefault(x => x.Faction == Faction.NeutralApocalypse && Role.ApocalypseWins);
                 if (apocRole != null) return;
                 var wwRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Werewolf && ((Werewolf)x).WerewolfWins);
                 if (wwRole != null) return;

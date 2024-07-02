@@ -630,6 +630,9 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption RadiateCount;
         public static CustomNumberOption RadiateInvis;
         public static CustomNumberOption AurialVisionMultiplier;
+        public static CustomToggleOption AurialSeeThrough;
+        public static CustomToggleOption AurialSeeRoles;
+        public static CustomToggleOption AurialDistinguishNeutral;
 
         public static CustomHeaderOption Giant;
         public static CustomNumberOption GiantSlow;
@@ -1494,6 +1497,9 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Succeed Chance", 100f, 0f, 100f, 10f, PercentFormat);
             AurialVisionMultiplier =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Aurial Vision Multiplier", 1.25f, 1f, 1.5f, 0.05f, MultiplierFormat);
+            AurialSeeThrough = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial See Through Walls");
+            AurialSeeRoles = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial Sees Role Colors", false);
+            AurialDistinguishNeutral = new CustomToggleOption(num++, MultiMenu.crewmate, "Aurial Can Distinguish Neutrals", false);
 
             Detective =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>");
@@ -2134,7 +2140,7 @@ namespace TownOfUs.CustomOption
             WarCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "War Cooldown", 15f, 5f, 30f, 2.5f, CooldownFormat);
             WarRampage =
-                new CustomNumberOption(num++, MultiMenu.neutral, "War Rampage Duration", 0.3f, 0.1f, 1.5f, 0.05f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, "War Rampage Duration", 0.3f, 0f, 5f, 0.05f, CooldownFormat);
             AnnounceWar =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Announce War");
             WarVent =

@@ -156,6 +156,7 @@ namespace TownOfUs
             public static bool Prefix(MeetingHud __instance,
                 [HarmonyArgument(0)] Il2CppStructArray<MeetingHud.VoterState> states)
             {
+                DeadSeeVoteColorsPatch.DemagogueVote = false;
                 var allNums = new Dictionary<int, int>();
 
                 __instance.TitleText.text = Object.FindObjectOfType<TranslationController>()
@@ -320,8 +321,7 @@ namespace TownOfUs
                     if (!demagogue.Player.Data.IsDead && !demagogue.Player.Data.Disconnected && demagogue.ExtraVotes > 0)
                     {
                         var playerInfo = GameData.Instance.GetPlayerById(demagogue.Player.PlayerId);
-                        var oldColor = playerInfo.DefaultOutfit.ColorId;
-                        playerInfo.DefaultOutfit.ColorId = 6;
+                        DeadSeeVoteColorsPatch.DemagogueVote = true;
                         for (var i = 0; i < __instance.playerStates.Length; i++)
                         {
                             var playerVoteArea = __instance.playerStates[i];
@@ -339,7 +339,7 @@ namespace TownOfUs
                                 }
                             }
                         }
-                        playerInfo.DefaultOutfit.ColorId = oldColor;
+                        DeadSeeVoteColorsPatch.DemagogueVote = false;
                     }
                     if (CustomGameOptions.VotesPerCharge > 0) demagogue.Charges += (byte)((float)amountOfSkippedVoters / (float)CustomGameOptions.VotesPerCharge);
                     if (PlayerControl.LocalPlayer.PlayerId == demagogue.Player.PlayerId) Utils.Rpc(CustomRPC.DemagogueCharges, demagogue.Charges, demagogue.Player.PlayerId);

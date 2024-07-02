@@ -112,7 +112,7 @@ namespace TownOfUs
             public static void Prefix(MeetingHud __instance)
             {
                 MeetingStartTime = DateTime.UtcNow;
-                CustomGameData.IsMeeting = true;
+                Utils.IsMeeting = true;
             }
         }
         [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
@@ -183,7 +183,7 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer.Data.IsDead & !__instance.Chat.isActiveAndEnabled)
                             __instance.Chat.SetVisible(true);
                         if (role.ChatButton != null) UnityEngine.Object.Destroy(role.ChatButton);
-                        if (!CustomGameData.IsMeeting && !PlayerControl.LocalPlayer.Data.IsDead) __instance.Chat.SetVisible(false);
+                        if (!Utils.IsMeeting && !PlayerControl.LocalPlayer.Data.IsDead) __instance.Chat.SetVisible(false);
                         role.CurrentChat = ChatType.VanillaChat;
                     }
                     else
@@ -261,7 +261,7 @@ namespace TownOfUs
                     -1.35f,
                     role.ChatButton.transform.localPosition.z);
                 role.ChatButton.GetComponent<SpriteRenderer>().color = Color.green;
-                var meeting = CustomGameData.IsMeeting;
+                var meeting = Utils.IsMeeting;
                 bool[] IsAllowed = new bool[]
                 {
                 meeting,

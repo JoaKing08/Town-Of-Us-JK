@@ -6,7 +6,7 @@ using UnityEngine;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Roles.Horseman;
 
-namespace TownOfUs.ApocalypseRoles.WarMod
+namespace TownOfUs.ApocalypseRoles
 {
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.Start))]
     public static class Outro
@@ -21,10 +21,9 @@ namespace TownOfUs.ApocalypseRoles.WarMod
                 if (Role.GetRoles(RoleEnum.Pirate).Any(x => ((Pirate)x).WonByDuel)) return;
                 if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => ((Inquisitor)x).HereticsDead)) return;
             }
-            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-            (x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence) || x.Is(RoleEnum.Baker) || x.Is(RoleEnum.Famine))) > 0) return;
-            var role = Role.AllRoles.FirstOrDefault(x =>
-            x.RoleType == RoleEnum.War && ((War)x).ApocalypseWins && !x.Player.Data.IsDead && !x.Player.Data.Disconnected);
+            Role role = null;
+            role = Role.AllRoles.FirstOrDefault(x =>
+                x.Faction == Faction.NeutralApocalypse && Role.ApocalypseWins && !x.Player.Data.IsDead && !x.Player.Data.Disconnected && x.FactionOverride == FactionOverride.None);
             if (role == null) return;
             PoolablePlayer[] array = Object.FindObjectsOfType<PoolablePlayer>();
             foreach (var player in array) player.NameText().text = "<color=#" + Color.gray.ToHtmlStringRGBA() + ">" + player.NameText().text + "</color>";

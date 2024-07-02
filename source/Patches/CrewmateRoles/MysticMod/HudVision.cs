@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using HarmonyLib;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -23,6 +24,16 @@ namespace TownOfUs.CrewmateRoles.MysticMod
             var visionButton = __instance.KillButton;
 
             var role = Role.GetRole<Mystic>(PlayerControl.LocalPlayer);
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.VisionPlayer == player.PlayerId)
+                {
+                    if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage &&
+                            player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
+                        player.nameText().color = Patches.Colors.Mystic;
+                    else player.nameText().color = Color.clear;
+                }
+            }
 
             visionButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead

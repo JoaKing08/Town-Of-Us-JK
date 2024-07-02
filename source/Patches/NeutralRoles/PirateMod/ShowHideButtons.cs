@@ -11,10 +11,9 @@ namespace TownOfUs.NeutralRoles.PirateMod
         {
             public static bool Prefix(MeetingHud __instance)
             {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Pirate)) return true;
-                var pirate = Role.GetRole<Pirate>(PlayerControl.LocalPlayer);
-                pirate.DefenseButton.Destroy();
-                Role.GetRole(pirate.DueledPlayer).DefenseButton.Destroy();
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Pirate) && !PlayerControl.LocalPlayer.IsDueled()) return true;
+                var role = Role.GetRole(PlayerControl.LocalPlayer);
+                role.DefenseButton.Destroy();
                 return true;
             }
         }

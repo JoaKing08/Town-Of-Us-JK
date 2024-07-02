@@ -58,7 +58,9 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                         role.ClosestPlayer.Is(RoleEnum.Plaguebearer) && CustomGameOptions.SheriffKillsPlaguebearer ||
                         role.ClosestPlayer.Is(RoleEnum.Baker) && CustomGameOptions.SheriffKillsBaker ||
                         role.ClosestPlayer.Is(RoleEnum.Berserker) && CustomGameOptions.SheriffKillsBerserker ||
-                        role.ClosestPlayer.Is(RoleEnum.SoulCollector) && CustomGameOptions.SheriffKillsSoulCollector;
+                        role.ClosestPlayer.Is(RoleEnum.SoulCollector) && CustomGameOptions.SheriffKillsSoulCollector ||
+                        role.FactionOverride != FactionOverride.None || role.Player.Is(ObjectiveEnum.ImpostorAgent) ||
+                        role.Player.Is(ObjectiveEnum.ApocalypseAgent);
 
             if (role.ClosestPlayer.Is(RoleEnum.Pestilence))
             {

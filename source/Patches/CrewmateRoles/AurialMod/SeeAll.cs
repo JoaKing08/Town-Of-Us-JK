@@ -69,32 +69,40 @@ namespace TownOfUs.CrewmateRoles.AurialMod
 
                 if (!Check(s, player))
                 {
-                    ColorChar(player, Color.white);
+                    ColorChar(player, Color.white, "Unknown");
                     continue;
                 }
 
                 var faction = Role.GetRole(player).Faction;
-                switch (faction)
-                {
-                    default:
-                        ColorChar(player, Color.white);
-                        break;
-                    case Faction.Crewmates:
-                        ColorChar(player, Color.green);
-                        break;
-                    case Faction.Impostors:
-                        ColorChar(player, Color.red);
-                        break;
-                    case Faction.NeutralBenign:
-                    case Faction.NeutralEvil:
-                    case Faction.NeutralKilling:
-                    case Faction.NeutralChaos:
-                        ColorChar(player, Color.gray);
-                        break;
-                    case Faction.NeutralApocalypse:
-                        if (CustomGameOptions.GameMode == GameMode.Horseman) ColorChar(player, Color.black); else ColorChar(player, Color.gray);
-                        break;
-                }
+                if (CustomGameOptions.AurialSeeRoles)
+                    ColorChar(player, Role.GetRole(player).Color, player.Is(Faction.Impostors) ? "Impostor" : Role.GetRole(player).Name);
+                else switch (faction)
+                    {
+                        default:
+                            ColorChar(player, Color.white, "Unknown");
+                            break;
+                        case Faction.Crewmates:
+                            ColorChar(player, Color.green, "Crewmate");
+                            break;
+                        case Faction.Impostors:
+                            ColorChar(player, Color.red, "Impostor");
+                            break;
+                        case Faction.NeutralBenign:
+                            if (CustomGameOptions.AurialDistinguishNeutrals) ColorChar(player, Color.Lerp(Color.cyan, Color.gray, 0.75f), "Neutral Benign"); else ColorChar(player, Color.gray, "Neutral");
+                                break;
+                        case Faction.NeutralEvil:
+                            if (CustomGameOptions.AurialDistinguishNeutrals) ColorChar(player, Color.Lerp(Color.red, Color.gray, 0.75f), "Neutral Evil"); else ColorChar(player, Color.gray, "Neutral");
+                            break;
+                        case Faction.NeutralKilling:
+                            if (CustomGameOptions.AurialDistinguishNeutrals) { if (player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.Jackal)) ColorChar(player, Color.Lerp(Color.yellow, Color.gray, 0.75f), "Neutral Proselyte"); else ColorChar(player, Color.Lerp(Color.blue, Color.gray, 0.75f), "Neutral Killing"); } else ColorChar(player, Color.gray, "Neutral");
+                            break;
+                        case Faction.NeutralChaos:
+                            if (CustomGameOptions.AurialDistinguishNeutrals) ColorChar(player, Color.Lerp(Color.magenta, Color.gray, 0.75f), "Neutral Chaos"); else ColorChar(player, Color.gray, "Neutral");
+                            break;
+                        case Faction.NeutralApocalypse:
+                            if (CustomGameOptions.GameMode == GameMode.Horseman || CustomGameOptions.AurialDistinguishNeutrals) ColorChar(player, Color.Lerp(Color.black, Color.gray, 0.75f), "Neutral Apocalypse"); else ColorChar(player, Color.gray, "Neutral");
+                            break;
+                    }
             }
         }
 
@@ -108,7 +116,7 @@ namespace TownOfUs.CrewmateRoles.AurialMod
             return false;
         }
 
-        public static void ColorChar(PlayerControl p, Color c)
+        public static void ColorChar(PlayerControl p, Color c, string colorblindText = null)
         {
             var fit = p.GetCustomOutfitType();
             if ((fit != CustomPlayerOutfitType.Aurial && fit != CustomPlayerOutfitType.Camouflage && fit != CustomPlayerOutfitType.Swooper) || (fit == CustomPlayerOutfitType.Aurial && p.myRend().color != c))
@@ -123,15 +131,15 @@ namespace TownOfUs.CrewmateRoles.AurialMod
                     PlayerName = " ",
                     PetId = ""
                 }); ;
-                if (c == Color.red) p.cosmetics.SetBodyColor(0);
-                if (c == Color.green) p.cosmetics.SetBodyColor(2);
-                if (c == Color.white) p.cosmetics.SetBodyColor(7);
-                if (c == Color.gray) p.cosmetics.SetBodyColor(15);
-                if (c == Color.black) p.cosmetics.SetBodyColor(6);
+                p.cosmetics.colorBlindText.color = Color.white;
+                if (c != Color.clear) p.cosmetics.SetBodyColor(40);
+                else p.cosmetics.colorBlindText.color = c;
+                if (colorblindText != null)
+                {
+                    p.cosmetics.colorBlindText.text = colorblindText;
+                }
                 p.myRend().color = c;
                 p.nameText().color = Color.clear;
-                if (c == Color.clear) p.cosmetics.colorBlindText.color = c;
-                else p.cosmetics.colorBlindText.color = Color.white;
             }
         }
 
@@ -140,6 +148,7 @@ namespace TownOfUs.CrewmateRoles.AurialMod
             foreach (var p in PlayerControl.AllPlayerControls)
             {
                 Utils.Unmorph(p);
+                p.cosmetics.colorBlindText.color = Color.white;
                 p.myRend().color = Color.white;
             }
         }

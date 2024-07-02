@@ -2510,37 +2510,8 @@ namespace TownOfUs
                     case CustomRPC.TurnDeath:
                         Role.GetRole<SoulCollector>(Utils.PlayerById(reader.ReadByte())).TurnDeath();
                         break;
-                    case CustomRPC.ApocalypseWin0:
-                        var theApocalypseTheRole0 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Plaguebearer);
-                        ((Plaguebearer)theApocalypseTheRole0)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin1:
-                        var theApocalypseTheRole1 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Pestilence);
-                        ((Pestilence)theApocalypseTheRole1)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin2:
-                        var theApocalypseTheRole2 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Baker);
-                        ((Baker)theApocalypseTheRole2)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin3:
-                        var theApocalypseTheRole3 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Famine);
-                        ((Famine)theApocalypseTheRole3)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin4:
-                        var theApocalypseTheRole4 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Berserker);
-                        ((Berserker)theApocalypseTheRole4)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin5:
-                        var theApocalypseTheRole5 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.War);
-                        ((War)theApocalypseTheRole5)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin6:
-                        var theApocalypseTheRole6 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.SoulCollector);
-                        ((SoulCollector)theApocalypseTheRole6)?.Wins();
-                        break;
-                    case CustomRPC.ApocalypseWin7:
-                        var theApocalypseTheRole7 = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Death);
-                        ((Death)theApocalypseTheRole7)?.Wins();
+                    case CustomRPC.ApocalypseWin:
+                        Role.ApocWin();
                         break;
                     case CustomRPC.NecromancerWin:
                         var theNecromancerTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.JKNecromancer);
@@ -2826,7 +2797,7 @@ namespace TownOfUs
                             var __instance = DestroyableSingleton<HudManager>.Instance.KillButton;
                             if (controled1.Data.IsImpostor())
                             {
-                                __instance.SetTarget(target1);
+                                Role.GetRole(controled1).ClosestPlayerImp = target1;
                                 StopImpKill.Prefix(__instance);
                             }
                             else switch (Role.GetRole(controled1).RoleType)
@@ -2999,8 +2970,27 @@ namespace TownOfUs
                                         Role.GetRole<Bodyguard>(controled1).ClosestPlayer = target1;
                                         CrewmateRoles.BodyguardMod.PerformKill.Prefix(__instance);
                                         break;
-                                    default:
-                                        Utils.Interact(controled1, target1);
+                                    case RoleEnum.Sage:
+                                        Role.GetRole<Sage>(controled1).ClosestPlayer = target1;
+                                        CrewmateRoles.SageMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.Deputy:
+                                        Role.GetRole<Deputy>(controled1).ClosestPlayer = target1;
+                                        CrewmateRoles.DeputyMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.Investigator:
+                                        CrewmateRoles.InvestigatorMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.Mystic:
+                                        Role.GetRole<Mystic>(controled1).ClosestPlayer = target1;
+                                        CrewmateRoles.MysticMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.Jackal:
+                                        Role.GetRole<Jackal>(controled1).ClosestPlayer = target1;
+                                        NeutralRoles.JackalMod.PerformKill.Prefix(__instance);
+                                        break;
+                                    case RoleEnum.JKNecromancer:
+                                        NeutralRoles.NecromancerMod.PerformRevive.Prefix(__instance);
                                         break;
                                 }
                         }
@@ -3146,6 +3136,9 @@ namespace TownOfUs
                         var recruit1 = Utils.PlayerById(reader.ReadByte());
                         ImpostorRoles.GodfatherMod.PerformKill.Recruit(Role.GetRole<Godfather>(godfather), recruit1);
                         break;
+                    case CustomRPC.IsMeeting:
+                        Utils.IsMeeting = reader.ReadBoolean();
+                        break;
 
                     case CustomRPC.RpcExpand:
                         byte firstCallIdExpansion = reader.ReadByte();
@@ -3213,7 +3206,8 @@ namespace TownOfUs
                 Role.NobodyWins = false;
                 Role.SurvOnlyWins = false;
                 Role.VampireWins = false;
-                CustomGameData.IsMeeting = true;
+                Utils.IsMeeting = true;
+                Utils.Rpc(CustomRPC.IsMeeting, true);
                 ExileControllerPatch.lastExiled = null;
                 PatchKillTimer.GameStarted = false;
                 StartImitate.ImitatingPlayer = null;

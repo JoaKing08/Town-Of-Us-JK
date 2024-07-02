@@ -48,12 +48,12 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
         public static void DepKillCount(PlayerControl player, PlayerControl deputy)
         {
             var dep = Role.GetRole<Deputy>(deputy);
-            if (deputy.Is(FactionOverride.None) && !deputy.Is(ObjectiveEnum.Lover) && !deputy.Is(ObjectiveEnum.ImpostorAgent) && !deputy.Is(ObjectiveEnum.ApocalypseAgent))
+            if (deputy.Is(FactionOverride.None) && !deputy.Is(ObjectiveEnum.ImpostorAgent) && !deputy.Is(ObjectiveEnum.ApocalypseAgent))
             {
                 if (player.Is(Faction.Crewmates) && player.Is(FactionOverride.None) && !player.Is(ObjectiveEnum.Lover) && !player.Is(ObjectiveEnum.ImpostorAgent) && !player.Is(ObjectiveEnum.ApocalypseAgent))
                 {
+                    if (CustomGameOptions.MisfireKillsDeputy) MurderPlayer(deputy, deputy);
                     dep.IncorrectKills += 1;
-                    MurderPlayer(deputy, deputy);
                 }
                 else dep.CorrectKills += 1;
             }

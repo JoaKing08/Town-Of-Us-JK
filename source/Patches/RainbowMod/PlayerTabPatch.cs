@@ -17,6 +17,7 @@ namespace TownOfUs.RainbowMod
                 var x = __instance.XRange.Lerp((i % 8) / 7f) + 0.25f;
                 var y = __instance.YStart - (i / 7.5f) * 0.4125f;
                 colorChip.transform.localPosition = new Vector3(x, y, -1f);
+                if (i == __instance.ColorChips.Count - 1) colorChip.gameObject.SetActive(false);
             }
         }
 

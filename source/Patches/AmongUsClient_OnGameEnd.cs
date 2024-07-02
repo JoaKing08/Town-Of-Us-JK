@@ -576,7 +576,7 @@ namespace TownOfUs
                 }
                 else if (role.Faction == Faction.NeutralApocalypse)
                 {
-                    if (role.ApocalypseWins)
+                    if (Role.ApocalypseWins)
                     {
                         TempData.winners = new List<WinningPlayerData>();
                         isImp = false;
@@ -747,7 +747,7 @@ namespace TownOfUs
                     }
                 }
             }
-            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent).ToArray().Where(x => Role.GetRole(x.Player).FactionOverride == FactionOverride.None))
+            foreach (var modifier in Objective.GetObjectives(ObjectiveEnum.ApocalypseAgent))
             {
                 var agent = (ApocalypseAgent)modifier;
                 var role = Role.GetRole(modifier.Player);

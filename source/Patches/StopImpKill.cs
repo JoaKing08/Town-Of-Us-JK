@@ -22,12 +22,6 @@ namespace TownOfUs
             if (target == null) return true;
             if ((PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && target.Is(FactionOverride.Undead)) || (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && target.Is(FactionOverride.Recruit) && !(target.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(FactionOverride.None) && (target.Is(ObjectiveEnum.ImpostorAgent) || ((target.Data.IsImpostor() || target.Is(RoleEnum.Undercover)) && !Utils.CheckImpostorFriendlyFire())))) return false;
             if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return true;
-            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
-            {
-                Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
-                return false;
-            }
             if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
             {
                 if (!target.inVent) Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, target);

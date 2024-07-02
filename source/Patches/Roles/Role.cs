@@ -23,6 +23,7 @@ namespace TownOfUs.Roles
         public static bool NobodyWins;
         public static bool SurvOnlyWins;
         public static bool VampireWins;
+        public static bool ApocalypseWins;
         public int BreadLeft = 1;
         public int Defense = 0;
         public bool Reaped = false;
@@ -30,7 +31,6 @@ namespace TownOfUs.Roles
         public GameObject DefenseButton = new GameObject();
         public DateTime LastBlood;
         public List<ArrowBehaviour> SnipeArrows = new List<ArrowBehaviour>();
-        public bool ApocalypseWins { get; set; }
 
         public List<KillButton> ExtraButtons = new List<KillButton>();
 
@@ -155,7 +155,7 @@ namespace TownOfUs.Roles
         internal virtual bool ImpostorCriteria()
         {
             if ((Faction == Faction.Impostors || Player.Is(ObjectiveEnum.ImpostorAgent) || (Player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && (PlayerControl.LocalPlayer.Data.IsImpostor() ||
-                PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) && (CustomGameOptions.ImpostorSeeRoles || Player.Is(ObjectiveEnum.ImpostorAgent) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) return true;
+                PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) && (CustomGameOptions.ImpostorSeeRoles || Player.Is(ObjectiveEnum.ImpostorAgent))) return true;
             return false;
         }
 
@@ -290,6 +290,36 @@ namespace TownOfUs.Roles
 
             Utils.Rpc(CustomRPC.VampireWin);
         }
+        public static void ApocWin()
+        {
+            foreach (var jest in GetRoles(RoleEnum.Jester))
+            {
+                var jestRole = (Jester)jest;
+                if (jestRole.VotedOut) return;
+            }
+            foreach (var exe in GetRoles(RoleEnum.Executioner))
+            {
+                var exeRole = (Executioner)exe;
+                if (exeRole.TargetVotedOut) return;
+            }
+            foreach (var doom in GetRoles(RoleEnum.Doomsayer))
+            {
+                var doomRole = (Doomsayer)doom;
+                if (doomRole.WonByGuessing) return;
+            }
+            foreach (var pirate in GetRoles(RoleEnum.Pirate))
+            {
+                var pirateRole = (Pirate)pirate;
+                if (pirateRole.WonByDuel) return;
+            }
+            foreach (var inquisitor in GetRoles(RoleEnum.Inquisitor))
+            {
+                var inquisitorRole = (Inquisitor)inquisitor;
+                if (inquisitorRole.HereticsDead) return;
+            }
+
+            ApocalypseWins = true;
+        }
 
         internal static bool NobodyEndCriteria(LogicGameFlowNormal __instance)
         {
@@ -347,7 +377,29 @@ namespace TownOfUs.Roles
 
         internal virtual bool NeutralWin(LogicGameFlowNormal __instance)
         {
-            return true;
+            if (Faction != Faction.NeutralApocalypse) return true;
+            if (Player.Data.IsDead || Player.Data.Disconnected) return true;
+            var Apocalypse = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse));
+            var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse));
+            var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(FactionOverride.None) && (x.Is(Faction.NeutralApocalypse) || x.Is(ObjectiveEnum.ApocalypseAgent))) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
+            var ga = new Dictionary<byte, bool>();
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                var i = false;
+                if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Is(Faction.NeutralApocalypse) || GetRole<GuardianAngel>(player).target.Is(ObjectiveEnum.ApocalypseAgent);
+                ga.Add(player.PlayerId, i);
+            }
+            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !x.Is(FactionOverride.Undead));
+
+            if ((Apocalypse >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Apocalypse > 0 && AlivePlayers == 0) || onlyNonstopping)
+            {
+                Utils.Rpc(CustomRPC.ApocalypseWin, Player.PlayerId);
+                ApocWin();
+                Utils.EndGame();
+                return false;
+            }
+
+            return false;
         }
 
         internal bool PauseEndCrit = false;
@@ -1423,7 +1475,7 @@ namespace TownOfUs.Roles
                             if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))) && !(PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles && Utils.ShowDeadBodies) && !(PlayerControl.LocalPlayer.Is(role.FactionOverride) && role.FactionOverride != FactionOverride.None))
                                 player.NameText.color = ((Undercover)role).UndercoverRole.GetRoleColor();
                         }
-                        else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                        else if (role.Faction == Faction.Impostors && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)))
                             player.NameText.color = Patches.Colors.Impostor;
                     }
                     if ((Utils.PlayerById(player.TargetPlayerId) == null || Utils.PlayerById(player.TargetPlayerId).Data.Disconnected) && !player.NameText.text.Contains("<color=#808080FF> (D/C)</color>")) player.NameText.text += "<color=#808080FF> (D/C)</color>";
@@ -1454,7 +1506,7 @@ namespace TownOfUs.Roles
                             if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
                                 player.nameText().color = ((Undercover)role).UndercoverRole.GetRoleColor();
                         }
-                        else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())
+                        else if (role.Faction == Faction.Impostors && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)))
                             player.nameText().color = Patches.Colors.Impostor;
                         if (role.Criteria())
                         {

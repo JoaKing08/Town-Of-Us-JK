@@ -900,6 +900,9 @@ namespace TownOfUs
         public static float ConvinceCooldown => Generate.ConvinceCooldown.Get();
         public static int ChargesForMeetingKill => (int)Generate.ChargesForMeetingKill.Get();
         public static bool MafiosoAssassin => Generate.MafiosoAssassin.Get();
+        public static bool AurialSeeThrough => Generate.AurialSeeThrough.Get();
+        public static bool AurialSeeRoles => Generate.AurialSeeRoles.Get();
+        public static bool AurialDistinguishNeutrals => Generate.AurialDistinguishNeutral.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

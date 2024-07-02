@@ -8,6 +8,10 @@ using TownOfUs.CrewmateRoles.MedicMod;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Modifiers;
 using Reactor.Utilities;
+using TownOfUs.CrewmateRoles.AurialMod;
+using TownOfUs.Patches.ScreenEffects;
+using Reactor.Utilities.Extensions;
+using System.Linq;
 
 namespace TownOfUs.ImpostorRoles.GodfatherMod
 {
@@ -56,6 +60,26 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
                 Role.GetRole(target).Notification("You Were Recruited!", 1000 * CustomGameOptions.NotificationDuration);
+
+                if (target.Is(RoleEnum.Aurial))
+                {
+                    var aurial = Role.GetRole<Aurial>(target);
+                    aurial.NormalVision = true;
+                    SeeAll.AllToNormal();
+                    CameraEffect.singleton.materials.Clear();
+                }
+
+                if (target.Is(RoleEnum.Glitch))
+                {
+                    var glitch = Role.GetRole<Glitch>(target);
+                    glitch.HackButton.Destroy();
+                    glitch.MimicButton.Destroy();
+                }
+                if (Role.GetRole(target).ExtraButtons.Any()) foreach (var button in Role.GetRole(target).ExtraButtons)
+                    {
+                        GameObject.Destroy(button);
+                    }
+                Role.GetRole(target).ExtraButtons.Clear();
             }
             godfather.Recruited = true;
             var targetRole = Role.GetRole(target);
@@ -71,7 +95,7 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
             mafioso.Roleblocked = roleblocked;
             mafioso.RegenTask();
             if (target.Is(AbilityEnum.Assassin)) Ability.AbilityDictionary.Remove(target.PlayerId);
-            if (CustomGameOptions.MafiosoAssassin) new Mafioso(target);
+            if (CustomGameOptions.MafiosoAssassin) new Assassin(target);
             target.Data.Role.TeamType = RoleTeamTypes.Impostor;
             RoleManager.Instance.SetRole(target, RoleTypes.Impostor);
             target.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
