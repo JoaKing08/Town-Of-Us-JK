@@ -61,8 +61,7 @@ namespace TownOfUs.RainbowMod
                 (StringNames)1000014,//"Neon Pink",
                 (StringNames)1000015,//"Woody Brown",
                 (StringNames)1000016,//"Black & White",
-                (StringNames)1000017,//"Buggy Yellow",
-                (StringNames)2000000,//"Anonymous"
+                (StringNames)1000017,//"Buggy Yellow"
             };
             Palette.PlayerColors = new[]
             {
