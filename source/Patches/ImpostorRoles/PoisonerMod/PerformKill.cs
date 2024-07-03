@@ -28,11 +28,8 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                 if (interact[4] == true)
                 {
                     if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
-                    if (!target.Is(RoleEnum.Pestilence) && !target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death) && !target.IsShielded() && !target.IsVesting() && !target.IsOnAlert() && !target.IsProtected())
-                    {
-                        role.PoisonTime = DateTime.UtcNow;
-                        role.PoisonedPlayer = target;
-                    }
+                    role.PoisonTime = DateTime.UtcNow;
+                    role.PoisonedPlayer = target;
                     if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                     {
                         var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;

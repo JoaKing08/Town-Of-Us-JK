@@ -1568,7 +1568,7 @@ namespace TownOfUs
                 if (CustomGameOptions.MaxTransporters > 0) colorMapping.Add("Transporter", Colors.Transporter);
                 if (CustomGameOptions.MaxVigilantes > 1) colorMapping.Add("Vigilante", Colors.Vigilante);
                 colorMapping.Add("Crewmate", Colors.Crewmate);
-                vigi.SortedColorMapping = colorMapping.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+                vigi.ColorMapping = colorMapping;
             }
 
             if (player.Is(RoleEnum.Crewmate))

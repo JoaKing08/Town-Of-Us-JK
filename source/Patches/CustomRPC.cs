@@ -150,6 +150,7 @@ namespace TownOfUs
         DemagogueCharges,
         GodfatherRecruit,
         IsMeeting,
+        PoisonKill,
 
         RpcExpand = 255
     }

@@ -26,7 +26,7 @@ namespace TownOfUs.CrewmateRoles.HunterMod
                 var stalkInteract = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestStalkPlayer, false);
                 if (stalkInteract[4] == true)
                 {
-                    if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
+                    if (role.ClosestStalkPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                     role.StalkDuration = CustomGameOptions.HunterStalkDuration;
                     role.UsesLeft--;
                     role.StalkedPlayer = role.ClosestStalkPlayer;

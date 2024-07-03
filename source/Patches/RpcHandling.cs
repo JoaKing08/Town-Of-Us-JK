@@ -48,6 +48,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine.UI;
 using TownOfUs.CrewmateRoles.DeputyMod;
 using TownOfUs.ImpostorRoles.DemagogueMod;
+using TownOfUs.ImpostorRoles.PoisonerMod;
 
 namespace TownOfUs
 {
@@ -639,7 +640,7 @@ namespace TownOfUs
                 Utils.Rpc(CustomRPC.SetPoltergeist, byte.MaxValue);
             }
 
-            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor).ToList();
+            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
@@ -700,14 +701,14 @@ namespace TownOfUs
                 inq.heretics = heretics;
             }
 
-            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
-                if (!(goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
+                if (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
                     (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
-                    goodGATargets.Count == 0 && evilGATargets.Count == 0)
+                    goodGATargets.Count == 0 && evilGATargets.Count == 0))
                 {
                     if (goodGATargets.Count == 0)
                     {
@@ -1231,7 +1232,7 @@ namespace TownOfUs
                 Utils.Rpc(CustomRPC.SetPoltergeist, byte.MaxValue);
             }
 
-            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor).ToList();
+            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
@@ -1348,14 +1349,14 @@ namespace TownOfUs
                 inq.heretics = heretics;
             }
 
-            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
-                if (!(goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
+                if (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
                     (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
-                    goodGATargets.Count == 0 && evilGATargets.Count == 0)
+                    goodGATargets.Count == 0 && evilGATargets.Count == 0))
                 {
                     if (goodGATargets.Count == 0)
                     {
@@ -3138,6 +3139,12 @@ namespace TownOfUs
                         break;
                     case CustomRPC.IsMeeting:
                         Utils.IsMeeting = reader.ReadBoolean();
+                        break;
+                    case CustomRPC.PoisonKill:
+                        var poisoner = Utils.PlayerById(reader.ReadByte());
+                        var poisonTarget = Utils.PlayerById(reader.ReadByte());
+                        PoisonerKill.MurderPlayer(poisonTarget, poisoner);
+                        PoisonerKill.PoisKillCount(poisonTarget, poisoner);
                         break;
 
                     case CustomRPC.RpcExpand:
