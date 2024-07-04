@@ -1,4 +1,6 @@
+using Reactor.Utilities.Extensions;
 using System;
+using System.Linq;
 
 namespace TownOfUs.Roles
 {

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using TownOfUs.Extensions;
+using System.Linq;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Roles
 {

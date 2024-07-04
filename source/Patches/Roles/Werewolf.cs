@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using TownOfUs.Extensions;
 using System.Collections.Generic;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Roles
 {

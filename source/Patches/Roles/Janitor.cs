@@ -1,3 +1,6 @@
+using Reactor.Utilities.Extensions;
+using System.Linq;
+
 namespace TownOfUs.Roles
 {
     public class Janitor : Role

@@ -377,29 +377,56 @@ namespace TownOfUs.Roles
 
         internal virtual bool NeutralWin(LogicGameFlowNormal __instance)
         {
-            if (Faction != Faction.NeutralApocalypse) return true;
-            if (Player.Data.IsDead || Player.Data.Disconnected) return true;
-            var Apocalypse = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse));
-            var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse));
-            var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(FactionOverride.None) && (x.Is(Faction.NeutralApocalypse) || x.Is(ObjectiveEnum.ApocalypseAgent))) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
-            var ga = new Dictionary<byte, bool>();
-            foreach (var player in PlayerControl.AllPlayerControls)
+            if (Faction == Faction.NeutralApocalypse)
             {
-                var i = false;
-                if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Is(Faction.NeutralApocalypse) || GetRole<GuardianAngel>(player).target.Is(ObjectiveEnum.ApocalypseAgent);
-                ga.Add(player.PlayerId, i);
-            }
-            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !x.Is(FactionOverride.Undead));
+                if (Player.Data.IsDead || Player.Data.Disconnected) return true;
+                var Apocalypse = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse));
+                var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse));
+                var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(FactionOverride.None) && (x.Is(Faction.NeutralApocalypse) || x.Is(ObjectiveEnum.ApocalypseAgent))) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
+                var ga = new Dictionary<byte, bool>();
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    var i = false;
+                    if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Is(Faction.NeutralApocalypse) || GetRole<GuardianAngel>(player).target.Is(ObjectiveEnum.ApocalypseAgent);
+                    ga.Add(player.PlayerId, i);
+                }
+                var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !x.Is(FactionOverride.Undead));
 
-            if ((Apocalypse >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Apocalypse > 0 && AlivePlayers == 0) || onlyNonstopping)
+                if ((Apocalypse >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Apocalypse > 0 && AlivePlayers == 0) || onlyNonstopping)
+                {
+                    Utils.Rpc(CustomRPC.ApocalypseWin, Player.PlayerId);
+                    ApocWin();
+                    Utils.EndGame();
+                    return false;
+                }
+            }
+            else if (Faction == Faction.Impostors)
             {
-                Utils.Rpc(CustomRPC.ApocalypseWin, Player.PlayerId);
-                ApocWin();
-                Utils.EndGame();
-                return false;
+                var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
+                var impga = new Dictionary<byte, bool>();
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    var i = false;
+                    if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Data.IsImpostor();
+                    impga.Add(player.PlayerId, i);
+                }
+                var onlyNonstopping = !alives.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother) && !x.Data.IsImpostor());
+                var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
+                var recruitImp = PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor() && x.Is(FactionOverride.Recruit));
+                var traitorIsEnd = true;
+                var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ObjectiveEnum.ImpostorAgent)) > 0;
+                bool stopImpOvertake = (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count && !onlyNonstopping && impsAlive.Count != 0;
+                if (SetTraitor.WillBeTraitor != null)
+                {
+                    traitorIsEnd = SetTraitor.WillBeTraitor.Data.IsDead || SetTraitor.WillBeTraitor.Data.Disconnected || alives.Count < CustomGameOptions.LatestSpawn || !(((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count || onlyNonstopping) && impsAlive.Count != 0);
+                }
+                if (traitorIsEnd && !stopImpOvertake && !recruitImp && impsAlive.Any())
+                {
+                    Utils.EndGame();
+                    return false;
+                }
             }
-
-            return false;
+            return true;
         }
 
         internal bool PauseEndCrit = false;

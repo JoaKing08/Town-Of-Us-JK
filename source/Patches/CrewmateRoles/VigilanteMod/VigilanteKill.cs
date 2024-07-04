@@ -13,6 +13,7 @@ using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.Patches;
 using System;
 using Reactor.Utilities.Extensions;
+using TownOfUs.CrewmateRoles.ImitatorMod;
 
 namespace TownOfUs.CrewmateRoles.VigilanteMod
 {
@@ -89,6 +90,42 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
 
                 player.myTasks.Insert(0, importantTextTask);
 
+                if (player.Is(RoleEnum.Swapper))
+                {
+                    var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
+                    swapper.ListOfActives.Clear();
+                    swapper.Buttons.Clear();
+                    SwapVotes.Swap1 = null;
+                    SwapVotes.Swap2 = null;
+                    Utils.Rpc(CustomRPC.SetSwaps, sbyte.MaxValue, sbyte.MaxValue);
+                    var buttons = Role.GetRole<Swapper>(player).Buttons;
+                    foreach (var button in buttons)
+                    {
+                        button.SetActive(false);
+                        button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+                    }
+                }
+
+                if (player.Is(RoleEnum.Imitator))
+                {
+                    var imitator = Role.GetRole<Imitator>(PlayerControl.LocalPlayer);
+                    imitator.ListOfActives.Clear();
+                    imitator.Buttons.Clear();
+                    SetImitate.Imitate = null;
+                    var buttons = Role.GetRole<Imitator>(player).Buttons;
+                    foreach (var button in buttons)
+                    {
+                        button.SetActive(false);
+                        button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+                    }
+                }
+
+                if (player.Is(RoleEnum.Vigilante))
+                {
+                    var retributionist = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
+                    ShowHideButtonsVigi.HideButtonsVigi(retributionist);
+                }
+
                 if (player.Is(AbilityEnum.Assassin))
                 {
                     var assassin = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
@@ -99,6 +136,19 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 {
                     var doomsayer = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
                     ShowHideButtonsDoom.HideButtonsDoom(doomsayer);
+                }
+
+                if (player.Is(RoleEnum.Mayor))
+                {
+                    var mayor = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
+                    mayor.RevealButton.Destroy();
+                }
+
+                if (player.Is(RoleEnum.Deputy))
+                {
+                    var deputy0 = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                    foreach (var button in deputy0.ShootButtons) button.Value.Destroy();
+                    deputy0.ShootButtons.Clear();
                 }
 
                 if (player.Is(RoleEnum.Demagogue))

@@ -3,6 +3,8 @@ using System;
 using TownOfUs.ImpostorRoles.BomberMod;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Patches;
+using Reactor.Utilities.Extensions;
+using System.Linq;
 
 namespace TownOfUs.Roles
 {

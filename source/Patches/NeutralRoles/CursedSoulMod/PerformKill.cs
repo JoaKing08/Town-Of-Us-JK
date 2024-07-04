@@ -182,13 +182,6 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 CameraEffect.singleton.materials.Clear();
             }
 
-            if (targetRole == RoleEnum.Glitch && PlayerControl.LocalPlayer == target)
-            {
-                var glitch = Role.GetRole<Glitch>(target);
-                glitch.HackButton.Destroy();
-                glitch.MimicButton.Destroy();
-            }
-
             if ((targetRole == RoleEnum.Glitch || targetRole == RoleEnum.Juggernaut || targetRole == RoleEnum.Pestilence ||
                 targetRole == RoleEnum.Werewolf || targetRole == RoleEnum.Berserker || targetRole == RoleEnum.War || targetRole == RoleEnum.SerialKiller) &&
                 PlayerControl.LocalPlayer == target)
@@ -277,9 +270,9 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     }
                     break;
             }
-            if (Role.GetRole(target).ExtraButtons.Any()) foreach (var button in Role.GetRole(target).ExtraButtons)
+            if (PlayerControl.LocalPlayer.PlayerId == target.PlayerId) foreach (var button in GameObject.FindObjectsOfType<KillButton>())
                 {
-                    GameObject.Destroy(button);
+                    if (button != HudManager.Instance.KillButton) button.gameObject.Destroy();
                 }
             Role.GetRole(target).ExtraButtons.Clear();
             target.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -459,6 +452,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             {
                 var arsoRole = Role.GetRole<Arsonist>(cursedSoul);
                 arsoRole.LastDoused = DateTime.UtcNow;
+                if (arsoRole.DousedPlayers.Contains(cursedSoul.PlayerId)) arsoRole.DousedPlayers.Remove(cursedSoul.PlayerId);
             }
 
             else if (targetRole == RoleEnum.Survivor)

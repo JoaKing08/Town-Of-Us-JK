@@ -68,17 +68,10 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
                     SeeAll.AllToNormal();
                     CameraEffect.singleton.materials.Clear();
                 }
-
-                if (target.Is(RoleEnum.Glitch))
+                foreach (var button in GameObject.FindObjectsOfType<KillButton>())
                 {
-                    var glitch = Role.GetRole<Glitch>(target);
-                    glitch.HackButton.Destroy();
-                    glitch.MimicButton.Destroy();
+                    if (button != HudManager.Instance.KillButton) button.gameObject.Destroy();
                 }
-                if (Role.GetRole(target).ExtraButtons.Any()) foreach (var button in Role.GetRole(target).ExtraButtons)
-                    {
-                        GameObject.Destroy(button);
-                    }
                 Role.GetRole(target).ExtraButtons.Clear();
             }
             godfather.Recruited = true;

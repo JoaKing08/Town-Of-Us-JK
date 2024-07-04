@@ -4,6 +4,7 @@ using TownOfUs.ImpostorRoles.BomberMod;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Patches;
 using System.Linq;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Roles
 {

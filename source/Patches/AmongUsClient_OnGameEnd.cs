@@ -22,6 +22,11 @@ namespace TownOfUs
                 var amne = (Amnesiac)role;
                 losers.Add(amne.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.CursedSoul))
+            {
+                var cursedSoul = (CursedSoul)role;
+                losers.Add(cursedSoul.Player.GetDefaultOutfit().ColorId);
+            }
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
@@ -172,12 +177,11 @@ namespace TownOfUs
                 var agent = (ApocalypseAgent)objective;
                 losers.Add(agent.Player.GetDefaultOutfit().ColorId);
             }
-            foreach (var role in Role.GetRoles(RoleEnum.Jackal))
+            foreach (var role in Role.AllRoles.Where(x => x.FactionOverride == FactionOverride.Recruit))
             {
-                var jackal = (Jackal)role;
-                losers.Add(jackal.Player.GetDefaultOutfit().ColorId);
+                losers.Add(role.Player.GetDefaultOutfit().ColorId);
             }
-            foreach (var role in Role.GetRoles(RoleEnum.JKNecromancer))
+            foreach (var role in Role.AllRoles.Where(x => x.FactionOverride == FactionOverride.Undead))
             {
                 var necromancer = (Necromancer)role;
                 losers.Add(necromancer.Player.GetDefaultOutfit().ColorId);

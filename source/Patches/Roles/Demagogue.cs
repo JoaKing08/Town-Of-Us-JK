@@ -5,6 +5,8 @@ using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Patches;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Roles
 {

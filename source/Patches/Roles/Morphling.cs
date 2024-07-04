@@ -1,4 +1,6 @@
+using Reactor.Utilities.Extensions;
 using System;
+using System.Linq;
 using TownOfUs.Extensions;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
