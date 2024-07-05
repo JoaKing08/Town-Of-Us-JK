@@ -136,34 +136,33 @@ namespace TownOfUs
         {
             return Objective.GetObjective(player)?.ObjectiveType == objectiveType;
         }
-        public static bool LoverChat(this PlayerControl player, bool meeting)
+        public static bool LoverChat(this PlayerControl player)
         {
-            return player.IsLover() && ((meeting && (CustomGameOptions.LoversChat == AllowChat.Meeting || CustomGameOptions.LoversChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.LoversChat == AllowChat.Rounds || CustomGameOptions.LoversChat == AllowChat.Both)));
+            return player.IsLover() && ((IsMeeting && (CustomGameOptions.LoversChat == AllowChat.Meeting || CustomGameOptions.LoversChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.LoversChat == AllowChat.Rounds || CustomGameOptions.LoversChat == AllowChat.Both)));
         }
-        public static bool VampireChat(this PlayerControl player, bool meeting)
+        public static bool VampireChat(this PlayerControl player)
         {
-            return player.Is(FactionOverride.Vampires) && ((meeting && (CustomGameOptions.VampiresChat == AllowChat.Meeting || CustomGameOptions.VampiresChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.VampiresChat == AllowChat.Rounds || CustomGameOptions.VampiresChat == AllowChat.Both)));
+            return player.Is(FactionOverride.Vampires) && ((IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Meeting || CustomGameOptions.VampiresChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Rounds || CustomGameOptions.VampiresChat == AllowChat.Both)));
         }
-        public static bool RecruitChat(this PlayerControl player, bool meeting)
+        public static bool RecruitChat(this PlayerControl player)
         {
-            return player.Is(FactionOverride.Recruit) && !(player.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal) && ((meeting && (CustomGameOptions.RecruitsChat == AllowChat.Meeting || CustomGameOptions.RecruitsChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.RecruitsChat == AllowChat.Rounds || CustomGameOptions.RecruitsChat == AllowChat.Both)));
+            return player.Is(FactionOverride.Recruit) && !(player.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal) && ((IsMeeting && (CustomGameOptions.RecruitsChat == AllowChat.Meeting || CustomGameOptions.RecruitsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.RecruitsChat == AllowChat.Rounds || CustomGameOptions.RecruitsChat == AllowChat.Both)));
         }
-        public static bool UndeadChat(this PlayerControl player, bool meeting)
+        public static bool UndeadChat(this PlayerControl player)
         {
-            return player.Is(FactionOverride.Undead) && ((meeting && (CustomGameOptions.UndeadChat == AllowChat.Meeting || CustomGameOptions.UndeadChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.UndeadChat == AllowChat.Rounds || CustomGameOptions.UndeadChat == AllowChat.Both)));
+            return player.Is(FactionOverride.Undead) && ((IsMeeting && (CustomGameOptions.UndeadChat == AllowChat.Meeting || CustomGameOptions.UndeadChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.UndeadChat == AllowChat.Rounds || CustomGameOptions.UndeadChat == AllowChat.Both)));
         }
-        public static bool ImpostorChat(this PlayerControl player, bool meeting)
+        public static bool ImpostorChat(this PlayerControl player)
         {
-            return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent)) && ((meeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both))) && !UndercoverIsImpostor();
+            return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent)) && ((IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both))) && !UndercoverIsImpostor();
         }
-        public static bool ApocalypseChat(this PlayerControl player, bool meeting)
+        public static bool ApocalypseChat(this PlayerControl player)
         {
-            return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent)) && ((meeting && (CustomGameOptions.ApocalypseChat == AllowChat.Meeting || CustomGameOptions.ApocalypseChat == AllowChat.Both)) || (!meeting && (CustomGameOptions.ApocalypseChat == AllowChat.Rounds || CustomGameOptions.ApocalypseChat == AllowChat.Both))) && !UndercoverIsApocalypse();
+            return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent)) && ((IsMeeting && (CustomGameOptions.ApocalypseChat == AllowChat.Meeting || CustomGameOptions.ApocalypseChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ApocalypseChat == AllowChat.Rounds || CustomGameOptions.ApocalypseChat == AllowChat.Both))) && !UndercoverIsApocalypse();
         }
         public static bool Chat(this PlayerControl player)
         {
-            var meeting = Utils.IsMeeting;
-            return player.LoverChat(meeting) || player.VampireChat(meeting) || player.RecruitChat(meeting) || player.UndeadChat(meeting) || player.ImpostorChat(meeting) || player.ApocalypseChat(meeting);
+            return player.LoverChat() || player.VampireChat() || player.RecruitChat() || player.UndeadChat() || player.ImpostorChat() || player.ApocalypseChat();
         }
 
         public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)

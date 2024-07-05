@@ -579,7 +579,9 @@ namespace TownOfUs
             }
 
             // Set the Traitor, if there is one enabled.
-            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent)).ToList();
+            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ObjectiveEnum.Lover) && x.Is(FactionOverride.None) &&
+                !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.Deputy) && CustomGameOptions.RevealDeputy) && !(x.Is(RoleEnum.Prosecutor) &&
+                CustomGameOptions.RevealProsecutor)).ToList();
             if (TraitorOn && toChooseFromCrew.Count != 0)
             {
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
@@ -1171,7 +1173,9 @@ namespace TownOfUs
             }
 
             // Set the Traitor, if there is one enabled.
-            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent)).ToList();
+            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(ObjectiveEnum.Lover) && x.Is(FactionOverride.None) &&
+                !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.Deputy) && CustomGameOptions.RevealDeputy) && !(x.Is(RoleEnum.Prosecutor) &&
+                CustomGameOptions.RevealProsecutor)).ToList();
             if (TraitorOn && toChooseFromCrew.Count != 0)
             {
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);

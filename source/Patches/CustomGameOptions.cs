@@ -653,6 +653,7 @@ namespace TownOfUs
         public static bool VampVent => Generate.VampVent.Get();
         public static bool NewVampCanAssassin => Generate.NewVampCanAssassin.Get();
         public static int MaxVampiresPerGame => (int)Generate.MaxVampiresPerGame.Get();
+        public static int MaxAliveVampires => (int)Generate.MaxAliveVampires.Get();
         public static bool CanBiteNeutralBenign => Generate.CanBiteNeutralBenign.Get();
         public static bool CanBiteNeutralEvil => Generate.CanBiteNeutralEvil.Get();
         public static bool CanBiteNeutralChaos => Generate.CanBiteNeutralChaos.Get();

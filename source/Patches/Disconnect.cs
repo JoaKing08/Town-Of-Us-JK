@@ -60,8 +60,10 @@ namespace TownOfUs.Patches
                 {
                     if (player == SetTraitor.WillBeTraitor)
                     {
-                        var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) &&
-                            !x.Is(ObjectiveEnum.Lover) && !x.Data.IsDead && !x.Data.Disconnected && !x.IsExeTarget()).ToList();
+                        var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) &&
+                            !x.Is(ObjectiveEnum.Lover) && !x.Data.IsDead && !x.Data.Disconnected && !x.IsExeTarget() && x.Is(FactionOverride.None) &&
+                            !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.Deputy) && CustomGameOptions.RevealDeputy) && !(x.Is(RoleEnum.Prosecutor) &&
+                            CustomGameOptions.RevealProsecutor)).ToList();
                         if (toChooseFrom.Count == 0) return;
                         var rand = Random.RandomRangeInt(0, toChooseFrom.Count);
                         var pc = toChooseFrom[rand];

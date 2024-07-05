@@ -586,6 +586,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption VampVent;
         public static CustomToggleOption NewVampCanAssassin;
         public static CustomNumberOption MaxVampiresPerGame;
+        public static CustomNumberOption MaxAliveVampires;
         public static CustomToggleOption CanBiteNeutralBenign;
         public static CustomToggleOption CanBiteNeutralEvil;
         public static CustomToggleOption CanBiteNeutralChaos;
@@ -2103,7 +2104,9 @@ namespace TownOfUs.CustomOption
             NewVampCanAssassin =
                 new CustomToggleOption(num++, MultiMenu.neutral, "New Vampire Can Assassinate", false);
             MaxVampiresPerGame =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Vampires Per Game", 2, 2, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Vampires Per Game", 2, 2, 15, 1);
+            MaxAliveVampires =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Alive Vampires", 2, 2, 5, 1);
             CanBiteNeutralBenign =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Can Convert Neutral Benign Roles", false);
             CanBiteNeutralEvil =

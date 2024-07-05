@@ -413,14 +413,9 @@ namespace TownOfUs.Roles
                 var onlyNonstopping = !alives.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother) && !x.Data.IsImpostor());
                 var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
                 var recruitImp = PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor() && x.Is(FactionOverride.Recruit));
-                var traitorIsEnd = true;
-                var CKExists = alives.ToArray().Count(x => (x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter)) && !x.Is(ObjectiveEnum.ImpostorAgent)) > 0;
-                bool stopImpOvertake = (CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count && !onlyNonstopping && impsAlive.Count != 0;
-                if (SetTraitor.WillBeTraitor != null)
-                {
-                    traitorIsEnd = SetTraitor.WillBeTraitor.Data.IsDead || SetTraitor.WillBeTraitor.Data.Disconnected || alives.Count < CustomGameOptions.LatestSpawn || !(((CustomGameOptions.OvertakeWin == OvertakeWin.Off || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && CKExists) ? impsAlive.Count : impsAlive.Count * 2) < alives.Count || onlyNonstopping) && impsAlive.Count != 0);
-                }
-                if (traitorIsEnd && !stopImpOvertake && !recruitImp && impsAlive.Any())
+                var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(FactionOverride.None) && (x.Data.IsImpostor() || x.Is(ObjectiveEnum.ImpostorAgent))) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
+                bool stopImpOvertake = (CustomGameOptions.OvertakeWin == OvertakeWin.Off ? impsAlive.Count : impsAlive.Count * 2) < alives.Count && !onlyNonstopping && impsAlive.Count != 0;
+                if (!stopImpOvertake && !recruitImp && impsAlive.Any() && KillingAlives == 0)
                 {
                     Utils.EndGame();
                     return false;
@@ -526,7 +521,7 @@ namespace TownOfUs.Roles
             }
             if (Player.Data.Disconnected)
             {
-                PlayerName += " <color=#808080FF>(D/C)</color>";
+                PlayerName += "<color=#808080FF> (D/C)</color>";
             }
 
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
@@ -1481,7 +1476,7 @@ namespace TownOfUs.Roles
                                 player.NameText.color = role.Color;
                             if (role.RoleType == RoleEnum.Undercover)
                             {
-                                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))))
+                                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))) && !(PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles && Utils.ShowDeadBodies) && !(PlayerControl.LocalPlayer.Is(role.FactionOverride) && role.FactionOverride != FactionOverride.None))
                                     player.NameText.color = ((Undercover)role).UndercoverRole.GetRoleColor();
                             }
                             else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor())

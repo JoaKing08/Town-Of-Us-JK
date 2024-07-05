@@ -26,29 +26,41 @@ namespace TownOfUs
         {
             string text = __instance.freeChatField.Text;
             bool command = false;
-            if (AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance != null && AmongUsClient.Instance.CanBan())
             {
                 if (text.ToLower().StartsWith("/kick "))
                 {
                     var component = text[6..];
                     if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.GetDefaultOutfit().PlayerName == component))
                     {
-                        AmongUsClient.Instance.KickPlayer(PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component).PlayerId, false);
-                        command = true;
+                        InnerNet.ClientData client = AmongUsClient.Instance.GetClient(PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component).PlayerId);
+                        if (client != null)
+                        {
+                            AmongUsClient.Instance.KickPlayer(client.Id, false);
+                            command = true;
+                        }
                     }
                     else if (component.ToLower().StartsWith("player "))
                     {
                         component = component[7..];
                         if (int.TryParse(component, out int id))
                         {
-                            AmongUsClient.Instance.KickPlayer(id, false);
-                            command = true;
+                            InnerNet.ClientData client = AmongUsClient.Instance.GetClient(id);
+                            if (client != null)
+                            {
+                                AmongUsClient.Instance.KickPlayer(client.Id, false);
+                                command = true;
+                            }
                         }
                     }
                     else if (int.TryParse(component, out int id))
                     {
-                        AmongUsClient.Instance.KickPlayer(id, false);
-                        command = true;
+                        InnerNet.ClientData client = AmongUsClient.Instance.GetClient(id);
+                        if (client != null)
+                        {
+                            AmongUsClient.Instance.KickPlayer(client.Id, false);
+                            command = true;
+                        }
                     }
                 }
                 else if (text.ToLower().StartsWith("/ban "))
@@ -56,22 +68,34 @@ namespace TownOfUs
                     var component = text[5..];
                     if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.GetDefaultOutfit().PlayerName == component))
                     {
-                        AmongUsClient.Instance.KickPlayer(PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component).PlayerId, true);
-                        command = true;
+                        InnerNet.ClientData client = AmongUsClient.Instance.GetClient(PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component).PlayerId);
+                        if (client != null)
+                        {
+                            AmongUsClient.Instance.KickPlayer(client.Id, true);
+                            command = true;
+                        }
                     }
                     else if (component.ToLower().StartsWith("player "))
                     {
                         component = component[7..];
                         if (int.TryParse(component, out int id))
                         {
-                            AmongUsClient.Instance.KickPlayer(id, true);
-                            command = true;
+                            InnerNet.ClientData client = AmongUsClient.Instance.GetClient(id);
+                            if (client != null)
+                            {
+                                AmongUsClient.Instance.KickPlayer(client.Id, true);
+                                command = true;
+                            }
                         }
                     }
                     else if (int.TryParse(component, out int id))
                     {
-                        AmongUsClient.Instance.KickPlayer(id, true);
-                        command = true;
+                        InnerNet.ClientData client = AmongUsClient.Instance.GetClient(id);
+                        if (client != null)
+                        {
+                            AmongUsClient.Instance.KickPlayer(client.Id, true);
+                            command = true;
+                        }
                     }
                 }
             }
@@ -124,35 +148,35 @@ namespace TownOfUs
                 var localPlayer = PlayerControl.LocalPlayer;
                 if (localPlayer == null) return true;
                 bool roleSeeMessage = false;
-                bool meeting = DateTime.UtcNow - MeetingStartTime >= TimeSpan.FromSeconds(1);
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !chatText.Contains('<')) switch (Role.GetRole(sourcePlayer).CurrentChat)
+                //bool meeting = DateTime.UtcNow - MeetingStartTime >= TimeSpan.FromSeconds(1);
+                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) switch (Role.GetRole(sourcePlayer).CurrentChat)
                     {
                         case ChatType.VanillaChat:
-                            roleSeeMessage = meeting && (MeetingHud.Instance != null || LobbyBehaviour.Instance != null);
+                            roleSeeMessage = Utils.IsMeeting && (MeetingHud.Instance != null || LobbyBehaviour.Instance != null);
                             break;
                         case ChatType.LoversChat:
                             chatText = $"<b><color=#{Patches.Colors.Lovers.ToHtmlStringRGBA()}>Lovers Chat</color></b>\n" + chatText;
-                            roleSeeMessage = localPlayer.LoverChat(meeting);
+                            roleSeeMessage = localPlayer.LoverChat();
                             break;
                         case ChatType.VampiresChat:
                             chatText = $"<b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire Chat</color></b>\n" + chatText;
-                            roleSeeMessage = localPlayer.VampireChat(meeting);
+                            roleSeeMessage = localPlayer.VampireChat();
                             break;
                         case ChatType.RecruitsChat:
                             chatText = $"<b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Recruit Chat</color></b>\n" + chatText;
-                            roleSeeMessage = localPlayer.RecruitChat(meeting);
+                            roleSeeMessage = localPlayer.RecruitChat();
                             break;
                         case ChatType.UndeadChat:
                             chatText = $"<b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Undead Chat</color></b>\n" + chatText;
-                            roleSeeMessage = localPlayer.UndeadChat(meeting);
+                            roleSeeMessage = localPlayer.UndeadChat();
                             break;
                         case ChatType.ImpostorsChat:
                             chatText = $"<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor Chat</color></b>\n" + chatText;
-                            roleSeeMessage = localPlayer.ImpostorChat(meeting);
+                            roleSeeMessage = localPlayer.ImpostorChat();
                             break;
                         case ChatType.ApocalypseChat:
                             chatText = $"<b><color=#{new Color(0.25f, 0.35f, 0.25f, 1f).ToHtmlStringRGBA()}>Apocalypse Chat</color></b>\n" + chatText;
-                            roleSeeMessage = localPlayer.ApocalypseChat(meeting);
+                            roleSeeMessage = localPlayer.ApocalypseChat();
                             break;
                     }
                 else roleSeeMessage = MeetingHud.Instance != null || LobbyBehaviour.Instance != null;
@@ -185,6 +209,7 @@ namespace TownOfUs
                         if (role.ChatButton != null) UnityEngine.Object.Destroy(role.ChatButton);
                         if (!Utils.IsMeeting && !PlayerControl.LocalPlayer.Data.IsDead) __instance.Chat.SetVisible(false);
                         role.CurrentChat = ChatType.VanillaChat;
+                        __instance.Chat.backgroundImage.color = Color.white;
                     }
                     else
                     {
@@ -261,16 +286,15 @@ namespace TownOfUs
                     -1.35f,
                     role.ChatButton.transform.localPosition.z);
                 role.ChatButton.GetComponent<SpriteRenderer>().color = Color.green;
-                var meeting = Utils.IsMeeting;
                 bool[] IsAllowed = new bool[]
                 {
-                meeting,
-                PlayerControl.LocalPlayer.LoverChat(meeting),
-                PlayerControl.LocalPlayer.VampireChat(meeting),
-                PlayerControl.LocalPlayer.RecruitChat(meeting),
-                PlayerControl.LocalPlayer.UndeadChat(meeting),
-                PlayerControl.LocalPlayer.ImpostorChat(meeting),
-                PlayerControl.LocalPlayer.ApocalypseChat(meeting),
+                Utils.IsMeeting,
+                PlayerControl.LocalPlayer.LoverChat(),
+                PlayerControl.LocalPlayer.VampireChat(),
+                PlayerControl.LocalPlayer.RecruitChat(),
+                PlayerControl.LocalPlayer.UndeadChat(),
+                PlayerControl.LocalPlayer.ImpostorChat(),
+                PlayerControl.LocalPlayer.ApocalypseChat(),
                 };
                 switch (role.CurrentChat)
                 {
