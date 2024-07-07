@@ -3139,7 +3139,7 @@ namespace TownOfUs
                     case CustomRPC.GodfatherRecruit:
                         var godfather = Utils.PlayerById(reader.ReadByte());
                         var recruit1 = Utils.PlayerById(reader.ReadByte());
-                        ImpostorRoles.GodfatherMod.PerformKill.Recruit(Role.GetRole<Godfather>(godfather), recruit1);
+                        if (recruit1 != null && godfather != null && godfather.Is(RoleEnum.Godfather)) ImpostorRoles.GodfatherMod.PerformKill.Recruit(Role.GetRole<Godfather>(godfather), recruit1);
                         break;
                     case CustomRPC.IsMeeting:
                         Utils.IsMeeting = reader.ReadBoolean();

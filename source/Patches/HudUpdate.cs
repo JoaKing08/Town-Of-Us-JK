@@ -52,7 +52,7 @@ namespace TownOfUs.Patches
 
             Pos = __instance.MapButton.transform.localPosition + new Vector3(0.02f, -0.66f, 0f);
             var dead = false;
-            if (Utils.ShowDeadBodies)
+            if (Utils.ShowDeadBodies && PlayerControl.LocalPlayer.Data.IsDead)
             {
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Haunter))
                 {

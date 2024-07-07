@@ -457,7 +457,7 @@ namespace TownOfUs.Roles
             foreach (var role in GetRoles(RoleEnum.Inquisitor))
             {
                 var inq = (Inquisitor)role;
-                if (PlayerControl.LocalPlayer.Data.IsDead && !inq.Player.Data.IsDead && inq.heretics.Contains(Player.PlayerId)) //Error
+                if (PlayerControl.LocalPlayer.Data.IsDead && Utils.ShowDeadBodies && CustomGameOptions.DeadSeeRoles && !inq.Player.Data.IsDead && inq.heretics.Contains(Player.PlayerId))
                 {
                     PlayerName += "<color=#821252FF> X</color>";
                 }
@@ -658,7 +658,13 @@ namespace TownOfUs.Roles
                             if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
                             PlayerName += $"\nImpostor Support";
                         }
-                        else if (RoleType == RoleEnum.Impostor)
+                        else if (RoleType == RoleEnum.Demagogue || RoleType == RoleEnum.Godfather || RoleType == RoleEnum.Occultist)
+                        {
+                            Player.nameText().color = new Color(1f, 0f, 0f, 1f);
+                            if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);
+                            PlayerName += $"\nImpostor Power";
+                        }
+                        else if (RoleType == RoleEnum.Impostor || RoleType == RoleEnum.Mafioso)
                         {
                             Player.nameText().color = new Color(1f, 0f, 0f, 1f);
                             if (player != null) player.NameText.color = new Color(1f, 0f, 0f, 1f);

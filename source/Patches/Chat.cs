@@ -208,7 +208,11 @@ namespace TownOfUs
                             __instance.Chat.SetVisible(true);
                         if (role.ChatButton != null) UnityEngine.Object.Destroy(role.ChatButton);
                         if (!Utils.IsMeeting && !PlayerControl.LocalPlayer.Data.IsDead) __instance.Chat.SetVisible(false);
-                        role.CurrentChat = ChatType.VanillaChat;
+                        if (role.CurrentChat != ChatType.VanillaChat)
+                        {
+                            role.CurrentChat = ChatType.VanillaChat;
+                            Utils.Rpc(CustomRPC.SetChat, role.Player.PlayerId, (byte)role.CurrentChat);
+                        }
                         __instance.Chat.backgroundImage.color = Color.white;
                     }
                     else
