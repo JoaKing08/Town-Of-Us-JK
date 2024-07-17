@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.1) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.11 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.11) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.2.10 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.2.10) |
