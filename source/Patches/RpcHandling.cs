@@ -656,51 +656,50 @@ namespace TownOfUs
             }
 
             var undercoverRoles = new List<RoleEnum>();
-            if (CustomGameOptions.UndercoverBaker && CustomGameOptions.BakerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Baker))) undercoverRoles.Add(RoleEnum.Baker);
-            if (CustomGameOptions.UndercoverBerserker && CustomGameOptions.BerserkerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Berserker))) undercoverRoles.Add(RoleEnum.Berserker);
-            if (CustomGameOptions.UndercoverBlackmailer && CustomGameOptions.BlackmailerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Blackmailer))) undercoverRoles.Add(RoleEnum.Blackmailer);
-            if (CustomGameOptions.UndercoverBomber && CustomGameOptions.BomberOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Bomber))) undercoverRoles.Add(RoleEnum.Bomber);
-            if (CustomGameOptions.UndercoverEscapist && CustomGameOptions.EscapistOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Escapist))) undercoverRoles.Add(RoleEnum.Escapist);
-            if (CustomGameOptions.UndercoverGrenadier && CustomGameOptions.GrenadierOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Grenadier))) undercoverRoles.Add(RoleEnum.Grenadier);
-            if (CustomGameOptions.UndercoverJanitor && CustomGameOptions.JanitorOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Janitor))) undercoverRoles.Add(RoleEnum.Janitor);
-            if (CustomGameOptions.UndercoverMiner && CustomGameOptions.MinerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Miner))) undercoverRoles.Add(RoleEnum.Miner);
-            if (CustomGameOptions.UndercoverMorphling && CustomGameOptions.MorphlingOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Morphling))) undercoverRoles.Add(RoleEnum.Morphling);
-            if (CustomGameOptions.UndercoverPlaguebearer && CustomGameOptions.PlaguebearerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Plaguebearer))) undercoverRoles.Add(RoleEnum.Plaguebearer);
-            if (CustomGameOptions.UndercoverPoisoner && CustomGameOptions.PoisonerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Poisoner))) undercoverRoles.Add(RoleEnum.Poisoner);
-            if (CustomGameOptions.UndercoverSniper && CustomGameOptions.SniperOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Sniper))) undercoverRoles.Add(RoleEnum.Sniper);
-            if (CustomGameOptions.UndercoverSoulCollector && CustomGameOptions.SoulCollectorOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.SoulCollector))) undercoverRoles.Add(RoleEnum.SoulCollector);
-            if (CustomGameOptions.UndercoverSwooper && CustomGameOptions.SwooperOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Swooper))) undercoverRoles.Add(RoleEnum.Swooper);
-            if (CustomGameOptions.UndercoverUndertaker && CustomGameOptions.UndertakerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undertaker))) undercoverRoles.Add(RoleEnum.Undertaker);
-            if (CustomGameOptions.UndercoverVenerer && CustomGameOptions.VenererOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Venerer))) undercoverRoles.Add(RoleEnum.Venerer);
-            if (CustomGameOptions.UndercoverWarlock && CustomGameOptions.WarlockOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Warlock))) undercoverRoles.Add(RoleEnum.Warlock);
-            if (CustomGameOptions.UndercoverDemagogue && CustomGameOptions.DemagogueOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Demagogue))) undercoverRoles.Add(RoleEnum.Demagogue);
-            if (CustomGameOptions.UndercoverGodfather && CustomGameOptions.GodfatherOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Godfather))) undercoverRoles.Add(RoleEnum.Godfather);
-            if (CustomGameOptions.UndercoverOccultist && CustomGameOptions.OccultistOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Occultist))) undercoverRoles.Add(RoleEnum.Occultist);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverBaker && CustomGameOptions.BakerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Baker))) undercoverRoles.Add(RoleEnum.Baker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverBerserker && CustomGameOptions.BerserkerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Berserker))) undercoverRoles.Add(RoleEnum.Berserker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverBlackmailer && CustomGameOptions.BlackmailerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Blackmailer))) undercoverRoles.Add(RoleEnum.Blackmailer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverBomber && CustomGameOptions.BomberOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Bomber))) undercoverRoles.Add(RoleEnum.Bomber);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverEscapist && CustomGameOptions.EscapistOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Escapist))) undercoverRoles.Add(RoleEnum.Escapist);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverGrenadier && CustomGameOptions.GrenadierOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Grenadier))) undercoverRoles.Add(RoleEnum.Grenadier);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverJanitor && CustomGameOptions.JanitorOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Janitor))) undercoverRoles.Add(RoleEnum.Janitor);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverMiner && CustomGameOptions.MinerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Miner))) undercoverRoles.Add(RoleEnum.Miner);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverMorphling && CustomGameOptions.MorphlingOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Morphling))) undercoverRoles.Add(RoleEnum.Morphling);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverPlaguebearer && CustomGameOptions.PlaguebearerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Plaguebearer))) undercoverRoles.Add(RoleEnum.Plaguebearer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverPoisoner && CustomGameOptions.PoisonerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Poisoner))) undercoverRoles.Add(RoleEnum.Poisoner);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverSniper && CustomGameOptions.SniperOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Sniper))) undercoverRoles.Add(RoleEnum.Sniper);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverSoulCollector && CustomGameOptions.SoulCollectorOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.SoulCollector))) undercoverRoles.Add(RoleEnum.SoulCollector);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverSwooper && CustomGameOptions.SwooperOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Swooper))) undercoverRoles.Add(RoleEnum.Swooper);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverUndertaker && CustomGameOptions.UndertakerOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undertaker))) undercoverRoles.Add(RoleEnum.Undertaker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverVenerer && CustomGameOptions.VenererOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Venerer))) undercoverRoles.Add(RoleEnum.Venerer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverWarlock && CustomGameOptions.WarlockOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Warlock))) undercoverRoles.Add(RoleEnum.Warlock);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverDemagogue && CustomGameOptions.DemagogueOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Demagogue))) undercoverRoles.Add(RoleEnum.Demagogue);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverGodfather && CustomGameOptions.GodfatherOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Godfather))) undercoverRoles.Add(RoleEnum.Godfather);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverOccultist && CustomGameOptions.OccultistOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Occultist))) undercoverRoles.Add(RoleEnum.Occultist);
             foreach (var role in Role.GetRoles(RoleEnum.Undercover))
             {
                 var undercover = (Undercover)role;
-                if (undercoverRoles.Any())
+                while (undercoverRoles.Any() && undercover.UndercoverRole == RoleEnum.Impostor)
                 {
                     undercover.UndercoverRole = undercoverRoles[Random.RandomRangeInt(0, undercoverRoles.Count)];
-                    undercoverRoles.Remove((RoleEnum)undercover.UndercoverRole);
+                    undercoverRoles.Remove(undercover.UndercoverRole);
+                    Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
                 }
-                else
-                {
-                    undercover.UndercoverRole = RoleEnum.Impostor;
-                }
-                Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
             }
             foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
             {
                 var inq = (Inquisitor)role;
-                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
-                var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
-                foreach (var heretic in hereticsRaw)
+                while (inq.heretics == null || !inq.heretics.ToArray().Any())
                 {
-                    heretics.Add(heretic.PlayerId);
-                    Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic.PlayerId);
+                    var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).Select(x => x.PlayerId).ToList();
+                    var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
+                    foreach (var heretic in hereticsRaw)
+                    {
+                        heretics.Add(heretic);
+                        Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic);
+                    }
+                    inq.heretics = heretics;
                 }
-                inq.heretics = heretics;
             }
 
             var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
@@ -993,7 +992,6 @@ namespace TownOfUs
             var players = Utils.GetImpostors(infected);
             players.AddRange(Utils.GetCrewmates(players));
             GenRoleList(players);
-            while (!PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse))) GenRoleList(players);
             #region Spawn Modifiers and Setup Roles
             #region Crewmate Modifiers
             if (Check(CustomGameOptions.TorchOn))
@@ -1251,37 +1249,33 @@ namespace TownOfUs
             var undercoverRoles = new List<RoleEnum>();
             if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverBaker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Baker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Baker))) undercoverRoles.Add(RoleEnum.Baker);
             if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverBerserker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Berserker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Berserker))) undercoverRoles.Add(RoleEnum.Berserker);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverBlackmailer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Blackmailer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Blackmailer))) undercoverRoles.Add(RoleEnum.Blackmailer);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverBomber && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Bomber) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Bomber))) undercoverRoles.Add(RoleEnum.Bomber);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverEscapist && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Escapist) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Escapist))) undercoverRoles.Add(RoleEnum.Escapist);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverGrenadier && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Grenadier) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Grenadier))) undercoverRoles.Add(RoleEnum.Grenadier);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverJanitor && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Janitor) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Janitor))) undercoverRoles.Add(RoleEnum.Janitor);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverMiner && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Miner) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Miner))) undercoverRoles.Add(RoleEnum.Miner);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverMorphling && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Morphling) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Morphling))) undercoverRoles.Add(RoleEnum.Morphling);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverBlackmailer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Blackmailer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Blackmailer))) undercoverRoles.Add(RoleEnum.Blackmailer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverBomber && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Bomber) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Bomber))) undercoverRoles.Add(RoleEnum.Bomber);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverEscapist && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Escapist) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Escapist))) undercoverRoles.Add(RoleEnum.Escapist);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverGrenadier && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Grenadier) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Grenadier))) undercoverRoles.Add(RoleEnum.Grenadier);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverJanitor && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Janitor) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Janitor))) undercoverRoles.Add(RoleEnum.Janitor);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverMiner && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Miner) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Miner))) undercoverRoles.Add(RoleEnum.Miner);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverMorphling && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Morphling) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Morphling))) undercoverRoles.Add(RoleEnum.Morphling);
             if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverPlaguebearer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Plaguebearer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Plaguebearer))) undercoverRoles.Add(RoleEnum.Plaguebearer);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverPoisoner && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Poisoner) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Poisoner))) undercoverRoles.Add(RoleEnum.Poisoner);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverSniper && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Sniper) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Sniper))) undercoverRoles.Add(RoleEnum.Sniper);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverPoisoner && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Poisoner) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Poisoner))) undercoverRoles.Add(RoleEnum.Poisoner);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverSniper && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Sniper) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Sniper))) undercoverRoles.Add(RoleEnum.Sniper);
             if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.UndercoverSoulCollector && !CustomGameOptions.BanEntries.Contains(RLBanEntry.SoulCollector) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.SoulCollector))) undercoverRoles.Add(RoleEnum.SoulCollector);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverSwooper && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Swooper) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Swooper))) undercoverRoles.Add(RoleEnum.Swooper);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverUndertaker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Undertaker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undertaker))) undercoverRoles.Add(RoleEnum.Undertaker);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverVenerer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Venerer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Venerer))) undercoverRoles.Add(RoleEnum.Venerer);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverWarlock && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Warlock) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Warlock))) undercoverRoles.Add(RoleEnum.Warlock);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverDemagogue && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Demagogue) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Demagogue))) undercoverRoles.Add(RoleEnum.Demagogue);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverGodfather && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Godfather) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Godfather))) undercoverRoles.Add(RoleEnum.Godfather);
-            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Data.IsImpostor()) && CustomGameOptions.UndercoverOccultist && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Occultist) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Occultist))) undercoverRoles.Add(RoleEnum.Occultist);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverSwooper && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Swooper) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Swooper))) undercoverRoles.Add(RoleEnum.Swooper);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverUndertaker && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Undertaker) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Undertaker))) undercoverRoles.Add(RoleEnum.Undertaker);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverVenerer && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Venerer) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Venerer))) undercoverRoles.Add(RoleEnum.Venerer);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverWarlock && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Warlock) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Warlock))) undercoverRoles.Add(RoleEnum.Warlock);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverDemagogue && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Demagogue) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Demagogue))) undercoverRoles.Add(RoleEnum.Demagogue);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverGodfather && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Godfather) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Godfather))) undercoverRoles.Add(RoleEnum.Godfather);
+            if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverOccultist && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Occultist) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Occultist))) undercoverRoles.Add(RoleEnum.Occultist);
             foreach (var role in Role.GetRoles(RoleEnum.Undercover))
             {
                 var undercover = (Undercover)role;
-                if (undercoverRoles.Any())
+                while (undercoverRoles.Any() && undercover.UndercoverRole == RoleEnum.Impostor)
                 {
                     undercover.UndercoverRole = undercoverRoles[Random.RandomRangeInt(0, undercoverRoles.Count)];
-                    undercoverRoles.Remove((RoleEnum)undercover.UndercoverRole);
+                    undercoverRoles.Remove(undercover.UndercoverRole);
+                    Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
                 }
-                else
-                {
-                    undercover.UndercoverRole = RoleEnum.Impostor;
-                }
-                Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
             }
 
             var nonKillingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
@@ -1339,18 +1333,20 @@ namespace TownOfUs
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
             }
-
             foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
             {
                 var inq = (Inquisitor)role;
-                var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).ToList();
-                var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
-                foreach (var heretic in hereticsRaw)
+                while (inq.heretics == null || !inq.heretics.ToArray().Any())
                 {
-                    heretics.Add(heretic.PlayerId);
-                    Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic.PlayerId);
+                    var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).Select(x => x.PlayerId).ToList();
+                    var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
+                    foreach (var heretic in hereticsRaw)
+                    {
+                        heretics.Add(heretic);
+                        Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic);
+                    }
+                    inq.heretics = heretics;
                 }
-                inq.heretics = heretics;
             }
 
             var goodGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
@@ -2696,15 +2692,23 @@ namespace TownOfUs
                         Escapist.Escape(escapist);
                         break;
                     case CustomRPC.Revive:
-                        var necromancer = Utils.PlayerById(reader.ReadByte());
-                        var necromancerRole = Role.GetRole<Roles.Cultist.Necromancer>(necromancer);
-                        var revived = reader.ReadByte();
-                        var theDeadBodies2 = Object.FindObjectsOfType<DeadBody>();
-                        foreach (var body in theDeadBodies2)
-                            if (body.ParentId == revived)
-                            {
-                                PerformRevive.Revive(body, necromancerRole);
-                            }
+                        if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
+                        {
+                            var necromancer = Utils.PlayerById(reader.ReadByte());
+                            var necromancerRole = Role.GetRole<Roles.Cultist.Necromancer>(necromancer);
+                            var revived = reader.ReadByte();
+                            var theDeadBodies2 = Object.FindObjectsOfType<DeadBody>();
+                            foreach (var body in theDeadBodies2)
+                                if (body.ParentId == revived)
+                                {
+                                    PerformRevive.Revive(body, necromancerRole);
+                                }
+                        }
+                        else
+                        {
+                            var revived = Utils.PlayerById(reader.ReadByte());
+                            ChatCommands.Revive(revived);
+                        }
                         break;
                     case CustomRPC.JKRevive:
                         var necromancer1 = Utils.PlayerById(reader.ReadByte());
@@ -3196,6 +3200,14 @@ namespace TownOfUs
             public static void Postfix()
             {
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage("RPC SET ROLE");
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.Data.IsDead)
+                    {
+                        ChatCommands.Revive(player);
+                        Utils.Rpc(CustomRPC.Revive, player.PlayerId);
+                    }
+                }
                 var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.IsImpostor());
 
                 Utils.ShowDeadBodies = false;

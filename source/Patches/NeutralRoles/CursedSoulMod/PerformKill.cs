@@ -182,11 +182,25 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 CameraEffect.singleton.materials.Clear();
             }
 
-            if ((targetRole == RoleEnum.Glitch || targetRole == RoleEnum.Juggernaut || targetRole == RoleEnum.Pestilence ||
-                targetRole == RoleEnum.Werewolf || targetRole == RoleEnum.Berserker || targetRole == RoleEnum.War || targetRole == RoleEnum.SerialKiller) &&
-                PlayerControl.LocalPlayer == target)
+            if (PlayerControl.LocalPlayer == target)
             {
                 HudManager.Instance.KillButton.buttonLabelText.gameObject.SetActive(false);
+                if (targetRole == RoleEnum.Glitch)
+                {
+                    Role.GetRole<Glitch>(target).Reset();
+                }
+                if (targetRole == RoleEnum.Transporter)
+                {
+                    var transporter = Role.GetRole<Transporter>(target);
+                    transporter.TransportList.Toggle();
+                    transporter.TransportList.gameObject.SetActive(false);
+                    transporter.TransportList.gameObject.DestroyImmediate();
+                    transporter.TransportList = null;
+                    transporter.PressedButton = false;
+                    transporter.TransportPlayer1 = null;
+                    transporter.HighlightedPlayer = null;
+                    transporter.PlayerIndex = 0;
+                }
             }
 
             if (targetRole == RoleEnum.Investigator) Footprint.DestroyAll(Role.GetRole<Investigator>(target));

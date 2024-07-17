@@ -183,8 +183,7 @@ namespace TownOfUs
             }
             foreach (var role in Role.AllRoles.Where(x => x.FactionOverride == FactionOverride.Undead))
             {
-                var necromancer = (Necromancer)role;
-                losers.Add(necromancer.Player.GetDefaultOutfit().ColorId);
+                losers.Add(role.Player.GetDefaultOutfit().ColorId);
             }
 
             var toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();

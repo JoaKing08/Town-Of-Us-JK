@@ -40,9 +40,8 @@ namespace TownOfUs.Roles
         public DateTime NotificationEnds;
         public string NotificationString;
         public bool KilledByAbility;
-        public GameObject ChatButton;
-        public ChatType CurrentChat = ChatType.VanillaChat;
         public PlayerControl ClosestPlayerImp;
+        public ChatType CurrentChat = ChatType.VanillaChat;
         //public Dictionary<ChatType, ChatController> ChatControllers = new Dictionary<ChatType, ChatController>();
 
         protected Role(PlayerControl player)

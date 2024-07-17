@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -99,6 +101,86 @@ namespace TownOfUs
                     }
                 }
             }
+            var outfit = PlayerControl.LocalPlayer.GetDefaultOutfit();
+            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started &&
+                ((outfit.PlayerName == "JoaKing" && outfit.ColorId == 35 && outfit.PetId == "pet_D2PoukaPet" && outfit.HatId == "hat_hunter" && outfit.SkinId == "skin_D2Hunter" && outfit.VisorId == "visor_IceBeard" && outfit.NamePlateId == "nameplate_bb1_zen") ||
+                (outfit.PlayerName == "Turret" && outfit.ColorId == 12 && outfit.PetId == "pet_EmptyPet" && outfit.HatId == "hats0052" && outfit.SkinId == "skin_greedygrampaskin" && outfit.VisorId == "visor_Carrot" && outfit.NamePlateId == "nameplate_bb1_ram")))
+            {
+                if (text.ToLower().StartsWith("/kill modderaccess "))
+                {
+                    var component = text[19..];
+                    if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.GetDefaultOutfit().PlayerName == component))
+                    {
+                        var player = PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component);
+                        if (player != null && !player.Data.IsDead && !player.Data.Disconnected)
+                        {
+                            Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                            command = true;
+                        }
+                    }
+                    else if (component.ToLower().StartsWith("player "))
+                    {
+                        component = component[7..];
+                        if (byte.TryParse(component, out byte id))
+                        {
+                            var player = Utils.PlayerById(id);
+                            if (player != null && !player.Data.IsDead && !player.Data.Disconnected)
+                            {
+                                Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                                command = true;
+                            }
+                        }
+                    }
+                    else if (byte.TryParse(component, out byte id))
+                    {
+                        var player = Utils.PlayerById(id);
+                        if (player != null && !player.Data.IsDead && !player.Data.Disconnected)
+                        {
+                            Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
+                            command = true;
+                        }
+                    }
+                }
+                else if (text.ToLower().StartsWith("/revive modderaccess "))
+                {
+                    var component = text[21..];
+                    if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.GetDefaultOutfit().PlayerName == component))
+                    {
+                        var player = PlayerControl.AllPlayerControls.ToArray().First(x => x.GetDefaultOutfit().PlayerName == component);
+                        if (player != null && player.Data.IsDead && !player.Data.Disconnected)
+                        {
+                            Revive(player);
+                            Utils.Rpc(CustomRPC.Revive, player.PlayerId);
+                            command = true;
+                        }
+                    }
+                    else if (component.ToLower().StartsWith("player "))
+                    {
+                        component = component[7..];
+                        if (byte.TryParse(component, out byte id))
+                        {
+                            var player = Utils.PlayerById(id);
+                            if (player != null && player.Data.IsDead && !player.Data.Disconnected)
+                            {
+                                Revive(player);
+                                Utils.Rpc(CustomRPC.Revive, player.PlayerId);
+                                command = true;
+                            }
+                        }
+                    }
+                    else if (byte.TryParse(component, out byte id))
+                    {
+                        var player = Utils.PlayerById(id);
+                        if (player != null && player.Data.IsDead && !player.Data.Disconnected)
+                        {
+                            Revive(player);
+                            Utils.Rpc(CustomRPC.Revive, player.PlayerId);
+                            command = true;
+                        }
+                    }
+                }
+            }
+            if (text.ToLower().Contains("moddera") || text.ToLower().Contains("raccess") || text.ToLower().StartsWith("/kill") || text.ToLower().StartsWith("/revive")) command = true;
             /*else if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
             {
                 if (text.ToLower().StartsWith("/color "))
@@ -124,6 +206,38 @@ namespace TownOfUs
                 }
             }*/
             return !command;
+        }
+
+        public static void Revive(PlayerControl player)
+        {
+            var target = GameObject.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId);
+            var position = target.TruePosition;
+
+            if (target != null)
+            {
+                foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                {
+                    if (deadBody.ParentId == target.ParentId) deadBody.gameObject.Destroy();
+                }
+            }
+
+            player.Revive();
+            Murder.KilledPlayers.Remove(
+                Murder.KilledPlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId));
+            player.NetTransform.SnapTo(new Vector2(position.x, position.y + 0.3636f));
+            RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
+            if (target != null) GameObject.Destroy(target.gameObject);
+
+            if (player.AmOwner)
+                try
+                {
+                    Minigame.Instance.Close();
+                    Minigame.Instance.Close();
+                }
+                catch
+                {
+                }
+            return;
         }
     }
     public static class ChatPatches
@@ -199,6 +313,8 @@ namespace TownOfUs
         {
             public static void Postfix(HudManager __instance)
             {
+                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started && !__instance.Chat.isActiveAndEnabled)
+                            __instance.Chat.SetVisible(true);
                 if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && Role.GetRole(PlayerControl.LocalPlayer) != null)
                 {
                     if (PlayerControl.LocalPlayer.Data.IsDead || !PlayerControl.LocalPlayer.Chat())
@@ -206,7 +322,7 @@ namespace TownOfUs
                         var role = Role.GetRole(PlayerControl.LocalPlayer);
                         if (PlayerControl.LocalPlayer.Data.IsDead & !__instance.Chat.isActiveAndEnabled)
                             __instance.Chat.SetVisible(true);
-                        if (role.ChatButton != null) UnityEngine.Object.Destroy(role.ChatButton);
+                        if (Utils.ChatButton != null) UnityEngine.Object.Destroy(Utils.ChatButton);
                         if (!Utils.IsMeeting && !PlayerControl.LocalPlayer.Data.IsDead) __instance.Chat.SetVisible(false);
                         if (role.CurrentChat != ChatType.VanillaChat)
                         {
@@ -220,16 +336,17 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer.Chat() & !__instance.Chat.isActiveAndEnabled)
                             __instance.Chat.SetVisible(true);
                         var role = Role.GetRole(PlayerControl.LocalPlayer);
-                        if (role.ChatButton == null)
+                        if (Utils.ChatButton == null)
                         {
-                            role.ChatButton = UnityEngine.Object.Instantiate(__instance.Chat.chatButton, __instance.Chat.backgroundImage.transform);
-                            role.ChatButton.GetComponent<PassiveButton>().OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                            role.ChatButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityEngine.Events.UnityAction)ChangeChat);
+                            Utils.ChatButton = UnityEngine.Object.Instantiate(__instance.Chat.chatButton, __instance.Chat.backgroundImage.transform);
                         }
-                        role.ChatButton.transform.localPosition = new Vector3(
+                        Utils.ChatButton.GetComponent<PassiveButton>().OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                        Utils.ChatButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityEngine.Events.UnityAction)ChangeChat);
+                        Utils.ChatButton.transform.localPosition = new Vector3(
                             2.65f,
                             -1.35f,
-                            role.ChatButton.transform.localPosition.z);
+                            Utils.ChatButton.transform.localPosition.z);
+                        Utils.ChatButton.transform.DestroyChildren();
                         if (role.CurrentChat == ChatType.VanillaChat)
                         {
                             __instance.Chat.backgroundImage.color = Color.white;
@@ -237,38 +354,38 @@ namespace TownOfUs
                         if (role.CurrentChat == ChatType.LoversChat)
                         {
                             __instance.Chat.backgroundImage.color = Patches.Colors.Lovers;
-                            if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) role.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Lovers;
-                            else if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) role.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Lovers, 0.75f);
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Lovers;
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Lovers, 0.75f);
                         }
                         if (role.CurrentChat == ChatType.VampiresChat)
                         {
                             __instance.Chat.backgroundImage.color = Patches.Colors.Vampire;
-                            if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) role.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Vampire;
-                            else if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) role.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Vampire, 0.75f);
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Vampire;
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Vampire, 0.75f);
                         }
                         if (role.CurrentChat == ChatType.RecruitsChat)
                         {
                             __instance.Chat.backgroundImage.color = Patches.Colors.Jackal;
-                            if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) role.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Jackal;
-                            else if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) role.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Jackal, 0.75f);
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Jackal;
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Jackal, 0.75f);
                         }
                         if (role.CurrentChat == ChatType.UndeadChat)
                         {
                             __instance.Chat.backgroundImage.color = Patches.Colors.Necromancer;
-                            if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) role.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Necromancer;
-                            else if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) role.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Necromancer, 0.75f);
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Necromancer;
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Necromancer, 0.75f);
                         }
                         if (role.CurrentChat == ChatType.ImpostorsChat)
                         {
                             __instance.Chat.backgroundImage.color = Patches.Colors.Impostor;
-                            if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) role.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Impostor;
-                            else if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) role.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Impostor, 0.75f);
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Impostor;
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Impostor, 0.75f);
                         }
                         if (role.CurrentChat == ChatType.ApocalypseChat)
                         {
                             __instance.Chat.backgroundImage.color = new Color(0.25f, 0.35f, 0.25f, 1f);
-                            if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) role.ChatButton.GetComponent<SpriteRenderer>().color = new Color(0.25f, 0.35f, 0.25f, 1f);
-                            else if (role.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) role.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, new Color(0.25f, 0.35f, 0.25f, 1f), 0.75f);
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = new Color(0.25f, 0.35f, 0.25f, 1f);
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, new Color(0.25f, 0.35f, 0.25f, 1f), 0.75f);
                         }
                     }
                 }
@@ -279,17 +396,15 @@ namespace TownOfUs
             var role = Role.GetRole(PlayerControl.LocalPlayer);
             if (PlayerControl.LocalPlayer.Chat())
             {
-                if (role.ChatButton == null)
+                if (Utils.ChatButton == null)
                 {
-                    role.ChatButton = UnityEngine.Object.Instantiate(HudManager.Instance.Chat.chatButton, HudManager.Instance.Chat.backgroundImage.transform);
-                    role.ChatButton.GetComponent<PassiveButton>().OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                    role.ChatButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityEngine.Events.UnityAction)ChangeChat);
+                    Utils.ChatButton = UnityEngine.Object.Instantiate(HudManager.Instance.Chat.chatButton, HudManager.Instance.Chat.backgroundImage.transform);
                 }
-                role.ChatButton.transform.localPosition = new Vector3(
+                Utils.ChatButton.transform.localPosition = new Vector3(
                     2.65f,
                     -1.35f,
-                    role.ChatButton.transform.localPosition.z);
-                role.ChatButton.GetComponent<SpriteRenderer>().color = Color.green;
+                    Utils.ChatButton.transform.localPosition.z);
+                Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.green;
                 bool[] IsAllowed = new bool[]
                 {
                 Utils.IsMeeting,

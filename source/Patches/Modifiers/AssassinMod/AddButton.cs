@@ -42,6 +42,16 @@ namespace TownOfUs.Modifiers.AssassinMod
                     player.Data.Disconnected
                 ) return true;
             }
+            else if (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse))
+            {
+                if (
+                    player == null ||
+                    player.Is(Faction.NeutralApocalypse) ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected ||
+                    (player.Is(RoleEnum.Undercover) && Utils.UndercoverIsApocalypse())
+                ) return true;
+            }
             else
             {
                 if (

@@ -68,9 +68,9 @@ namespace TownOfUs.Roles
                 switch (reportType)
                 {
                     case 0:
-                        if (bodyTime.TotalSeconds < 10) message += "'s wounds look very fresh <b>(Killed Less 10s Before Investigate)</b>";
-                        else if (bodyTime.TotalSeconds < 20) message += "'s body lies here for a while <b>(Killed Less 20s Before Investigate)</b>";
-                        else message += "'s body started to stink <b>(Killed Less 20s Before Investigate)</b>";
+                        if (bodyTime.TotalSeconds < 10) message += "'s wounds look very fresh <b>(Killed Less Than 10s Before Investigate)</b>";
+                        else if (bodyTime.TotalSeconds < 20) message += "'s body lies here for a while <b>(Killed Less Than 20s Before Investigate)</b>";
+                        else message += "'s body started to stink <b>(Killed More Than 20s Before Investigate)</b>";
                         break;
                     case 1:
                         if (player.Is(Faction.Impostors)) message += "'s body had a knife next to it <b>(Player Was <color=#FF0000FF>Impostor</color>)</b>";

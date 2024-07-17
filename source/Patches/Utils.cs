@@ -37,6 +37,7 @@ namespace TownOfUs
         internal static bool ShowDeadBodies = false;
         private static GameData.PlayerInfo voteTarget = null;
         public static bool IsMeeting = true;
+        public static GameObject ChatButton;
 
         public static bool CheckImpostorFriendlyFire()
         {
@@ -1093,11 +1094,11 @@ namespace TownOfUs
             {
                 if (ShowRoundOneShield.DiedFirst == "") ShowRoundOneShield.DiedFirst = target.GetDefaultOutfit().PlayerName;
 
-                if (killer == PlayerControl.LocalPlayer)
+                if (killer == PlayerControl.LocalPlayer || AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
                     SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
 
                 if (!killer.Is(Faction.Crewmates) && killer != target
-                    && GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal) Role.GetRole(killer).Kills += 1;
+                    && GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) Role.GetRole(killer).Kills += 1;
 
                 if (killer.Is(RoleEnum.Sheriff))
                 {
@@ -1287,7 +1288,7 @@ namespace TownOfUs
                     KillerId = killer.PlayerId,
                     KillTime = DateTime.UtcNow
                 };
-                Role.GetRole(killer).LastBlood = DateTime.UtcNow;
+                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) Role.GetRole(killer).LastBlood = DateTime.UtcNow;
 
                 Murder.KilledPlayers.Add(deadBody);
 
