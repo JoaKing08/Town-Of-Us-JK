@@ -52,7 +52,7 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 if (role.ListOfActives.Count(x => x) == 2 &&

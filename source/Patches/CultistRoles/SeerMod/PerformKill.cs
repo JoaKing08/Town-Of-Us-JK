@@ -5,6 +5,7 @@ using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using UnityEngine;
 using AmongUs.GameOptions;
+using TownOfUs.Patches;
 
 namespace TownOfUs.CultistRoles.SeerMod
 {
@@ -29,12 +30,12 @@ namespace TownOfUs.CultistRoles.SeerMod
                 && !role.ClosestPlayer.Is(RoleEnum.Whisperer))
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                role.Notification("Your Target Was Converted!", 1000 * CustomGameOptions.NotificationDuration);
+                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Was Converted!" : "Twój Cel Zostal Przekonwrtowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
             else
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                role.Notification("Your Target Wasn't Converted!", 1000 * CustomGameOptions.NotificationDuration);
+                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Wasn't Converted!" : "Twój Cel Nie Zostal Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
             role.LastInvestigated = DateTime.UtcNow;
             role.UsesLeft--;

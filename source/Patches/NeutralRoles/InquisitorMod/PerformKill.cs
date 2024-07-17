@@ -68,12 +68,12 @@ namespace TownOfUs.NeutralRoles.InquisitorMod
                     if (role.heretics.Contains(role.ClosestPlayer.PlayerId))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        role.Notification("Your Target Is A Heretic!", 1000 * CustomGameOptions.NotificationDuration);
+                        role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is A Heretic!" : "Twój Cel Jest Heretykiem!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     else
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        role.Notification("Your Target Isn't A Heretic!", 1000 * CustomGameOptions.NotificationDuration);
+                        role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Isn't A Heretic!" : "Twój Cel Nie Jest Heretykiem", 1000 * CustomGameOptions.NotificationDuration);
                     }
                 }
                 if (interact[0] == true)

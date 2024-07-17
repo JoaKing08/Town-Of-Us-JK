@@ -135,7 +135,7 @@ namespace TownOfUs.CrewmateRoles.SageMod
                 {
                     result = !result;
                 }
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, result ? $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#00FF00FF>friends</color></b>." : $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#FF0000FF>enemies</color></b>.");
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? (result ? $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#00FF00FF>friends</color></b>." : $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#FF0000FF>enemies</color></b>.") : (result ? $"Uwazasz ze <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> i <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> wydaja sie byc <b><color=#00FF00FF>przyjaciólmi</color></b>." : $"Uwazasz ze <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> i <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> wydaja sie byc <b><color=#FF0000FF>wrogami</color></b>."));
             }
         }
     }

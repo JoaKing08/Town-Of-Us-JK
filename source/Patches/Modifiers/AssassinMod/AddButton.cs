@@ -176,7 +176,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 var targetId = voteArea.TargetPlayerId;
@@ -207,13 +207,13 @@ namespace TownOfUs.Modifiers.AssassinMod
                         {
                             modifier.LifeUsed = true;
                             Coroutines.Start(Utils.FlashCoroutine(Color.red, 1f));
-                            Role.GetRole(PlayerControl.LocalPlayer).Notification("You Guessed Wrong!", 1000 * CustomGameOptions.NotificationDuration);
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Guessed Wrong!" : "Zgadles Zle!", 1000 * CustomGameOptions.NotificationDuration);
                             ShowHideButtons.HideSingle(role, targetId, false, true);
                         }
                         else
                         {
                             Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                            Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie.GetDefaultOutfit().PlayerName} Zostal Zgadniety!", 1000 * CustomGameOptions.NotificationDuration);
                             AssassinKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                             role.RemainingKills--;
                             ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
@@ -239,7 +239,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                     else
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie.GetDefaultOutfit().PlayerName} Zostal Zgadniety!", 1000 * CustomGameOptions.NotificationDuration);
                         AssassinKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                         role.RemainingKills--;
                         ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);

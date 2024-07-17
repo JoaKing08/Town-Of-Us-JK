@@ -7,6 +7,7 @@ using TownOfUs.Extensions;
 using UnityEngine;
 using TMPro;
 using Reactor.Utilities.Extensions;
+using TownOfUs.Patches;
 
 namespace TownOfUs.Roles.Horseman
 {
@@ -61,12 +62,12 @@ namespace TownOfUs.Roles.Horseman
             if (CustomGameOptions.AnnounceWar)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
-                role.Notification($"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                role.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
             }
             else if (Player == PlayerControl.LocalPlayer)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
-                role.Notification($"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                role.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
             }
             if (Player == PlayerControl.LocalPlayer)
             {

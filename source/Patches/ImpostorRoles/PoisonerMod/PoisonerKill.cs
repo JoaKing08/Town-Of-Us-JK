@@ -76,7 +76,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                 return;
             }
             Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-            Role.GetRole(PlayerControl.LocalPlayer).Notification($"{player.GetDefaultOutfit().PlayerName} Has Died From Poison!", 1000 * CustomGameOptions.NotificationDuration);
+            Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{player.GetDefaultOutfit().PlayerName} Has Died From Poison!" : $"{player.GetDefaultOutfit().PlayerName} Zginal Przez Trucizne!", 1000 * CustomGameOptions.NotificationDuration);
             var hudManager = DestroyableSingleton<HudManager>.Instance;
             if (checkLover)
             {

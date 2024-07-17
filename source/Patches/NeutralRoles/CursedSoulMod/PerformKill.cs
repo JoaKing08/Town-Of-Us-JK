@@ -83,7 +83,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             if (target == PlayerControl.LocalPlayer)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.CursedSoul));
-                Role.GetRole(target).Notification("You Were Swapped!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(target).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Swapped!" : "Zostales Zamieniony!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             var swapImp = true;

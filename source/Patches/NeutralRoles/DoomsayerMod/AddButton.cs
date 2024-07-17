@@ -5,6 +5,7 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using TownOfUs.Extensions;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
@@ -144,7 +145,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 var targetId = voteArea.TargetPlayerId;
@@ -169,7 +170,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 if (toDie == playerRole.Player)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie.GetDefaultOutfit().PlayerName} Zostal Zgadniety", 1000 * CustomGameOptions.NotificationDuration);
                     DoomsayerKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                     ShowHideButtonsDoom.HideSingle(role, targetId, toDie == role.Player);
                     if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
@@ -194,7 +195,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 {
                     ShowHideButtonsDoom.HideButtonsDoom(role);
                     Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    role.Notification("You Guessed Wrong!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(TranslationPatches.CurrentLanguage == 0 ? "You Guessed Wrong!" : "Zgadles Zle!", 1000 * CustomGameOptions.NotificationDuration);
                 }
             }
 

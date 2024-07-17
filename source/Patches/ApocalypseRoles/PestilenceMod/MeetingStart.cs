@@ -20,7 +20,7 @@ namespace TownOfUs.NeutralRoles.PestilenceMod
             {
                 if (!role.Announced && CustomGameOptions.AnnouncePestilence)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"A <b>Plague</b> has consumed the <b><color=#00FFFFFF>Crew</color></b>, transforming the <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b> into <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>, <b>Horseman of the Apocalypse</b>!");
+                    if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"A <b>Plague</b> has consumed the <b><color=#00FFFFFF>Crew</color></b>, transforming the <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b> into <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>, <b>Horseman of the Apocalypse</b>!" : $"<b>Plaga</b> trawi <b><color=#00FFFFFF>Zaloge</color></b>, przemieniajac <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b> w <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>, <b>Jezdzce Apokalipsy</b>!");
                     role.Announced = true;
                 }
             }

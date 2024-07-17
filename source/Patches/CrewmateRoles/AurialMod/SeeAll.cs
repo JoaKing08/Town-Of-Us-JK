@@ -69,7 +69,7 @@ namespace TownOfUs.CrewmateRoles.AurialMod
 
                 if (!Check(s, player))
                 {
-                    ColorChar(player, Color.white, "Unknown");
+                    ColorChar(player, Color.white, Patches.TranslationPatches.CurrentLanguage == 0 ? "Unknown" : "Nieznany");
                     continue;
                 }
 

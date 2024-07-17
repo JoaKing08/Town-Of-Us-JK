@@ -20,7 +20,7 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
             {
                 if (!role.Announced && CustomGameOptions.AnnounceFamine)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"The <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b> has transformed into <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>, <b>Horseman of the Apocalypse</b>! A <b>Famine</b> has begun!");
+                    if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"The <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b> has transformed into <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>, <b>Horseman of the Apocalypse</b>! A <b>Famine</b> has begun!" : $"<b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b> przemienil sie w <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>, <b>Jezdzce Apokalipsy</b>! <b>Wielki Glód</b> sie rozpoczal!");
                     role.Announced = true;
                 }
             }

@@ -15,7 +15,7 @@ namespace TownOfUs.CrewmateRoles.InspectorMod
             var inspectorRole = Role.GetRole<Inspector>(PlayerControl.LocalPlayer);
             if (inspectorRole.LastInspectedPlayer != null)
             {
-                var playerResults = "You found out that " + Utils.GetPossibleRoleCategory(inspectorRole.LastInspectedPlayer);
+                var playerResults = (Patches.TranslationPatches.CurrentLanguage == 0 ? "You found out that " : "Dowiedziales sie ze ") + Utils.GetPossibleRoleCategory(inspectorRole.LastInspectedPlayer);
                 var roleResults = Utils.GetPossibleRoleList(inspectorRole.LastInspectedPlayer);
 
                 if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);

@@ -689,7 +689,7 @@ namespace TownOfUs.Roles
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    __gInstance.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    __gInstance.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else if (__gInstance.MimicList == null)
                 {

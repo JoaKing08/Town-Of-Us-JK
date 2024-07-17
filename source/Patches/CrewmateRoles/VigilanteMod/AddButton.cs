@@ -156,7 +156,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 var targetId = voteArea.TargetPlayerId;
@@ -189,7 +189,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 if (!toDie.Is(RoleEnum.Pestilence) && !toDie.Is(RoleEnum.Famine) && !toDie.Is(RoleEnum.War) && !toDie.Is(RoleEnum.Death))
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie.GetDefaultOutfit().PlayerName} Zostal Zgadniety!", 1000 * CustomGameOptions.NotificationDuration);
                     VigilanteKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
                     role.RemainingKills--;
                     ShowHideButtonsVigi.HideSingle(role, targetId, toDie == role.Player);

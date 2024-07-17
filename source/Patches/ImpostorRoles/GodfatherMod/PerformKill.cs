@@ -59,7 +59,7 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
             if (target == PlayerControl.LocalPlayer)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                Role.GetRole(target).Notification("You Were Recruited!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(target).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Recruited!" : "Zostales Zrekrutowany!", 1000 * CustomGameOptions.NotificationDuration);
 
                 if (target.Is(RoleEnum.Aurial))
                 {

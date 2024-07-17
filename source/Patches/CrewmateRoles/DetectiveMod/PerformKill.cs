@@ -6,6 +6,7 @@ using TownOfUs.CrewmateRoles.MedicMod;
 using Reactor.Utilities;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Horseman;
+using TownOfUs.Patches;
 
 namespace TownOfUs.CrewmateRoles.DetectiveMod
 {
@@ -36,12 +37,12 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                     if (role.DetectedKillers.Contains(role.ClosestPlayer.PlayerId) || (CustomGameOptions.CanDetectLastKiller && role.LastKiller == role.ClosestPlayer))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        role.Notification("Your Target Is A Killer!", 1000 * CustomGameOptions.NotificationDuration);
+                        role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is A Killer!" : "Twój Cel Jest Zabójca", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     else
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        role.Notification("Your Target Isn't A Killer!", 1000 * CustomGameOptions.NotificationDuration);
+                        role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Isn't A Killer!" : "Twój Cel Nie Jest Zabójca", 1000 * CustomGameOptions.NotificationDuration);
                     }
                 }
                 if (interact[0] == true)
@@ -67,7 +68,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return false;
                 }
                 var playerId = role.CurrentTarget.ParentId;

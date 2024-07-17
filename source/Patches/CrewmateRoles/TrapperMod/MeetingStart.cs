@@ -16,15 +16,15 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
             var trapperRole = Role.GetRole<Trapper>(PlayerControl.LocalPlayer);
             if (trapperRole.trappedPlayers.Count == 0)
             {
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players entered any of your traps");
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? "<b>No</b> players entered any of your traps." : "<b>Nikt</b> nie wszedl w zadne twoje pulapki.");
             }
             else if (trapperRole.trappedPlayers.Count < CustomGameOptions.MinAmountOfPlayersInTrap)
             {
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>Not enough</b> players triggered your traps");
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? "<b>Not enough</b> players triggered your traps." : "<b>Niewystarczajaco osób</b> weszlo w twoje pulapki.");
             }
             else
             {
-                string message = "Roles caught in your trap:\n";
+                string message = Patches.TranslationPatches.CurrentLanguage == 0 ? "Roles caught in your trap:\n" : "Role zlapane w pulapce:\n";
                 foreach (RoleEnum role in trapperRole.trappedPlayers.OrderBy(x => Guid.NewGuid()))
                 {
                     message += $" <b><color=#{role.GetRoleColor().ToHtmlStringRGBA()}>{role.GetRoleName()}</color></b>,";

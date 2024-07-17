@@ -49,7 +49,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 foreach (var button in role.ShootButtons)
@@ -59,7 +59,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                 role.ShootButtons.Clear();
                 var target = Utils.PlayerById(targetId);
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Deputy));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification($"Deputy Has Shot {target.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"Deputy Has Shot {target.GetDefaultOutfit().PlayerName}!" : $"Deputy Strzelil {target.GetDefaultOutfit().PlayerName}", 1000 * CustomGameOptions.NotificationDuration);
                 role.Revealed = true;
                 DeputyKill.RpcMurderPlayer(target, PlayerControl.LocalPlayer);
             }

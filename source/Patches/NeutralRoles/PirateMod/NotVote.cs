@@ -20,12 +20,12 @@ namespace TownOfUs.NeutralRoles.PirateMod
                 var dueled = Role.GetRole(pirate.DueledPlayer);
                 pirate.DefenseButton.Destroy();
                 dueled.DefenseButton.Destroy();
-                if (pirate.Defense == dueled.Defense && !pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected)
+                if (pirate.Defense == dueled.Defense && !pirate.Player.Data.IsDead && !pirate.Player.Data.Disconnected && !dueled.Player.Data.IsDead && !dueled.Player.Data.Disconnected)
                 {
                     if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        dueled.Notification("You Lost The Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                        dueled.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Lost The Duel!" : "Przegrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     var voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == pirate.DueledPlayer.PlayerId);
                     if (!pirate.DueledPlayer.Is(RoleEnum.Pestilence) && !pirate.DueledPlayer.Is(RoleEnum.Famine) && !pirate.DueledPlayer.Is(RoleEnum.War) && !pirate.DueledPlayer.Is(RoleEnum.Death))
@@ -81,7 +81,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        pirate.Notification("Ya Won Th' Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                        pirate.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Won Th' Duel!" : "Wygrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                         if (pirate.DuelsWon >= CustomGameOptions.PirateDuelsToWin)
                         {
@@ -98,12 +98,12 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        pirate.Notification("Ya Lost Th' Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                        pirate.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Lost Th' Duel!" : "Przegrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     if (pirate.DueledPlayer == PlayerControl.LocalPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        dueled.Notification("You Won The Duel!", 1000 * CustomGameOptions.NotificationDuration);
+                        dueled.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Won The Duel!" : "Wygrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     pirate.DueledPlayer = null;
                 }

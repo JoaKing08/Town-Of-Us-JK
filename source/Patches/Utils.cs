@@ -447,7 +447,7 @@ namespace TownOfUs
                 if (player == PlayerControl.LocalPlayer)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    Role.GetRole(player).Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(player).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 zeroSecReset = true;
             }
@@ -1176,12 +1176,12 @@ namespace TownOfUs
                 if (target.Is(ModifierEnum.Famous))
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Famous));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Famous Has Died!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Famous Has Died!" : "Famous Zginal!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification("Someone Have Died!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Have Died!" : "Ktos Zginal!", 1000 * CustomGameOptions.NotificationDuration);
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
@@ -1449,13 +1449,13 @@ namespace TownOfUs
             if (PlayerControl.LocalPlayer == player)
             {
                 Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
-                Role.GetRole(player).Notification("You Have Been Converted!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(player).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Converted!" : "Zostales Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
             else if (PlayerControl.LocalPlayer != player && PlayerControl.LocalPlayer.Is(RoleEnum.CultistMystic)
                 && !PlayerControl.LocalPlayer.Data.IsDead)
             {
                 Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
-                Role.GetRole(player).Notification("Someone Has Been Converted!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(player).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Has Been Converted!" : "Ktos Zostal Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter) && PlayerControl.LocalPlayer == player)
@@ -2275,45 +2275,45 @@ namespace TownOfUs
             if (player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
                 || player.Is(RoleEnum.Morphling) || player.Is(RoleEnum.Medium)
                  || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> has an <b>altered perception of reality</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> has an <b>altered perception of reality</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> ma <b>zmienione postrzeganie rzeczywistosci</b>";
             else if (player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
                  || player.Is(RoleEnum.Witch) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Lookout))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> has <b>good access for private information</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> has <b>good access for private information</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> ma <b>dobry dostep do prywatnych informacji</b>";
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Detective)
                  || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.SoulCollector))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> has an <b>unusual obsession with dead bodies</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> has an <b>unusual obsession with dead bodies</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> ma <b>nienaturalna obsesje na punkcie martwych cial</b>";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker) || player.Is(RoleEnum.Inquisitor))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> is well <b>trained in hunting down prey</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> is well <b>trained in hunting down prey</b>" :  $"jest dobrze <b>wyszkolony w polowaniu na zwierzyne</b>";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                  || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> spreads <b>fear amonst the group</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> spreads <b>fear amonst the group</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> rozsiewa <b>strach posród grupy</b>";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Bodyguard) || player.Is(RoleEnum.Escapist)
                  || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Swooper))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> hides to <b>guard themself or others</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> hides to <b>guard themself or others</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> ukrywa sie by <b>chronic siebie lub innych</b>";
             else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Janitor) || player.Is(RoleEnum.Undercover)
                  || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> has a <b>trick up their sleeve</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> has a <b>trick up their sleeve</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> ma <b>asa w rekawie</b>";
             else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut)
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> is capable of <b>performing relentless attacks</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> is capable of <b>performing relentless attacks</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> jest zdolny do <b>zadawania poteznych ataków</b>";
             else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
                 || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.VampireHunter))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> knows <b>thing or two about magic</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> knows <b>thing or two about magic</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> wie <b>co nie co o magii</b>";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.Demagogue)
                 || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Deputy))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> knows <b>perfectly how the law works</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> knows <b>perfectly how the law works</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> wie <b>dokladnie jak dziala prawo</b>";
             else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.SerialKiller)
                 || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker) || player.Is(RoleEnum.Grenadier))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> loves to <b>be on big parties</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> loves to <b>be on big parties</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> uwielbia <b>byc na duzych imprezach</b>";
             else if (player.Is(RoleEnum.Jackal) || player.Is(RoleEnum.Sniper) || player.Is(RoleEnum.Monarch)
                  || player.Is(RoleEnum.Trapper) || player.Is(RoleEnum.Godfather) || player.Is(RoleEnum.Cleric))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> wants to <b>keep his hands clean</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> wants to <b>keep his hands clean</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> woli <b>trzymac swoje rece czyste</b>";
             else if (player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Occultist) || player.Is(RoleEnum.Sage)
                  || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Crusader) || player.Is(RoleEnum.Mafioso))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> is able to <b>hear the gods voice</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> is able to <b>hear the gods voice</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> jest w stanie <b>slyszec glos boga</b>";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
-                return $"<b>{player.GetDefaultOutfit().PlayerName}</b> appears to <b>be roleless</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> appears to <b>be roleless</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> wydaje sie <b>bez roli</b>";
             else
                 return "Error";
         }
@@ -2323,45 +2323,45 @@ namespace TownOfUs
             if (player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
                  || player.Is(RoleEnum.Morphling)
                  || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Death) || player.Is(RoleEnum.Medium))
-                return $"(<b><color=#{Patches.Colors.Imitator.ToHtmlStringRGBA()}>Imitator</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Morphling</color></b>, <b><color=#{Patches.Colors.Spy.ToHtmlStringRGBA()}>Spy</color></b>, <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>Glitch</color></b>, <b><color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color></b> or <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Imitator.ToHtmlStringRGBA()}>Imitator</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Morphling</color></b>, <b><color=#{Patches.Colors.Spy.ToHtmlStringRGBA()}>Spy</color></b>, <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>Glitch</color></b>, <b><color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b>)";
             else if (player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Doomsayer) || player.Is(RoleEnum.Inspector)
                  || player.Is(RoleEnum.Witch) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Lookout))
-                return $"(<b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>, <b><color=#{Patches.Colors.Doomsayer.ToHtmlStringRGBA()}>Doomsayer</color></b>, <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>, <b><color=#{Patches.Colors.Snitch.ToHtmlStringRGBA()}>Snitch</color></b>, <b><color=#{Patches.Colors.Inspector.ToHtmlStringRGBA()}>Inspector</color></b> or <b><color=#{Patches.Colors.Lookout.ToHtmlStringRGBA()}>Lookout</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>, <b><color=#{Patches.Colors.Doomsayer.ToHtmlStringRGBA()}>Doomsayer</color></b>, <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>, <b><color=#{Patches.Colors.Snitch.ToHtmlStringRGBA()}>Snitch</color></b>, <b><color=#{Patches.Colors.Inspector.ToHtmlStringRGBA()}>Inspector</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Lookout.ToHtmlStringRGBA()}>Lookout</color></b>)";
             else if (player.Is(RoleEnum.Altruist) || player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Detective)
                  || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.JKNecromancer) || player.Is(RoleEnum.SoulCollector))
-                return $"(<b><color=#{Patches.Colors.Altruist.ToHtmlStringRGBA()}>Altruist</color></b>, <b><color=#{Patches.Colors.Amnesiac.ToHtmlStringRGBA()}>Amnesiac</color></b>, <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Undertaker</color></b>, <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b> or <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Altruist.ToHtmlStringRGBA()}>Altruist</color></b>, <b><color=#{Patches.Colors.Amnesiac.ToHtmlStringRGBA()}>Amnesiac</color></b>, <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Undertaker</color></b>, <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>)";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Inquisitor) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker))
-                return $"(<b><color=#{Patches.Colors.Investigator.ToHtmlStringRGBA()}>Investigator</color></b>, <b><color=#{Patches.Colors.Tracker.ToHtmlStringRGBA()}>Tracker</color></b>, <b><color=#{Patches.Colors.Werewolf.ToHtmlStringRGBA()}>Werewolf</color></b>, <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>, <b><color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color></b> or <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Investigator.ToHtmlStringRGBA()}>Investigator</color></b>, <b><color=#{Patches.Colors.Tracker.ToHtmlStringRGBA()}>Tracker</color></b>, <b><color=#{Patches.Colors.Werewolf.ToHtmlStringRGBA()}>Werewolf</color></b>, <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>, <b><color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>)";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                  || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
-                return $"(<b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>{(GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner")}</color></b>, <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b>, <b><color=#{Patches.Colors.Seer.ToHtmlStringRGBA()}>Seer</color></b>, <b><color=#{Patches.Colors.Transporter.ToHtmlStringRGBA()}>Transporter</color></b> or <b><color=#{Patches.Colors.Pirate.ToHtmlStringRGBA()}>Pirate</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>{(GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner")}</color></b>, <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b>, <b><color=#{Patches.Colors.Seer.ToHtmlStringRGBA()}>Seer</color></b>, <b><color=#{Patches.Colors.Transporter.ToHtmlStringRGBA()}>Transporter</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Pirate.ToHtmlStringRGBA()}>Pirate</color></b>)";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Bodyguard) || player.Is(RoleEnum.Escapist)
                  || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Swooper))
-                return $"(<b><color=#{Patches.Colors.Engineer.ToHtmlStringRGBA()}>Engineer</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Escapist</color></b>, <b><color=#{Patches.Colors.Medic.ToHtmlStringRGBA()}>Medic</color></b>, <b><color=#{Patches.Colors.Survivor.ToHtmlStringRGBA()}>Survivor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Swooper</color></b> or <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Engineer.ToHtmlStringRGBA()}>Engineer</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Escapist</color></b>, <b><color=#{Patches.Colors.Medic.ToHtmlStringRGBA()}>Medic</color></b>, <b><color=#{Patches.Colors.Survivor.ToHtmlStringRGBA()}>Survivor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Swooper</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>)";
             else if (player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Janitor) || player.Is(RoleEnum.Undercover)
                  || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Famine))
-                return $"(<b><color=#{Patches.Colors.Jester.ToHtmlStringRGBA()}>Jester</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Janitor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Traitor</color></b>, <b><color=#{Patches.Colors.Veteran.ToHtmlStringRGBA()}>Veteran</color></b>, <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b> or <b><color=#{Patches.Colors.Undercover.ToHtmlStringRGBA()}>Undercover</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Jester.ToHtmlStringRGBA()}>Jester</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Janitor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Traitor</color></b>, <b><color=#{Patches.Colors.Veteran.ToHtmlStringRGBA()}>Veteran</color></b>, <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Undercover.ToHtmlStringRGBA()}>Undercover</color></b>)";
             else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut)
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.War))
-                return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Bomber</color></b>, <b><color=#{Patches.Colors.Juggernaut.ToHtmlStringRGBA()}>Juggernaut</color></b>, <b><color=#{Patches.Colors.Sheriff.ToHtmlStringRGBA()}>Sheriff</color></b>, <b><color=#{Patches.Colors.Vigilante.ToHtmlStringRGBA()}>Vigilante</color></b> or <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Bomber</color></b>, <b><color=#{Patches.Colors.Juggernaut.ToHtmlStringRGBA()}>Juggernaut</color></b>, <b><color=#{Patches.Colors.Sheriff.ToHtmlStringRGBA()}>Sheriff</color></b>, <b><color=#{Patches.Colors.Vigilante.ToHtmlStringRGBA()}>Vigilante</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b>)";
             else if (player.Is(RoleEnum.Warlock) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Mystic)
                  || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Vampire) || player.Is(RoleEnum.VampireHunter))
-                return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Warlock</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Venerer</color></b>, <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>, <b><color=#{Patches.Colors.Swapper.ToHtmlStringRGBA()}>Swapper</color></b>, <b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire</color></b> or <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Warlock</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Venerer</color></b>, <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>, <b><color=#{Patches.Colors.Swapper.ToHtmlStringRGBA()}>Swapper</color></b>, <b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>)";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.Demagogue)
                  || player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Deputy))
-                return $"(<b><color=#{Patches.Colors.Executioner.ToHtmlStringRGBA()}>Executioner</color></b>, <b><color=#{Patches.Colors.Prosecutor.ToHtmlStringRGBA()}>Prosecutor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Demagogue</color></b>, <b><color=#{Patches.Colors.Mayor.ToHtmlStringRGBA()}>Mayor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Blackmailer</color></b> or <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Executioner.ToHtmlStringRGBA()}>Executioner</color></b>, <b><color=#{Patches.Colors.Prosecutor.ToHtmlStringRGBA()}>Prosecutor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Demagogue</color></b>, <b><color=#{Patches.Colors.Mayor.ToHtmlStringRGBA()}>Mayor</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Blackmailer</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>)";
             else if (player.Is(RoleEnum.TavernKeeper) || player.Is(RoleEnum.Poisoner) || player.Is(RoleEnum.Grenadier)
                  || player.Is(RoleEnum.SerialKiller) || player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Baker))
-                return $"(<b><color=#{Patches.Colors.TavernKeeper.ToHtmlStringRGBA()}>Tavern Keeper</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Poisoner</color></b>, <b><color=#{Patches.Colors.SerialKiller.ToHtmlStringRGBA()}>Serial Killer</color></b>, <b><color=#{Patches.Colors.Aurial.ToHtmlStringRGBA()}>Aurial</color></b>, <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b> or <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Grenadier</color></b>)";
+                return $"(<b><color=#{Patches.Colors.TavernKeeper.ToHtmlStringRGBA()}>Tavern Keeper</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Poisoner</color></b>, <b><color=#{Patches.Colors.SerialKiller.ToHtmlStringRGBA()}>Serial Killer</color></b>, <b><color=#{Patches.Colors.Aurial.ToHtmlStringRGBA()}>Aurial</color></b>, <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Grenadier</color></b>)";
             else if (player.Is(RoleEnum.Jackal) || player.Is(RoleEnum.Sniper) || player.Is(RoleEnum.Monarch)
                  || player.Is(RoleEnum.Trapper) || player.Is(RoleEnum.Godfather) || player.Is(RoleEnum.Cleric))
-                return $"(<b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Jackal</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>, <b><color=#{Patches.Colors.Monarch.ToHtmlStringRGBA()}>Monarch</color></b>, <b><color=#{Patches.Colors.Trapper.ToHtmlStringRGBA()}>Trapper</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b> or <b><color=#{Patches.Colors.Cleric.ToHtmlStringRGBA()}>Cleric</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Jackal</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>, <b><color=#{Patches.Colors.Monarch.ToHtmlStringRGBA()}>Monarch</color></b>, <b><color=#{Patches.Colors.Trapper.ToHtmlStringRGBA()}>Trapper</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Cleric.ToHtmlStringRGBA()}>Cleric</color></b>)";
             else if (player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Occultist) || player.Is(RoleEnum.Sage)
                  || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Crusader) || player.Is(RoleEnum.Mafioso))
-                return $"(<b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>, <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>, <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>, <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Mafioso</color></b> or <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>)";
+                return $"(<b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>, <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>, <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>, <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Mafioso</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>)";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
-                return $"(<b><color=#00FFFFFF>Crewmate</color></b> or <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>)";
+                return $"(<b><color=#00FFFFFF>Crewmate</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>)";
             else
                 return "Error";
         }

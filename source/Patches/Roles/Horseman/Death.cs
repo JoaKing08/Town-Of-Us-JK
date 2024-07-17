@@ -16,7 +16,7 @@ namespace TownOfUs.Roles.Horseman
             LastApocalypse = DateTime.UtcNow;
             AddToRoleHistory(RoleType);
             ImpostorText = () => "";
-            TaskText = () => "Cast an apocalipse upon crewmates!\nFake Tasks:";
+            TaskText = () => "Cast an apocalypse upon crewmates!\nFake Tasks:";
             Faction = Faction.NeutralApocalypse;
         }
         public bool Announced;

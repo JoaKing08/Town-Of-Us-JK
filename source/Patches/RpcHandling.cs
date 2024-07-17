@@ -2162,7 +2162,7 @@ namespace TownOfUs
                         var mayor = Utils.PlayerById(reader.ReadByte());
                         var mayorRole = Role.GetRole<Mayor>(mayor);
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Mayor));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification("Mayor Has Revealed!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Mayor Has Revealed!" : "Mayor Sie Ujawnil!", 1000 * CustomGameOptions.NotificationDuration);
                         mayorRole.Revealed = true;
                         AddRevealButton.RemoveAssassin(mayorRole);
                         break;
@@ -2254,7 +2254,7 @@ namespace TownOfUs
                         var toDie = Utils.PlayerById(reader.ReadByte());
                         var assassin = Utils.PlayerById(reader.ReadByte());
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie.GetDefaultOutfit().PlayerName} Zostal Zgadniety!", 1000 * CustomGameOptions.NotificationDuration);
                         AssassinKill.MurderPlayer(toDie);
                         AssassinKill.AssassinKillCount(toDie, assassin);
                         break;
@@ -2262,7 +2262,7 @@ namespace TownOfUs
                         var toDie2 = Utils.PlayerById(reader.ReadByte());
                         var vigi = Utils.PlayerById(reader.ReadByte());
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie2.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie2.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie2.GetDefaultOutfit().PlayerName} Zostal Zgadniety!", 1000 * CustomGameOptions.NotificationDuration);
                         VigilanteKill.MurderPlayer(toDie2);
                         VigilanteKill.VigiKillCount(toDie2, vigi);
                         break;
@@ -2270,7 +2270,7 @@ namespace TownOfUs
                         var toDie3 = Utils.PlayerById(reader.ReadByte());
                         var doom = Utils.PlayerById(reader.ReadByte());
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"{toDie3.GetDefaultOutfit().PlayerName} has been guessed!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"{toDie3.GetDefaultOutfit().PlayerName} Has Been Guessed!" : $"{toDie3.GetDefaultOutfit().PlayerName} Zostal Zgadniety!", 1000 * CustomGameOptions.NotificationDuration);
                         DoomsayerKill.DoomKillCount(toDie3, doom);
                         DoomsayerKill.MurderPlayer(toDie3);
                         break;
@@ -2757,14 +2757,14 @@ namespace TownOfUs
                         if (poisoned == PlayerControl.LocalPlayer)
                         {
                             Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                            Role.GetRole(poisoned).Notification("You Have Been Poisoned!", 1000 * CustomGameOptions.NotificationDuration);
+                            Role.GetRole(poisoned).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Poisoned!" : "Zostales Otruty!", 1000 * CustomGameOptions.NotificationDuration);
                         }
                         break;
                     case CustomRPC.Shoot:
                         if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                         {
                             Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                            Role.GetRole(PlayerControl.LocalPlayer).Notification("Sniper Has Shot!", 1000 * CustomGameOptions.NotificationDuration);
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Sniper Has Shot!" : "Sniper Wystrzelil!", 1000 * CustomGameOptions.NotificationDuration);
                             var r = Role.GetRole(PlayerControl.LocalPlayer);
                             var gameObj = new GameObject();
                             var arrow = gameObj.AddComponent<ArrowBehaviour>();
@@ -2802,7 +2802,7 @@ namespace TownOfUs
                         if (controled1 == PlayerControl.LocalPlayer)
                         {
                             Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Witch));
-                            Role.GetRole(PlayerControl.LocalPlayer).Notification("You Have Been Controled!", 1000 * CustomGameOptions.NotificationDuration);
+                            Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Controled!" : "Zostales Zkontrolowany!", 1000 * CustomGameOptions.NotificationDuration);
                             var __instance = DestroyableSingleton<HudManager>.Instance.KillButton;
                             if (controled1.Data.IsImpostor())
                             {
@@ -3041,7 +3041,7 @@ namespace TownOfUs
                         var deputy = Utils.PlayerById(reader.ReadByte());
                         var deputyTarget = Utils.PlayerById(reader.ReadByte());
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Deputy));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"Deputy Has Shot {deputyTarget.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"Deputy Has Shot {deputyTarget.GetDefaultOutfit().PlayerName}!" : $"Deputy Strzelil {deputyTarget.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
                         Role.GetRole<Deputy>(deputy).Revealed = true;
                         if (CustomGameOptions.RevealDeputy) CrewmateRoles.DeputyMod.AddShootButton.RemoveAssassin(Role.GetRole<Deputy>(deputy));
                         if (!deputyTarget.Is(RoleEnum.Pestilence) && !deputyTarget.Is(RoleEnum.Famine) && !deputyTarget.Is(RoleEnum.War) && !deputyTarget.Is(RoleEnum.Death))
@@ -3118,7 +3118,7 @@ namespace TownOfUs
                         var demagogue = Utils.PlayerById(reader.ReadByte());
                         var demagogueTarget = Utils.PlayerById(reader.ReadByte());
                         Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                        Role.GetRole(PlayerControl.LocalPlayer).Notification($"Demagogue Has Convicted {demagogueTarget.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
+                        Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"Demagogue Has Convicted {demagogueTarget.GetDefaultOutfit().PlayerName}!" : $"Demagogue Skazal {demagogueTarget.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
                         if (!demagogueTarget.Is(RoleEnum.Pestilence) && !demagogueTarget.Is(RoleEnum.Famine) && !demagogueTarget.Is(RoleEnum.War) && !demagogueTarget.Is(RoleEnum.Death))
                         {
                             DemagogueKill.MurderPlayer(demagogueTarget, demagogue);

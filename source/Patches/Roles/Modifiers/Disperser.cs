@@ -62,7 +62,7 @@ namespace TownOfUs.Roles.Modifiers
             if (coordinates.ContainsKey(PlayerControl.LocalPlayer.PlayerId))
             {
                 Coroutines.Start(Utils.FlashCoroutine(Palette.ImpostorRed));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification("You Have Been Dispersed!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Dispersed!" : "Zostales Rozrzucony!", 1000 * CustomGameOptions.NotificationDuration);
                 if (Minigame.Instance)
                 {
                     try

@@ -20,7 +20,7 @@ namespace TownOfUs.ApocalypseRoles.DeathMod
             {
                 if (!role.Announced && CustomGameOptions.AnnounceDeath)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls) if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, $"Now <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b> has become <b><color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color></b>, <b>Destroyer of Worlds</b> and <b>Horseman of the Apocalypse</b>!");
+                    if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"Now <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b> has become <b><color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color></b>, <b>Destroyer of Worlds</b> and <b>Horseman of the Apocalypse</b>!" : $"Teraz <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b> stal sie <b><color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>Death</color></b>, <b>Niszczycielem Swiatów</b> i <b>Jezdzcem Apokalipsy</b>!");
                     role.Announced = true;
                 }
             }

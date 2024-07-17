@@ -40,182 +40,182 @@ namespace TownOfUs.Roles
 
         internal void GenerateMessage(PlayerControl interacted, RoleEnum interactorRole, byte abilityId)
         {
-            var message = $"Your bug on <b>{interacted.Data.PlayerName}</b> says that he was";
+            var message = Patches.TranslationPatches.CurrentLanguage == 0 ? $"Your bug on <b>{interacted.Data.PlayerName}</b> says that he was" : $"Twoja pluskwa na <b>{interacted.Data.PlayerName}</b> wykryla ze zostal on";
             switch (abilityId)
             {
                 case 0:
                     switch (interactorRole)
                     {
                         case RoleEnum.Altruist:
-                            message += $" revived by <b><color=#{Patches.Colors.Altruist.ToHtmlStringRGBA()}>Altruist</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" revived by <b><color=#{Patches.Colors.Altruist.ToHtmlStringRGBA()}>Altruist</color></b>" : $" wskrzeszony przez <b><color=#{Patches.Colors.Altruist.ToHtmlStringRGBA()}>Altruist</color></b>";
                             break;
                         case RoleEnum.Aurial:
-                            message += $" radiated by <b><color=#{Patches.Colors.Aurial.ToHtmlStringRGBA()}>Aurial</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" radiated by <b><color=#{Patches.Colors.Aurial.ToHtmlStringRGBA()}>Aurial</color></b>" : $" napromieniowany przez <b><color=#{Patches.Colors.Aurial.ToHtmlStringRGBA()}>Aurial</color></b>";
                             break;
                         case RoleEnum.Detective:
-                            message += $" inspected by <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" inspected by <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>" : $" zinspektowany przez <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>";
                             break;
                         case RoleEnum.Inspector:
-                            message += $" inspected by <b><color=#{Patches.Colors.Inspector.ToHtmlStringRGBA()}>Inspector</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" inspected by <b><color=#{Patches.Colors.Inspector.ToHtmlStringRGBA()}>Inspector</color></b>" : $" zinspektowany przez <b><color=#{Patches.Colors.Inspector.ToHtmlStringRGBA()}>Inspector</color></b>";
                             break;
                         case RoleEnum.Medic:
-                            message += $" shielded by <b><color=#{Patches.Colors.Medic.ToHtmlStringRGBA()}>Medic</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" shielded by <b><color=#{Patches.Colors.Medic.ToHtmlStringRGBA()}>Medic</color></b>" : $" ochroniony przez <b><color=#{Patches.Colors.Medic.ToHtmlStringRGBA()}>Medic</color></b>";
                             break;
                         case RoleEnum.Medium:
-                            message += $" meditated by <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" meditated by <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b>" : $" wykryty przez <b><color=#{Patches.Colors.Medium.ToHtmlStringRGBA()}>Medium</color></b>";
                             break;
                         case RoleEnum.Monarch:
-                            message += $" knighted by <b><color=#{Patches.Colors.Monarch.ToHtmlStringRGBA()}>Monarch</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" knighted by <b><color=#{Patches.Colors.Monarch.ToHtmlStringRGBA()}>Monarch</color></b>" : $" mianowany przez <b><color=#{Patches.Colors.Monarch.ToHtmlStringRGBA()}>Monarch</color></b>";
                             break;
                         case RoleEnum.Oracle:
-                            message += $" confessed by <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" confessed by <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>" : $" spowiadany przez <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>";
                             break;
                         case RoleEnum.Seer:
-                            message += $" revealed by <b><color=#{Patches.Colors.Seer.ToHtmlStringRGBA()}>Seer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" revealed by <b><color=#{Patches.Colors.Seer.ToHtmlStringRGBA()}>Seer</color></b>" : $" ujawniony przez <b><color=#{Patches.Colors.Seer.ToHtmlStringRGBA()}>Seer</color></b>";
                             break;
                         case RoleEnum.Sheriff:
-                            message += $" attacked by <b><color=#{Patches.Colors.Sheriff.ToHtmlStringRGBA()}>Sheriff</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Sheriff.ToHtmlStringRGBA()}>Sheriff</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Sheriff.ToHtmlStringRGBA()}>Sheriff</color></b>";
                             break;
                         case RoleEnum.Spy:
-                            message += $" bugged by <b><color=#{Patches.Colors.Spy.ToHtmlStringRGBA()}>Spy</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" bugged by <b><color=#{Patches.Colors.Spy.ToHtmlStringRGBA()}>Spy</color></b>" : $" obserwowany przez <b><color=#{Patches.Colors.Spy.ToHtmlStringRGBA()}>Spy</color></b>";
                             break;
                         case RoleEnum.TavernKeeper:
-                            message += $" drunk by <b><color=#{Patches.Colors.TavernKeeper.ToHtmlStringRGBA()}>Tavern Keeper</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" drunk by <b><color=#{Patches.Colors.TavernKeeper.ToHtmlStringRGBA()}>Tavern Keeper</color></b>" : $" upity przez <b><color=#{Patches.Colors.TavernKeeper.ToHtmlStringRGBA()}>Tavern Keeper</color></b>";
                             break;
                         case RoleEnum.Tracker:
-                            message += $" tracked by <b><color=#{Patches.Colors.Tracker.ToHtmlStringRGBA()}>Tracker</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" tracked by <b><color=#{Patches.Colors.Tracker.ToHtmlStringRGBA()}>Tracker</color></b>" : $" sledzony przez <b><color=#{Patches.Colors.Tracker.ToHtmlStringRGBA()}>Tracker</color></b>";
                             break;
                         case RoleEnum.Transporter:
-                            message += $" transported by <b><color=#{Patches.Colors.Transporter.ToHtmlStringRGBA()}>Transporter</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" transported by <b><color=#{Patches.Colors.Transporter.ToHtmlStringRGBA()}>Transporter</color></b>" : $" przeniesiony przez <b><color=#{Patches.Colors.Transporter.ToHtmlStringRGBA()}>Transporter</color></b>";
                             break;
                         case RoleEnum.Trapper:
-                            message += $" trapped by <b><color=#{Patches.Colors.Trapper.ToHtmlStringRGBA()}>Trapper</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" trapped by <b><color=#{Patches.Colors.Trapper.ToHtmlStringRGBA()}>Trapper</color></b>" : $" zpulapkowany przez <b><color=#{Patches.Colors.Trapper.ToHtmlStringRGBA()}>Trapper</color></b>";
                             break;
                         case RoleEnum.VampireHunter:
-                            message += $" checked by <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" checked by <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>" : $" sprawdzony przez <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>";
                             break;
                         case RoleEnum.Amnesiac:
-                            message += $" remembered by <b><color=#{Patches.Colors.Amnesiac.ToHtmlStringRGBA()}>Amnesiac</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" remembered by <b><color=#{Patches.Colors.Amnesiac.ToHtmlStringRGBA()}>Amnesiac</color></b>" : $" zapamietany przez <b><color=#{Patches.Colors.Amnesiac.ToHtmlStringRGBA()}>Amnesiac</color></b>";
                             break;
                         case RoleEnum.Arsonist:
-                            message += $" doused by <b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" doused by <b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>" : $" polany przez <b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>";
                             break;
                         case RoleEnum.Doomsayer:
-                            message += $" observed by <b><color=#{Patches.Colors.Doomsayer.ToHtmlStringRGBA()}>Doomsayer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" observed by <b><color=#{Patches.Colors.Doomsayer.ToHtmlStringRGBA()}>Doomsayer</color></b>" : $" obserwowany przez <b><color=#{Patches.Colors.Doomsayer.ToHtmlStringRGBA()}>Doomsayer</color></b>";
                             break;
                         case RoleEnum.Glitch:
-                            message += $" attacked by <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>The Glitch</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>The Glitch</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>The Glitch</color></b>";
                             break;
                         case RoleEnum.GuardianAngel:
-                            message += $" protected by <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" protected by <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>" : $" chroniony przez <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>";
                             break;
                         case RoleEnum.Inquisitor:
-                            message += $" inquired by <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" inquired by <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>" : $" przepytany przez <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>";
                             break;
                         case RoleEnum.Witch:
-                            message += $" controled by <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" controled by <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>" : $" kontrolowany przez <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>";
                             break;
                         case RoleEnum.Juggernaut:
-                            message += $" attacked by <b><color=#{Patches.Colors.Juggernaut.ToHtmlStringRGBA()}>Juggernaut</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Juggernaut.ToHtmlStringRGBA()}>Juggernaut</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Juggernaut.ToHtmlStringRGBA()}>Juggernaut</color></b>";
                             break;
                         case RoleEnum.Pirate:
-                            message += $" dueled by <b><color=#{Patches.Colors.Pirate.ToHtmlStringRGBA()}>Pirate</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" dueled by <b><color=#{Patches.Colors.Pirate.ToHtmlStringRGBA()}>Pirate</color></b>" : $" wyzwany przez <b><color=#{Patches.Colors.Pirate.ToHtmlStringRGBA()}>Pirate</color></b>";
                             break;
                         case RoleEnum.SerialKiller:
-                            message += $" attacked by <b><color=#{Patches.Colors.SerialKiller.ToHtmlStringRGBA()}>Serial Killer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.SerialKiller.ToHtmlStringRGBA()}>Serial Killer</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.SerialKiller.ToHtmlStringRGBA()}>Serial Killer</color></b>";
                             break;
                         case RoleEnum.Vampire:
-                            message += $" bitted by <b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" bitten by <b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire</color></b>" : $" ugryziony przez <b><color=#{Patches.Colors.Vampire.ToHtmlStringRGBA()}>Vampire</color></b>";
                             break;
                         case RoleEnum.Werewolf:
-                            message += $" attacked by <b><color=#{Patches.Colors.Werewolf.ToHtmlStringRGBA()}>Werewolf</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Werewolf.ToHtmlStringRGBA()}>Werewolf</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Werewolf.ToHtmlStringRGBA()}>Werewolf</color></b>";
                             break;
                         case RoleEnum.Baker:
-                            message += $" breaded by <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" fed by <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b>" : $" nakarmiony przez <b><color=#{Patches.Colors.Baker.ToHtmlStringRGBA()}>Baker</color></b>";
                             break;
                         case RoleEnum.Berserker:
-                            message += $" attacked by <b><color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color></b>" : $" zaatakowany <b><color=#{Patches.Colors.Berserker.ToHtmlStringRGBA()}>Berserker</color></b>";
                             break;
                         case RoleEnum.Famine:
-                            message += $" starved directly by <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" starved directly by <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>" : $" zaglodzony bezposrednio przez <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>";
                             break;
                         case RoleEnum.Pestilence:
-                            message += $" attacked by <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>Pestilence</color></b>";
                             break;
                         case RoleEnum.Plaguebearer:
-                            message += $" plagued by <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" plagued by <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b>" : $" zainfekowany przez <b><color=#{Patches.Colors.Plaguebearer.ToHtmlStringRGBA()}>Plaguebearer</color></b>";
                             break;
                         case RoleEnum.SoulCollector:
-                            message += $" reaped by <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" reaped by <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b>" : $" ograbiony przez <b><color=#{Patches.Colors.SoulCollector.ToHtmlStringRGBA()}>Soul Collector</color></b>";
                             break;
                         case RoleEnum.War:
-                            message += $" attacked by <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.War.ToHtmlStringRGBA()}>War</color></b>";
                             break;
                         case RoleEnum.Impostor:
-                            message += $" attacked by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>";
                             break;
                         case RoleEnum.Blackmailer:
-                            message += $" blackmailed by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Blackmailer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" blackmailed by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Blackmailer</color></b>" : $" szantazowany przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Blackmailer</color></b>";
                             break;
                         case RoleEnum.Bomber:
-                            message += $" blown up by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Bomber</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" blown up by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Bomber</color></b>" : $" wysadzony przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Bomber</color></b>";
                             break;
                         case RoleEnum.Grenadier:
-                            message += $" blinded by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Grenadier</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" blinded by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Grenadier</color></b>" : $" oslepiony przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Grenadier</color></b>";
                             break;
                         case RoleEnum.Janitor:
-                            message += $" cleaned by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Janitor</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" cleaned by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Janitor</color></b>" : $" wyczyszczony <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Janitor</color></b>";
                             break;
                         case RoleEnum.Morphling:
-                            message += $" sampled by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Morphling</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" sampled by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Morphling</color></b>" : $" pobrany przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Morphling</color></b>";
                             break;
                         case RoleEnum.Poisoner:
-                            message += $" poisoned by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Poisoner</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" poisoned by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Poisoner</color></b>" : $" otruty przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Poisoner</color></b>";
                             break;
                         case RoleEnum.Sniper:
-                            message += $" aimed by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" aimed by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>" : $" wycelowany przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>";
                             break;
                         case RoleEnum.Undertaker:
-                            message += $" dragged by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Undertaker</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" dragged by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Undertaker</color></b>" : $" ciagniety przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Undertaker</color></b>";
                             break;
                         case RoleEnum.CursedSoul:
-                            message += $" attempted to <b>Soul Swap</b> directly by <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attempted to <b>Soul Swap</b> directly by <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>" : $" wziety do <b>Soul Swap</b> bezposrednio przez <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>";
                             break;
                         case RoleEnum.Hunter:
-                            message += $" stalked by <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" stalked by <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>" : $" stalkowany przez <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>";
                             break;
                         case RoleEnum.JKNecromancer:
-                            message += $" revived by <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" revived by <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>" : $" wskrzeszony przez <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>";
                             break;
                         case RoleEnum.Jackal:
-                            message += $" attacked by <b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Jackal</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Jackal</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Jackal</color></b>";
                             break;
                         case RoleEnum.Bodyguard:
-                            message += $" guarded by <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" guarded by <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>" : $" chorniony przez <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>";
                             break;
                         case RoleEnum.Crusader:
-                            message += $" fortified by <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" fortified by <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>" : $" ufortyfikowany przez <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>";
                             break;
                         case RoleEnum.Cleric:
-                            message += $" barriered by <b><color=#{Patches.Colors.Cleric.ToHtmlStringRGBA()}>Cleric</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" barriered by <b><color=#{Patches.Colors.Cleric.ToHtmlStringRGBA()}>Cleric</color></b>" : $" chroniony przez <b><color=#{Patches.Colors.Cleric.ToHtmlStringRGBA()}>Cleric</color></b>";
                             break;
                         case RoleEnum.Deputy:
-                            message += $" aimed by <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" aimed by <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>" : $" wycelowany przez <b><color=#{Patches.Colors.Deputy.ToHtmlStringRGBA()}>Deputy</color></b>";
                             break;
                         case RoleEnum.Mystic:
-                            message += $" visioned by <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" visioned by <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>" : $" widziany przez <b><color=#{Patches.Colors.Mystic.ToHtmlStringRGBA()}>Mystic</color></b>";
                             break;
                         case RoleEnum.Sage:
-                            message += $" compared by <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" compared by <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>" : $" porównany przez <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>";
                             break;
                         case RoleEnum.Demagogue:
-                            message += $" convinced by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Demagogue</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" convinced by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Demagogue</color></b>" : $" przekonany przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Demagogue</color></b>";
                             break;
                         case RoleEnum.Godfather:
-                            message += $" recruited by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" recruited by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b>" : $" zrekrutowany przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Godfather</color></b>";
                             break;
                         case RoleEnum.Occultist:
-                            message += $" marked by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" marked by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>" : $" oznaczony przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>";
                             break;
                     }
                     break;
@@ -223,43 +223,43 @@ namespace TownOfUs.Roles
                     switch (interactorRole)
                     {
                         case RoleEnum.Detective:
-                            message += $" examined by <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" examined by <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>" : $" sprawdzony przez <b><color=#{Patches.Colors.Detective.ToHtmlStringRGBA()}>Detective</color></b>";
                             break;
                         case RoleEnum.VampireHunter:
-                            message += $" attacked by <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.VampireHunter.ToHtmlStringRGBA()}>Vampire Hunter</color></b>";
                             break;
                         case RoleEnum.Arsonist:
-                            message += $" ignited by <b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" ignited by <b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>" : $" podpalony przez <b><color=#{Patches.Colors.Arsonist.ToHtmlStringRGBA()}>Arsonist</color></b>";
                             break;
                         case RoleEnum.Glitch:
-                            message += $" hacked by <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>The Glitch</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" hacked by <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>The Glitch</color></b>" : $" zhakowany przez <b><color=#{Patches.Colors.Glitch.ToHtmlStringRGBA()}>The Glitch</color></b>";
                             break;
                         case RoleEnum.Inquisitor:
-                            message += $" attacked by <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Inquisitor.ToHtmlStringRGBA()}>Inquisitor</color></b>";
                             break;
                         case RoleEnum.Witch:
-                            message += $" ordered by <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" ordered by <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>" : $" nakazany przez <b><color=#{Patches.Colors.Witch.ToHtmlStringRGBA()}>Witch</color></b>";
                             break;
                         case RoleEnum.Famine:
-                            message += $" starved indirectly by <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" starved indirectly by <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>" : $" zaglodzony niebezposrednio przez <b><color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>Famine</color></b>";
                             break;
                         case RoleEnum.Sniper:
-                            message += $" shot by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" shot by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>" : $" strzelony przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Sniper</color></b>";
                             break;
                         case RoleEnum.CursedSoul:
-                            message += $" attempted to <b>Soul Swap</b> indirectly by <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attempted to <b>Soul Swap</b> indirectly by <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>" : $" wziety do <b>Soul Swap</b> niebezposrednio przez <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>";
                             break;
                         case RoleEnum.Hunter:
-                            message += $" attacked by <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Hunter.ToHtmlStringRGBA()}>Hunter</color></b>";
                             break;
                         case RoleEnum.JKNecromancer:
-                            message += $" attacked by <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Necromancer</color></b>";
                             break;
                         case RoleEnum.Bodyguard:
-                            message += $" attacked by <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Bodyguard.ToHtmlStringRGBA()}>Bodyguard</color></b>";
                             break;
                         case RoleEnum.Crusader:
-                            message += $" attacked by <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>";
                             break;
                     }
                     break;
@@ -267,7 +267,7 @@ namespace TownOfUs.Roles
                     switch (interactorRole)
                     {
                         case RoleEnum.CursedSoul:
-                            message += $" <b>Soul Swapped</b> using <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>";
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" <b>Soul Swapped</b> using <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>" : $" uzyl <b>Soul Swap</b> bedac <b><color=#{Patches.Colors.CursedSoul.ToHtmlStringRGBA()}>Cursed Soul</color></b>";
                             break;
                     }
                     break;

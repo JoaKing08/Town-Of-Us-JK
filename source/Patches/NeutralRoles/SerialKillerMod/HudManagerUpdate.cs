@@ -2,6 +2,7 @@ using HarmonyLib;
 using Reactor.Utilities;
 using System;
 using System.Linq;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace TownOfUs.NeutralRoles.SerialKillerMod
             {
                 role.InBloodlust = false;
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                role.Notification("Your Bloodlust Is Sated!", 1000 * CustomGameOptions.NotificationDuration);
+                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Bloodlust Is Sated!" : "Twoja Zadza Krwii Sie Uspokoila", 1000 * CustomGameOptions.NotificationDuration);
             }
             if (role.SKKills >= CustomGameOptions.KillsToBloodlust)
             {
@@ -46,7 +47,7 @@ namespace TownOfUs.NeutralRoles.SerialKillerMod
                 role.InBloodlust = true;
                 role.SKKills -= CustomGameOptions.KillsToBloodlust;
                 Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                role.Notification("<color=#FF0000FF>BLOODLUST!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "<color=#FF0000FF>BLOODLUST!</color>" : "<color=#FF0000FF>ZADZA KRWII!</color>", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)

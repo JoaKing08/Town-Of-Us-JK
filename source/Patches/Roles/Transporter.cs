@@ -394,7 +394,7 @@ namespace TownOfUs.Roles
                 PlayerControl.LocalPlayer.PlayerId == TP2.PlayerId)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Transporter));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification("You Were Transported!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Transported!" : "Zostales Przetransportowany!", 1000 * CustomGameOptions.NotificationDuration);
                 if (Minigame.Instance) Minigame.Instance.Close();
             }
 

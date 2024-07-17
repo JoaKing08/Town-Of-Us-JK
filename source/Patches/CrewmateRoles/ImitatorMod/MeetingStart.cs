@@ -22,15 +22,15 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             {
                 if (imitatorRole.trappedPlayers.Count == 0)
                 {
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players entered any of your traps");
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? "<b>No</b> players entered any of your traps" : "<b>Nikt</b> nie wszedl w zadne twoje pulapki.");
                 }
                 else if (imitatorRole.trappedPlayers.Count < CustomGameOptions.MinAmountOfPlayersInTrap)
                 {
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>Not enough</b> players triggered your traps");
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? "<b>Not enough</b> players triggered your traps" : "<b>Niewystarczajaco osób</b> weszlo w twoje pulapki.");
                 }
                 else
                 {
-                    string message = "Roles caught in your trap:\n";
+                    string message = Patches.TranslationPatches.CurrentLanguage == 0 ? "Roles caught in your trap:\n" : "Role zlapane w pulapce:\n";
                     foreach (RoleEnum role in imitatorRole.trappedPlayers.OrderBy(x => Guid.NewGuid()))
                     {
                         message += $" <b><color=#{role.GetRoleColor().ToHtmlStringRGBA()}>{role.GetRoleName()}</color></b>,";
@@ -49,7 +49,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             }
             else if (imitatorRole.LastInspectedPlayer != null)
             {
-                var playerResults = "You found out that " + Utils.GetPossibleRoleCategory(imitatorRole.LastInspectedPlayer);
+                var playerResults = (Patches.TranslationPatches.CurrentLanguage == 0 ? "You found out that " : "Dowiedziales sie ze ") + Utils.GetPossibleRoleCategory(imitatorRole.LastInspectedPlayer);
                 var roleResults = Utils.GetPossibleRoleList(imitatorRole.LastInspectedPlayer);
 
                 if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
@@ -57,7 +57,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             }
             else if (imitatorRole.Messages != null)
             {
-                if (imitatorRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "<b>No</b> players triggered any of your bugs");
+                if (imitatorRole.Messages.Count == 0) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? "<b>No</b> players triggered any of your bugs" : "<b>Nikt</b> nie aktywowal zadnej twojej pluskwy.");
                 else
                 {
                     foreach (var message in imitatorRole.Messages)
@@ -188,29 +188,29 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 {
                     result = !result;
                 }
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, result ? $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#00FF00FF>friends</color></b>." : $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#FF0000FF>enemies</color></b>.");
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? (result ? $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#00FF00FF>friends</color></b>." : $"You think that <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> and <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> seem like they are <b><color=#FF0000FF>enemies</color></b>.") : (result ? $"Uwazasz ze <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> i <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> wydaja sie byc <b><color=#00FF00FF>przyjaciólmi</color></b>." : $"Uwazasz ze <b>{firstPlayer.GetDefaultOutfit().PlayerName}</b> i <b>{secondPlayer.GetDefaultOutfit().PlayerName}</b> wydaja sie byc <b><color=#FF0000FF>wrogami</color></b>."));
             }
             else if (imitatorRole.VisionPlayer != byte.MaxValue)
             {
-                if (!imitatorRole.PlayersInteracted.Any() && !imitatorRole.InteractingPlayers.Any()) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Your vision was about darkness... <b>No one</b> interacted nor was interacted by <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b>.");
+                if (!imitatorRole.PlayersInteracted.Any() && !imitatorRole.InteractingPlayers.Any()) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? ("Your vision was about darkness... <b>No one</b> interacted nor was interacted by <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b>.") : ("Twoja wizja dotyczyla ciemnosci... <b>Nikt</b> nie interaktowal ani nie byl interaktowany przez <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b>."));
                 else
                 {
                     var message = "";
                     if (!imitatorRole.PlayersInteracted.Any())
                     {
-                        message += "Your vision was about few ants in diffrent colors picking sugar cube... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacting</b> and <b>was interacted by</b>: \n";
+                        message += Patches.TranslationPatches.CurrentLanguage == 0 ? ("Your vision was about few ants in diffrent colors picking sugar cube... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacting</b> and <b>was interacted by</b>: \n") : ("Twoja wizja dotyczyla kilku mrówek w róznych kolorach zbierajacych kostki cukru... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>nie interaktowal</b> i <b>byl interaktowany przez</b>: \n");
                         foreach (var player in imitatorRole.InteractingPlayers.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName}</b>, ";
                         message = message.Remove(message.Length - 2);
                     }
                     else if (!imitatorRole.InteractingPlayers.Any())
                     {
-                        message += "Your vision was about flytrap catching few colored butterflies... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacted</b> and <b>interacted with</b>: \n";
+                        message += Patches.TranslationPatches.CurrentLanguage == 0 ? ("Your vision was about flytrap catching few colored butterflies... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>wasn't interacted</b> and <b>interacted with</b>: \n") : ("Twoja wizja dotyczyla mucholówki lapiacej kilka kolorowych motyli... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>nie byl interaktowany</b> i <b>interaktowal z</b>: \n");
                         foreach (var player in imitatorRole.PlayersInteracted.OrderBy(x => Guid.NewGuid())) message += $"<b>{Utils.PlayerById(player).Data.ColorName}</b>, ";
                         message = message.Remove(message.Length - 2);
                     }
                     else
                     {
-                        message += "Your vision was about few colored rats fighting with cat... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>was interacting with</b> or <b>was interacted by</b>: \n";
+                        message += Patches.TranslationPatches.CurrentLanguage == 0 ? ("Your vision was about few colored rats fighting with cat... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>was interacting with</b> or <b>was interacted by</b>: \n") : ("Twoja wizja dotyczyla kilku kolorowych szczurów walczacych z kotem... <b>" + Utils.PlayerById(imitatorRole.VisionPlayer).GetDefaultOutfit().PlayerName + "</b> <b>interaktowal</b> lub <b>byl interaktowany przez</b>: \n");
                         var players = new List<byte>();
                         players.AddRange(imitatorRole.PlayersInteracted);
                         players.AddRange(imitatorRole.InteractingPlayers);

@@ -4,6 +4,7 @@ using TownOfUs.Roles;
 using AmongUs.GameOptions;
 using Reactor.Utilities;
 using UnityEngine;
+using TownOfUs.Patches;
 
 namespace TownOfUs.CrewmateRoles.InspectorMod
 {
@@ -33,12 +34,12 @@ namespace TownOfUs.CrewmateRoles.InspectorMod
                 if (role.BloodTimer(Role.GetRole(role.ClosestPlayer).LastBlood) == 0)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                    role.Notification("Your Target Is Clean!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is Clean!" : "Twój Cel Jest Czysty!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    role.Notification("Your Target Is Bloody!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is Bloody!" : "Twój Cel Jest Krwawy!", 1000 * CustomGameOptions.NotificationDuration);
                 }
             }
             if (interact[0] == true)

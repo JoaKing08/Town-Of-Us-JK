@@ -58,7 +58,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification("You Are Roleblocked!", 1000 * CustomGameOptions.NotificationDuration);
+                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 role.Charges -= (byte)CustomGameOptions.ChargesForMeetingKill;
@@ -66,7 +66,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                 AddVoteButton.UpdateButton(role, MeetingHud.Instance);
                 var target = Utils.PlayerById(targetId);
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification($"Demagogue Has Convicted {target.GetDefaultOutfit().PlayerName}!", 1000 * CustomGameOptions.NotificationDuration);
+                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? $"Demagogue Has Convicted {target.GetDefaultOutfit().PlayerName}!" : $"Demagogue Skazal {target.GetDefaultOutfit().PlayerName}", 1000 * CustomGameOptions.NotificationDuration);
                 DemagogueKill.RpcMurderPlayer(target, PlayerControl.LocalPlayer);
             }
 

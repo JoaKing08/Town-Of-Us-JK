@@ -15,7 +15,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             var doomsayerRole = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
             if (doomsayerRole.LastObservedPlayer != null && !CustomGameOptions.DoomsayerCantObserve)
             {
-                var playerResults = "You observe that " + Utils.GetPossibleRoleCategory(doomsayerRole.LastObservedPlayer);
+                var playerResults = (Patches.TranslationPatches.CurrentLanguage == 0 ? "You observe that " : "Zaobserwowales ze ") + Utils.GetPossibleRoleCategory(doomsayerRole.LastObservedPlayer);
                 var roleResults = Utils.GetPossibleRoleList(doomsayerRole.LastObservedPlayer);
 
                 if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
