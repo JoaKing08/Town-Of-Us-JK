@@ -38,7 +38,7 @@ namespace TownOfUs.Patches
                 translationtoggle.gameObject.transform.SetParent(GameObject.Find("RightPanel").transform);
                 var pos = translationtoggle.gameObject.AddComponent<AspectPosition>();
                 pos.Alignment = AspectPosition.EdgeAlignments.LeftBottom;
-                pos.DistanceFromEdge = new Vector3(2.1f, 1f, 8f);
+                pos.DistanceFromEdge = new Vector3(2.1f, 2.7f, 8f);
 
                 passive.OnClick.AddListener((Action)(() =>
                 {
