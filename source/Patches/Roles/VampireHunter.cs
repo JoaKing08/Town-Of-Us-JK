@@ -18,7 +18,7 @@ namespace TownOfUs.Roles
         {
             Name = "Vampire Hunter";
             ImpostorText = () => "Stake The Vampires";
-            TaskText = () => "Stake the Vampires";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Stake the Vampires" : "Przebijaj Vampire'y";
             Color = Patches.Colors.VampireHunter;
             LastStaked = DateTime.UtcNow;
             RoleType = RoleEnum.VampireHunter;

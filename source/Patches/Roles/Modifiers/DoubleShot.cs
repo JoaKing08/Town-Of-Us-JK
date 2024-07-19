@@ -6,7 +6,7 @@ namespace TownOfUs.Roles.Modifiers
         public DoubleShot(PlayerControl player) : base(player)
         {
             Name = "Double Shot";
-            TaskText = () => "You have an extra life when assassinating";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "You have an extra life when assassinating" : "Masz dodatkowe zycie podczas asasynowania";
             Color = Patches.Colors.Impostor;
             ModifierType = ModifierEnum.DoubleShot;
             LifeUsed = false;

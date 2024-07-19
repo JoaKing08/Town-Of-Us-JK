@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
         {
             Name = "Tavern Keeper";
             ImpostorText = () => "Block Abilities Of Suspicious Players!";
-            TaskText = () => "Block abilities of players you don't trust";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Block abilities of players you don't trust" : "Blokuj umiejetnosci graczom którym nie ufasz";
             Color = Patches.Colors.TavernKeeper;
             RoleType = RoleEnum.TavernKeeper;
             LastDrink = DateTime.UtcNow;

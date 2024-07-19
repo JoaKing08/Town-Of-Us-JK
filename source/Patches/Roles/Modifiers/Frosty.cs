@@ -11,7 +11,7 @@ namespace TownOfUs.Roles.Modifiers
         public Frosty(PlayerControl player) : base(player)
         {
             Name = "Frosty";
-            TaskText = () => "Leave behind an icy surprise";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Leave behind an icy surprise" : "Zostaw za soba lodowata niespodzianke";
             Color = Patches.Colors.Frosty;
             ModifierType = ModifierEnum.Frosty;
         }

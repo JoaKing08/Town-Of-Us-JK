@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
         {
             Name = "Morphling";
             ImpostorText = () => "Transform Into Crewmates";
-            TaskText = () => "Morph into crewmates to be disguised";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Morph into crewmates to be disguised" : "Zmien sie w crewmate'ów by byc przebranym";
             Color = Patches.Colors.Impostor;
             LastMorphed = DateTime.UtcNow;
             RoleType = RoleEnum.Morphling;

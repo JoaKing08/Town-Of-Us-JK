@@ -19,7 +19,7 @@ namespace TownOfUs.ApocalypseRoles.BerserkerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Berserker)) return;
             var role = Role.GetRole<Berserker>(PlayerControl.LocalPlayer);
-            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.KillsToWar > role.KilledPlayers) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.KillsToWar - role.KilledPlayers}</b> more players to kill remaining." : $"<b>{CustomGameOptions.KillsToWar - role.KilledPlayers}</b> wiecej graczy do zabicia pozostalo.");
+            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.KillsToWar > role.KilledPlayers) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.KillsToWar - role.KilledPlayers}</b> more players to kill remaining." : $"Pozostalo <b>{CustomGameOptions.KillsToWar - role.KilledPlayers}</b> graczy do zabicia.");
         }
     }
 }

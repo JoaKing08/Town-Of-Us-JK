@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
         {
             Name = "Necromancer";
             ImpostorText = () => "Revive The Dead To Do Your Dirty Work";
-            TaskText = () => "Revive Crewmates to turn them into Undead\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Revive Crewmates to turn them into Undead\nFake Tasks:" : "Wskrzes crewmate'ów by zmienic ich w nieumarlych\nFake Tasks:";
             Color = Patches.Colors.Necromancer;
             LastRevived = DateTime.UtcNow;
             LastKill = DateTime.UtcNow;

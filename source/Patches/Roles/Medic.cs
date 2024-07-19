@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
         {
             Name = "Medic";
             ImpostorText = () => "Create A Shield To Protect A Crewmate";
-            TaskText = () => "Protect a crewmate with a shield";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Protect a crewmate with a shield" : "Chron crewmate'a tarcza";
             Color = Patches.Colors.Medic;
             StartingCooldown = DateTime.UtcNow;
             RoleType = RoleEnum.Medic;

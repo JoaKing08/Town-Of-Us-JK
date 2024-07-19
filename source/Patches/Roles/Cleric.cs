@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
         {
             Name = "Cleric";
             ImpostorText = () => "Protect Crew From Attacks!";
-            TaskText = () => "Barrier crewmates to destroy killers plan";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Barrier crewmates to destroy killers plan" : "Bron graczy by zniszczyc plany zabójców";
             Color = Patches.Colors.Cleric;
             RoleType = RoleEnum.Cleric;
             LastBarrier = DateTime.UtcNow;

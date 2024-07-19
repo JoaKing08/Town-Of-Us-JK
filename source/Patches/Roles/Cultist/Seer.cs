@@ -13,7 +13,7 @@ namespace TownOfUs.Roles.Cultist
         {
             Name = "Seer";
             ImpostorText = () => "Reveal If Other Players Have Been Converted";
-            TaskText = () => "Reveal if other players have been converted";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Reveal if other players have been converted" : "Ujawniaj czy inni gracze zostali przekonwertowani";
             Color = Patches.Colors.Seer;
             LastInvestigated = DateTime.UtcNow;
             RoleType = RoleEnum.CultistSeer;

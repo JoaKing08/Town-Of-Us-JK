@@ -25,7 +25,7 @@ namespace TownOfUs.Roles.Horseman
         {
             Name = "Baker";
             ImpostorText = () => "Feed Players To Become Famine";
-            TaskText = () => "Feed players to become Famine\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Feed players to become Famine\nFake Tasks:" : "Nakarm graczy by stac sie Famine\nFake Tasks:";
             Color = Patches.Colors.Baker;
             RoleType = RoleEnum.Baker;
             AddToRoleHistory(RoleType);

@@ -19,7 +19,7 @@ namespace TownOfUs.Roles
         {
             Name = "Witch";
             ImpostorText = () => "Control Players To Use Their Abilities";
-            TaskText = () => "Control player to use their ability on wrong players";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Control player to use their ability on wrong players" : "Kontroluj graczy by uzyc ich umiejetnosci na zlych graczach";
             Color = Patches.Colors.Witch;
             RoleType = RoleEnum.Witch;
             AddToRoleHistory(RoleType);

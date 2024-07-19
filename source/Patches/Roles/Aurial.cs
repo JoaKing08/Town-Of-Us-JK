@@ -17,7 +17,7 @@ namespace TownOfUs.Roles
         {
             Name = "Aurial";
             ImpostorText = () => "Radiate To See The Auras Of Other Players";
-            TaskText = () => "Radiate to discover evildoers";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Radiate to discover evildoers" : "Napromieniuj by odkryc przestepców";
             Color = Patches.Colors.Aurial;
             RoleType = RoleEnum.Aurial;
             AddToRoleHistory(RoleType);

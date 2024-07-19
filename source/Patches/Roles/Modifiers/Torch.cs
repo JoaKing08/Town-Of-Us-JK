@@ -5,7 +5,7 @@ namespace TownOfUs.Roles.Modifiers
         public Torch(PlayerControl player) : base(player)
         {
             Name = "Torch";
-            TaskText = () => "You can see in the dark";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "You can see in the dark" : "Widzisz w ciemnosci";
             Color = Patches.Colors.Torch;
             ModifierType = ModifierEnum.Torch;
         }

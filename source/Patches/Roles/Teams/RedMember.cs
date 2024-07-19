@@ -9,7 +9,7 @@ namespace TownOfUs.Roles.Teams
         {
             Name = "Member";
             ImpostorText = () => "Kill To Help Your Team Win!";
-            TaskText = () => "Kill to help your team win!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Kill to help your team win!" : "Zabijaj by pomóc twojej druzynie wygrac!";
             Color = Patches.Colors.RedTeam;
             RoleType = RoleEnum.RedMember;
             AddToRoleHistory(RoleType);

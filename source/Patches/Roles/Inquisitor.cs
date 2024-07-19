@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
         {
             Name = "Inquisitor";
             ImpostorText = () => "Hunt Down The Heretics";
-            TaskText = () => CustomGameOptions.HereticsInfo == HereticsInfo.Nothing ? $"Hunt down the heretics.\nFake Tasks:" : $"Hunt down the heretics.\nHeretics Left: {GetHereticList()}\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (CustomGameOptions.HereticsInfo == HereticsInfo.Nothing ? $"Hunt down the heretics.\nFake Tasks:" : $"Hunt down the heretics.\nHeretics Left: {GetHereticList()}\nFake Tasks:") : (CustomGameOptions.HereticsInfo == HereticsInfo.Nothing ? $"Upoluj heretyków.\nFake Tasks:" : $"Upoluj heretyków.\nPozostali heretycy: {GetHereticList()}\nFake Tasks:");
             Color = Patches.Colors.Inquisitor;
             RoleType = RoleEnum.Inquisitor;
             AddToRoleHistory(RoleType);
@@ -94,7 +94,7 @@ namespace TownOfUs.Roles
                     else if (Utils.PlayerById(_heretics[i]).Is(Faction.Impostors))
                         faction = "<color=#FF0000FF>Impostor</color>";
                     hereticInfo += faction;
-                    if (i == _heretics.Count - 2) hereticInfo += " and ";
+                    if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";
                     else if (i < _heretics.Count - 2) hereticInfo += ", ";
                 }
             }
@@ -149,7 +149,7 @@ namespace TownOfUs.Roles
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Impostor) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Mafioso))
                         aligment = "<color=#FF0000FF>Impostor</color>";
                     hereticInfo += aligment;
-                    if (i == _heretics.Count - 2) hereticInfo += " and ";
+                    if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";
                     else if (i < _heretics.Count - 2) hereticInfo += ", ";
                 }
             }
@@ -159,7 +159,7 @@ namespace TownOfUs.Roles
                 {
                     var role = $"<color=#{GetRole(Utils.PlayerById(_heretics[i])).Color.ToHtmlStringRGBA()}>{GetRole(Utils.PlayerById(_heretics[i])).Name}</color>";
                     hereticInfo += role;
-                    if (i == _heretics.Count - 2) hereticInfo += " and ";
+                    if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";
                     else if (i < _heretics.Count - 2) hereticInfo += ", ";
                 }
             }

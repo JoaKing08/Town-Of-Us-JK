@@ -22,7 +22,7 @@ namespace TownOfUs.ImpostorRoles.OccultistMod
             if (!PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !x.IsMarked() &&
             !(PlayerControl.LocalPlayer.Is(FactionOverride.None) && (x.Is(ObjectiveEnum.ImpostorAgent) || (x.Data.IsImpostor() || (x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor()))) ||
             (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)) ||
-            (PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && x.Is(FactionOverride.Undead)))))
+            (PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && x.Is(FactionOverride.Undead)))) && !role.Player.Data.IsDead)
             {
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {

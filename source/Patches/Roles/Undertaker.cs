@@ -12,7 +12,7 @@ namespace TownOfUs.Roles
         {
             Name = "Undertaker";
             ImpostorText = () => "Drag Bodies And Hide Them";
-            TaskText = () => "Drag bodies around to hide them from being reported";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Drag bodies around to hide them from being reported" : "Zaciagaj ciala by schowac je przed zgloszeniem";
             Color = Patches.Colors.Impostor;
             LastDragged = DateTime.UtcNow;
             RoleType = RoleEnum.Undertaker;

@@ -16,7 +16,7 @@ namespace TownOfUs.Roles.Horseman
             RoleType = RoleEnum.War;
             AddToRoleHistory(RoleType);
             ImpostorText = () => "";
-            TaskText = () => "Kill everyone with your unstoppable attacks!\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Kill everyone with your unstoppable attacks!\nFake Tasks:" : "Zabij wszystkich swoimi niezatrzymywalnymi atakami!\nFake Tasks:";
             Faction = Faction.NeutralApocalypse;
         }
         public bool Announced;

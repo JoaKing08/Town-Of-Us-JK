@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
         {
             Name = "Jester";
             ImpostorText = () => "Get Voted Out";
-            TaskText = () => WasSwapped ? "Your role was stolen. Now you get voted out!" : SpawnedAs ? "Get voted out!\nFake Tasks:" : "Your target was killed. Now you get voted out!\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (WasSwapped ? "Your role was stolen. Now you get voted out!" : SpawnedAs ? "Get voted out!\nFake Tasks:" : "Your target was killed. Now you get voted out!\nFake Tasks:") : (WasSwapped ? "Twoja rola zostala podmieniona. Teraz zostan wyglosowany!" : SpawnedAs ? "Zostan wyglosowany!\nFake Tasks:" : "Twój cel zginal. Teraz zostan wyglosowany!\nFake Tasks:");
             Color = Patches.Colors.Jester;
             RoleType = RoleEnum.Jester;
             AddToRoleHistory(RoleType);

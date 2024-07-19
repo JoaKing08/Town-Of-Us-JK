@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.SerialKiller;
             AddToRoleHistory(RoleType);
             ImpostorText = () => "Kill To Fill Your Bloodlust";
-            TaskText = () => "Fill your Bloodlust to kill faster\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Fill your Bloodlust to kill faster\nFake Tasks:" : "Napelnij swoja zadze krwi aby szybciej zabijac\nFake Tasks:";
             Faction = Faction.NeutralKilling;
         }
 

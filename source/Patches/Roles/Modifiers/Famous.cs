@@ -5,7 +5,7 @@ namespace TownOfUs.Roles.Modifiers
         public Famous(PlayerControl player) : base(player)
         {
             Name = "Famous";
-            TaskText = () => "Notice everyone that you died";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Notice everyone that you died" : "Powiadom wszystkich ze zginales";
             Color = Patches.Colors.Famous;
             ModifierType = ModifierEnum.Famous;
         }

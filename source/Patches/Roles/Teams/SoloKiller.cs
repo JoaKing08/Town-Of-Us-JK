@@ -9,7 +9,7 @@ namespace TownOfUs.Roles.Teams
         {
             Name = "Killer";
             ImpostorText = () => "Kill To Win!";
-            TaskText = () => "Kill to win!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Kill to win!" : "Zabijaj by wygrac";
             Color = Patches.Colors.Impostor;
             RoleType = RoleEnum.SoloKiller;
             AddToRoleHistory(RoleType);

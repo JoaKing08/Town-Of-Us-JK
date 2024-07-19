@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
         {
             Name = "Sage";
             ImpostorText = () => "Learn Which Players Are Enemies";
-            TaskText = () => "Compare win conditions of players to know evildoers.";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Compare win conditions of players to know evildoers." : "Sprawdzaj kondycje wygranej graczy by znalesc zloczynców.";
             Color = Patches.Colors.Sage;
             RoleType = RoleEnum.Sage;
             FirstPlayer = byte.MaxValue;

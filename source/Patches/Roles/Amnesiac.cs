@@ -14,7 +14,7 @@ namespace TownOfUs.Roles
         {
             Name = "Amnesiac";
             ImpostorText = () => "Remember A Role Of A Deceased Player";
-            TaskText = () => WasSwapped ? "Your role was stolen. Now remember a new role!" : SpawnedAs ? "Find a dead body to remember a role" : "Your target was killed. Now remember a new role!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (WasSwapped ? "Your role was stolen. Now remember a new role!" : SpawnedAs ? "Find a dead body to remember a role" : "Your target was killed. Now remember a new role!") : (WasSwapped ? "Twoja rola zostala podmieniona. Teraz zapamietaj nowa!" : SpawnedAs ? "Znajdz martwe cialo by zapamietac role" : "Twój cel zostal zabity. Teraz zapamietaj nowa role!");
             Color = Patches.Colors.Amnesiac;
             RoleType = RoleEnum.Amnesiac;
             AddToRoleHistory(RoleType);

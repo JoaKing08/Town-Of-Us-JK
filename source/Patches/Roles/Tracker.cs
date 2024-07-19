@@ -21,7 +21,7 @@ namespace TownOfUs.Roles
         {
             Name = "Tracker";
             ImpostorText = () => "Track Everyone's Movement";
-            TaskText = () => "Track suspicious players";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Track suspicious players" : "Sledz podejrzanych graczy";
             Color = Patches.Colors.Tracker;
             LastTracked = DateTime.UtcNow;
             RoleType = RoleEnum.Tracker;

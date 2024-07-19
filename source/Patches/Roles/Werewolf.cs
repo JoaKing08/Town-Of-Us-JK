@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
         {
             Name = "Werewolf";
             ImpostorText = () => "Rampage To Kill Everyone";
-            TaskText = () => "Rampage to kill everyone\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Rampage to kill everyone\nFake Tasks:" : "Wpadnij w szal by zabic wszystkich\nFake Tasks:";
             Color = Patches.Colors.Werewolf;
             LastRampaged = DateTime.UtcNow;
             LastKilled = DateTime.UtcNow;

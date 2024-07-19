@@ -7,7 +7,7 @@ namespace TownOfUs.Roles.Modifiers
         public Tasker(PlayerControl player) : base(player)
         {
             Name = "Tasker";
-            TaskText = () => "Fake tasks like nobody else can";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Fake tasks like nobody else can" : "Falszuj zadania jak nikt inny";
             Color = Patches.Colors.Impostor;
             ModifierType = ModifierEnum.Tasker;
         }

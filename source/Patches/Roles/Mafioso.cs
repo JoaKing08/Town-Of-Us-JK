@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
         {
             Name = "Mafioso";
             ImpostorText = () => "";
-            TaskText = () => "Kill off the crew and make Godfather pleased!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Kill off the crew and make Godfather pleased!" : "Wybij zaloge i spraw by Godfather byl zadowolony!";
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Mafioso;
             AddToRoleHistory(RoleType);

@@ -5,7 +5,7 @@ namespace TownOfUs.Roles.Modifiers
         public Multitasker(PlayerControl player) : base(player)
         {
             Name = "Multitasker";
-            TaskText = () => "Your task windows are transparent";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Your task windows are transparent" : "Twoje okna zadan sa przezroczyste";
             Color = Patches.Colors.Multitasker;
             ModifierType = ModifierEnum.Multitasker;
         }

@@ -9,7 +9,7 @@ namespace TownOfUs.Roles
         {
             Name = "Pirate";
             ImpostorText = () => "Board And Loot The Treasures Of Crew";
-            TaskText = () => "Prowl for plunder amongst those who hold riches";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Prowl for plunder amongst those who hold riches" : "Szukaj lupów wsród tych, którzy posiadaja bogactwa";
             Color = Patches.Colors.Pirate;
             RoleType = RoleEnum.Pirate;
             AddToRoleHistory(RoleType);

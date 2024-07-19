@@ -20,7 +20,7 @@ namespace TownOfUs.Roles.Modifiers
         public Disperser(PlayerControl player) : base(player)
         {
             Name = "Disperser";
-            TaskText = () => "Separate the Crew";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Separate the Crew" : "Rozdziel zaloge";
             Color = Patches.Colors.Impostor;
             StartingCooldown = DateTime.UtcNow;
             ModifierType = ModifierEnum.Disperser;

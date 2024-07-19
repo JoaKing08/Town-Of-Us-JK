@@ -16,7 +16,7 @@ namespace TownOfUs.Roles.Horseman
             RoleType = RoleEnum.Famine;
             AddToRoleHistory(RoleType);
             ImpostorText = () => "";
-            TaskText = () => "Starve everyone to death!\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Starve everyone to death!\nFake Tasks:" : "Zaglodz wszystkich na smierc!\nFake Tasks";
             Faction = Faction.NeutralApocalypse;
         }
         public bool Announced;

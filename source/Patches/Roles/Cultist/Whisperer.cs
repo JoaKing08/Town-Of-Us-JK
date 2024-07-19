@@ -20,7 +20,7 @@ namespace TownOfUs.Roles.Cultist
         {
             Name = "Whisperer";
             ImpostorText = () => "Psst";
-            TaskText = () => "Persuade Crewmates of your ideas";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Persuade Crewmates of your ideas" : "Przekonaj crewmate'ów do swoich idealów";
             Color = Patches.Colors.Impostor;
             LastWhispered = DateTime.UtcNow;
             RoleType = RoleEnum.Whisperer;

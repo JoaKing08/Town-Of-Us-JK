@@ -11,7 +11,7 @@ namespace TownOfUs.Roles
         {
             Name = "Jackal";
             ImpostorText = () => "Kill Everyone With Your Recruits";
-            TaskText = () => RecruitsAlive ? "Survive and wait until recruits make a kingdom of yours\nFake Tasks:" : "Your recruits died, now take down the crew yourself\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (RecruitsAlive ? "Survive and wait until recruits make a kingdom of yours\nFake Tasks:" : "Your recruits died, now take down the crew yourself\nFake Tasks:") : (RecruitsAlive ? "Przetrwaj i czekaj az rekruci zrobia twoj raj\nFake Tasks:" : "Twoi rekruci umarli, teraz zdejmij zaloge samodzielnie\nFake Tasks:");
             Color = Patches.Colors.Jackal;
             LastKill = DateTime.UtcNow;
             RoleType = RoleEnum.Jackal;

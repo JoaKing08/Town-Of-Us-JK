@@ -287,7 +287,7 @@ namespace TownOfUs.Roles
         {
             Name = "Vigilante";
             ImpostorText = () => "Kill Impostors If You Can Guess Their Roles";
-            TaskText = () => "Guess the roles of impostors mid-meeting to kill them!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Guess the roles of impostors mid-meeting to kill them!" : "Zgaduj role impostorów podczas spotkania by ich zabic!";
             Color = Patches.Colors.Vigilante;
             RoleType = RoleEnum.Vigilante;
             AddToRoleHistory(RoleType);

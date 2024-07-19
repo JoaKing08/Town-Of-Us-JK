@@ -12,7 +12,7 @@ namespace TownOfUs.Roles.Modifiers
         public ButtonBarry(PlayerControl player) : base(player)
         {
             Name = "Button Barry";
-            TaskText = () => "Call a button from anywhere!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Call a button from anywhere!" : "Zglos przycisk z gdziekolwiek!";
             Color = Patches.Colors.ButtonBarry;
             StartingCooldown = DateTime.UtcNow;
             ModifierType = ModifierEnum.ButtonBarry;

@@ -14,7 +14,7 @@ namespace TownOfUs.Roles.Cultist
         {
             Name = "Chameleon";
             ImpostorText = () => "Turn Invisible Temporarily";
-            TaskText = () => "Turn invisible to catch killers";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Turn invisible to catch killers" : "Stan sie niewidzialny by lapac zabójców";
             Color = Patches.Colors.Chameleon;
             LastSwooped = DateTime.UtcNow;
             RoleType = RoleEnum.Chameleon;

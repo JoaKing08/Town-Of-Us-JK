@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
         {
             Name = "Undercover";
             ImpostorText = () => UndercoverImpostor ? "Disguise As The <color=#FF0000FF>Impostor</color> To Find Who They Are" : "Disguise As Member Of The <color=#808080FF>Apocalypse</color> To Find Who They Are";
-            TaskText = () => $"Disguise as evildoers to find out who they are\nUndercover role: <color=#{UndercoverRole.GetRoleColor().ToHtmlStringRGBA()}>{UndercoverRole.GetRoleName()}</color>";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? $"Disguise as evildoers to find out who they are\nUndercover role: <color=#{UndercoverRole.GetRoleColor().ToHtmlStringRGBA()}>{UndercoverRole.GetRoleName()}</color>" : $"Przebiez sie za zloczynców by dowiedziec sie kim sa\nPrzykrywka: <color=#{UndercoverRole.GetRoleColor().ToHtmlStringRGBA()}>{UndercoverRole.GetRoleName()}</color>";
             Color = Patches.Colors.Undercover;
             RoleType = RoleEnum.Undercover;
             UndercoverRole = RoleEnum.Impostor;

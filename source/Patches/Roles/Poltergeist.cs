@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
         {
             Name = "Poltergeist";
             ImpostorText = () => "";
-            TaskText = () => "Complete all your tasks to help impostors kill!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Complete all your tasks to help impostors kill!" : "Skoncz swoje zadania by pomóc impostorom zabijac!";
             Color = Patches.Colors.Impostor;
             RoleType = RoleEnum.Poltergeist;
             Faction = Faction.Impostors;

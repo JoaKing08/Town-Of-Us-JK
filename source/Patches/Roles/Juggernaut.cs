@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Juggernaut;
             AddToRoleHistory(RoleType);
             ImpostorText = () => "Your Power Grows With Every Kill";
-            TaskText = () => "With each kill your kill cooldown decreases\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "With each kill your kill cooldown decreases\nFake Tasks:" : "Z kazdym zabójstwem twoj cooldown sie zmniejsza\nFake Tasks:";
             Faction = Faction.NeutralKilling;
         }
 

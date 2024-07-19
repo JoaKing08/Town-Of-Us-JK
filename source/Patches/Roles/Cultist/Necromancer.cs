@@ -16,7 +16,7 @@ namespace TownOfUs.Roles.Cultist
         {
             Name = "Necromancer";
             ImpostorText = () => "Revive The Dead To Do Your Dirty Work";
-            TaskText = () => "Revive Crewmates to turn them into Impostors";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Revive Crewmates to turn them into Impostors" : "Wskrzes crewmate'ów by zmienic ich w Impostorów";
             Color = Patches.Colors.Impostor;
             LastRevived = DateTime.UtcNow;
             RoleType = RoleEnum.Necromancer;

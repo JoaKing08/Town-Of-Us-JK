@@ -19,7 +19,7 @@ namespace TownOfUs.Roles
         {
             Name = GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Mycologist" : "Miner";
             ImpostorText = () => GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "From The Top, Make It Drop, That's A Mushroom" : "From The Top, Make It Drop, That's A Vent";
-            TaskText = () => GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Place mushrooms around the map" : "Place vents around the map";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Place mushrooms around the map" : "Place vents around the map") : (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? "Sadz grzyby dookola mapy" : "Stawiaj wenty dookola mapy");
             Color = Patches.Colors.Impostor;
             LastMined = DateTime.UtcNow;
             RoleType = RoleEnum.Miner;

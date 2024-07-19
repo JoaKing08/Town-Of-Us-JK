@@ -14,7 +14,7 @@ namespace TownOfUs.Roles.Modifiers
         public Aftermath(PlayerControl player) : base(player)
         {
             Name = "Aftermath";
-            TaskText = () => "Force your killer to use their ability";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Force your killer to use their ability" : "Zmus twojego zabójce do uzycia umiejetnosci";
             Color = Patches.Colors.Aftermath;
             ModifierType = ModifierEnum.Aftermath;
         }

@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
         {
             Name = "Oracle";
             ImpostorText = () => "Get Other Player's To Confess Their Sins";
-            TaskText = () => "Get another player to confess on your passing";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Get another player to confess on your passing" : "Spraw by gracz spowiedzial sie tobie";
             Color = Patches.Colors.Oracle;
             LastConfessed = DateTime.UtcNow;
             Accuracy = CustomGameOptions.RevealAccuracy;

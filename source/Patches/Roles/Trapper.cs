@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
         {
             Name = "Trapper";
             ImpostorText = () => "Catch Killers In The Act";
-            TaskText = () => "Place traps around the map";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Place traps around the map" : "Stawiaj pulapki dookola mapy";
             Color = Patches.Colors.Trapper;
             RoleType = RoleEnum.Trapper;
             LastTrapped = DateTime.UtcNow;

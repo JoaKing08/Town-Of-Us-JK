@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
         {
             Name = "Inspector";
             ImpostorText = () => "Check The Roles Of The Crew!";
-            TaskText = () => "Check the roles of the crew to find fakes";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Check the roles of the crew to find fakes" : "Sprawdz role zalogi by znalesc falszywki";
             Color = Patches.Colors.Inspector;
             RoleType = RoleEnum.Inspector;
             LastInspected = DateTime.UtcNow;

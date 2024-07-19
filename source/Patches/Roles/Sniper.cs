@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
         {
             Name = "Sniper";
             ImpostorText = () => "Kill Players From Far Far Away";
-            TaskText = () => "Aim to kill crewmetes from far away";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Aim to kill crewmetes from far away" : "Wyceluj by zabijac graczy z daleka";
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Sniper;
             AddToRoleHistory(RoleType);

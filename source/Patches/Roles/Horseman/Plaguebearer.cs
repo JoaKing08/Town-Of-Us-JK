@@ -22,7 +22,7 @@ namespace TownOfUs.Roles.Horseman
         {
             Name = "Plaguebearer";
             ImpostorText = () => "Infect Everyone To Become Pestilence";
-            TaskText = () => "Infect everyone to become Pestilence\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Infect everyone to become Pestilence\nFake Tasks:" : "Zaraz wszystkich by stac sie Pestilence\nFake Tasks:";
             Color = Patches.Colors.Plaguebearer;
             RoleType = RoleEnum.Plaguebearer;
             AddToRoleHistory(RoleType);

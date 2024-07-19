@@ -8,7 +8,7 @@ namespace TownOfUs.Roles.Cultist
         {
             Name = "Snitch";
             ImpostorText = () => "Complete All Your Tasks To Reveal An Impostor";
-            TaskText = () => "Complete all your tasks to reveal an Impostor!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Complete all your tasks to reveal an Impostor!" : "Skoncz swoje zadania by ujawnic Impostora!";
             Color = Patches.Colors.Snitch;
             RoleType = RoleEnum.CultistSnitch;
             AddToRoleHistory(RoleType);

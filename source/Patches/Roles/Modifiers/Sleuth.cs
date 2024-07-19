@@ -8,7 +8,7 @@ namespace TownOfUs.Roles.Modifiers
         public Sleuth(PlayerControl player) : base(player)
         {
             Name = "Sleuth";
-            TaskText = () => "Know the roles of bodies you report";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Know the roles of bodies you report" : "Znaj role trupów które zglosisz";
             Color = Patches.Colors.Sleuth;
             ModifierType = ModifierEnum.Sleuth;
         }

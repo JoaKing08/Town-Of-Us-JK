@@ -7,7 +7,7 @@ namespace TownOfUs.Roles.Modifiers
         public Underdog(PlayerControl player) : base(player)
         {
             Name = "Underdog";
-            TaskText = () => "When you're alone your kill cooldown is shortened";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "When you're alone your kill cooldown is shortened" : "Gdy jestes sam twój cooldown jest mniejszy";
             Color = Patches.Colors.Impostor;
             ModifierType = ModifierEnum.Underdog;
         }

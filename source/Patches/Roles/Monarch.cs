@@ -17,7 +17,7 @@ namespace TownOfUs.Roles
         {
             Name = "Monarch";
             ImpostorText = () => "Knight The Crew To Increse Voting Power";
-            TaskText = () => "Knight the confirmed crew to increse their voting power";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Knight the confirmed crew to increse their voting power" : "Mianuj potwierdzona zaloge by zwiekszyc ich sile glosu";
             Color = Patches.Colors.Monarch;
             LastKnighted = DateTime.UtcNow;
             RoleType = RoleEnum.Monarch;

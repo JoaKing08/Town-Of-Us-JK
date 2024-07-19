@@ -1513,7 +1513,7 @@ namespace TownOfUs
             {
                 var snitch = Role.GetRole<CultistSnitch>(player);
                 snitch.Name = "Informant";
-                snitch.TaskText = () => "Complete all your tasks to reveal a fake Impostor!";
+                snitch.TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Complete all your tasks to reveal a fake Impostor!" : "Skoncz swoje zadania by ujawnic falszywego Impostora!";
                 snitch.Color = Patches.Colors.Impostor;
                 snitch.Faction = Faction.Impostors;
                 snitch.RegenTask();
@@ -1550,7 +1550,7 @@ namespace TownOfUs
             {
                 var vigi = Role.GetRole<Vigilante>(player);
                 vigi.Name = "Assassin";
-                vigi.TaskText = () => "Guess the roles of crewmates mid-meeting to kill them!";
+                vigi.TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Guess the roles of crewmates mid-meeting to kill them!" : "Zgadnij role crewmate'ów podczas spotkan by ich zabic";
                 vigi.Color = Patches.Colors.Impostor;
                 vigi.Faction = Faction.Impostors;
                 vigi.RegenTask();
@@ -2739,8 +2739,8 @@ namespace TownOfUs
         {
             switch (factionOverride)
             {
-                case FactionOverride.Undead: return $"<color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Faction: Undead\nHelp the Necromancer get rid off the crew!</color>";
-                case FactionOverride.Recruit: return $"<color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Faction: Jackal\nHelp the Jackal kill off the crew!</color>";
+                case FactionOverride.Undead: return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Faction: Undead\nHelp the Necromancer get rid off the crew!</color>" : $"<color=#{Patches.Colors.Necromancer.ToHtmlStringRGBA()}>Faction: Undead\nPomóz Necromancerowi pozbyc sie zalogi!</color>";
+                case FactionOverride.Recruit: return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Faction: Jackal\nHelp the Jackal kill off the crew!</color>" : $"<color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Faction: Jackal\nPomóz Jackalowi wybic zaloge!</color>";
                 default: return "";
             }
         }

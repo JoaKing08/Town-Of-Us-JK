@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
         {
             Name = "Survivor";
             ImpostorText = () => "Do Whatever It Takes To Live";
-            TaskText = () => WasSwapped ? "Your role was stolen. Now you just need to live!" : SpawnedAs ? "Stay alive to win" : "Your target was killed. Now you just need to live!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (WasSwapped ? "Your role was stolen. Now you just need to live!" : SpawnedAs ? "Stay alive to win" : "Your target was killed. Now you just need to live!") : (WasSwapped ? "Twoja rola zostala podmieniona. Teraz musisz tylko przezyc!" : SpawnedAs ? "Przezyj aby wygrac" : "Twój cel zostal zabity. Teraz musisz tylko przetrwac!");
             Color = Patches.Colors.Survivor;
             LastVested = DateTime.UtcNow;
             RoleType = RoleEnum.Survivor;

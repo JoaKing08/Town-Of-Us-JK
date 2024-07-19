@@ -34,7 +34,7 @@ namespace TownOfUs.Roles
         {
             Name = "Demagogue";
             ImpostorText = () => "Rule The Meetings From The Shadows";
-            TaskText = () => $"Use crew mistakes for your own advantage.\nCharges left: {Charges}";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? $"Use crew mistakes for your own advantage.\nCharges left: {Charges}" : $"Uzyj bledów zalogi na swoja korzysc.\nPozostale ladunki: {Charges}";
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Demagogue;
             AddToRoleHistory(RoleType);

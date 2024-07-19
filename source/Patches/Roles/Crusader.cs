@@ -25,7 +25,7 @@ namespace TownOfUs.Roles
         {
             Name = "Crusader";
             ImpostorText = () => "Protect Crew By Killing!";
-            TaskText = () => "Protect crewmates to kill interactors";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Protect crewmates to kill interactors" : "Bron crewmate'ów by zabic interaktorów";
             Color = Patches.Colors.Crusader;
             RoleType = RoleEnum.Crusader;
             LastFortified = DateTime.UtcNow;

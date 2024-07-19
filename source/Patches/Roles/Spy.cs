@@ -18,7 +18,7 @@ namespace TownOfUs.Roles
         {
             Name = "Spy";
             ImpostorText = () => "Snoop Around And Find Stuff Out";
-            TaskText = () => "Gain extra information on the Admin Table, and give\nbugs to players to know what happend to them";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Gain extra information on the Admin Table, and give\nbugs to players to know what happend to them" : "Zdobywaj dodatkowe informacje na Admin Table, i podkladaj\npluskwy graczom by wiedziec co im sie stalo";
             Color = Patches.Colors.Spy;
             RoleType = RoleEnum.Spy;
             BugsLeft = CustomGameOptions.BugsPerGame;

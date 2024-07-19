@@ -24,7 +24,7 @@ namespace TownOfUs.Roles.Horseman
         {
             Name = "Soul Collector";
             ImpostorText = () => "Reap Souls To Become Death";
-            TaskText = () => "Reap souls from bodies to become Death\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Reap souls from bodies to become Death\nFake Tasks:" : "Wyrywaj dusze z cial by stac sie Death\nFake Tasks:";
             Color = Patches.Colors.SoulCollector;
             RoleType = RoleEnum.SoulCollector;
             AddToRoleHistory(RoleType);

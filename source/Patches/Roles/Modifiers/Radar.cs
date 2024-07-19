@@ -9,7 +9,7 @@ namespace TownOfUs.Roles.Modifiers
         public Radar(PlayerControl player) : base(player)
         {
             Name = "Radar";
-            TaskText = () => "Be on high alert";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Be on high alert" : "Badz czujny";
             Color = Patches.Colors.Radar;
             ModifierType = ModifierEnum.Radar;
         }

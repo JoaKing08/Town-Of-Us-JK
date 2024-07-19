@@ -11,7 +11,7 @@ namespace TownOfUs.Roles
         {
             Name = "Vampire";
             ImpostorText = () => "Convert Crewmates And Kill The Rest";
-            TaskText = () => "Bite all other players\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Bite all other players\nFake Tasks:" : "Ugryz wszystkich innych graczy";
             Color = Patches.Colors.Vampire;
             LastBit = DateTime.UtcNow;
             RoleType = RoleEnum.Vampire;

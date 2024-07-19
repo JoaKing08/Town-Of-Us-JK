@@ -39,7 +39,7 @@ namespace TownOfUs.Roles
         {
             Name = "Transporter";
             ImpostorText = () => "Choose Two Players To Swap Locations";
-            TaskText = () => "Choose two players to swap locations";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Choose two players to swap locations" : "Wybierz dwóch graczy by zmienic lokalizacje";
             Color = Colors.Transporter;
             LastTransported = DateTime.UtcNow;
             RoleType = RoleEnum.Transporter;

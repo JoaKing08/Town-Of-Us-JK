@@ -21,7 +21,7 @@ namespace TownOfUs.Roles
         {
             Name = "Occultist";
             ImpostorText = () => "Sacrifice The Crew To The Greater Cause";
-            TaskText = () => "Mark everyone who oposes you, to perform the ritual.";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Mark everyone who oposes you, to perform the ritual." : "Oznacz wszystkich kto sie tobie sprzeciwia, by odbyc rytual";
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Occultist;
             AddToRoleHistory(RoleType);

@@ -8,7 +8,7 @@ namespace TownOfUs.Roles
         {
             Name = "Mayor";
             ImpostorText = () => "Reveal Yourself To Save The Town";
-            TaskText = () => "Reveal yourself when the time is right";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Reveal yourself when the time is right" : "Ujawnij sie w odpowiednim momencie";
             Color = Patches.Colors.Mayor;
             RoleType = RoleEnum.Mayor;
             AddToRoleHistory(RoleType);

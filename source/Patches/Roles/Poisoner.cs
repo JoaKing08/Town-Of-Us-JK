@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
         {
             Name = "Poisoner";
             ImpostorText = () => "Poison Players To Kill With No Evidence";
-            TaskText = () => "Poison players to kill with no evidence";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Poison players to kill with no evidence" : "Otruj graczy by zabic bez dowodów";
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Poisoner;
             AddToRoleHistory(RoleType);

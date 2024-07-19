@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
         {
             Name = "Bodyguard";
             ImpostorText = () => "Sacrifice Yourself To Protect Crew!";
-            TaskText = () => "Protect crewmates to get killed instead of them";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Protect crewmates to get killed instead of them" : "Chron crewmate'ów by zginac zamiast nich";
             Color = Patches.Colors.Bodyguard;
             RoleType = RoleEnum.Bodyguard;
             LastGuard = DateTime.UtcNow;

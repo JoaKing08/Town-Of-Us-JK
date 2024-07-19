@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
         {
             Name = "Cursed Soul";
             ImpostorText = () => "Soul Swap To Get Role";
-            TaskText = () => WasSwapped ? "Your role was stolen. Now soul swap for new role!" : SpawnedAs ? "Soul swap with player to get new role" : "Your target was killed. Now soul swap for new role!";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? (WasSwapped ? "Your role was stolen. Now soul swap for new role!" : SpawnedAs ? "Soul swap with player to get new role" : "Your target was killed. Now soul swap for new role!") : (WasSwapped ? "Twoja rola zostala podmieniona. Teraz zamien sie po nowa!" : SpawnedAs ? "Zamien sie z graczem by dostac nowa role" : "Twój cel zgina. Teraz zamien sie po nowa role!");
             Color = Patches.Colors.CursedSoul;
             RoleType = RoleEnum.CursedSoul;
             AddToRoleHistory(RoleType);

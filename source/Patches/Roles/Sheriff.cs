@@ -8,7 +8,7 @@ namespace TownOfUs.Roles
         {
             Name = "Sheriff";
             ImpostorText = () => "Shoot The <color=#FF0000FF>Impostor</color>";
-            TaskText = () => "Kill off the impostor but don't kill crewmates";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Kill off the impostor but don't kill crewmates" : "Zabijaj impostorów ale nie zabijaj crewmate'ów";
             Color = Patches.Colors.Sheriff;
             LastKilled = DateTime.UtcNow;
             RoleType = RoleEnum.Sheriff;

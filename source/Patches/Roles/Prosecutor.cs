@@ -6,7 +6,7 @@ namespace TownOfUs.Roles
         {
             Name = "Prosecutor";
             ImpostorText = () => "Exile One Person Of Your Choosing";
-            TaskText = () => "Choose to exile anyone you want";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Choose to exile anyone you want" : "Wybierz by wyrzucic osobe twojego uznania";
             Color = Patches.Colors.Prosecutor;
             RoleType = RoleEnum.Prosecutor;
             AddToRoleHistory(RoleType);

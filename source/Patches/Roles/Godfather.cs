@@ -21,7 +21,7 @@ namespace TownOfUs.Roles
         {
             Name = "Godfather";
             ImpostorText = () => "Order Your Dirty Work To Others";
-            TaskText = () => "Recruit a player to kill instead of you.";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Recruit a player to kill instead of you." : "Zrekrutuj gracza by zabijal zamiast ciebie";
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Godfather;
             AddToRoleHistory(RoleType);

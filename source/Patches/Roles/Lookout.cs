@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
         {
             Name = "Lookout";
             ImpostorText = () => "Watch The Crew";
-            TaskText = () => "See what everyone is doing";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "See what everyone is doing" : "Obserwuj co wszyscy robia";
             Color = Patches.Colors.Lookout;
             LastWatched = DateTime.UtcNow;
             RoleType = RoleEnum.Lookout;

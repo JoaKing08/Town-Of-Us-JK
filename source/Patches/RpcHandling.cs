@@ -646,7 +646,7 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
-                if (exeTargets.Any())
+                while (exeTargets.Any() && exe.target == null)
                 {
                     exe.target = exeTargets[Random.RandomRangeInt(0, exeTargets.Count)];
                     exeTargets.Remove(exe.target);
@@ -707,9 +707,9 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
-                if (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
+                while (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
                     (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
-                    goodGATargets.Count == 0 && evilGATargets.Count == 0))
+                    goodGATargets.Count == 0 && evilGATargets.Count == 0) && ga.target == null)
                 {
                     if (goodGATargets.Count == 0)
                     {
@@ -1238,7 +1238,7 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
-                if (exeTargets.Any())
+                while (exeTargets.Any() && exe.target == null)
                 {
                     exe.target = exeTargets[Random.RandomRangeInt(0, exeTargets.Count)];
                     exeTargets.Remove(exe.target);
@@ -1354,9 +1354,9 @@ namespace TownOfUs
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
-                if (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
+                while (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
                     (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
-                    goodGATargets.Count == 0 && evilGATargets.Count == 0))
+                    goodGATargets.Count == 0 && evilGATargets.Count == 0) && ga.target == null)
                 {
                     if (goodGATargets.Count == 0)
                     {
@@ -2181,7 +2181,7 @@ namespace TownOfUs
                             var prosRole = Role.GetRole<Prosecutor>(prosecutor);
                             prosRole.ProsecuteThisMeeting = true;
                         }
-                        
+
                         break;
 
                     case CustomRPC.Bite:
@@ -2295,7 +2295,7 @@ namespace TownOfUs
                         break;
                     case CustomRPC.GlitchWin:
                         var theGlitch = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Glitch);
-                        ((Glitch) theGlitch)?.Wins();
+                        ((Glitch)theGlitch)?.Wins();
                         break;
                     case CustomRPC.JuggernautWin:
                         var juggernaut = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Juggernaut);
@@ -2310,7 +2310,7 @@ namespace TownOfUs
                         if (hackPlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId)
                         {
                             var glitch = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Glitch);
-                            ((Glitch) glitch)?.SetHacked(hackPlayer);
+                            ((Glitch)glitch)?.SetHacked(hackPlayer);
                         }
 
                         break;
@@ -2469,7 +2469,7 @@ namespace TownOfUs
                         break;
                     case CustomRPC.ArsonistWin:
                         var theArsonistTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Arsonist);
-                        ((Arsonist) theArsonistTheRole)?.Wins();
+                        ((Arsonist)theArsonistTheRole)?.Wins();
                         break;
                     case CustomRPC.WerewolfWin:
                         var theWerewolfTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Werewolf);
@@ -3193,13 +3193,11 @@ namespace TownOfUs
                     }
             }
         }
-
-        [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
-        public static class RpcSetRole
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+        public static class ReviveOnStart
         {
-            public static void Postfix()
+            public static void Prefix()
             {
-                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("RPC SET ROLE");
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
                     if (player.Data.IsDead)
@@ -3208,6 +3206,36 @@ namespace TownOfUs
                         Utils.Rpc(CustomRPC.Revive, player.PlayerId);
                     }
                 }
+            }
+        }
+        [HarmonyPatch(typeof(DeadBody), nameof(DeadBody.OnClick))]
+        public static class DontReport
+        {
+            public static bool Prefix(DeadBody __instance)
+            {
+                var matches = Murder.KilledPlayers.FirstOrDefault(x => x.PlayerId == __instance.ParentId);
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff) && matches != null && PlayerControl.LocalPlayer.PlayerId == matches.KillerId && !CustomGameOptions.SheriffBodyReport)
+                {
+                    return false;
+                }
+                if (CustomGameOptions.GameMode == GameMode.Teams)
+                {
+                    return false;
+                }
+                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+        public static class RpcSetRole
+        {
+            public static void Postfix()
+            {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("RPC SET ROLE");
                 var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.IsImpostor());
 
                 Utils.ShowDeadBodies = false;

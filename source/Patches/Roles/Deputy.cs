@@ -12,7 +12,7 @@ namespace TownOfUs.Roles
         {
             Name = "Deputy";
             ImpostorText = () => "Kill Evils During Meetings";
-            TaskText = () => "Shoot out evildoers in bright daylight";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Shoot out evildoers in broad daylight" : "Wystrzel zloczynców w swietle dnia";
             Color = Patches.Colors.Deputy;
             RoleType = RoleEnum.Deputy;
             AddToRoleHistory(RoleType);

@@ -24,7 +24,7 @@ namespace TownOfUs.Roles.Horseman
         {
             Name = "Berserker";
             ImpostorText = () => "Kill Players To Become War";
-            TaskText = () => "Kill players to become War\nFake Tasks:";
+            TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Kill players to become War\nFake Tasks:" : "Zabijaj graczy by stac sie War\nFake Tasks:";
             Color = Patches.Colors.Berserker;
             RoleType = RoleEnum.Berserker;
             AddToRoleHistory(RoleType);
