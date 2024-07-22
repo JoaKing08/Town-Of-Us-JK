@@ -25,7 +25,7 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return false;
                 }
                 if (role.target.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.target.PlayerId, (byte)role.RoleType, (byte)0);

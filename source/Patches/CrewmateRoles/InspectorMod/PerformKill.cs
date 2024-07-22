@@ -34,12 +34,12 @@ namespace TownOfUs.CrewmateRoles.InspectorMod
                 if (role.BloodTimer(Role.GetRole(role.ClosestPlayer).LastBlood) == 0)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                    role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is Clean!" : "Twój Cel Jest Czysty!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is Clean!" : "Twój Cel Jest Czysty!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is Bloody!" : "Twój Cel Jest Krwawy!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Is Bloody!" : "Twój Cel Jest Krwawy!", 1000 * CustomGameOptions.NotificationDuration);
                 }
             }
             if (interact[0] == true)

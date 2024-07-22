@@ -25,7 +25,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     if (PlayerControl.LocalPlayer == pirate.DueledPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        dueled.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Lost The Duel!" : "Przegrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Lost The Duel!" : "Przegrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     var voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == pirate.DueledPlayer.PlayerId);
                     if (!pirate.DueledPlayer.Is(RoleEnum.Pestilence) && !pirate.DueledPlayer.Is(RoleEnum.Famine) && !pirate.DueledPlayer.Is(RoleEnum.War) && !pirate.DueledPlayer.Is(RoleEnum.Death))
@@ -81,7 +81,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        pirate.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Won Th' Duel!" : "Wygrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Won Th' Duel!" : "Wygrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                         if (pirate.DuelsWon >= CustomGameOptions.PirateDuelsToWin)
                         {
@@ -98,12 +98,12 @@ namespace TownOfUs.NeutralRoles.PirateMod
                     if (pirate.Player == PlayerControl.LocalPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                        pirate.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Lost Th' Duel!" : "Przegrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Lost Th' Duel!" : "Przegrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     if (pirate.DueledPlayer == PlayerControl.LocalPlayer)
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        dueled.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Won The Duel!" : "Wygrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Won The Duel!" : "Wygrales Pojedynek!", 1000 * CustomGameOptions.NotificationDuration);
                     }
                     pirate.DueledPlayer = null;
                 }

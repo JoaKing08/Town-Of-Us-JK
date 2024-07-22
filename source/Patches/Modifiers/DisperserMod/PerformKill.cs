@@ -22,7 +22,7 @@ namespace TownOfUs.Modifiers.DisperserMod
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                 return false;
             }
             if (!__instance.enabled) return false;

@@ -64,7 +64,7 @@ namespace TownOfUs.ApocalypseRoles.BakerMod
                     Utils.Rpc(CustomRPC.TurnFamine, PlayerControl.LocalPlayer.PlayerId);
                 }
             }
-            if (!role.CanWin)
+            if (!role.CanWin && !CustomGameOptions.KillBaker)
             {
                 Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
             }

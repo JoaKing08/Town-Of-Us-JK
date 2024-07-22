@@ -131,7 +131,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                 Revived.Add(player, Arrow);
                 //Target = player;
                 yield return Utils.FlashCoroutine(role.Color, 1f, 0.5f);
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Altruist Has Revived!" : "Altruista Kogos Wskrzesil!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Altruist Has Revived!" : "Altruista Kogos Wskrzesil!", 1000 * CustomGameOptions.NotificationDuration);
             }
         }
     }

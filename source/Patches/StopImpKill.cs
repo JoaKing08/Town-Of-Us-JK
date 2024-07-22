@@ -28,7 +28,7 @@ namespace TownOfUs
                 return false;
             }
             if (target.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, target.PlayerId, (byte)RoleEnum.Impostor, (byte)0);
-            var interact = Utils.Interact(PlayerControl.LocalPlayer, Role.GetRole(PlayerControl.LocalPlayer).ClosestPlayerImp, true);
+            var interact = Utils.Interact(PlayerControl.LocalPlayer, target, true);
             if (interact[4] == true)
             {
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Warlock))

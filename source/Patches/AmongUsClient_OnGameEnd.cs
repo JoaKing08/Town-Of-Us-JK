@@ -579,7 +579,7 @@ namespace TownOfUs
                 }
                 else if (role.Faction == Faction.NeutralApocalypse)
                 {
-                    if (Role.ApocalypseWins)
+                    if (Role.ApocalypseWins && PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse) && x.Is(FactionOverride.None)))
                     {
                         TempData.winners = new List<WinningPlayerData>();
                         isImp = false;

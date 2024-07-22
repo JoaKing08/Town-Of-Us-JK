@@ -17,7 +17,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
             if (PlayerControl.LocalPlayer.IsDueled()) if (PlayerControl.LocalPlayer.GetPirate().notify && PlayerControl.LocalPlayer.GetPirate().NotificationTimer() == 0f)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Dueled!" : "Pojedynkujesz Sie!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Dueled!" : "Pojedynkujesz Sie!", 1000 * CustomGameOptions.NotificationDuration);
                     PlayerControl.LocalPlayer.GetPirate().notify = false;
                 }
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
@@ -30,7 +30,7 @@ namespace TownOfUs.NeutralRoles.PirateMod
             if (role.notify && role.NotificationTimer() == 0f)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pirate));
-                role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Ar Duel'g!" : "Pojedynkujesz Sie!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Ya Ar Duel'g!" : "Pojedynkujesz Sie!", 1000 * CustomGameOptions.NotificationDuration);
                 role.notify = false;
             }
 

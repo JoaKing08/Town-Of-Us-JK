@@ -30,12 +30,12 @@ namespace TownOfUs.CultistRoles.SeerMod
                 && !role.ClosestPlayer.Is(RoleEnum.Whisperer))
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Was Converted!" : "Twój Cel Zostal Przekonwrtowany!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Was Converted!" : "Twój Cel Zostal Przekonwrtowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
             else
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Wasn't Converted!" : "Twój Cel Nie Zostal Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Target Wasn't Converted!" : "Twój Cel Nie Zostal Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
             role.LastInvestigated = DateTime.UtcNow;
             role.UsesLeft--;

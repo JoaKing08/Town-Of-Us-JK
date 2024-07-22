@@ -34,14 +34,14 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                         if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
                         {
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
-                            role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Is Revealed!" : "Snitch Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Is Revealed!" : "Snitch Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
                         }
                         else if ((PlayerControl.LocalPlayer.Data.IsImpostor() && (!PlayerControl.LocalPlayer.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor))
                             || ((PlayerControl.LocalPlayer.Is(Faction.NeutralKilling)) && CustomGameOptions.SnitchSeesNeutrals) || (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)
                             && (CustomGameOptions.GameMode == GameMode.Horseman || CustomGameOptions.SnitchSeesNeutrals)))
                         {
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
-                            localRole.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Is Revealed!" : "Snitch Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Is Revealed!" : "Snitch Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
                             var gameObj = new GameObject();
                             var arrow = gameObj.AddComponent<ArrowBehaviour>();
                             gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
@@ -59,7 +59,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                     if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Finished Tasks!" : "Snitch Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Finished Tasks!" : "Snitch Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
                         var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor());
                         var traitor = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(RoleEnum.Traitor));
                         foreach (var imp in impostors)
@@ -81,7 +81,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                         (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) && (CustomGameOptions.GameMode == GameMode.Horseman || CustomGameOptions.SnitchSeesNeutrals)))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        localRole.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Finished Tasks!" : "Snitch Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Snitch Finished Tasks!" : "Snitch Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
                     }
 
                     break;

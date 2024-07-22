@@ -24,7 +24,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
 
             if (target != null && target.ParentId == DontInvestigate) target = null;
             else if (role.Reports == null) role.CurrentTarget = null;
-            else if (role.Reports[target.ParentId] == null) role.CurrentTarget = null;
+            else if (target == null || role.Reports[target.ParentId] == null) role.CurrentTarget = null;
             else if (role.Reports[target.ParentId].Count == 0) role.CurrentTarget = null;
             else role.CurrentTarget = target;
             if (role.CurrentTarget && __instance.enabled && role.ButtonUsable)

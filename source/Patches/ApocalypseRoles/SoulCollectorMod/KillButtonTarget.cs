@@ -17,7 +17,7 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
 
         public static void SetTarget(KillButton __instance, DeadBody target, SoulCollector role)
         {
-            if (role.CurrentTarget && role.CurrentTarget != target || Role.GetRole(Utils.PlayerById(target.ParentId)).Reaped)
+            if (role.CurrentTarget != target && (role.CurrentTarget || Role.GetRole(Utils.PlayerById(target.ParentId)).Reaped))
             {
                 foreach (var body in role.CurrentTarget.bodyRenderers) body.material.SetFloat("_Outline", 0f);
             }

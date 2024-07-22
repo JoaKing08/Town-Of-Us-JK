@@ -15,21 +15,21 @@ namespace TownOfUs.CrewmateRoles.MedicMod
                 CustomGameOptions.NotificationShield == NotificationOptions.Shielded)
             {
                 Coroutines.Start(Utils.FlashCoroutine(new Color(0f, 0.5f, 0f, 1f)));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Attacked!" : "Zostales Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Attacked!" : "Zostales Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             if (PlayerControl.LocalPlayer.PlayerId == medicId &&
                 CustomGameOptions.NotificationShield == NotificationOptions.Medic)
             {
                 Coroutines.Start(Utils.FlashCoroutine(new Color(0f, 0.5f, 0f, 1f)));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Shielded Player Was Attacked!" : "Chroniony Gracz Zostal Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Shielded Player Was Attacked!" : "Chroniony Gracz Zostal Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             if (CustomGameOptions.NotificationShield == NotificationOptions.Everyone)
             {
                 Coroutines.Start(Utils.FlashCoroutine(new Color(0f, 0.5f, 0f, 1f)));
-                if (PlayerControl.LocalPlayer.PlayerId == playerId) Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Attacked!" : "Zostales Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
-                else Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Shielded Player Was Attacked!" : "Chroniony Gracz Zostal Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
+                if (PlayerControl.LocalPlayer.PlayerId == playerId) NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Attacked!" : "Zostales Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
+                else NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Shielded Player Was Attacked!" : "Chroniony Gracz Zostal Zaatakowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             if (!flag)

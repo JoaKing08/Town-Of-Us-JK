@@ -447,7 +447,7 @@ namespace TownOfUs
                 if (player == PlayerControl.LocalPlayer)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    Role.GetRole(player).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 zeroSecReset = true;
             }
@@ -1176,12 +1176,12 @@ namespace TownOfUs
                 if (target.Is(ModifierEnum.Famous))
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Famous));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Famous Has Died!" : "Famous Zginal!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Famous Has Died!" : "Famous Zginal!", 1000 * CustomGameOptions.NotificationDuration);
                 }
                 else if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
-                    Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Have Died!" : "Ktos Zginal!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Have Died!" : "Ktos Zginal!", 1000 * CustomGameOptions.NotificationDuration);
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
@@ -1449,13 +1449,13 @@ namespace TownOfUs
             if (PlayerControl.LocalPlayer == player)
             {
                 Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
-                Role.GetRole(player).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Converted!" : "Zostales Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Converted!" : "Zostales Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
             else if (PlayerControl.LocalPlayer != player && PlayerControl.LocalPlayer.Is(RoleEnum.CultistMystic)
                 && !PlayerControl.LocalPlayer.Data.IsDead)
             {
                 Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
-                Role.GetRole(player).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Has Been Converted!" : "Ktos Zostal Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Has Been Converted!" : "Ktos Zostal Przekonwertowany!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter) && PlayerControl.LocalPlayer == player)

@@ -36,9 +36,6 @@ namespace TownOfUs.Roles
 
         public Func<string> ImpostorText;
         public Func<string> TaskText;
-        public TextMeshPro NotificationText;
-        public DateTime NotificationEnds;
-        public string NotificationString;
         public bool KilledByAbility;
         public PlayerControl ClosestPlayerImp;
         public ChatType CurrentChat = ChatType.VanillaChat;
@@ -1592,13 +1589,6 @@ namespace TownOfUs.Roles
                     Object.Destroy(arrow);
             }
             SnipeArrows.Clear();
-        }
-
-        public void Notification(string text, double milliseconds)
-        {
-            NotificationString = text;
-            NotificationEnds = DateTime.UtcNow;
-            NotificationEnds = NotificationEnds.AddMilliseconds(milliseconds);
         }
     }
 }

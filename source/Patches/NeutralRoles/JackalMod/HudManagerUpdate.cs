@@ -21,14 +21,14 @@ namespace TownOfUs.NeutralRoles.JackalMod
                 role.RecruitsAlive = false;
                 role.RegenTask();
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Jackal));
-                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "All Your Recruits Died!" : "Wszyscy Twoi Rekruci Umarli!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? "All Your Recruits Died!" : "Wszyscy Twoi Rekruci Umarli!", 1000 * CustomGameOptions.NotificationDuration);
             } 
             else if (PlayerControl.AllPlayerControls.ToArray().Count(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && !x.Data.IsDead && !x.Data.Disconnected) > 0 && !role.RecruitsAlive)
             {
                 role.RecruitsAlive = true;
                 role.RegenTask();
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Jackal));
-                role.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Recruit Have Been Revived!" : "Twój Rekrut Zostal Ozywiony!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? "Your Recruit Have Been Revived!" : "Twój Rekrut Zostal Ozywiony!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)

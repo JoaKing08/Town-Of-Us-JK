@@ -144,7 +144,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(true);
                 Coroutines.Start(Utils.FlashCoroutine(Color.red, 3f));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Betrayed The Crew!" : "Zdradziles Zaloge!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Betrayed The Crew!" : "Zdradziles Zaloge!", 1000 * CustomGameOptions.NotificationDuration);
             }
 
             foreach (var snitch in Role.GetRoles(RoleEnum.Snitch))

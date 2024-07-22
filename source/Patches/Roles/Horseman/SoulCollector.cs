@@ -61,12 +61,12 @@ namespace TownOfUs.Roles.Horseman
             if (CustomGameOptions.AnnounceDeath)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Death));
-                role.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
             }
             else if (Player == PlayerControl.LocalPlayer)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Death));
-                role.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
             }
             if (Player == PlayerControl.LocalPlayer)
             {

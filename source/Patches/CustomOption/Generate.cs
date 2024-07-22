@@ -400,6 +400,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Assassin;
         public static CustomNumberOption NumberOfImpostorAssassins;
         public static CustomNumberOption NumberOfNeutralAssassins;
+        public static CustomNumberOption NumberOfApocalypseAssassins;
         public static CustomToggleOption AmneTurnImpAssassin;
         public static CustomToggleOption AmneTurnNeutAssassin;
         public static CustomToggleOption TraitorCanAssassin;
@@ -520,6 +521,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption BreadNeeded;
         public static CustomNumberOption BakerCooldown;
         public static CustomNumberOption BreadSize;
+        public static CustomToggleOption KillBaker;
         public static CustomToggleOption BakerVent;
         public static CustomNumberOption FamineCooldown;
         public static CustomToggleOption AnnounceFamine;
@@ -1465,6 +1467,7 @@ namespace TownOfUs.CustomOption
             Assassin = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Assassin Ability</color>");
             NumberOfImpostorAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Impostor Assassins", 1, 0, 15, 1);
             NumberOfNeutralAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Neutral Assassins", 1, 0, 15, 1);
+            NumberOfApocalypseAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Neutral Apocalypse Assassins", 1, 0, 15, 1);
             AmneTurnImpAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Amnesiac Turned Impostor Gets Ability", false);
             AmneTurnNeutAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Amnesiac Turned Neutral Killing Gets Ability", false);
             TraitorCanAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Traitor Gets Ability", false);
@@ -2122,6 +2125,8 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Baker Cooldown", 30f, 10f, 60f, 2.5f, CooldownFormat);
             BreadSize =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Bread Size", 3f, 1f, 5f, 1f);
+            KillBaker =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Kill Baker If Can't Transform");
             BakerVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Baker Can Vent", false);
             FamineCooldown =

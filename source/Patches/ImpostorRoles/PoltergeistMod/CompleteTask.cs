@@ -24,7 +24,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
             {
                 role.Revealed = true;
                 Coroutines.Start(Utils.FlashCoroutine(role.Color));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Poltergeist Is Revealed!" : "Poltergeist Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Poltergeist Is Revealed!" : "Poltergeist Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
                 var gameObj = new GameObject();
                 var arrow = gameObj.AddComponent<ArrowBehaviour>();
                 gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
@@ -43,7 +43,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
                     PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.LocalPlayer.killTimer / 2);
                 }
                 Coroutines.Start(Utils.FlashCoroutine(role.Color));
-                Role.GetRole(PlayerControl.LocalPlayer).Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Poltergeist Finished Tasks!" : "Poltergeist Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Poltergeist Finished Tasks!" : "Poltergeist Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
             }
         }
     }

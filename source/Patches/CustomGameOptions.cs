@@ -541,6 +541,7 @@ namespace TownOfUs
         public static int AssassinKills => (int)Generate.AssassinKills.Get();
         public static int NumberOfImpostorAssassins => (int)Generate.NumberOfImpostorAssassins.Get();
         public static int NumberOfNeutralAssassins => (int)Generate.NumberOfNeutralAssassins.Get();
+        public static int NumberOfApocalypseAssassins => (int)Generate.NumberOfApocalypseAssassins.Get();
         public static bool AmneTurnImpAssassin => Generate.AmneTurnImpAssassin.Get();
         public static bool AmneTurnNeutAssassin => Generate.AmneTurnNeutAssassin.Get();
         public static bool TraitorCanAssassin => Generate.TraitorCanAssassin.Get();
@@ -904,6 +905,7 @@ namespace TownOfUs
         public static bool AurialSeeThrough => Generate.AurialSeeThrough.Get();
         public static bool AurialSeeRoles => Generate.AurialSeeRoles.Get();
         public static bool AurialDistinguishNeutrals => Generate.AurialDistinguishNeutral.Get();
+        public static bool KillBaker => Generate.KillBaker.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

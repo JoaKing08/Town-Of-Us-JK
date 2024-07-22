@@ -47,12 +47,12 @@ namespace TownOfUs.CrewmateRoles.MayorMod
                 if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                    role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                     return;
                 }
                 role.RevealButton.Destroy();
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Mayor));
-                role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Mayor Has Revealed!" : "Mayor Sie Ujawnil!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Mayor Has Revealed!" : "Mayor Sie Ujawnil!", 1000 * CustomGameOptions.NotificationDuration);
                 role.Revealed = true;
                 if (PlayerControl.LocalPlayer.IsDueled()) role.DefenseButton.transform.position -= new Vector3(0f, 0.15f, 0f);
                 Utils.Rpc(CustomRPC.Reveal, role.Player.PlayerId);

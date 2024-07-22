@@ -56,7 +56,7 @@ namespace TownOfUs.Roles
             }
             MediatedPlayers.Add(playerId, arrow);
             Coroutines.Start(Utils.FlashCoroutine(Color));
-            Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Found A Ghost!" : "Znalazles Ducha!", 1000 * CustomGameOptions.NotificationDuration);
+            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Found A Ghost!" : "Znalazles Ducha!", 1000 * CustomGameOptions.NotificationDuration);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
             if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
-                role.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
                 return false;
             }
             if (!__instance.enabled || role.ClosestPlayer == null) return false;
@@ -149,14 +149,14 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
 
             if (!flag4)
             {
-                if (CustomGameOptions.SheriffKillOther)
+                if (CustomGameOptions.SheriffKillOther && !role.ClosestPlayer.Is(RoleEnum.War) && !role.ClosestPlayer.Is(RoleEnum.Death) && !role.ClosestPlayer.Is(RoleEnum.Famine))
                     Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                 role.LastKilled = DateTime.UtcNow;
             }
             else
             {
-                Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
+                if (!role.ClosestPlayer.Is(RoleEnum.War) && !role.ClosestPlayer.Is(RoleEnum.Death) && !role.ClosestPlayer.Is(RoleEnum.Famine)) Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 role.LastKilled = DateTime.UtcNow;
             }
             return false;
