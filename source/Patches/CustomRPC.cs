@@ -151,6 +151,7 @@ namespace TownOfUs
         GodfatherRecruit,
         IsMeeting,
         PoisonKill,
+        SendChatInfo,
 
         RpcExpand = 255
     }

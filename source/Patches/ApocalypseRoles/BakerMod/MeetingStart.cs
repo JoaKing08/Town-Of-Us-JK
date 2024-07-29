@@ -19,7 +19,11 @@ namespace TownOfUs.ApocalypseRoles.BakerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Baker)) return;
             var role = Role.GetRole<Baker>(PlayerControl.LocalPlayer);
-            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.BreadNeeded > role.BreadAlive) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.BreadNeeded - role.BreadAlive}</b> more players to feed remaining." : $"Pozostalo <b>{CustomGameOptions.BreadNeeded - role.BreadAlive}</b> graczy do nakarmienia.");
+            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.BreadNeeded > role.BreadAlive)
+            {
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.BreadNeeded - role.BreadAlive}</b> more players to feed remaining." : $"Pozostalo <b>{CustomGameOptions.BreadNeeded - role.BreadAlive}</b> graczy do nakarmienia.");
+                if (!Utils.UndercoverIsApocalypse()) Utils.Rpc(CustomRPC.SendChatInfo, (byte)RoleEnum.Baker, role.Player.PlayerId, (byte)(CustomGameOptions.BreadNeeded - role.BreadAlive), role.BreadPlayers.Where(x => Utils.PlayerById(x) != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected).ToArray());
+            }
         }
     }
 }

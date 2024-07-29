@@ -507,7 +507,7 @@ namespace TownOfUs
             if (Role.VampireWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
-                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.Vampires))
+                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.Vampires && x.Player.Is(ObjectiveEnum.ApocalypseAgent)))
                 {
                     var vamp = (Vampire)role;
                     var vampData = new WinningPlayerData(vamp.Player.Data);
@@ -575,25 +575,6 @@ namespace TownOfUs
                         var arsonistData = new WinningPlayerData(arsonist.Player.Data);
                         if (PlayerControl.LocalPlayer != arsonist.Player) arsonistData.IsYou = false;
                         TempData.winners.Add(arsonistData);
-                    }
-                }
-                else if (role.Faction == Faction.NeutralApocalypse)
-                {
-                    if (Role.ApocalypseWins && PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse) && x.Is(FactionOverride.None)))
-                    {
-                        TempData.winners = new List<WinningPlayerData>();
-                        isImp = false;
-                        isApoc = true;
-                        isNeut = false;
-                        isCrew = false;
-                        isOther = false;
-                        winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
-                        foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
-                        {
-                            var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
-                            if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
-                            TempData.winners.Add(apocalypseMemberData);
-                        }
                     }
                 }
                 else if (type == RoleEnum.Werewolf)
@@ -696,6 +677,22 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer != soloKiller.Player) soloKillerData.IsYou = false;
                         TempData.winners.Add(soloKillerData);
                     }
+                }
+            }
+            if (Role.ApocalypseWins && PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse) && x.Is(FactionOverride.None)))
+            {
+                TempData.winners = new List<WinningPlayerData>();
+                isImp = false;
+                isApoc = true;
+                isNeut = false;
+                isCrew = false;
+                isOther = false;
+                winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
+                {
+                    var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
+                    if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
+                    TempData.winners.Add(apocalypseMemberData);
                 }
             }
 

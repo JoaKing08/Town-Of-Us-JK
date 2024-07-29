@@ -71,6 +71,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == deputy.Player.PlayerId);
+            if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (PlayerControl.LocalPlayer.Is(AbilityEnum.Assassin))
             {
                 var assassin = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
@@ -80,6 +81,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer))
             {
                 var doomsayer = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
+                if (!doomsayer.Buttons.ContainsKey(voteArea.TargetPlayerId)) return;
                 var (cycleBack, cycleForward, guess, guessText) = doomsayer.Buttons[voteArea.TargetPlayerId];
                 if (cycleBack == null || cycleForward == null) return;
                 cycleBack.SetActive(false);
@@ -97,6 +99,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Vigilante))
             {
                 var vigilante = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
+                if (!vigilante.Buttons.ContainsKey(voteArea.TargetPlayerId)) return;
                 var (cycleBack, cycleForward, guess, guessText) = vigilante.Buttons[voteArea.TargetPlayerId];
                 if (cycleBack == null || cycleForward == null) return;
                 cycleBack.SetActive(false);

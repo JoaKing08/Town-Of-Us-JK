@@ -3160,6 +3160,53 @@ namespace TownOfUs
                         PoisonerKill.MurderPlayer(poisonTarget, poisoner);
                         PoisonerKill.PoisKillCount(poisonTarget, poisoner);
                         break;
+                    case CustomRPC.SendChatInfo:
+                        var senderRole = (RoleEnum)reader.ReadByte();
+                        var sender = Utils.PlayerById(reader.ReadByte());
+                        var value = reader.ReadByte();
+                        var extra = reader.ReadBytesAndSize();
+                        switch (senderRole)
+                        {
+                            case RoleEnum.Plaguebearer:
+                                if (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))
+                                {
+                                    var infected = extra.Select(x => Utils.PlayerById(x)).ToList();
+                                    var message = "";
+                                    foreach (var i in infected)
+                                    {
+                                        message += "<b>" + i.GetDefaultOutfit().PlayerName + "</b>, ";
+                                    }
+                                    message = message.Remove(message.Length - 2);
+                                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{value}</b> more players to infect remaining.\n({message})" : $"Pozostalo <b>{value}</b> niezainfekowanych graczy.\n({message})");
+                                }
+                                break;
+                            case RoleEnum.Baker:
+                                if (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))
+                                {
+                                    var fed = extra.Select(x => Utils.PlayerById(x)).ToList();
+                                    var message = "";
+                                    foreach (var f in fed)
+                                    {
+                                        message += "<b>" + f.GetDefaultOutfit().PlayerName + "</b>, ";
+                                    }
+                                    message = message.Remove(message.Length - 2);
+                                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{value}</b> more players to feed remaining.\n({message})" : $"Pozostalo <b>{value}</b> graczy do nakarmienia.\n({message})");
+                                }
+                                break;
+                            case RoleEnum.Berserker:
+                                if (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))
+                                {
+                                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{value}</b> more players to kill remaining." : $"Pozostalo <b>{value}</b> graczy do zabicia.");
+                                }
+                                break;
+                            case RoleEnum.SoulCollector:
+                                if (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))
+                                {
+                                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{value}</b> more souls to reap remaining." : $"Pozostalo <b>{value}</b> dusz do zebrania.");
+                                }
+                                break;
+                        }
+                        break;
 
                     case CustomRPC.RpcExpand:
                         byte firstCallIdExpansion = reader.ReadByte();

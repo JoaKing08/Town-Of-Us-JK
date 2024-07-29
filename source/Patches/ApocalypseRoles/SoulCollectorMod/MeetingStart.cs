@@ -24,7 +24,11 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
                 role.ReapedSouls += 1;
                 DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"Because you know there will be no more bodies, you collect soul from underground." : "Poniewaz wiesz ze nie bedzie wiecej cial, zabierasz dusze z podziemia.");
             }
-            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.SoulsNeeded > role.ReapedSouls) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> more souls to reap remaining." : $"Pozostalo <b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> dusz do zebrania.");
+            if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.SoulsNeeded > role.ReapedSouls)
+            {
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> more souls to reap remaining." : $"Pozostalo <b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> dusz do zebrania.");
+                if (!Utils.UndercoverIsApocalypse()) Utils.Rpc(CustomRPC.SendChatInfo, (byte)RoleEnum.SoulCollector, role.Player.PlayerId, (byte)(CustomGameOptions.SoulsNeeded - role.ReapedSouls));
+            }
         }
     }
 }

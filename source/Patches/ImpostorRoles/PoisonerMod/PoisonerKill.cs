@@ -43,7 +43,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                 cleric.BarrieredPlayer = null;
                 Utils.Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
             }
-            if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death) && !player.IsProtected() && !player.IsVesting())
+            else if (!player.Is(RoleEnum.Pestilence) && !player.Is(RoleEnum.Famine) && !player.Is(RoleEnum.War) && !player.Is(RoleEnum.Death) && !player.IsProtected() && !player.IsVesting())
             {
                 MurderPlayer(voteArea, player, poisoner);
                 PoisKillCount(player, poisoner);

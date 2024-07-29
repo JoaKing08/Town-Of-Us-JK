@@ -44,7 +44,7 @@ namespace TownOfUs.Modifiers.AssassinMod
             byte targetId
         )
         {
-
+            if (!role.Buttons.ContainsKey(targetId)) return;
             var (cycleBack, cycleForward, guess, guessText) = role.Buttons[targetId];
             if (cycleBack == null || cycleForward == null) return;
             cycleBack.SetActive(false);
