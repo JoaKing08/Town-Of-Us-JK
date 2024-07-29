@@ -507,7 +507,7 @@ namespace TownOfUs
             if (Role.VampireWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
-                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.Vampires && x.Player.Is(ObjectiveEnum.ApocalypseAgent)))
+                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.Vampires && !x.Player.Is(ObjectiveEnum.ImpostorAgent) && !x.Player.Is(ObjectiveEnum.ApocalypseAgent)))
                 {
                     var vamp = (Vampire)role;
                     var vampData = new WinningPlayerData(vamp.Player.Data);
