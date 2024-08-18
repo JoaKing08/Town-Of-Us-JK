@@ -1410,7 +1410,8 @@ Poisoned knows that they were Poisoned, and dies after set amount of time.
 ### **Team: Impostors**
 
 The Sniper is an Impostor that can Aim into player.\
-When Sniper Aimed he can kill aimed player from anywhere, but everyone get a notification from where sniper Shot.
+When Sniper Aimed he can kill aimed player from anywhere.\
+When Sniper Shoots everyone gets a arrow to the Sniper and shot player.
 
 ### Game Options
 | Name | Description | Type | Default |
