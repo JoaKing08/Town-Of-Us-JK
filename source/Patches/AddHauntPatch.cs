@@ -5,6 +5,8 @@ using System;
 using Object = UnityEngine.Object;
 using TownOfUs.NeutralRoles.PhantomMod;
 using TownOfUs.CrewmateRoles.HaunterMod;
+using TownOfUs.ImpostorRoles.PoltergeistMod;
+using TownOfUs.ApocalypseRoles.HarbingerMod;
 
 namespace TownOfUs.Patches
 {
@@ -27,6 +29,7 @@ namespace TownOfUs.Patches
                 try
                 {
                     if (SetPhantom.WillBePhantom != player && SetHaunter.WillBeHaunter != player
+                        && SetPoltergeist.WillBePoltergeist != player && SetHarbinger.WillBeHarbinger != player
                         && !player.Data.Disconnected) player.Exiled();
                 }
                 catch { }

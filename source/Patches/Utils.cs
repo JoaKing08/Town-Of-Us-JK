@@ -143,7 +143,7 @@ namespace TownOfUs
         }
         public static bool VampireChat(this PlayerControl player)
         {
-            return player.Is(FactionOverride.Vampires) && ((IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Meeting || CustomGameOptions.VampiresChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Rounds || CustomGameOptions.VampiresChat == AllowChat.Both)));
+            return player.Is(RoleEnum.Vampire) && ((IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Meeting || CustomGameOptions.VampiresChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Rounds || CustomGameOptions.VampiresChat == AllowChat.Both)));
         }
         public static bool RecruitChat(this PlayerControl player)
         {
@@ -1183,6 +1183,12 @@ namespace TownOfUs
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
                     NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Have Died!" : "Ktos Zginal!", 1000 * CustomGameOptions.NotificationDuration);
                 }
+                else if (PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector) && !PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.SCKillNotif)
+                {
+                    Coroutines.Start(FlashCoroutine(Patches.Colors.SoulCollector));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Someone Have Died!" : "Ktos Zginal!", 1000 * CustomGameOptions.NotificationDuration);
+                    Role.GetRole<SoulCollector>(PlayerControl.LocalPlayer);
+                }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
                 {
@@ -1755,6 +1761,10 @@ namespace TownOfUs
                 {
                     writer.WriteBytesAndSize(array);
                 }
+                else if (item is List<byte> list)
+                {
+                    foreach (byte b in list) writer.Write(b);
+                }
                 else
                 {
                     Logger<TownOfUs>.Error($"unknown data type entered for rpc write: item - {nameof(item)}, {item.GetType().FullName}, rpc - {data[0]}");
@@ -2260,6 +2270,11 @@ namespace TownOfUs
                 demagogue.Convinced.Clear();
                 demagogue.ExtraVotes = 0;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Occultist))
+            {
+                var occultist = Role.GetRole<Occultist>(PlayerControl.LocalPlayer);
+                occultist.LastMark = DateTime.UtcNow;
+            }
             #endregion
             #region Modifiers
             foreach (var modifier in Modifier.GetModifiers(ModifierEnum.Drunk))
@@ -2414,6 +2429,8 @@ namespace TownOfUs
                     return Colors.SoulCollector;
                 case RoleEnum.Death:
                     return Colors.Death;
+                case RoleEnum.Harbinger:
+                    return Colors.Harbinger;
                 case RoleEnum.Arsonist:
                     return Colors.Arsonist;
                 case RoleEnum.Glitch:
@@ -2610,6 +2627,8 @@ namespace TownOfUs
                     return "Soul Collector";
                 case RoleEnum.Death:
                     return "Death";
+                case RoleEnum.Harbinger:
+                    return "Harbinger";
                 case RoleEnum.Arsonist:
                     return "Arsonist";
                 case RoleEnum.Glitch:

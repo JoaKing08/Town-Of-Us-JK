@@ -36,7 +36,7 @@ namespace TownOfUs.ApocalypseRoles.BerserkerMod
                 {
                     foreach (var player in alives)
                     {
-                        if (player.Data.IsImpostor() || player.Is(Faction.NeutralKilling) || player.Is(Faction.NeutralApocalypse))
+                        if (player.Data.IsImpostor() || player.Is(Faction.NeutralKilling) || player.Is(Faction.NeutralApocalypse) || ((player.Is(RoleEnum.Deputy) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK) || CustomGameOptions.OvertakeWin == OvertakeWin.Off)
                         {
                             transform = true;
                         }

@@ -84,6 +84,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption BakerOn;
         public static CustomNumberOption BerserkerOn;
         public static CustomNumberOption SoulCollectorOn;
+        public static CustomNumberOption HarbingerOn;
 
         public static CustomHeaderOption ImpostorConcealingRoles;
         public static CustomNumberOption EscapistOn;
@@ -515,6 +516,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption PlaguebearerVent;
         public static CustomNumberOption PestKillCooldown;
         public static CustomToggleOption AnnouncePestilence;
+        public static CustomNumberOption AnnouncePestilenceDelay;
         public static CustomToggleOption PestVent;
 
         public static CustomHeaderOption Baker;
@@ -525,6 +527,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption BakerVent;
         public static CustomNumberOption FamineCooldown;
         public static CustomToggleOption AnnounceFamine;
+        public static CustomNumberOption AnnounceFamineDelay;
         public static CustomToggleOption FamineVent;
 
         public static CustomHeaderOption Berserker;
@@ -535,14 +538,18 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption WarCooldown;
         public static CustomNumberOption WarRampage;
         public static CustomToggleOption AnnounceWar;
+        public static CustomNumberOption AnnounceWarDelay;
         public static CustomToggleOption WarVent;
 
         public static CustomHeaderOption SoulCollector;
         public static CustomNumberOption SoulsNeeded;
         public static CustomNumberOption SoulCollectorCooldown;
         public static CustomToggleOption SoulCollectorVent;
+        public static CustomToggleOption SCKillNotif;
+        public static CustomNumberOption SCArrowDuration;
         public static CustomNumberOption DeathCooldown;
         public static CustomToggleOption AnnounceDeath;
+        public static CustomNumberOption AnnounceDeathDelay;
         public static CustomToggleOption DeathVent;
 
         public static CustomHeaderOption Werewolf;
@@ -692,6 +699,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Sniper;
         public static CustomNumberOption AimCooldown;
+        public static CustomNumberOption SniperArrowDuration;
         public static CustomToggleOption SniperVent;
 
         public static CustomHeaderOption Undercover;
@@ -797,6 +805,20 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption ChargesForConvince;
         public static CustomNumberOption ConvinceCooldown;
         public static CustomNumberOption ChargesForMeetingKill;
+
+        public static CustomHeaderOption Agent;
+        public static CustomToggleOption AgentHunt;
+        public static CustomNumberOption AgentHuntRounds;
+        public static CustomStringOption AgentHuntRoundsKiller;
+
+        public static CustomHeaderOption Harbinger;
+        public static CustomNumberOption HarbingerTasksRemainingClicked;
+        public static CustomNumberOption HarbingerTasksRemainingAlert;
+        public static CustomNumberOption HarbingerBakerBonus;
+        public static CustomNumberOption HarbingerBerserkerBonus;
+        public static CustomNumberOption HarbingerPlaguebearerBonus;
+        public static CustomNumberOption HarbingerSoulCollectorBonus;
+        public static CustomStringOption HarbingerCanBeClickedBy;
 
         public static CustomHeaderOption RoleListSettings;
         public static Dictionary<int, CustomStringOption> RoleEntries;
@@ -1035,7 +1057,7 @@ namespace TownOfUs.CustomOption
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
         private static Func<object, string> MultiplierFormat { get; } = value => $"{value:0.0#}x";
-        private static Func<object, string> RoundsFormat { get; } = value => $"{value:0} Rounds";
+        private static Func<object, string> RoundsFormat { get; } = value => $"{value:0} Round(s)";
 
 
         public static void GenerateAll()
@@ -1178,6 +1200,8 @@ namespace TownOfUs.CustomOption
             BakerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FFC080FF>Baker</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             BerserkerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FF4F00FF>Berserker</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            HarbingerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#334D66FF>Harbinger</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             PlaguebearerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#E6FFB3FF>Plaguebearer</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -2133,6 +2157,8 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Famine Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             AnnounceFamine =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Announce Famine");
+            AnnounceFamineDelay =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Famine Announcement Delay", 5f, 0f, 30f, 0.5f, CooldownFormat);
             FamineVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Famine Can Vent", false);
 
@@ -2151,8 +2177,26 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "War Rampage Duration", 0.3f, 0f, 5f, 0.05f, CooldownFormat);
             AnnounceWar =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Announce War");
+            AnnounceWarDelay =
+                new CustomNumberOption(num++, MultiMenu.neutral, "War Announcement Delay", 5f, 0f, 30f, 0.5f, CooldownFormat);
             WarVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "War Can Vent", false);
+
+            Harbinger =
+                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#334D66FF>Harbinger</color>");
+            HarbingerTasksRemainingClicked =
+                 new CustomNumberOption(num++, MultiMenu.neutral, "Tasks Remaining When Harbinger Can Be Clicked", 5, 1, 15, 1);
+            HarbingerTasksRemainingAlert =
+                 new CustomNumberOption(num++, MultiMenu.neutral, "Tasks Remaining When Alert Is Sent", 1, 0, 5, 1);
+            HarbingerBakerBonus =
+                 new CustomNumberOption(num++, MultiMenu.neutral, "Harbinger Lowered Baker Requirements", 1, 0, 7, 1);
+            HarbingerBerserkerBonus =
+                 new CustomNumberOption(num++, MultiMenu.neutral, "Harbinger Lowered Berserker Requirements", 2, 0, 10, 1);
+            HarbingerPlaguebearerBonus =
+                 new CustomNumberOption(num++, MultiMenu.neutral, "Harbinger Lowered Plaguebearer Requirements", 5, 0, 15, 1);
+            HarbingerSoulCollectorBonus =
+                 new CustomNumberOption(num++, MultiMenu.neutral, "Harbinger Lowered Soul Collector Requirements", 2, 0, 10, 1);
+            HarbingerCanBeClickedBy = new CustomStringOption(num++, MultiMenu.neutral, "Who Can Click Harbinger", new[] { "All", "Non-Apoc", "Non-Neut", "Crew Only" });
 
             Plaguebearer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#E6FFB3FF>Plaguebearer</color>");
             InfectCooldown =
@@ -2163,6 +2207,8 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Pestilence Kill Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             AnnouncePestilence =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Announce Pestilence");
+            AnnouncePestilenceDelay =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Pestilence Announcement Delay", 5f, 0f, 30f, 0.5f, CooldownFormat);
             PestVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Pestilence Can Vent", false);
 
@@ -2173,10 +2219,16 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Soul Collector Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             SoulCollectorVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Soul Collector Can Vent", false);
+            SCKillNotif =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Notify Soul Collector About Kills", false);
+            SCArrowDuration =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Soul Collector Arrows Duration", 0.25f, 0f, 2.5f, 0.05f, CooldownFormat);
             DeathCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Death Cooldown", 30f, 10f, 60f, 2.5f, CooldownFormat);
             AnnounceDeath =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Announce Death");
+            AnnounceDeathDelay =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Death Announcement Delay", 5f, 0f, 30f, 0.5f, CooldownFormat);
             DeathVent =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Death Can Vent", false);
 
@@ -2245,6 +2297,8 @@ namespace TownOfUs.CustomOption
             Sniper = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Sniper</color>");
             AimCooldown =
                 new CustomNumberOption(num++, MultiMenu.imposter, "Aiming Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            SniperArrowDuration =
+                new CustomNumberOption(num++, MultiMenu.imposter, "Sniper Arrow Duration", 0.25f, 0f, 2.5f, 0.05f, CooldownFormat);
             SniperVent =
                 new CustomToggleOption(num++, MultiMenu.imposter, "Sniper Can Vent", false);
 
@@ -2336,6 +2390,11 @@ namespace TownOfUs.CustomOption
             Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>");
             UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, "Kill Cooldown Bonus", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
             UnderdogIncreasedKC = new CustomToggleOption(num++, MultiMenu.modifiers, "Increased Kill Cooldown When 2+ Imps", true);
+
+            Agent = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#D07070FF>Agent</color>");
+            AgentHunt = new CustomToggleOption(num++, MultiMenu.modifiers, "Enable Agent Hunt", true);
+            AgentHuntRounds = new CustomNumberOption(num++, MultiMenu.modifiers, "Agent Hunt Ends After", 3f, 1f, 10f, 1f, RoundsFormat);
+            AgentHuntRoundsKiller = new CustomStringOption(num++, MultiMenu.modifiers, "With Alive Killer Agent Hunt Ends After", new[] { "Off", "1 Round(s)", "2 Round(s)", "3 Round(s)", "4 Round(s)", "5 Round(s)", "6 Round(s)", "7 Round(s)", "8 Round(s)", "9 Round(s)", "10 Round(s)" });
 
             Lovers =
                 new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>");

@@ -83,8 +83,8 @@ namespace TownOfUs.ImpostorRoles.SniperMod
                     }
                     else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     role.LastAim = DateTime.UtcNow;
+                    Utils.Rpc(CustomRPC.Shoot, role.Player.PlayerId, role.AimedPlayer.Data.Disconnected ? byte.MaxValue : role.AimedPlayer.PlayerId);
                     role.AimedPlayer = null;
-                    Utils.Rpc(CustomRPC.Shoot, role.Player.PlayerId);
                     return false;
                 }
             }

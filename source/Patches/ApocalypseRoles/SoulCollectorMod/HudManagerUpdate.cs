@@ -5,12 +5,15 @@ using UnityEngine;
 using TownOfUs.Extensions;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Horseman;
+using System;
+using TownOfUs.CrewmateRoles.MedicMod;
 
 namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public static class HudManagerUpdate
     {
+        public static Sprite Arrow => TownOfUs.Arrow;
         public static void Postfix(HudManager __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
@@ -20,6 +23,44 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector)) return;
 
             var role = Role.GetRole<SoulCollector>(PlayerControl.LocalPlayer);
+
+            if (!PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.SCKillNotif)
+            {
+                var validBodies = GameObject.FindObjectsOfType<DeadBody>().Where(x =>
+                    Murder.KilledPlayers.Any(y => y.PlayerId == x.ParentId && y.KillTime.AddSeconds(CustomGameOptions.SCKillArrowDuration) > System.DateTime.UtcNow));
+
+                foreach (var bodyArrow in role.BodyArrows.Keys)
+                {
+                    if (!validBodies.Any(x => x.ParentId == bodyArrow))
+                    {
+                        role.DestroyArrow(bodyArrow);
+                    }
+                }
+
+                foreach (var body in validBodies)
+                {
+                    if (!role.BodyArrows.ContainsKey(body.ParentId))
+                    {
+                        var gameObj = new GameObject();
+                        var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                        gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                        var renderer = gameObj.AddComponent<SpriteRenderer>();
+                        renderer.sprite = Arrow;
+                        arrow.image = renderer;
+                        gameObj.layer = 5;
+                        role.BodyArrows.Add(body.ParentId, arrow);
+                    }
+                    role.BodyArrows.GetValueSafe(body.ParentId).target = body.TruePosition;
+                }
+            }
+            else
+            {
+                if (role.BodyArrows.Count != 0)
+                {
+                    role.BodyArrows.Values.DestroyAll();
+                    role.BodyArrows.Clear();
+                }
+            }
 
             var data = PlayerControl.LocalPlayer.Data;
             var isDead = data.IsDead;
@@ -32,7 +73,7 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
                 {
                     foreach (var player in alives)
                     {
-                        if (player.Data.IsImpostor() || player.Is(Faction.NeutralKilling) || player.Is(Faction.NeutralApocalypse))
+                        if (player.Data.IsImpostor() || player.Is(Faction.NeutralKilling) || player.Is(Faction.NeutralApocalypse) || ((player.Is(RoleEnum.Deputy) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK) || CustomGameOptions.OvertakeWin == OvertakeWin.Off)
                         {
                             transform = true;
                         }

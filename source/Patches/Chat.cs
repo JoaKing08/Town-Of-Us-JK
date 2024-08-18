@@ -211,7 +211,7 @@ namespace TownOfUs
         public static void Revive(PlayerControl player)
         {
             var target = GameObject.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId);
-            var position = target.TruePosition;
+            var position = target == null ? player.GetTruePosition() : target.TruePosition;
 
             if (target != null)
             {

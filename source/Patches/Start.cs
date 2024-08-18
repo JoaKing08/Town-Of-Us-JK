@@ -510,6 +510,13 @@ namespace TownOfUs.Patches
                 occultist.LastMark = DateTime.UtcNow;
                 occultist.LastMark = occultist.LastMark.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.MarkCooldown);
             }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.TavernKeeper))
+            {
+                var tavern = Role.GetRole<TavernKeeper>(PlayerControl.LocalPlayer);
+                tavern.LastDrink = DateTime.UtcNow;
+                tavern.LastDrink = tavern.LastDrink.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DrinkCooldown);
+            }
         }
     }
 }

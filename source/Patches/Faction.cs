@@ -17,7 +17,6 @@ namespace TownOfUs
     public enum FactionOverride
     {
         None,
-        Vampires,
         Undead,
         Recruit
     }

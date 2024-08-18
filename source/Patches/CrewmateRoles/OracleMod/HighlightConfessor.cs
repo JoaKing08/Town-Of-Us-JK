@@ -28,7 +28,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
             foreach (var oracle in Role.GetRoles(RoleEnum.Oracle))
             {
                 var role = Role.GetRole<Oracle>(oracle.Player);
-                if (!role.Player.Data.IsDead || role.Confessor == null) return;
+                if (role == null || role.Player == null || !role.Player.Data.IsDead || role.Confessor == null) return;
                 UpdateMeeting(role, MeetingHud.Instance);
             }
         }

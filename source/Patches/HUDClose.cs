@@ -1,5 +1,6 @@
 using HarmonyLib;
 using Object = UnityEngine.Object;
+using TownOfUs.Modifiers.AgentMod;
 
 namespace TownOfUs.Patches
 {
@@ -10,6 +11,9 @@ namespace TownOfUs.Patches
         {
             if (ExileController.Instance == null || obj != ExileController.Instance.gameObject) return;
             Utils.ResetCustomTimers();
+            ApocalypseRoles.DeathMod.MeetingEnd.Postfix();
+            ApocalypseRoles.FamineMod.MeetingEnd.Postfix();
+            MeetingEnd.Postfix();
         }
     }
 }

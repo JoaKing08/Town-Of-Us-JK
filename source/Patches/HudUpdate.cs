@@ -16,6 +16,7 @@ namespace TownOfUs.Patches
 
         public static void Postfix(HudManager __instance)
         {
+            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) return;
             if (!ZoomButton)
             {
                 ZoomButton = Object.Instantiate(__instance.MapButton.gameObject, __instance.MapButton.transform.parent);
@@ -68,6 +69,11 @@ namespace TownOfUs.Patches
                 {
                     var poltergeist = Role.GetRole<Poltergeist>(PlayerControl.LocalPlayer);
                     if (poltergeist.Caught) dead = true;
+                }
+                else if (PlayerControl.LocalPlayer.Is(RoleEnum.Harbinger))
+                {
+                    var harbinger = Role.GetRole<Harbinger>(PlayerControl.LocalPlayer);
+                    if (harbinger.Caught) dead = true;
                 }
                 else dead = true;
             }

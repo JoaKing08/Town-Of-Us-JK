@@ -231,7 +231,7 @@ namespace TownOfUs.Roles.Modifiers
                 }
                 if (CustomGameOptions.AssassinGuessNeutralProselyte)
                 {
-                    if (!PlayerControl.LocalPlayer.Is(FactionOverride.Vampires)) ColorMapping.Add("Vampire", Colors.Vampire);
+                    if (!PlayerControl.LocalPlayer.Is(RoleEnum.Vampire)) ColorMapping.Add("Vampire", Colors.Vampire);
                     if (!PlayerControl.LocalPlayer.Is(FactionOverride.Recruit)) ColorMapping.Add("Jackal", Colors.Jackal);
                     if (!PlayerControl.LocalPlayer.Is(FactionOverride.Undead)) ColorMapping.Add("Necromancer", Colors.Necromancer);
                 }

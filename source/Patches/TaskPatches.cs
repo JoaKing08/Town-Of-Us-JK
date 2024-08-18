@@ -35,7 +35,7 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.Inquisitor) || playerInfo._object.Is(RoleEnum.Witch) ||
                             playerInfo._object.Is(RoleEnum.CursedSoul) || playerInfo._object.Is(FactionOverride.Undead) ||
                             playerInfo._object.Is(FactionOverride.Recruit) || playerInfo._object.Is(RoleEnum.Jackal) ||
-                            playerInfo._object.Is(RoleEnum.JKNecromancer)
+                            playerInfo._object.Is(RoleEnum.JKNecromancer) || playerInfo._object.Is(RoleEnum.Harbinger)
                         )) || !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Data.IsDead && !x.Data.Disconnected))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {

@@ -19,7 +19,7 @@ namespace TownOfUs.Roles.Horseman
         public TextMeshPro UsesText;
 
         public int BreadAlive => BreadPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected);
-        public bool CanTransform => CustomGameOptions.BreadNeeded <= BreadAlive;
+        public bool CanTransform => CustomGameOptions.BreadNeeded <= BreadAlive + (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerBakerBonus : 0);
         public bool CanWin => CustomGameOptions.BreadNeeded < PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.Disconnected && !x.Data.IsDead && !x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.ApocalypseAgent));
         public Baker(PlayerControl player) : base(player)
         {
@@ -70,13 +70,11 @@ namespace TownOfUs.Roles.Horseman
             role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnounceFamine)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Famine));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnounceFamineDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.Famine);
             }
             else if (Player == PlayerControl.LocalPlayer)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Famine));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnounceFamineDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Famine.ToHtmlStringRGBA()}>FAMINE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.Famine);
             }
             if (Player == PlayerControl.LocalPlayer)
             {

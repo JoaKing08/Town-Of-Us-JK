@@ -186,6 +186,8 @@ namespace TownOfUs
                 losers.Add(role.Player.GetDefaultOutfit().ColorId);
             }
 
+            var impAgent = Objective.AllObjectives.Any(x => x.ObjectiveType == ObjectiveEnum.ImpostorAgent && ((ImpostorAgent)x).AgentHunt && ((ImpostorAgent)x).RoundsLeft <= 0);
+
             var toRemoveWinners = TempData.winners.ToArray().Where(o => losers.Contains(o.ColorId)).ToArray();
             for (int i = 0; i < toRemoveWinners.Count(); i++) TempData.winners.Remove(toRemoveWinners[i]);
             var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
@@ -507,18 +509,51 @@ namespace TownOfUs
             if (Role.VampireWins)
             {
                 TempData.winners = new List<WinningPlayerData>();
-                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.Vampires && !x.Player.Is(ObjectiveEnum.ImpostorAgent) && !x.Player.Is(ObjectiveEnum.ApocalypseAgent)))
+                isImp = false;
+                isApoc = false;
+                isNeut = true;
+                isCrew = false;
+                isOther = false;
+                winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                foreach (var role in Role.GetRoles(RoleEnum.Vampire).ToArray().Where(x => x.FactionOverride == FactionOverride.None && !x.Player.Is(ObjectiveEnum.ImpostorAgent) && !x.Player.Is(ObjectiveEnum.ApocalypseAgent)))
                 {
                     var vamp = (Vampire)role;
                     var vampData = new WinningPlayerData(vamp.Player.Data);
-                    isImp = false;
-                    isApoc = false;
-                    isNeut = true;
-                    isCrew = false;
-                    isOther = false;
-                    winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
                     if (PlayerControl.LocalPlayer != vamp.Player) vampData.IsYou = false;
                     TempData.winners.Add(vampData);
+                }
+            }
+
+            if (Role.ApocalypseWins)
+            {
+                TempData.winners = new List<WinningPlayerData>();
+                isImp = false;
+                isApoc = true;
+                isNeut = false;
+                isCrew = false;
+                isOther = false;
+                winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
+                {
+                    var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
+                    if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
+                    TempData.winners.Add(apocalypseMemberData);
+                }
+            }
+
+            if (Role.ImpostorAndApocalypseWin)
+            {
+                isImp = true;
+                isApoc = true;
+                isNeut = false;
+                isCrew = false;
+                isOther = false;
+                winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
+                {
+                    var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
+                    if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
+                    TempData.winners.Add(apocalypseMemberData);
                 }
             }
 
@@ -677,22 +712,6 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer != soloKiller.Player) soloKillerData.IsYou = false;
                         TempData.winners.Add(soloKillerData);
                     }
-                }
-            }
-            if (Role.ApocalypseWins && PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse) && x.Is(FactionOverride.None)))
-            {
-                TempData.winners = new List<WinningPlayerData>();
-                isImp = false;
-                isApoc = true;
-                isNeut = false;
-                isCrew = false;
-                isOther = false;
-                winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
-                foreach (var am in Role.AllRoles.ToArray().Where(x => x.Faction == Faction.NeutralApocalypse && x.FactionOverride == FactionOverride.None))
-                {
-                    var apocalypseMemberData = new WinningPlayerData(am.Player.Data);
-                    if (PlayerControl.LocalPlayer != am.Player) apocalypseMemberData.IsYou = false;
-                    TempData.winners.Add(apocalypseMemberData);
                 }
             }
 

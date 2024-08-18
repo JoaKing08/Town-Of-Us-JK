@@ -152,6 +152,10 @@ namespace TownOfUs
         IsMeeting,
         PoisonKill,
         SendChatInfo,
+        DoubleWin,
+
+        SetHarbinger,
+        CatchHarbinger,
 
         RpcExpand = 255
     }

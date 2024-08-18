@@ -65,7 +65,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 }
 
                 Utils.RemoveTasks(WillBePhantom);
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Haunter)) WillBePhantom.MyPhysics.ResetMoveState();
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Haunter) && !PlayerControl.LocalPlayer.Is(RoleEnum.Harbinger) && !PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist)) WillBePhantom.MyPhysics.ResetMoveState();
 
                 WillBePhantom.gameObject.layer = LayerMask.NameToLayer("Players");
             }

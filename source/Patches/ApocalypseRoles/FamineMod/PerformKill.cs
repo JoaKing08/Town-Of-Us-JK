@@ -3,6 +3,7 @@ using HarmonyLib;
 using TownOfUs.Roles;
 using AmongUs.GameOptions;
 using TownOfUs.Roles.Horseman;
+using System.Linq;
 
 namespace TownOfUs.ApocalypseRoles.FamineMod
 {
@@ -28,26 +29,18 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
             if (interact[4] == true)
             {
                 Role.GetRole(role.ClosestPlayer).BreadLeft -= 1;
-                foreach (var player in PlayerControl.AllPlayerControls)
+                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected))
                 {
                     if (role.FactionOverride == FactionOverride.None)
                     {
                         if (!player.Is(Faction.NeutralApocalypse) && !player.Is(ObjectiveEnum.ApocalypseAgent))
                         {
                             var playerRole = Role.GetRole(player);
-                            playerRole.BreadLeft -= 1;
                             if (playerRole.BreadLeft <= 0)
                             {
                                 Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
                                 Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
-                            }
-                            if (player == role.ClosestPlayer)
-                            {
-                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
-                            }
-                            else
-                            {
-                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
                             }
                         }
                     }
@@ -56,19 +49,10 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
                         if (!player.Is(role.FactionOverride))
                         {
                             var playerRole = Role.GetRole(player);
-                            playerRole.BreadLeft -= 1;
                             if (playerRole.BreadLeft <= 0)
                             {
                                 Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, player);
                                 Utils.Rpc(CustomRPC.KillAbilityUsed, player.PlayerId);
-                            }
-                            if (player == role.ClosestPlayer)
-                            {
-                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
-                            }
-                            else
-                            {
-                                if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)1);
                             }
                         }
                     }

@@ -24,13 +24,17 @@ namespace TownOfUs.Roles
         public static bool SurvOnlyWins;
         public static bool VampireWins;
         public static bool ApocalypseWins;
-        public int BreadLeft = 1;
+        public static bool ImpostorAgentHuntOver;
+        public static bool ApocalypseAgentHuntOver;
+        public static bool ImpostorAndApocalypseWin;
+        public int BreadLeft = 0;
         public int Defense = 0;
         public bool Reaped = false;
         public bool Roleblocked = false;
         public GameObject DefenseButton = new GameObject();
         public DateTime LastBlood;
         public List<ArrowBehaviour> SnipeArrows = new List<ArrowBehaviour>();
+        public DateTime SnipeTime = DateTime.UtcNow;
 
         public List<KillButton> ExtraButtons = new List<KillButton>();
 
@@ -281,6 +285,11 @@ namespace TownOfUs.Roles
                 var inquisitorRole = (Inquisitor)inquisitor;
                 if (inquisitorRole.HereticsDead) return;
             }
+            foreach (var phantom in GetRoles(RoleEnum.Phantom))
+            {
+                var phantomRole = (Phantom)phantom;
+                if (phantomRole.CompletedTasks) return;
+            }
 
             VampireWins = true;
 
@@ -313,8 +322,48 @@ namespace TownOfUs.Roles
                 var inquisitorRole = (Inquisitor)inquisitor;
                 if (inquisitorRole.HereticsDead) return;
             }
+            foreach (var phantom in GetRoles(RoleEnum.Phantom))
+            {
+                var phantomRole = (Phantom)phantom;
+                if (phantomRole.CompletedTasks) return;
+            }
 
             ApocalypseWins = true;
+        }
+        public static void DoubleWin()
+        {
+            foreach (var jest in GetRoles(RoleEnum.Jester))
+            {
+                var jestRole = (Jester)jest;
+                if (jestRole.VotedOut) return;
+            }
+            foreach (var exe in GetRoles(RoleEnum.Executioner))
+            {
+                var exeRole = (Executioner)exe;
+                if (exeRole.TargetVotedOut) return;
+            }
+            foreach (var doom in GetRoles(RoleEnum.Doomsayer))
+            {
+                var doomRole = (Doomsayer)doom;
+                if (doomRole.WonByGuessing) return;
+            }
+            foreach (var pirate in GetRoles(RoleEnum.Pirate))
+            {
+                var pirateRole = (Pirate)pirate;
+                if (pirateRole.WonByDuel) return;
+            }
+            foreach (var inquisitor in GetRoles(RoleEnum.Inquisitor))
+            {
+                var inquisitorRole = (Inquisitor)inquisitor;
+                if (inquisitorRole.HereticsDead) return;
+            }
+            foreach (var phantom in GetRoles(RoleEnum.Phantom))
+            {
+                var phantomRole = (Phantom)phantom;
+                if (phantomRole.CompletedTasks) return;
+            }
+
+            ImpostorAndApocalypseWin = true;
         }
 
         internal static bool NobodyEndCriteria(LogicGameFlowNormal __instance)
@@ -373,11 +422,11 @@ namespace TownOfUs.Roles
 
         internal virtual bool NeutralWin(LogicGameFlowNormal __instance)
         {
-            if (Faction == Faction.NeutralApocalypse)
+            if (Faction == Faction.NeutralApocalypse || Player.Is(ObjectiveEnum.ApocalypseAgent))
             {
                 if (Player.Data.IsDead || Player.Data.Disconnected) return true;
                 var Apocalypse = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse));
-                var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.ApocalypseAgent));
+                var AlivePlayers = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse));
                 var KillingAlives = PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(FactionOverride.None) && (x.Is(Faction.NeutralApocalypse) || x.Is(ObjectiveEnum.ApocalypseAgent))) && ((x.Data.IsImpostor() || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.NeutralKilling)) || ((x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Hunter)) && CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK)));
                 var ga = new Dictionary<byte, bool>();
                 foreach (var player in PlayerControl.AllPlayerControls)
@@ -386,18 +435,18 @@ namespace TownOfUs.Roles
                     if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Is(Faction.NeutralApocalypse) || GetRole<GuardianAngel>(player).target.Is(ObjectiveEnum.ApocalypseAgent);
                     ga.Add(player.PlayerId, i);
                 }
-                var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch));
+                var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch));
 
-                if ((Apocalypse >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Apocalypse > 0 && AlivePlayers == 0) || onlyNonstopping)
+                if ((Apocalypse >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Apocalypse > 0 && onlyNonstopping))
                 {
                     Utils.Rpc(CustomRPC.ApocalypseWin, Player.PlayerId);
                     ApocWin();
                     Utils.EndGame();
                     return false;
                 }
-                return false;
+                if (!Player.Is(ObjectiveEnum.ApocalypseAgent)) return false;
             }
-            else if (Faction == Faction.Impostors)
+            else if (Faction == Faction.Impostors || Player.Is(ObjectiveEnum.ImpostorAgent))
             {
                 var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
                 var impga = new Dictionary<byte, bool>();
@@ -418,6 +467,8 @@ namespace TownOfUs.Roles
                     return false;
                 }
             }
+            if (Player.Is(ObjectiveEnum.ImpostorAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Impostors)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None)) return false;
+            if (Player.Is(ObjectiveEnum.ApocalypseAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None)) return false;
             return true;
         }
 
@@ -458,21 +509,21 @@ namespace TownOfUs.Roles
                     PlayerName += "<color=#821252FF> X</color>";
                 }
             }
-            if (Player.IsKnight())
+            if (Player.IsKnight() && !PlayerName.Contains("<color=#9628C8FF> +</color>"))
             {
                 PlayerName += "<color=#9628C8FF> +</color>";
             }
-            else if (Player.ToKnight())
+            else if (Player.ToKnight() && !PlayerName.Contains("<color=#9628C880> +</color>"))
             {
                 PlayerName += "<color=#9628C880> +</color>";
             }
-            if (Player.IsConvinced() && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)))
+            if (Player.IsConvinced() && !PlayerName.Contains("<color=#FF0000FF> #</color>") && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)))
             {
-                PlayerName += $" <color=#FF0000FF>#</color>";
+                PlayerName += $"<color=#FF0000FF> #</color>";
             }
-            if (Player.IsMarked() && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist))
+            if (Player.IsMarked() && !PlayerName.Contains("<color=#800000FF> @</color>") && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist))
             {
-                PlayerName += $" <color=#800000FF>@</color>";
+                PlayerName += $"<color=#800000FF> @</color>";
             }
 
             var modifier = Modifier.GetModifier(Player);
@@ -491,7 +542,7 @@ namespace TownOfUs.Roles
                     PlayerName += $" {objective.GetColoredSymbol()}";
             }
 
-            if (revealTasks && (Faction == Faction.Crewmates || RoleType == RoleEnum.Phantom || RoleType == RoleEnum.Poltergeist))
+            if (revealTasks && (Faction == Faction.Crewmates || RoleType == RoleEnum.Phantom || RoleType == RoleEnum.Poltergeist || RoleType == RoleEnum.Harbinger))
             {
                 if ((PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.SeeTasksWhenDead) || (MeetingHud.Instance && CustomGameOptions.SeeTasksDuringMeeting) || (!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance && CustomGameOptions.SeeTasksDuringRound))
                 {
@@ -1280,7 +1331,7 @@ namespace TownOfUs.Roles
                 var result = true;
                 foreach (var role in AllRoles)
                 {
-                    var roleIsEnd = role.NeutralWin(__instance) || role.Player.Is(ObjectiveEnum.ApocalypseAgent) || role.Player.Is(ObjectiveEnum.ImpostorAgent);
+                    var roleIsEnd = role.NeutralWin(__instance);
                     var modifier = Modifier.GetModifier(role.Player);
                     var objective = Objective.GetObjective(role.Player);
                     bool modifierIsEnd = true;
@@ -1373,6 +1424,11 @@ namespace TownOfUs.Roles
             typeof(Il2CppReferenceArray<Il2CppSystem.Object>))]
         public static class TranslationController_GetString
         {
+            public static int LastImpsLeft;
+            public static int LastKillLeft;
+            public static int LastApocLeft;
+            public static int LastUndeLeft;
+            public static int LastProsLeft;
             public static void Postfix(ref string __result, [HarmonyArgument(0)] StringNames name)
             {
                 if (ExileController.Instance == null) return;
@@ -1402,11 +1458,11 @@ namespace TownOfUs.Roles
                                 }
                             }
                         }
-                        __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
+                        __result += "\n" + ((LastImpsLeft > 0 || LastImpsLeft != ImpsLeftEjected) && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastApocLeft > 0 || LastApocLeft != ApocLeftEjected) && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastUndeLeft > 0 || LastUndeLeft != UndeLeftEjected) && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastKillLeft > 0 || LastKillLeft != KillLeftEjected) && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastProsLeft > 0 || LastProsLeft != ProsLeftEjected) && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
                         return;
                     case StringNames.NoExileSkip:
                         {
-                            __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
+                            __result += "\n" + ((LastImpsLeft > 0 || LastImpsLeft != ImpsLeftEjected) && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastApocLeft > 0 || LastApocLeft != ApocLeftEjected) && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastUndeLeft > 0 || LastUndeLeft != UndeLeftEjected) && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastKillLeft > 0 || LastKillLeft != KillLeftEjected) && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastProsLeft > 0 || LastProsLeft != ProsLeftEjected) && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
                             return;
                         }
                     case StringNames.ExileTextPN:
@@ -1421,7 +1477,7 @@ namespace TownOfUs.Roles
                             var agentText = info.Object.Is(ObjectiveEnum.ImpostorAgent) ? $" (Impostor)" : info.Object.Is(ObjectiveEnum.ApocalypseAgent) ? " (Apocalypse)" : "";
                             var factionText = info.Object.Is(FactionOverride.Undead) && !info.Object.Is(RoleEnum.JKNecromancer) ? $" (Undead)" : info.Object.Is(FactionOverride.Recruit) && !info.Object.Is(RoleEnum.Jackal) ? $" (Recruit)" : "";
                             __result = $"{info.PlayerName} was {roleName}{agentText}.";
-                            __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
+                            __result += "\n" + ((LastImpsLeft > 0 || LastImpsLeft != ImpsLeftEjected) && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastApocLeft > 0 || LastApocLeft != ApocLeftEjected) && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastUndeLeft > 0 || LastUndeLeft != UndeLeftEjected) && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastKillLeft > 0 || LastKillLeft != KillLeftEjected) && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastProsLeft > 0 || LastProsLeft != ProsLeftEjected) && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
                             return;
                         }
 
@@ -1433,7 +1489,7 @@ namespace TownOfUs.Roles
                         }
                     case StringNames.ExileTextNonConfirm:
                         {
-                            __result += "\n" + (ImpsLeft > 0 && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ApocLeft > 0 && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (UndeLeft > 0 && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (KillLeft > 0 && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + (ProsLeft > 0 && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
+                            __result += "\n" + ((LastImpsLeft > 0 || LastImpsLeft != ImpsLeftEjected) && CustomGameOptions.ShowImpostorsRemaining ? ImpsLeftEjected + " Impostor" + (ImpsLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastApocLeft > 0 || LastApocLeft != ApocLeftEjected) && CustomGameOptions.ShowApocalypseRemaining ? ApocLeftEjected + " Apocalypse Member" + (ApocLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastUndeLeft > 0 || LastUndeLeft != UndeLeftEjected) && CustomGameOptions.ShowUndeadRemaining ? UndeLeftEjected + " Undead" + (UndeLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastKillLeft > 0 || LastKillLeft != KillLeftEjected) && CustomGameOptions.ShowKillingRemaining ? KillLeftEjected + " Neutral Killing" + (KillLeftEjected == 1 ? "" : "s") + " Remaining\n" : "") + ((LastProsLeft > 0 || LastProsLeft != ProsLeftEjected) && CustomGameOptions.ShowProselyteRemaining ? ProsLeftEjected + " Neutral Proselyte" + (ProsLeftEjected == 1 ? "" : "s") + " Remaining" : "");
                             return;
                         }
                 }
@@ -1489,7 +1545,7 @@ namespace TownOfUs.Roles
                         {
                             try
                             {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.IsConvinced() && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) ? "<color=#FF0000FF> #</color>" : "") + (role.Player.IsMarked() && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) ? "<color=#800000FF> @</color>" : "");
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() && !player.NameText.text.Contains("<color=#9628C8FF> +</color>") && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.IsConvinced() && !player.NameText.text.Contains("<color=#FF0000FF> #</color>") && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) ? "<color=#FF0000FF> #</color>" : "") + (role.Player.IsMarked() && !player.NameText.text.Contains("<color=#800000FF> @</color>") && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) ? "<color=#800000FF> @</color>" : "");
                             }
                             catch
                             {
@@ -1564,10 +1620,10 @@ namespace TownOfUs.Roles
                         }
                         else
                         {
-                            if (player.IsKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C8FF> +</color>";
-                            else if (player.ToKnight() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C880> +</color>";
-                            if (role.Player.IsConvinced() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) player.nameText().text += "<color=#FF0000FF> #</color>";
-                            if (player.IsMarked() && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist)) player.nameText().text += "<color=#800000FF> @</color>";
+                            if (player.IsKnight() && !player.nameText().text.Contains("<color=#9628C8FF> +</color>") && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C8FF> +</color>";
+                            else if (player.ToKnight() && !player.nameText().text.Contains("<color=#9628C880> +</color>") && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId)) player.nameText().text += "<color=#9628C880> +</color>";
+                            if (role.Player.IsConvinced() && !player.nameText().text.Contains("<color=#FF0000FF> #</color>") && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent))) player.nameText().text += "<color=#FF0000FF> #</color>";
+                            if (player.IsMarked() && !player.nameText().text.Contains("<color=#800000FF> @</color>") && !CamouflageUnCamouflage.IsCamoed && !GetRoles(RoleEnum.Swooper).Any(x => ((Swooper)x).IsSwooped && x.Player.PlayerId == player.PlayerId) && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist)) player.nameText().text += "<color=#800000FF> @</color>";
                         }
                     }
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;

@@ -15,8 +15,8 @@ namespace TownOfUs.Roles.Horseman
         public List<byte> InfectedPlayers = new List<byte>();
         public DateTime LastInfected;
 
-        public int InfectedAlive => InfectedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected && !Utils.PlayerById(x).Is(Faction.NeutralApocalypse));
-        public bool CanTransform => PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse)) <= InfectedAlive;
+        public int InfectedAlive => InfectedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected && !Utils.PlayerById(x).Is(Faction.NeutralApocalypse) && !Utils.PlayerById(x).Is(ObjectiveEnum.ApocalypseAgent));
+        public bool CanTransform => PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse)) <= InfectedAlive + (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerPlaguebearerBonus : 0);
 
         public Plaguebearer(PlayerControl player) : base(player)
         {
@@ -72,13 +72,11 @@ namespace TownOfUs.Roles.Horseman
             role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnouncePestilence)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnouncePestilenceDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.Pestilence);
             }
             else if (Player == PlayerControl.LocalPlayer)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnouncePestilenceDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Pestilence.ToHtmlStringRGBA()}>PESTILENCE SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.Pestilence);
             }
             if (Player == PlayerControl.LocalPlayer)
             {

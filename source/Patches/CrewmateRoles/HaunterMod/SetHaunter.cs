@@ -28,7 +28,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
         {
             if (WillBeHaunter == null) return;
             var exiled = __instance.exiled?.Object;
-            if (!WillBeHaunter.Data.IsDead && exiled.Is(Faction.Crewmates) && !exiled.IsLover()) WillBeHaunter = exiled;
+            if (!WillBeHaunter.Data.IsDead && exiled.Is(Faction.Crewmates) && !exiled.IsLover() && !exiled.Is(ObjectiveEnum.ImpostorAgent) && !exiled.Is(ObjectiveEnum.ApocalypseAgent)) WillBeHaunter = exiled;
             if (WillBeHaunter.Data.Disconnected) return;
             if (!WillBeHaunter.Data.IsDead && WillBeHaunter != exiled) return;
 
@@ -68,7 +68,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 }
 
                 Utils.RemoveTasks(WillBeHaunter);
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom)) WillBeHaunter.MyPhysics.ResetMoveState();
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) && !PlayerControl.LocalPlayer.Is(RoleEnum.Harbinger) && !PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist)) WillBeHaunter.MyPhysics.ResetMoveState();
 
                 WillBeHaunter.gameObject.layer = LayerMask.NameToLayer("Players");
             }

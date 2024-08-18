@@ -26,8 +26,8 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
             }
             if (DestroyableSingleton<HudManager>.Instance && CustomGameOptions.SoulsNeeded > role.ReapedSouls)
             {
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> more souls to reap remaining." : $"Pozostalo <b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls}</b> dusz do zebrania.");
-                if (!Utils.UndercoverIsApocalypse()) Utils.Rpc(CustomRPC.SendChatInfo, (byte)RoleEnum.SoulCollector, role.Player.PlayerId, (byte)(CustomGameOptions.SoulsNeeded - role.ReapedSouls));
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls - (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerSoulCollectorBonus : 0)}</b> more souls to reap remaining." : $"Pozostalo <b>{CustomGameOptions.SoulsNeeded - role.ReapedSouls - (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerSoulCollectorBonus : 0)}</b> dusz do zebrania.");
+                if (!Utils.UndercoverIsApocalypse()) Utils.Rpc(CustomRPC.SendChatInfo, (byte)RoleEnum.SoulCollector, role.Player.PlayerId, (byte)(CustomGameOptions.SoulsNeeded - role.ReapedSouls - (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerSoulCollectorBonus : 0)));
             }
         }
     }

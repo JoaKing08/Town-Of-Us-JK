@@ -19,11 +19,11 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer)) return;
             var role = Role.GetRole<Plaguebearer>(PlayerControl.LocalPlayer);
-            var players = PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse));
+            var players = PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.ApocalypseAgent));
             if (DestroyableSingleton<HudManager>.Instance && players > role.InfectedAlive)
             {
-                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{players - role.InfectedAlive}</b> more players to infect remaining." : $"Pozostalo <b>{players - role.InfectedAlive}</b> niezainfekowanych graczy.");
-                if (!Utils.UndercoverIsApocalypse()) Utils.Rpc(CustomRPC.SendChatInfo, (byte)RoleEnum.Plaguebearer, role.Player.PlayerId, (byte)(players - role.InfectedAlive), role.InfectedPlayers.Where(x => Utils.PlayerById(x) != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected).ToArray());
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{players - role.InfectedAlive - (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerPlaguebearerBonus : 0)}</b> more players to infect remaining." : $"Pozostalo <b>{players - role.InfectedAlive - (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerPlaguebearerBonus : 0)}</b> niezainfekowanych graczy.");
+                if (!Utils.UndercoverIsApocalypse()) Utils.Rpc(CustomRPC.SendChatInfo, (byte)RoleEnum.Plaguebearer, role.Player.PlayerId, (byte)(players - role.InfectedAlive - (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerPlaguebearerBonus : 0)), role.InfectedPlayers.Where(x => Utils.PlayerById(x) != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected).ToList());
             }
         }
     }

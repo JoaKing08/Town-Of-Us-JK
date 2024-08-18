@@ -4,6 +4,8 @@ namespace TownOfUs.Roles.Modifiers
 {
     public class ImpostorAgent : Objective
     {
+        public bool AgentHunt { get; set; } = false;
+        public int RoundsLeft { get; set; } = 0;
         public ImpostorAgent(PlayerControl player) : base(player)
         {
             Name = "Agent (Imp)";
@@ -11,11 +13,12 @@ namespace TownOfUs.Roles.Modifiers
             TaskText = () => Patches.TranslationPatches.CurrentLanguage == 0 ? "Use your <color=#CFFFFFFF>Crewmate</color> role to benefit <color=#FF0000FF>Impostors</color>." : "Uzyj swojej roli <color=#CFFFFFFF>Crewmate</color> z korzyscia dla <color=#FF0000FF>Impostorów</color>.";
             Color = Patches.Colors.ImpostorAgent;
             ObjectiveType = ObjectiveEnum.ImpostorAgent;
-
         }
     }
     public class ApocalypseAgent : Objective
     {
+        public bool AgentHunt { get; set; } = false;
+        public int RoundsLeft { get; set; } = 0;
         public ApocalypseAgent(PlayerControl player) : base(player)
         {
             Name = "Agent (Apoc)";

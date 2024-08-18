@@ -23,6 +23,7 @@ using TownOfUs.NeutralRoles.PhantomMod;
 using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.ImpostorRoles.PoltergeistMod;
+using TownOfUs.ApocalypseRoles.HarbingerMod;
 using TownOfUs.NeutralRoles.CursedSoulMod;
 using TownOfUs.CrewmateRoles.InvestigatorMod;
 using TownOfUs.Roles;
@@ -72,6 +73,7 @@ namespace TownOfUs
         private static readonly List<(Type, CustomRPC, int)> AssassinAbility = new();
         private static bool PhantomOn;
         private static bool HaunterOn;
+        private static bool HarbingerOn;
         private static bool TraitorOn;
         private static bool PoltergeistOn;
 
@@ -643,6 +645,21 @@ namespace TownOfUs
             else
             {
                 Utils.Rpc(CustomRPC.SetPoltergeist, byte.MaxValue);
+            }
+
+            var toChooseFromApocs = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            if (HarbingerOn && toChooseFromApocs.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromApocs.Count);
+                var pc = toChooseFromApocs[rand];
+
+                SetHarbinger.WillBeHarbinger = pc;
+
+                Utils.Rpc(CustomRPC.SetHarbinger, pc.PlayerId);
+            }
+            else
+            {
+                Utils.Rpc(CustomRPC.SetHarbinger, byte.MaxValue);
             }
 
             var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
@@ -1240,6 +1257,21 @@ namespace TownOfUs
                 Utils.Rpc(CustomRPC.SetPoltergeist, byte.MaxValue);
             }
 
+            var toChooseFromApocs = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.Lover)).ToList();
+            if (HarbingerOn && toChooseFromApocs.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromApocs.Count);
+                var pc = toChooseFromApocs[rand];
+
+                SetHarbinger.WillBeHarbinger = pc;
+
+                Utils.Rpc(CustomRPC.SetHarbinger, pc.PlayerId);
+            }
+            else
+            {
+                Utils.Rpc(CustomRPC.SetHarbinger, byte.MaxValue);
+            }
+
             var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
@@ -1549,6 +1581,9 @@ namespace TownOfUs
             impostorRoles.Add(typeof(Janitor));
             impostorRoles.Add(typeof(Undertaker));
             impostorRoles.Add(typeof(Miner));
+            impostorRoles.Add(typeof(Demagogue));
+            impostorRoles.Add(typeof(Godfather));
+            impostorRoles.Add(typeof(Occultist));
             impostorRoles.Add(typeof(Impostor));
             #endregion
 
@@ -2130,6 +2165,10 @@ namespace TownOfUs
                         Role.NobodyWins = false;
                         Role.SurvOnlyWins = false;
                         Role.VampireWins = false;
+                        Role.ApocalypseWins = false;
+                        Role.ImpostorAgentHuntOver = false;
+                        Role.ApocalypseAgentHuntOver = false;
+                        Role.ImpostorAndApocalypseWin = false;
                         ExileControllerPatch.lastExiled = null;
                         PatchKillTimer.GameStarted = false;
                         StartImitate.ImitatingPlayer = null;
@@ -2520,6 +2559,9 @@ namespace TownOfUs
                     case CustomRPC.ApocalypseWin:
                         Role.ApocWin();
                         break;
+                    case CustomRPC.DoubleWin:
+                        Role.DoubleWin();
+                        break;
                     case CustomRPC.NecromancerWin:
                         var theNecromancerTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.JKNecromancer);
                         ((Roles.Necromancer)theNecromancerTheRole)?.Wins();
@@ -2671,6 +2713,16 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer == poltergeistPlayer) HudManager.Instance.AbilityButton.gameObject.SetActive(true);
                         poltergeistPlayer.Exiled();
                         break;
+                    case CustomRPC.SetHarbinger:
+                        readByte = reader.ReadByte();
+                        SetHarbinger.WillBeHarbinger = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
+                        break;
+                    case CustomRPC.CatchHarbinger:
+                        var harbingerPlayer = Utils.PlayerById(reader.ReadByte());
+                        Role.GetRole<Harbinger>(harbingerPlayer).Caught = true;
+                        if (PlayerControl.LocalPlayer == harbingerPlayer) HudManager.Instance.AbilityButton.gameObject.SetActive(true);
+                        harbingerPlayer.Exiled();
+                        break;
                     case CustomRPC.SetTraitor:
                         readByte = reader.ReadByte();
                         SetTraitor.WillBeTraitor = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
@@ -2769,6 +2821,8 @@ namespace TownOfUs
                     case CustomRPC.Shoot:
                         if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                         {
+                            var sniper = Utils.PlayerById(reader.ReadByte());
+                            var aimed = Utils.PlayerById(reader.ReadByte());
                             Coroutines.Start(Utils.FlashCoroutine(Color.red));
                             NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Sniper Has Shot!" : "Sniper Wystrzelil!", 1000 * CustomGameOptions.NotificationDuration);
                             var r = Role.GetRole(PlayerControl.LocalPlayer);
@@ -2779,8 +2833,21 @@ namespace TownOfUs
                             renderer.sprite = TownOfUs.Arrow;
                             arrow.image = renderer;
                             gameObj.layer = 5;
-                            arrow.target = Utils.PlayerById(reader.ReadByte()).GetTruePosition();
+                            arrow.target = sniper.GetTruePosition();
                             r.SnipeArrows.Add(arrow);
+                            if (aimed != null)
+                            {
+                                gameObj = new GameObject();
+                                arrow = gameObj.AddComponent<ArrowBehaviour>();
+                                gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                                renderer = gameObj.AddComponent<SpriteRenderer>();
+                                renderer.sprite = TownOfUs.Arrow;
+                                arrow.image = renderer;
+                                gameObj.layer = 5;
+                                arrow.target = aimed.GetTruePosition();
+                                r.SnipeArrows.Add(arrow);
+                            }
+                            r.SnipeTime = DateTime.UtcNow;
                         }
                         break;
                     case CustomRPC.BugMessage:
@@ -3164,7 +3231,8 @@ namespace TownOfUs
                         var senderRole = (RoleEnum)reader.ReadByte();
                         var sender = Utils.PlayerById(reader.ReadByte());
                         var value = reader.ReadByte();
-                        var extra = reader.ReadBytesAndSize();
+                        var extra = new List<byte>();
+                        while (reader.BytesRemaining > 0) extra.Add(reader.ReadByte());
                         switch (senderRole)
                         {
                             case RoleEnum.Plaguebearer:
@@ -3310,6 +3378,10 @@ namespace TownOfUs
                 Role.NobodyWins = false;
                 Role.SurvOnlyWins = false;
                 Role.VampireWins = false;
+                Role.ApocalypseWins = false;
+                Role.ImpostorAgentHuntOver = false;
+                Role.ApocalypseAgentHuntOver = false;
+                Role.ImpostorAndApocalypseWin = false;
                 Utils.IsMeeting = true;
                 Utils.Rpc(CustomRPC.IsMeeting, true);
                 ExileControllerPatch.lastExiled = null;
@@ -3356,11 +3428,13 @@ namespace TownOfUs
                     HaunterOn = Check(CustomGameOptions.HaunterOn);
                     TraitorOn = Check(CustomGameOptions.TraitorOn);
                     PoltergeistOn = Check(CustomGameOptions.PoltergeistOn);
+                    HarbingerOn = Check(CustomGameOptions.HarbingerOn);
                 }
                 else if (CustomGameOptions.GameMode == GameMode.Horseman)
                 {
                     PhantomOn = Check(CustomGameOptions.PhantomOn);
                     HaunterOn = Check(CustomGameOptions.HaunterOn);
+                    HarbingerOn = Check(CustomGameOptions.HarbingerOn);
                     TraitorOn = false;
                     PoltergeistOn = false;
                 }
@@ -3370,6 +3444,7 @@ namespace TownOfUs
                     HaunterOn = false;
                     TraitorOn = false;
                     PoltergeistOn = false;
+                    HarbingerOn = false;
                 }
 
                 if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny)

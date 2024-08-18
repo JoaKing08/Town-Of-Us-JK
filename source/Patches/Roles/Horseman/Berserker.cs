@@ -18,7 +18,7 @@ namespace TownOfUs.Roles.Horseman
         public DateTime LastKill;
         public TextMeshPro UsesText;
 
-        public bool CanTransform => CustomGameOptions.KillsToWar <= KilledPlayers;
+        public bool CanTransform => CustomGameOptions.KillsToWar <= KilledPlayers + (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerBerserkerBonus : 0);
 
         public Berserker(PlayerControl player) : base(player)
         {
@@ -61,13 +61,11 @@ namespace TownOfUs.Roles.Horseman
             role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnounceWar)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnounceWarDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.War);
             }
             else if (Player == PlayerControl.LocalPlayer)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.War));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnounceWarDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.War.ToHtmlStringRGBA()}>WAR SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.War);
             }
             if (Player == PlayerControl.LocalPlayer)
             {

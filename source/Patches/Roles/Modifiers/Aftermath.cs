@@ -217,7 +217,7 @@ namespace TownOfUs.Roles.Modifiers
                         Utils.Rpc(CustomRPC.KillAbilityUsed, sniper.AimedPlayer.PlayerId);
                     }
                     sniper.AimedPlayer = null;
-                    Utils.Rpc(CustomRPC.Shoot, player.PlayerId);
+                    Utils.Rpc(CustomRPC.Shoot, player.PlayerId, sniper.AimedPlayer.Data.Disconnected ? byte.MaxValue : sniper.AimedPlayer.PlayerId);
                 }
             }
         }

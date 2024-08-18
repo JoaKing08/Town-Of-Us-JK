@@ -17,8 +17,10 @@ namespace TownOfUs.Roles.Horseman
         public int ReapedSouls = 0;
         public DateTime LastReaped;
         public TextMeshPro UsesText;
+        public DangerMeter dangerMeter;
+        public Dictionary<byte, ArrowBehaviour> BodyArrows = new();
 
-        public bool CanTransform => ReapedSouls >= CustomGameOptions.SoulsNeeded;
+        public bool CanTransform => ReapedSouls + (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerSoulCollectorBonus : 0) >= CustomGameOptions.SoulsNeeded;
 
         public SoulCollector(PlayerControl player) : base(player)
         {
@@ -60,19 +62,27 @@ namespace TownOfUs.Roles.Horseman
             role.FactionOverride = oldRole.FactionOverride;
             if (CustomGameOptions.AnnounceDeath)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Death));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnounceDeathDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.Death);
             }
             else if (Player == PlayerControl.LocalPlayer)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Death));
-                NotificationPatch.Notification(TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration);
+                NotificationPatch.DelayNotification(CustomGameOptions.AnnounceDeathDelay * 1000, TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH HAS TRANSFORMED!</color>" : $"<color=#{Patches.Colors.Death.ToHtmlStringRGBA()}>DEATH SIE PRZETRANSFORMOWAL!</color>", 1000 * CustomGameOptions.NotificationDuration, Patches.Colors.Death);
             }
             if (Player == PlayerControl.LocalPlayer)
             {
                 role.RegenTask();
             }
             role.Announced = false;
+        }
+
+        public void DestroyArrow(byte targetPlayerId)
+        {
+            var arrow = BodyArrows.FirstOrDefault(x => x.Key == targetPlayerId);
+            if (arrow.Value != null)
+                GameObject.Destroy(arrow.Value);
+            if (arrow.Value.gameObject != null)
+                GameObject.Destroy(arrow.Value.gameObject);
+            BodyArrows.Remove(arrow.Key);
         }
     }
 }

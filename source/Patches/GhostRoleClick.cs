@@ -4,6 +4,7 @@ using TownOfUs.CrewmateRoles.HaunterMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.ImpostorRoles.PoltergeistMod;
+using TownOfUs.ApocalypseRoles.HarbingerMod;
 
 namespace TownOfUs
 {
@@ -53,6 +54,19 @@ namespace TownOfUs
                     }
                     role.Player.Exiled();
                     Utils.Rpc(CustomRPC.CatchPoltergeist, role.Player.PlayerId);
+                }
+            }
+            else if (__instance.Is(RoleEnum.Harbinger))
+            {
+                if (CustomGameOptions.HarbingerCanBeClickedBy == HarbingerCanBeClickedBy.CrewOnly && !PlayerControl.LocalPlayer.Is(Faction.Crewmates)) return;
+                if (CustomGameOptions.HarbingerCanBeClickedBy == HarbingerCanBeClickedBy.NonNeut && !PlayerControl.LocalPlayer.Data.IsImpostor() && !PlayerControl.LocalPlayer.Is(Faction.Crewmates)) return;
+                if (CustomGameOptions.HarbingerCanBeClickedBy == HarbingerCanBeClickedBy.NonApoc && PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) return;
+                if (tasksLeft <= CustomGameOptions.PoltergeistTasksRemainingClicked)
+                {
+                    var role = Role.GetRole<Harbinger>(__instance);
+                    role.Caught = true;
+                    role.Player.Exiled();
+                    Utils.Rpc(CustomRPC.CatchHarbinger, role.Player.PlayerId);
                 }
             }
             return;

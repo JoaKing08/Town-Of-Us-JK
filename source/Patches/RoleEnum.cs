@@ -64,6 +64,7 @@ namespace TownOfUs
         Cleric,
         Deputy,
         Sage,
+        Harbinger,
 
         Miner,
         Swooper,

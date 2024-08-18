@@ -10,37 +10,38 @@ using TownOfUs.Patches.ScreenEffects;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace TownOfUs.ImpostorRoles.PoltergeistMod
+namespace TownOfUs.ApocalypseRoles.HarbingerMod
 {
     [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
     public static class AirshipExileController_WrapUpAndSpawn
     {
-        public static void Postfix(AirshipExileController __instance) => SetPoltergeist.ExileControllerPostfix(__instance);
+        public static void Postfix(AirshipExileController __instance) => SetHarbinger.ExileControllerPostfix(__instance);
     }
 
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
-    public class SetPoltergeist
+    public class SetHarbinger
     {
-        public static PlayerControl WillBePoltergeist;
+        public static PlayerControl WillBeHarbinger;
         public static Vector2 StartPosition;
 
         public static void ExileControllerPostfix(ExileController __instance)
         {
-            if (WillBePoltergeist == null) return;
+            if (WillBeHarbinger == null) return;
             var exiled = __instance.exiled?.Object;
-            if (!WillBePoltergeist.Data.IsDead && exiled.Is(Faction.Impostors) && !exiled.IsLover()) WillBePoltergeist = exiled;
-            if (WillBePoltergeist.Data.Disconnected) return;
-            if (!WillBePoltergeist.Data.IsDead && WillBePoltergeist != exiled) return;
+            if (!WillBeHarbinger.Data.IsDead && exiled.Is(Faction.NeutralApocalypse) && !exiled.IsLover()) WillBeHarbinger = exiled;
+            if (WillBeHarbinger.Data.Disconnected) return;
+            if (!WillBeHarbinger.Data.IsDead && WillBeHarbinger != exiled) return;
 
-            if (!WillBePoltergeist.Is(RoleEnum.Poltergeist))
+            if (!WillBeHarbinger.Is(RoleEnum.Harbinger))
             {
-                var oldRole = Role.GetRole(WillBePoltergeist);
-                var killsList = (oldRole.CorrectKills, oldRole.IncorrectKills, oldRole.CorrectAssassinKills, oldRole.IncorrectAssassinKills);
-                Role.RoleDictionary.Remove(WillBePoltergeist.PlayerId);
-                if (PlayerControl.LocalPlayer == WillBePoltergeist)
+                var oldRole = Role.GetRole(WillBeHarbinger);
+                var killsList = (oldRole.Kills, oldRole.CorrectKills, oldRole.IncorrectKills, oldRole.CorrectAssassinKills, oldRole.IncorrectAssassinKills);
+                Role.RoleDictionary.Remove(WillBeHarbinger.PlayerId);
+                if (PlayerControl.LocalPlayer == WillBeHarbinger)
                 {
-                    var role = new Poltergeist(PlayerControl.LocalPlayer);
+                    var role = new Harbinger(PlayerControl.LocalPlayer);
                     role.formerRole = oldRole.RoleType;
+                    role.Kills = killsList.Kills;
                     role.CorrectKills = killsList.CorrectKills;
                     role.IncorrectKills = killsList.IncorrectKills;
                     role.CorrectAssassinKills = killsList.CorrectAssassinKills;
@@ -49,27 +50,28 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
                 }
                 else
                 {
-                    var role = new Poltergeist(WillBePoltergeist);
+                    var role = new Harbinger(WillBeHarbinger);
                     role.formerRole = oldRole.RoleType;
+                    role.Kills = killsList.Kills;
                     role.CorrectKills = killsList.CorrectKills;
                     role.IncorrectKills = killsList.IncorrectKills;
                     role.CorrectAssassinKills = killsList.CorrectAssassinKills;
                     role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                 }
 
-                Utils.RemoveTasks(WillBePoltergeist);
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) && !PlayerControl.LocalPlayer.Is(RoleEnum.Haunter) && !PlayerControl.LocalPlayer.Is(RoleEnum.Harbinger)) WillBePoltergeist.MyPhysics.ResetMoveState();
+                Utils.RemoveTasks(WillBeHarbinger);
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) && !PlayerControl.LocalPlayer.Is(RoleEnum.Haunter) && !PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist)) WillBeHarbinger.MyPhysics.ResetMoveState();
 
-                WillBePoltergeist.gameObject.layer = LayerMask.NameToLayer("Players");
+                WillBeHarbinger.gameObject.layer = LayerMask.NameToLayer("Players");
             }
 
-            WillBePoltergeist.gameObject.GetComponent<PassiveButton>().OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-            WillBePoltergeist.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => WillBePoltergeist.OnClick()));
-            WillBePoltergeist.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            WillBeHarbinger.gameObject.GetComponent<PassiveButton>().OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+            WillBeHarbinger.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => WillBeHarbinger.OnClick()));
+            WillBeHarbinger.gameObject.GetComponent<BoxCollider2D>().enabled = true;
 
-            if (PlayerControl.LocalPlayer != WillBePoltergeist) return;
+            if (PlayerControl.LocalPlayer != WillBeHarbinger) return;
 
-            if (Role.GetRole<Poltergeist>(PlayerControl.LocalPlayer).Caught) return;
+            if (Role.GetRole<Harbinger>(PlayerControl.LocalPlayer).Caught) return;
 
             List<Vent> vents = new();
             var CleanVentTasks = PlayerControl.LocalPlayer.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();

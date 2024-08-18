@@ -6,7 +6,7 @@ using UnityEngine;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Roles.Horseman;
 
-namespace TownOfUs.ApocalypseRoles
+namespace TownOfUs.Modifiers.AgentMod
 {
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.Start))]
     public static class Outro
@@ -23,19 +23,19 @@ namespace TownOfUs.ApocalypseRoles
             }
             Role role = null;
             role = Role.AllRoles.FirstOrDefault(x =>
-                x.Faction == Faction.NeutralApocalypse && Role.ApocalypseWins && !x.Player.Data.IsDead && !x.Player.Data.Disconnected && x.FactionOverride == FactionOverride.None);
+                (x.Faction == Faction.NeutralApocalypse || x.Faction == Faction.Impostors) && Role.ImpostorAndApocalypseWin && !x.Player.Data.IsDead && !x.Player.Data.Disconnected && x.FactionOverride == FactionOverride.None);
             if (role == null)
             {
                 role = Role.AllRoles.FirstOrDefault(x =>
-                x.Player.Is(ObjectiveEnum.ApocalypseAgent) && Role.ApocalypseWins && !x.Player.Data.IsDead && !x.Player.Data.Disconnected && x.FactionOverride == FactionOverride.None);
+                (x.Player.Is(ObjectiveEnum.ApocalypseAgent) || x.Player.Is(ObjectiveEnum.ImpostorAgent)) && Role.ImpostorAndApocalypseWin && !x.Player.Data.IsDead && !x.Player.Data.Disconnected && x.FactionOverride == FactionOverride.None);
             }
             if (role == null) return;
             PoolablePlayer[] array = Object.FindObjectsOfType<PoolablePlayer>();
-            foreach (var player in array) player.NameText().text = "<color=#" + Color.gray.ToHtmlStringRGBA() + ">" + player.NameText().text + "</color>";
-            __instance.BackgroundBar.material.color = Color.gray;
+            foreach (var player in array) player.NameText().text = "<color=#C04040FF>" + player.NameText().text + "</color>";
+            __instance.BackgroundBar.material.color = Color.Lerp(Color.gray, Color.red, 0.5f);
             var text = Object.Instantiate(__instance.WinText);
-            text.text = "The Apocalypse Is Nigh!";
-            text.color = Color.gray;
+            text.text = "<color=#FF0000FF>Impostors</color> & <color=#808080FF>Apocalypse</color> Win!";
+            text.color = Color.Lerp(Color.gray, Color.red, 0.5f);
             var pos = __instance.WinText.transform.localPosition;
             pos.y = 1.5f;
             text.transform.position = pos;

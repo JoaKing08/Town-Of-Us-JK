@@ -10,6 +10,7 @@ using System.Linq;
 using TownOfUs.Roles.Modifiers;
 using TownOfUs.CrewmateRoles.AurialMod;
 using TownOfUs.Patches.ScreenEffects;
+using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.NeutralRoles.VampireMod
 {
@@ -134,6 +135,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
 
             if (PlayerControl.LocalPlayer == newVamp)
             {
+                HudManager.Instance.KillButton.buttonLabelText.gameObject.SetActive(false);
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) Footprint.DestroyAll(Role.GetRole<Investigator>(PlayerControl.LocalPlayer));
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff)) HudManager.Instance.KillButton.buttonLabelText.gameObject.SetActive(false);

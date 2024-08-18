@@ -134,6 +134,7 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Godfather) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Godfather</color> > "; }
                     else if (role.Value == RoleEnum.Mafioso) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Mafioso</color> > "; }
                     else if (role.Value == RoleEnum.Occultist) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Occultist</color> > "; }
+                    else if (role.Value == RoleEnum.Harbinger) { playerRole += "<color=#" + Patches.Colors.Harbinger.ToHtmlStringRGBA() + ">Harbinger</color> > "; }
                     else if (role.Value == RoleEnum.RedMember) { playerRole += "<color=#" + Patches.Colors.RedTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.BlueMember) { playerRole += "<color=#" + Patches.Colors.BlueTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.YellowMember) { playerRole += "<color=#" + Patches.Colors.YellowTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
@@ -245,7 +246,7 @@ namespace TownOfUs.Patches {
                     playerRole += " (<color=#" + Patches.Colors.ApocalypseAgent.ToHtmlStringRGBA() + ">Agent (Apoc)</color>)";
                 }
                 var player = Role.GetRole(playerControl);
-                if (playerControl.Is(RoleEnum.Phantom) || (playerControl.Is(Faction.Crewmates) && !playerControl.Is(ObjectiveEnum.ImpostorAgent) && !playerControl.Is(ObjectiveEnum.ApocalypseAgent) && playerControl.Is(FactionOverride.None)) || playerControl.Is(RoleEnum.Poltergeist))
+                if (playerControl.Is(RoleEnum.Phantom) || (playerControl.Is(Faction.Crewmates) && !playerControl.Is(ObjectiveEnum.ImpostorAgent) && !playerControl.Is(ObjectiveEnum.ApocalypseAgent) && playerControl.Is(FactionOverride.None)) || playerControl.Is(RoleEnum.Poltergeist) || playerControl.Is(RoleEnum.Harbinger))
                 {
                     if ((player.TotalTasks - player.TasksLeft)/player.TotalTasks == 1) playerRole += " | Tasks: <color=#" + Color.green.ToHtmlStringRGBA() + $">{player.TotalTasks - player.TasksLeft}/{player.TotalTasks}</color>";
                     else playerRole += $" | Tasks: {player.TotalTasks - player.TasksLeft}/{player.TotalTasks}";
