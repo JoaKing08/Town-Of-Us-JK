@@ -1,6 +1,7 @@
 using HarmonyLib;
 using System.Linq;
 using TownOfUs.Extensions;
+using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs
 {
@@ -42,6 +43,10 @@ namespace TownOfUs
                             __instance.TotalTasks++;
                             if (playerInfo.Tasks.ToArray()[j].Complete) __instance.CompletedTasks++;
                         }
+                }
+                if (__instance.AllPlayers.ToArray().Select(x => x._object).Any(x => !x.Data.IsDead && !x.Data.Disconnected && ((x.Is(ObjectiveEnum.ImpostorAgent) && Objective.GetObjective<ImpostorAgent>(x).AgentHunt) || (x.Is(ObjectiveEnum.ApocalypseAgent) && Objective.GetObjective<ApocalypseAgent>(x).AgentHunt))))
+                {
+                    __instance.TotalTasks++;
                 }
 
                 return false;

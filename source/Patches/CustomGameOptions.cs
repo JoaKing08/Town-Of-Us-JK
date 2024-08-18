@@ -925,6 +925,7 @@ namespace TownOfUs
         public static int HarbingerPlaguebearerBonus => (int)Generate.HarbingerPlaguebearerBonus.Get();
         public static int HarbingerSoulCollectorBonus => (int)Generate.HarbingerSoulCollectorBonus.Get();
         public static HarbingerCanBeClickedBy HarbingerCanBeClickedBy => (HarbingerCanBeClickedBy)Generate.HarbingerCanBeClickedBy.Get();
+        public static int StarveStrength => (int)Generate.StarveStrength.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

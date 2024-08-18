@@ -28,7 +28,7 @@ namespace TownOfUs.ApocalypseRoles.FamineMod
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, false);
             if (interact[4] == true)
             {
-                Role.GetRole(role.ClosestPlayer).BreadLeft -= 1;
+                Role.GetRole(role.ClosestPlayer).BreadLeft -= CustomGameOptions.StarveStrength;
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected))
                 {

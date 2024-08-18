@@ -25,7 +25,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 |                              | [Trapper](#trapper)                | [Witch](#witch)                  |                              |
 |                              | [Transporter](#transporter)        | [Necromancer](#necromancer)      |                              |
 |                              | [Vampire Hunter](#vampire-hunter)  | [Jackal](#jackal)                |                              |
-|                              | [Veteran](#veteran)                |                                  |                              |
+|                              | [Veteran](#veteran)                | [Harbinger](#harbinger)          |                              |
 |                              | [Vigilante](#vigilante)            |                                  |                              |
 |                              | [Inspector](#inspector)            |                                  |                              |
 |                              | [Tavern Keeper](#tavern-keeper)    |                                  |                              |
@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.4.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.4.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.4) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.3) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.2 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.2) |
@@ -1178,7 +1179,8 @@ The Baker is a Neutral role with his own team, as well as an ability to transfor
 The Baker has one ability, which allows them to give Bread to other players.\
 Once set amount of players are given Bread, the Baker becomes Famine.\
 The Famine is a unkillable force which can only be killed by being voted out, even their lover dying won't kill them.\
-Famine has ability which shrunks a target player Bread by two, and all others by one, when players lose all their Bread they die.\
+Famine has ability which shrunks a target player Bread by set amount, when players lose all their Bread they die.\
+The Famine also takes one Bread from each player immediately after meeting.\
 The Apocalypse needs to be the last killers alive to win the game.
 ### Game Options
 | Name | Description | Type | Default |
@@ -1189,6 +1191,7 @@ The Apocalypse needs to be the last killers alive to win the game.
 | Bread Size | The amount of times the Bread needs to be shrunk to remove it | Number | 3 |
 | Baker Can Vent | Whether the Baker can Vent | Toggle | False |
 | Famine Cooldown | The cooldown of the Famine Starve button | Time | 25s |
+| Bread Taken By Starve | The Bread removed from target after Famine Starve ability is used | Number | 2 |
 | Announce Famine | Whether the Famine transformation is alerted to whole crew | Toggle | True |
 | Famine Can Vent | Whether the Famine can Vent | Toggle | False |
 
@@ -1222,9 +1225,11 @@ The Apocalypse needs to be the last killers alive to win the game.
 The Soul Collector is a Neutral role with his own team, as well as an ability to transform into another role.\
 The Soul Collector has one ability, which allows them to reap other players bodies.\
 If there are no direct killers alive, Soul Collector Reaps one soul each meeting.\
+Depending on settings Soul Collector will see arrows to bodies.\
 Once set amount of bodies are reaped, the Soul Collector becomes Death.\
 The Death is a unkillable force which can only be killed by being voted out, even their lover dying won't kill them.\
-Death has the most powerful ability in the game, which kills all not Apocalypse players.
+Death has the most powerful ability in the game, which kills all not Apocalypse players.\
+The Death's ability also activates immediately after meeting.\
 The Apocalypse needs to be the last killers alive to win the game.
 
 ### Game Options
@@ -1234,9 +1239,30 @@ The Apocalypse needs to be the last killers alive to win the game.
 | Souls To Become Death | The amount of bodies Reaped to transform | Number | 4 |
 | Soul Collector Cooldown | The cooldown of the Soul Collector's Reap button | Time | 25s |
 | Soul Collector Can Vent | Whether the Soul Collector can Vent | Toggle | False |
+| Notify Soul Collector About Kills | Whether the Soul Collector is notified when someone dies | Toggle | False |
+| Soul Collector Arrows Duration | The duration of Soul Collector body arrows | Time | 0.25s |
 | Death Cooldown | The cooldown of the Death's Apocalypse button | Time | 25s |
 | Announce Death | Whether the Death transformation is alerted to whole crew | Toggle | True |
 | Death Can Vent | Whether the Death can Vent | Toggle | False |
+
+-----------------------
+## Harbinger
+### **Team: Apocalypse**
+The Harbinger is a dead member of Apocalypse that can speed up transformation of other members of Apocalypse if they finish all their tasks.\
+Upon finishing all of their tasks, transformation requirements of other members of Apocalypse are lowered.\
+However, if the Harbinger is clicked requirements revert back to normal and are once again a normal ghost.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Harbinger | The percentage probability of the Harbinger appearing | Percentage | 0% |
+| Tasks Remaining When Harbinger Can Be Clicked | The amount of tasks remaining when the Harbinger Can Be Clicked | Number | 5 |
+| Harbinger Lowered Baker Requirements | How less Bread Baker needs to give to transform after Harbinger finished his tasks | Number | 1 |
+| Harbinger Lowered Berserker Requirements | How less players Berserker needs to kill to transform after Harbinger finished his tasks | Number | 2 |
+| Harbinger Lowered Plaguebearer Requirements | How less players Plaguebearer needs to Infect to transform after Harbinger finished his tasks | Number | 5 |
+| Harbinger Lowered Soul Collector Requirements | How less Souls Soul Collector needs to reap to transform after Harbinger finished his tasks | Number | 2 |
+| Tasks Remaining When Alert Is Sent | The amount of tasks remaining when the Crewmates are alerted that the Harbinger is nearly finished | Number | 1 |
+| Who can Click Harbinger | Whether even other players can click the Harbinger | All / Non-Apoc / Non-Neut / Crew Only | All |
 
 -----------------------
 # Impostor Roles
@@ -1734,12 +1760,20 @@ However, they can also win with their respective team, hence why the Lovers do n
 ## Agent
 ### **Applied to: Crewmates**
 The Agent loses his orginal win condition, and tries to get his new team win.\
-However they still die in punishment for their actions (killing Crewmate as Sheriff etc.).
+Agent can kill crewmates without consequences.\
+Depending on settings, when Agent is last alive member of their team, the Agent Hunt will start.\
+When Agent Hunt begins the timer will start, after that Agent's team wins.\
+When Agent Hunt is on Crewmates cannot win by tasks.\
+Double Agent Hunt is the only way for Impostors and Apocalypse to win together.
+
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Agent (Imp) | The percentage probability of the Agent Impostor variant appearing | Percentage | 0% |
 | Agent (Apoc) | The percentage probability of the Agent Apocalypse variant appearing | Percentage | 0% |
+| Enable Agent Hunt | Whether to do Agent Hunt | Toggle | True |
+| Agent Hunt Ends After | The number of meetings in which Agent Hunt is over when there are no other killers | Number | 3 |
+| With Alive Killer Agent Hunt Ends After | The number of meetings in which Agent Hunt is over when there are other killers | Off/Number | 5 |
 
 -----------------------
 # Game Mode Settings

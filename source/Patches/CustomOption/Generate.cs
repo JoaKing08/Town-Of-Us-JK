@@ -526,6 +526,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption KillBaker;
         public static CustomToggleOption BakerVent;
         public static CustomNumberOption FamineCooldown;
+        public static CustomNumberOption StarveStrength;
         public static CustomToggleOption AnnounceFamine;
         public static CustomNumberOption AnnounceFamineDelay;
         public static CustomToggleOption FamineVent;
@@ -2155,6 +2156,8 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.neutral, "Baker Can Vent", false);
             FamineCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Famine Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            StarveStrength =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Bread Taken By Starve", 2f, 1f, 5f, 1f);
             AnnounceFamine =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Announce Famine");
             AnnounceFamineDelay =

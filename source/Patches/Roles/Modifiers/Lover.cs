@@ -111,12 +111,12 @@ namespace TownOfUs.Roles.Modifiers
         {
             //System.Console.WriteLine("CHECKWIN");
             var players = PlayerControl.AllPlayerControls.ToArray();
-            var alives = players.Where(x => !x.Data.IsDead).ToList();
+            var alives = players.Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
             var lover1 = Player;
             var lover2 = OtherLover.Player;
 
             return !lover1.Data.IsDead && !lover1.Data.Disconnected && !lover2.Data.IsDead && !lover2.Data.Disconnected &&
-                   (alives.Count == 3) | (alives.Count == 2);
+                   (alives.Count == 3 && (CustomGameOptions.OvertakeWin == OvertakeWin.On || (CustomGameOptions.OvertakeWin == OvertakeWin.WithoutCK && !alives.Any(x => x.Is(RoleEnum.Hunter) || x.Is(RoleEnum.Sheriff) || x.Is(RoleEnum.VampireHunter) || x.Is(RoleEnum.Veteran) || x.Is(RoleEnum.Vigilante) || x.Is(RoleEnum.Deputy))))) | (alives.Count == 2);
         }
 
         public void Win()
