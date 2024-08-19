@@ -1774,7 +1774,7 @@ Double Agent Hunt is the only way for Impostors and Apocalypse to win together.
 | Agent (Apoc) | The percentage probability of the Agent Apocalypse variant appearing | Percentage | 0% |
 | Enable Agent Hunt | Whether to do Agent Hunt | Toggle | True |
 | Agent Hunt Ends After | The number of meetings in which Agent Hunt is over when there are no other killers | Number | 3 |
-| With Alive Killer Agent Hunt Ends After | The number of meetings in which Agent Hunt is over when there are other killers | Off/Number | 5 |
+| With Alive Killer Agent Hunt Ends After | The number of meetings in which Agent Hunt is over when there are other killers | Off / Number | 5 |
 
 -----------------------
 # Game Mode Settings
