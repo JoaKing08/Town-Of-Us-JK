@@ -1767,7 +1767,8 @@ Agent can kill crewmates without consequences.\
 Depending on settings, when Agent is last alive member of their team, the Agent Hunt will start.\
 When Agent Hunt begins the timer will start, after that Agent's team wins.\
 When Agent Hunt is on Crewmates cannot win by tasks.\
-Double Agent Hunt is the only way for Impostors and Apocalypse to win together.
+Double Agent Hunt is the only way for Impostors and Apocalypse to win together.\
+Agent Hunt will end with Agent win if there will be no way to call a meeting.
 
 ### Game Options
 | Name | Description | Type | Default |
