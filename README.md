@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.5.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.5.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.4.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.4.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.4) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.3 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.3) |
@@ -1396,7 +1397,8 @@ However, they do not need to fully charge their kill button to use it.
 ### **Team: Impostors**
 
 The Poisoner is an Impostor that can Poison player instead of killing.\
-Poisoned knows that they were Poisoned, and dies after set amount of time.
+Poisoned knows that they were Poisoned, and dies after set amount of time.\
+Poisoned players can't use any buttons (including Report and Use) and active abilities.
 
 ### Game Options
 | Name | Description | Type | Default |
