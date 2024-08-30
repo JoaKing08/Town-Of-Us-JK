@@ -113,6 +113,11 @@ namespace TownOfUs
             return Role.GetRole(player)?.RoleType == roleType;
         }
 
+        public static bool IsSuperRoleblocked(this PlayerControl player)
+        {
+            return Role.GetRole(player) != null && Role.GetRole(player).SuperRoleblocked;
+        }
+
         public static bool Is(this PlayerControl player, ModifierEnum modifierType)
         {
             return Modifier.GetModifier(player)?.ModifierType == modifierType;

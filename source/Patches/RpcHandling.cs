@@ -589,11 +589,13 @@ namespace TownOfUs
                 CustomGameOptions.RevealProsecutor)).ToList();
             if (TraitorOn && toChooseFromCrew.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Traitor");
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
                 var pc = toChooseFromCrew[rand];
 
                 SetTraitor.WillBeTraitor = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Traitor Assigned");
                 Utils.Rpc(CustomRPC.SetTraitor, pc.PlayerId);
             }
             else
@@ -605,11 +607,13 @@ namespace TownOfUs
             // Set the Haunter, if there is one enabled.
             if (HaunterOn && toChooseFromCrew.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Haunter");
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
                 var pc = toChooseFromCrew[rand];
 
                 SetHaunter.WillBeHaunter = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Haunter Assigned");
                 Utils.Rpc(CustomRPC.SetHaunter, pc.PlayerId);
             }
             else
@@ -620,11 +624,13 @@ namespace TownOfUs
             var toChooseFromNeut = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralBenign) || x.Is(Faction.NeutralEvil) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralBenign)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (PhantomOn && toChooseFromNeut.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Phantom");
                 var rand = Random.RandomRangeInt(0, toChooseFromNeut.Count);
                 var pc = toChooseFromNeut[rand];
 
                 SetPhantom.WillBePhantom = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Phantom Assigned");
                 Utils.Rpc(CustomRPC.SetPhantom, pc.PlayerId);
             }
             else
@@ -635,11 +641,13 @@ namespace TownOfUs
             var toChooseFromImps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor() && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (PoltergeistOn && toChooseFromImps.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Poltergeist");
                 var rand = Random.RandomRangeInt(0, toChooseFromImps.Count);
                 var pc = toChooseFromImps[rand];
 
                 SetPoltergeist.WillBePoltergeist = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Poltergeist Assigned");
                 Utils.Rpc(CustomRPC.SetPoltergeist, pc.PlayerId);
             }
             else
@@ -650,11 +658,13 @@ namespace TownOfUs
             var toChooseFromApocs = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (HarbingerOn && toChooseFromApocs.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Harbinger");
                 var rand = Random.RandomRangeInt(0, toChooseFromApocs.Count);
                 var pc = toChooseFromApocs[rand];
 
                 SetHarbinger.WillBeHarbinger = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Harbinger Assigned");
                 Utils.Rpc(CustomRPC.SetHarbinger, pc.PlayerId);
             }
             else
@@ -665,12 +675,14 @@ namespace TownOfUs
             var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Executioner Target");
                 var exe = (Executioner)role;
                 while (exeTargets.Any() && exe.target == null)
                 {
                     exe.target = exeTargets[Random.RandomRangeInt(0, exeTargets.Count)];
                     exeTargets.Remove(exe.target);
 
+                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Executioner Target Assigned");
                     Utils.Rpc(CustomRPC.SetTarget, role.Player.PlayerId, exe.target.PlayerId);
                 }
             }
@@ -698,16 +710,19 @@ namespace TownOfUs
             if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverOccultist && CustomGameOptions.OccultistOn > 0 && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Occultist))) undercoverRoles.Add(RoleEnum.Occultist);
             foreach (var role in Role.GetRoles(RoleEnum.Undercover))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Undercover");
                 var undercover = (Undercover)role;
                 while (undercoverRoles.Any() && undercover.UndercoverRole == RoleEnum.Impostor)
                 {
                     undercover.UndercoverRole = undercoverRoles[Random.RandomRangeInt(0, undercoverRoles.Count)];
                     undercoverRoles.Remove(undercover.UndercoverRole);
+                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Undercover Assigned");
                     Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
                 }
             }
             foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Heretics");
                 var inq = (Inquisitor)role;
                 while (inq.heretics == null || !inq.heretics.ToArray().Any())
                 {
@@ -716,6 +731,7 @@ namespace TownOfUs
                     foreach (var heretic in hereticsRaw)
                     {
                         heretics.Add(heretic);
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Heretic Assigned");
                         Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic);
                     }
                     inq.heretics = heretics;
@@ -726,25 +742,29 @@ namespace TownOfUs
             var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning GA Target");
                 var ga = (GuardianAngel)role;
                 while (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
                     (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
-                    goodGATargets.Count == 0 && evilGATargets.Count == 0) && ga.target == null)
+                    (goodGATargets.Count == 0 && evilGATargets.Count == 0)) && ga.target == null)
                 {
                     if (goodGATargets.Count == 0)
                     {
                         ga.target = evilGATargets[Random.RandomRangeInt(0, evilGATargets.Count)];
                         evilGATargets.Remove(ga.target);
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("GA Target Assigned");
                     }
                     else if (evilGATargets.Count == 0 || !Check(CustomGameOptions.EvilTargetPercent))
                     {
                         ga.target = goodGATargets[Random.RandomRangeInt(0, goodGATargets.Count)];
                         goodGATargets.Remove(ga.target);
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("GA Target Assigned");
                     }
                     else
                     {
                         ga.target = evilGATargets[Random.RandomRangeInt(0, evilGATargets.Count)];
                         evilGATargets.Remove(ga.target);
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("GA Target Assigned");
                     }
 
                     Utils.Rpc(CustomRPC.SetGATarget, role.Player.PlayerId, ga.target.PlayerId);
@@ -756,6 +776,7 @@ namespace TownOfUs
             var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Jackal))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Recruits");
                 var nonKillingRecruits = 0;
                 var killingRecruits = 0;
                 var otherRecruits = 0;
@@ -785,6 +806,7 @@ namespace TownOfUs
                         nonKillingRecruit.Remove(recruit);
                         allRecruits.Remove(recruit);
                         Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Recruit Assigned");
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
@@ -794,6 +816,7 @@ namespace TownOfUs
                         killingRecruit.Remove(recruit);
                         allRecruits.Remove(recruit);
                         Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Recruit Assigned");
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
@@ -802,6 +825,7 @@ namespace TownOfUs
                         var recruit = allRecruits[Random.RandomRangeInt(0, allRecruits.Count)];
                         allRecruits.Remove(recruit);
                         Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Recruit Assigned");
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
@@ -1199,11 +1223,13 @@ namespace TownOfUs
                 CustomGameOptions.RevealProsecutor)).ToList();
             if (TraitorOn && toChooseFromCrew.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Traitor");
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
                 var pc = toChooseFromCrew[rand];
 
                 SetTraitor.WillBeTraitor = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Traitor Assigned");
                 Utils.Rpc(CustomRPC.SetTraitor, pc.PlayerId);
             }
             else
@@ -1215,11 +1241,13 @@ namespace TownOfUs
             // Set the Haunter, if there is one enabled.
             if (HaunterOn && toChooseFromCrew.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Haunter");
                 var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
                 var pc = toChooseFromCrew[rand];
 
                 SetHaunter.WillBeHaunter = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Haunter Assigned");
                 Utils.Rpc(CustomRPC.SetHaunter, pc.PlayerId);
             }
             else
@@ -1230,11 +1258,13 @@ namespace TownOfUs
             var toChooseFromNeut = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralBenign) || x.Is(Faction.NeutralEvil) || x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralBenign)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (PhantomOn && toChooseFromNeut.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Phantom");
                 var rand = Random.RandomRangeInt(0, toChooseFromNeut.Count);
                 var pc = toChooseFromNeut[rand];
 
                 SetPhantom.WillBePhantom = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Phantom Assigned");
                 Utils.Rpc(CustomRPC.SetPhantom, pc.PlayerId);
             }
             else
@@ -1245,11 +1275,13 @@ namespace TownOfUs
             var toChooseFromImps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor() && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (PoltergeistOn && toChooseFromImps.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Poltergeist");
                 var rand = Random.RandomRangeInt(0, toChooseFromImps.Count);
                 var pc = toChooseFromImps[rand];
 
                 SetPoltergeist.WillBePoltergeist = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Poltergeist Assigned");
                 Utils.Rpc(CustomRPC.SetPoltergeist, pc.PlayerId);
             }
             else
@@ -1260,11 +1292,13 @@ namespace TownOfUs
             var toChooseFromApocs = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.Lover)).ToList();
             if (HarbingerOn && toChooseFromApocs.Count != 0)
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Harbinger");
                 var rand = Random.RandomRangeInt(0, toChooseFromApocs.Count);
                 var pc = toChooseFromApocs[rand];
 
                 SetHarbinger.WillBeHarbinger = pc;
 
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Harbinger Assigned");
                 Utils.Rpc(CustomRPC.SetHarbinger, pc.PlayerId);
             }
             else
@@ -1275,11 +1309,13 @@ namespace TownOfUs
             var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Deputy) && !x.Is(RoleEnum.Prosecutor) && x != SetTraitor.WillBeTraitor && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && x.Is(FactionOverride.None)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Executioner Target");
                 var exe = (Executioner)role;
                 while (exeTargets.Any() && exe.target == null)
                 {
                     exe.target = exeTargets[Random.RandomRangeInt(0, exeTargets.Count)];
                     exeTargets.Remove(exe.target);
+                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Executioner Target Assigned");
 
                     Utils.Rpc(CustomRPC.SetTarget, role.Player.PlayerId, exe.target.PlayerId);
                 }
@@ -1307,11 +1343,13 @@ namespace TownOfUs
             if (PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Impostors)) && CustomGameOptions.UndercoverOccultist && !CustomGameOptions.BanEntries.Contains(RLBanEntry.Occultist) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(RoleEnum.Occultist))) undercoverRoles.Add(RoleEnum.Occultist);
             foreach (var role in Role.GetRoles(RoleEnum.Undercover))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Undercover");
                 var undercover = (Undercover)role;
                 while (undercoverRoles.Any() && undercover.UndercoverRole == RoleEnum.Impostor)
                 {
                     undercover.UndercoverRole = undercoverRoles[Random.RandomRangeInt(0, undercoverRoles.Count)];
                     undercoverRoles.Remove(undercover.UndercoverRole);
+                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Undercover Assigned");
                     Utils.Rpc(CustomRPC.SetUndercover, role.Player.PlayerId, (byte)undercover.UndercoverRole);
                 }
             }
@@ -1321,6 +1359,7 @@ namespace TownOfUs
             var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Jackal))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Recruits");
                 var nonKillingRecruits = 0;
                 var killingRecruits = 0;
                 var otherRecruits = 0;
@@ -1350,6 +1389,7 @@ namespace TownOfUs
                         nonKillingRecruit.Remove(recruit);
                         allRecruits.Remove(recruit);
                         Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Recruit Assigned");
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
@@ -1359,6 +1399,7 @@ namespace TownOfUs
                         killingRecruit.Remove(recruit);
                         allRecruits.Remove(recruit);
                         Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Recruit Assigned");
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
@@ -1367,12 +1408,14 @@ namespace TownOfUs
                         var recruit = allRecruits[Random.RandomRangeInt(0, allRecruits.Count)];
                         allRecruits.Remove(recruit);
                         Role.GetRole(recruit).FactionOverride = FactionOverride.Recruit;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Recruit Assigned");
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
             }
             foreach (var role in Role.GetRoles(RoleEnum.Inquisitor))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Heretics");
                 var inq = (Inquisitor)role;
                 while (inq.heretics == null || !inq.heretics.ToArray().Any())
                 {
@@ -1381,6 +1424,7 @@ namespace TownOfUs
                     foreach (var heretic in hereticsRaw)
                     {
                         heretics.Add(heretic);
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Heretic Assigned");
                         Utils.Rpc(CustomRPC.SetHeretic, role.Player.PlayerId, heretic);
                     }
                     inq.heretics = heretics;
@@ -1391,6 +1435,7 @@ namespace TownOfUs
             var evilGATargets = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.Impostors) || x.Is(Faction.NeutralKilling)) && !x.Is(ObjectiveEnum.Lover)).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
+                PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning GA Target");
                 var ga = (GuardianAngel)role;
                 while (!((goodGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 0) ||
                     (evilGATargets.Count == 0 && CustomGameOptions.EvilTargetPercent == 100) ||
@@ -1399,16 +1444,19 @@ namespace TownOfUs
                     if (goodGATargets.Count == 0)
                     {
                         ga.target = evilGATargets[Random.RandomRangeInt(0, evilGATargets.Count)];
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("GA Target Assigned");
                         evilGATargets.Remove(ga.target);
                     }
                     else if (evilGATargets.Count == 0 || !Check(CustomGameOptions.EvilTargetPercent))
                     {
                         ga.target = goodGATargets[Random.RandomRangeInt(0, goodGATargets.Count)];
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("GA Target Assigned");
                         goodGATargets.Remove(ga.target);
                     }
                     else
                     {
                         ga.target = evilGATargets[Random.RandomRangeInt(0, evilGATargets.Count)];
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage("GA Target Assigned");
                         evilGATargets.Remove(ga.target);
                     }
 
@@ -2805,10 +2853,14 @@ namespace TownOfUs
                         if (CustomGameOptions.AutoAdjustSettings) RandomMap.AdjustSettings(readByte);
                         break;
                     case CustomRPC.Roleblock:
-                        Role.GetRole(Utils.PlayerById(reader.ReadByte())).Roleblocked = true;
+                        var roleblocked = Utils.PlayerById(reader.ReadByte());
+                        Role.GetRole(roleblocked).Roleblocked = true;
+                        if (reader.ReadBoolean()) Role.GetRole(roleblocked).SuperRoleblocked = true;
                         break;
                     case CustomRPC.UnroleblockPlayer:
-                        Role.GetRole(Utils.PlayerById(reader.ReadByte())).Roleblocked = false;
+                        var unroleblocked = Utils.PlayerById(reader.ReadByte());
+                        if (reader.ReadBoolean()) Role.GetRole(unroleblocked).SuperRoleblocked = false;
+                        else Role.GetRole(unroleblocked).Roleblocked = false;
                         break;
                     case CustomRPC.Poison:
                         var poisoned = Utils.PlayerById(reader.ReadByte());

@@ -72,10 +72,16 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
             if (alpha < 0 || alpha > 1)
                 alpha = 0;
             
-            if (RainbowUtils.IsRainbow(Player.GetDefaultOutfit().ColorId) & !Grey)
-                Color = RainbowUtils.Rainbow;
-            else if (Grey)
+            if (Grey)
                 Color = new Color(0.2f, 0.2f, 0.2f, 1f);
+            else if (RainbowUtils.IsRainbow(Player.GetDefaultOutfit().ColorId))
+                Color = RainbowUtils.Rainbow;
+            else if (RainbowUtils.IsGrayscale(Player.GetDefaultOutfit().ColorId))
+                Color = RainbowUtils.Grayscale;
+            else if (RainbowUtils.IsFire(Player.GetDefaultOutfit().ColorId))
+                Color = RainbowUtils.Fire;
+            else if (RainbowUtils.IsGalaxy(Player.GetDefaultOutfit().ColorId))
+                Color = RainbowUtils.Galaxy;
             else
                 Color = Palette.PlayerColors[Player.GetDefaultOutfit().ColorId];
 

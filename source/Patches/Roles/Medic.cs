@@ -72,6 +72,24 @@ namespace TownOfUs.Roles
             LightDarkColors.Add(49, "lighter"); // Neon Pink
             LightDarkColors.Add(50, "darker"); // Woody Brown
             LightDarkColors.Add(51, "lighter"); // Black & White
+            LightDarkColors.Add(52, "lighter"); // Buggy Yellow
+            LightDarkColors.Add(53, "lighter"); // Black & White
+            LightDarkColors.Add(54, "darker"); // Bordeaux
+            LightDarkColors.Add(55, "lighter"); // Lavender
+            LightDarkColors.Add(56, "lighter"); // Pale Red
+            LightDarkColors.Add(57, "lighter"); // Silver
+            LightDarkColors.Add(58, "darker"); // Dell Green
+            LightDarkColors.Add(59, "lighter"); // Azure Blue
+            LightDarkColors.Add(60, "lighter"); // Pale Orange
+            LightDarkColors.Add(61, "lighter"); // Corn
+            LightDarkColors.Add(62, "darker"); // Husk Gold
+            LightDarkColors.Add(63, "lighter"); // Lawn Green
+            LightDarkColors.Add(64, "darker"); // Ming
+            LightDarkColors.Add(65, "darker"); // Night Blue
+            LightDarkColors.Add(66, "lighter"); // Spring Green
+            LightDarkColors.Add(67, "darker"); // Grayscale
+            LightDarkColors.Add(68, "lighter"); // Fire
+            LightDarkColors.Add(69, "darker"); // Galaxy
         }
         public float StartTimer()
         {

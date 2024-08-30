@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
+using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.MedicMod
 {
@@ -42,7 +43,7 @@ namespace TownOfUs.CrewmateRoles.MedicMod
 
             //System.Console.WriteLine("FIVEF");
 
-            var reportMsg = BodyReport.ParseBodyReport(br);
+            var reportMsg = BodyReport.ParseBodyReport(br, Role.GetRole<Medic>(PlayerControl.LocalPlayer));
 
             //System.Console.WriteLine("SIXTHF");
 

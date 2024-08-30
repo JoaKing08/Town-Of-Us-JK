@@ -30,6 +30,8 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
         }
         public static void RpcMurderPlayer(PlayerVoteArea voteArea, PlayerControl player, PlayerControl poisoner)
         {
+            Role.GetRole(player).SuperRoleblocked = false;
+            Utils.Rpc(CustomRPC.UnroleblockPlayer, player.PlayerId, true);
             if (player.IsShielded())
             {
                 var medic = player.GetMedic().Player.PlayerId;

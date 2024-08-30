@@ -15,7 +15,7 @@ namespace TownOfUs.RainbowMod
             }
 
             r.AddRend(rend, colorId);
-            return !RainbowUtils.IsRainbow(colorId);
+            return !RainbowUtils.IsRainbow(colorId) && !RainbowUtils.IsGrayscale(colorId) && !RainbowUtils.IsFire(colorId) && !RainbowUtils.IsGalaxy(colorId);
         }
     }
 

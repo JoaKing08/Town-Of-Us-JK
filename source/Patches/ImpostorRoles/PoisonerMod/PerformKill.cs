@@ -30,6 +30,9 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                     if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                     role.PoisonTime = DateTime.UtcNow;
                     role.PoisonedPlayer = target;
+                    Role.GetRole(role.ClosestPlayer).Roleblocked = true;
+                    Role.GetRole(role.ClosestPlayer).SuperRoleblocked = true;
+                    Utils.Rpc(CustomRPC.Roleblock, role.ClosestPlayer.PlayerId, true);
                     if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                     {
                         var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;

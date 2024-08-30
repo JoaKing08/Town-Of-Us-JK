@@ -185,6 +185,11 @@ namespace TownOfUs
             {
                 losers.Add(role.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Harbinger))
+            {
+                var har = (Harbinger)role;
+                losers.Add(har.Player.GetDefaultOutfit().ColorId);
+            }
 
             var impAgent = Objective.AllObjectives.Any(x => x.ObjectiveType == ObjectiveEnum.ImpostorAgent && ((ImpostorAgent)x).AgentHunt && ((ImpostorAgent)x).RoundsLeft <= 0);
 

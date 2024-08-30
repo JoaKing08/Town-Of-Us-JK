@@ -5,6 +5,8 @@ using System.Linq;
 using TownOfUs.CrewmateRoles.OracleMod;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Roles.Modifiers;
+using TownOfUs.CrewmateRoles.MedicMod;
+using UnityEngine;
 
 namespace TownOfUs.Modifiers.AgentMod
 {
@@ -24,7 +26,7 @@ namespace TownOfUs.Modifiers.AgentMod
                     else
                     {
                         agent.RoundsLeft--;
-                        if (agent.RoundsLeft <= 0) Role.ImpostorAgentHuntOver = true;
+                        if (agent.RoundsLeft <= 0 || (!PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && (x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.Impostors))) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.RemainingEmergencies > 0))) Role.ImpostorAgentHuntOver = true;
                     }
                 }
             }
@@ -40,7 +42,7 @@ namespace TownOfUs.Modifiers.AgentMod
                     else
                     {
                         agent.RoundsLeft--;
-                        if (agent.RoundsLeft <= 0) Role.ApocalypseAgentHuntOver = true;
+                        if (agent.RoundsLeft <= 0 || (!PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && (x.Is(Faction.NeutralKilling) || x.Is(Faction.NeutralApocalypse) || x.Is(Faction.Impostors))) && !PlayerControl.AllPlayerControls.ToArray().Any(x => x.RemainingEmergencies > 0))) Role.ApocalypseAgentHuntOver = true;
                     }
                 }
             }

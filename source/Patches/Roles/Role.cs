@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 using TownOfUs.Extensions;
 using AmongUs.GameOptions;
 using TownOfUs.ImpostorRoles.TraitorMod;
+using Reactor.Utilities;
 
 namespace TownOfUs.Roles
 {
@@ -31,6 +32,7 @@ namespace TownOfUs.Roles
         public int Defense = 0;
         public bool Reaped = false;
         public bool Roleblocked = false;
+        public bool SuperRoleblocked = false;
         public GameObject DefenseButton = new GameObject();
         public DateTime LastBlood;
         public List<ArrowBehaviour> SnipeArrows = new List<ArrowBehaviour>();
@@ -1326,7 +1328,11 @@ namespace TownOfUs.Roles
                     }
                 }
 
-                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks) return true;
+                if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
+                {
+                    Utils.EndGame(GameOverReason.HumansByTask);
+                    return false;
+                }
                 
                 var result = true;
                 foreach (var role in AllRoles)
@@ -1545,7 +1551,8 @@ namespace TownOfUs.Roles
                         {
                             try
                             {
-                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName + (role.Player.IsKnight() && !player.NameText.text.Contains("<color=#9628C8FF> +</color>") && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.IsConvinced() && !player.NameText.text.Contains("<color=#FF0000FF> #</color>") && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) ? "<color=#FF0000FF> #</color>" : "") + (role.Player.IsMarked() && !player.NameText.text.Contains("<color=#800000FF> @</color>") && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) ? "<color=#800000FF> @</color>" : "");
+                                player.NameText.text = role.Player.GetDefaultOutfit().PlayerName;
+                                player.NameText.text += (role.Player.IsKnight() && !player.NameText.text.Contains("<color=#9628C8FF> +</color>") && !role.Player.Data.Disconnected ? "<color=#9628C8FF> +</color>" : "") + (role.Player.IsConvinced() && !player.NameText.text.Contains("<color=#FF0000FF> #</color>") && (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) ? "<color=#FF0000FF> #</color>" : "") + (role.Player.IsMarked() && !player.NameText.text.Contains("<color=#800000FF> @</color>") && PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) ? "<color=#800000FF> @</color>" : "");
                             }
                             catch
                             {
@@ -1645,6 +1652,76 @@ namespace TownOfUs.Roles
                     Object.Destroy(arrow);
             }
             SnipeArrows.Clear();
+        }
+        [HarmonyPatch(typeof(ReportButton), nameof(ReportButton.DoClick))]
+        public class BlockReport
+        {
+            public static bool Prefix(ReportButton __instance)
+            {
+                if (PlayerControl.LocalPlayer.IsSuperRoleblocked())
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(UseButton), nameof(UseButton.DoClick))]
+        public class BlockUse
+        {
+            public static bool Prefix(UseButton __instance)
+            {
+                if (PlayerControl.LocalPlayer.IsSuperRoleblocked())
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
+        public class BlockSabotage
+        {
+            public static bool Prefix(SabotageButton __instance)
+            {
+                if (PlayerControl.LocalPlayer.IsSuperRoleblocked())
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(VentButton), nameof(VentButton.DoClick))]
+        public class VentReport
+        {
+            public static bool Prefix(VentButton __instance)
+            {
+                if (PlayerControl.LocalPlayer.IsSuperRoleblocked())
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    return false;
+                }
+                return true;
+            }
+        }
+        [HarmonyPatch(typeof(AdminButton), nameof(AdminButton.DoClick))]
+        public class BlockAdmin
+        {
+            public static bool Prefix(AdminButton __instance)
+            {
+                if (PlayerControl.LocalPlayer.IsSuperRoleblocked())
+                {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.white));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

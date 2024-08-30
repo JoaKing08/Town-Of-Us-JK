@@ -15,7 +15,7 @@ namespace TownOfUs.RainbowMod
                 var colorChip = __instance.ColorChips[i];
                 colorChip.transform.localScale *= 0.6f;
                 var x = __instance.XRange.Lerp((i % 8) / 7f) + 0.25f;
-                var y = __instance.YStart - (i / 7.5f) * 0.4125f;
+                var y = __instance.YStart - (i / 7.5f) * 0.3625f;
                 colorChip.transform.localPosition = new Vector3(x, y, -1f);
             }
         }
@@ -29,7 +29,18 @@ namespace TownOfUs.RainbowMod
                 if (RainbowUtils.IsRainbow(i))
                 {
                     __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Rainbow;
-                    break;
+                }
+                else if (RainbowUtils.IsGrayscale(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Grayscale;
+                }
+                else if (RainbowUtils.IsFire(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Fire;
+                }
+                else if (RainbowUtils.IsGalaxy(i))
+                {
+                    __instance.ColorChips[i].Inner.SpriteColor = RainbowUtils.Galaxy;
                 }
             }
 

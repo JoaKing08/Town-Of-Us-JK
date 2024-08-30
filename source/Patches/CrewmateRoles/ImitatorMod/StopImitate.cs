@@ -131,7 +131,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                         foreach (var player in tavernKeeperRole.DrunkPlayers)
                         {
                             Role.GetRole(player).Roleblocked = false;
-                            Utils.Rpc(CustomRPC.UnroleblockPlayer, player.PlayerId);
+                            Utils.Rpc(CustomRPC.UnroleblockPlayer, player.PlayerId, false);
                         }
                         tavernKeeperRole.DrunkPlayers = new List<PlayerControl>();
                     }

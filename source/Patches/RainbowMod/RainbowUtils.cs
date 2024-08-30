@@ -11,21 +11,28 @@ public class RainbowUtils
     public static Color Rainbow => new HSBColor(PP(0, 1, 0.3f), 1, 1).ToColor();
     public static Color RainbowShadow => Shadow(Rainbow);
 
-    public static Color Galaxy => new HSBColor(PP(0.5f, 0.87f, 0.4f), 1, 1).ToColor();
-    public static Color GalaxyShadow => Shadow(Galaxy);
+    public static Color Grayscale => new HSBColor(0, 0, PP(0.1f, 1f, 0.3f)).ToColor();
+    public static Color GrayscaleShadow => Shadow(Grayscale);
 
-    public static Color Fire => new HSBColor(PP(0f, 0.17f, 0.4f), 1, 1).ToColor();
+    public static Color Fire => new HSBColor(DoublePP(0f, 0.166f, 0.4f, 0.8f, 0.6f), 1, DoublePP(0.5f, 1f, 1f, 2f, 1.5f)).ToColor();
     public static Color FireShadow => Shadow(Fire);
 
+    public static Color Galaxy => new HSBColor(DoublePP(0.333f, 0.888f, 0.1f, 0.025f, 0.05f), 1, DoublePP(0.2f, 0.6f, 0.25f, 0.075f, 0.1f)).ToColor();
+    public static Color GalaxyShadow => Shadow(Galaxy);
 
-    public static float PP(float min, float max, float mul)
+
+    public static float PP(float min, float max, float mul) // previous modders left this function under this name - JoaKing
     {
         return min + Mathf.PingPong(Time.time * mul, max - min);
+    }
+    public static float DoublePP(float min, float max, float mula, float mulb, float mulc) // and i just used this name for consistency - JoaKing, again
+    {
+        return Mathf.Lerp(PP(min, max, mula), PP(min, max, mulb), PP(0, 1, mulc));
     }
 
     public static Color Shadow(Color color)
     {
-        return new Color(color.r - 0.3f, color.g - 0.3f, color.b - 0.3f);
+        return new Color(color.r * 0.7f, color.g * 0.7f, color.b * 0.7f);
     }
 
     public static void SetRainbow(Renderer rend)
@@ -35,12 +42,69 @@ public class RainbowUtils
         rend.material.SetColor(VisorColor, Palette.VisorColor);
     }
 
+    public static void SetGrayscale(Renderer rend)
+    {
+        rend.material.SetColor(BackColor, GrayscaleShadow);
+        rend.material.SetColor(BodyColor, Grayscale);
+        rend.material.SetColor(VisorColor, Palette.VisorColor);
+    }
+
+    public static void SetFire(Renderer rend)
+    {
+        rend.material.SetColor(BackColor, FireShadow);
+        rend.material.SetColor(BodyColor, Fire);
+        rend.material.SetColor(VisorColor, Palette.VisorColor);
+    }
+
+    public static void SetGalaxy(Renderer rend)
+    {
+        rend.material.SetColor(BackColor, GalaxyShadow);
+        rend.material.SetColor(BodyColor, Galaxy);
+        rend.material.SetColor(VisorColor, Palette.VisorColor);
+    }
+
     public static bool IsRainbow(int id)
     {
         try
         {
             return (int)Palette.ColorNames[id] == 999999;
         } catch
+        {
+            return false;
+        }
+    }
+
+    public static bool IsGrayscale(int id)
+    {
+        try
+        {
+            return (int)Palette.ColorNames[id] == 1000031;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public static bool IsFire(int id)
+    {
+        try
+        {
+            return (int)Palette.ColorNames[id] == 1000032;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public static bool IsGalaxy(int id)
+    {
+        try
+        {
+            return (int)Palette.ColorNames[id] == 1000033;
+        }
+        catch
         {
             return false;
         }

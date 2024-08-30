@@ -22,6 +22,18 @@ namespace TownOfUs.RainbowMod
             {
                 RainbowUtils.SetRainbow(Renderer);
             }
+            else if (RainbowUtils.IsGrayscale(Id))
+            {
+                RainbowUtils.SetGrayscale(Renderer);
+            }
+            else if (RainbowUtils.IsFire(Id))
+            {
+                RainbowUtils.SetFire(Renderer);
+            }
+            else if (RainbowUtils.IsGalaxy(Id))
+            {
+                RainbowUtils.SetGalaxy(Renderer);
+            }
         }
 
         public RainbowBehaviour(IntPtr ptr) : base(ptr) { }

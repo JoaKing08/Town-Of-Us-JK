@@ -45,6 +45,18 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
                     {
                         arrow.Value.image.color = RainbowUtils.Rainbow;
                     }
+                    else if (RainbowUtils.IsGrayscale(player.GetDefaultOutfit().ColorId))
+                    {
+                        arrow.Value.image.color = RainbowUtils.Grayscale;
+                    }
+                    else if (RainbowUtils.IsFire(player.GetDefaultOutfit().ColorId))
+                    {
+                        arrow.Value.image.color = RainbowUtils.Fire;
+                    }
+                    else if (RainbowUtils.IsGalaxy(player.GetDefaultOutfit().ColorId))
+                    {
+                        arrow.Value.image.color = RainbowUtils.Galaxy;
+                    }
                     else if (CamoedLastTick)
                     {
                         arrow.Value.image.color = Palette.PlayerColors[player.GetDefaultOutfit().ColorId];

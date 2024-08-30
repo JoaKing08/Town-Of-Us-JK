@@ -46,6 +46,22 @@ namespace TownOfUs.RainbowMod
                 1000015 => "Woody Brown",
                 1000016 => "Black & White",
                 1000017 => "Buggy Yellow",
+                1000018 => "Bordeaux",
+                1000019 => "Lavender",
+                1000020 => "Pale Red",
+                1000021 => "Silver",
+                1000022 => "Dell Green",
+                1000023 => "Azure Blue",
+                1000024 => "Pale Orange",
+                1000025 => "Corn",
+                1000026 => "Husk Gold",
+                1000027 => "Lawn Green",
+                1000028 => "Ming",
+                1000029 => "Night Blue",
+                1000030 => "Spring Green",
+                1000031 => "Grayscale",
+                1000032 => "Fire",
+                1000033 => "Galaxy",
                 _ => null
             };
             if (newResult != null)

@@ -30,7 +30,7 @@ namespace TownOfUs.CrewmateRoles.TavernKeeperMod
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
                 role.DrunkPlayers.Add(role.ClosestPlayer);
                 Role.GetRole(role.ClosestPlayer).Roleblocked = true;
-                Utils.Rpc(CustomRPC.Roleblock, role.ClosestPlayer.PlayerId);
+                Utils.Rpc(CustomRPC.Roleblock, role.ClosestPlayer.PlayerId, false);
             }
             if (interact[0] == true)
             {

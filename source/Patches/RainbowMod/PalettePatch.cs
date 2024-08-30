@@ -61,7 +61,23 @@ namespace TownOfUs.RainbowMod
                 (StringNames)1000014,//"Neon Pink",
                 (StringNames)1000015,//"Woody Brown",
                 (StringNames)1000016,//"Black & White",
-                (StringNames)1000017,//"Buggy Yellow"
+                (StringNames)1000017,//"Buggy Yellow",
+                (StringNames)1000018,//"Bordeaux",
+                (StringNames)1000019,//"Lavender",
+                (StringNames)1000020,//"Pale Red",
+                (StringNames)1000021,//"Silver",
+                (StringNames)1000022,//"Dell Green",
+                (StringNames)1000023,//"Azure Blue",
+                (StringNames)1000024,//"Pale Orange",
+                (StringNames)1000025,//"Corn",
+                (StringNames)1000026,//"Husk Gold",
+                (StringNames)1000027,//"Lawn Green",
+                (StringNames)1000028,//"Ming",
+                (StringNames)1000029,//"Night Blue",
+                (StringNames)1000030,//"Spring Green",
+                (StringNames)1000031,//"Grayscale",
+                (StringNames)1000032,//"Fire",
+                (StringNames)1000033//"Galaxy"
             };
             Palette.PlayerColors = new[]
             {
@@ -119,6 +135,22 @@ namespace TownOfUs.RainbowMod
                 new Color32(145, 73, 0, byte.MaxValue),
                 new Color32(255, 255, 255, byte.MaxValue),
                 new Color32(255, 255, 15, byte.MaxValue),
+                new Color32(109, 7, 26, byte.MaxValue),
+                new Color32(149, 103, 201, byte.MaxValue),
+                new Color32(255, 107, 97, byte.MaxValue),
+                new Color32(192, 192, 192, byte.MaxValue),
+                new Color32(49, 73, 33, byte.MaxValue),
+                new Color32(0, 127, 255, byte.MaxValue),
+                new Color32(250, 170, 90, byte.MaxValue),
+                new Color32(255, 255, 109, byte.MaxValue),
+                new Color32(177, 155, 77, byte.MaxValue),
+                new Color32(106, 228, 8, byte.MaxValue),
+                new Color32(39, 79, 91, byte.MaxValue),
+                new Color32(5, 36, 63, byte.MaxValue),
+                new Color32(0, 255, 127, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
             };
             Palette.ShadowColors = new[]
             {
@@ -176,6 +208,22 @@ namespace TownOfUs.RainbowMod
                 new Color32(123, 61, 0, byte.MaxValue),
                 new Color32(0, 0, 0, byte.MaxValue),
                 new Color32(254, 0, 0, byte.MaxValue),
+                new Color32(54, 2, 11, byte.MaxValue),
+                new Color32(117, 62, 158, byte.MaxValue),
+                new Color32(205, 60, 43, byte.MaxValue),
+                new Color32(142, 142, 142, byte.MaxValue),
+                new Color32(37, 51, 25, byte.MaxValue),
+                new Color32(0, 85, 120, byte.MaxValue),
+                new Color32(204, 136, 51, byte.MaxValue),
+                new Color32(198, 198, 58, byte.MaxValue),
+                new Color32(135, 117, 43, byte.MaxValue),
+                new Color32(75, 132, 6, byte.MaxValue),
+                new Color32(27, 55, 47, byte.MaxValue),
+                new Color32(3, 16, 40, byte.MaxValue),
+                new Color32(0, 165, 62, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
             };
         }
     }

@@ -80,12 +80,14 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
             var factionOverride = targetRole.FactionOverride;
             var lastBlood = targetRole.LastBlood;
             var roleblocked = targetRole.Roleblocked;
+            var superRoleblocked = targetRole.SuperRoleblocked;
             Role.RoleDictionary.Remove(target.PlayerId);
             var mafioso = new Mafioso(target);
             mafioso.BreadLeft = bread;
             mafioso.FactionOverride = factionOverride;
             mafioso.LastBlood = lastBlood;
             mafioso.Roleblocked = roleblocked;
+            mafioso.SuperRoleblocked = superRoleblocked;
             mafioso.RegenTask();
             if (target.Is(AbilityEnum.Assassin)) Ability.AbilityDictionary.Remove(target.PlayerId);
             if (CustomGameOptions.MafiosoAssassin) new Assassin(target);

@@ -44,7 +44,7 @@ namespace TownOfUs
                             if (playerInfo.Tasks.ToArray()[j].Complete) __instance.CompletedTasks++;
                         }
                 }
-                if (__instance.AllPlayers.ToArray().Select(x => x._object).Any(x => !x.Data.IsDead && !x.Data.Disconnected && ((x.Is(ObjectiveEnum.ImpostorAgent) && Objective.GetObjective<ImpostorAgent>(x).AgentHunt) || (x.Is(ObjectiveEnum.ApocalypseAgent) && Objective.GetObjective<ApocalypseAgent>(x).AgentHunt))))
+                if (__instance.AllPlayers.ToArray().Select(x => x._object).Any(x => x != null && Objective.GetObjective(x) != null && !x.Data.IsDead && !x.Data.Disconnected && ((x.Is(ObjectiveEnum.ImpostorAgent) && Objective.GetObjective<ImpostorAgent>(x).AgentHunt) || (x.Is(ObjectiveEnum.ApocalypseAgent) && Objective.GetObjective<ApocalypseAgent>(x).AgentHunt))))
                 {
                     __instance.TotalTasks++;
                 }
