@@ -533,7 +533,7 @@ namespace TownOfUs
             foreach (var (type, _) in AssassinModifiers)
             {
                 if (canHaveAssassinModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveAssassinModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveAssassinModifier);
             }
 
             // Hand out impostor modifiers.
@@ -545,7 +545,7 @@ namespace TownOfUs
             foreach (var (type, _) in ImpostorModifiers)
             {
                 if (canHaveImpModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveImpModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveImpModifier);
             }
 
             // Hand out global modifiers.
@@ -559,7 +559,7 @@ namespace TownOfUs
             foreach (var (type, id) in GlobalModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveModifier);
             }
 
             // The Glitch cannot have Button Modifiers.
@@ -569,7 +569,7 @@ namespace TownOfUs
             foreach (var (type, id) in ButtonModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveModifier);
             }
 
             // Now hand out Crewmate Modifiers to all remaining eligible players.
@@ -1167,7 +1167,7 @@ namespace TownOfUs
             foreach (var (type, _) in AssassinModifiers)
             {
                 if (canHaveAssassinModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveAssassinModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveAssassinModifier);
             }
 
             // Hand out impostor modifiers.
@@ -1179,7 +1179,7 @@ namespace TownOfUs
             foreach (var (type, _) in ImpostorModifiers)
             {
                 if (canHaveImpModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveImpModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveImpModifier);
             }
 
             // Hand out global modifiers.
@@ -1193,7 +1193,7 @@ namespace TownOfUs
             foreach (var (type, id) in GlobalModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveModifier);
             }
 
             // The Glitch cannot have Button Modifiers.
@@ -1203,7 +1203,7 @@ namespace TownOfUs
             foreach (var (type, id) in ButtonModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
-                Role.GenModifier<Modifier>(type, canHaveModifier);
+                Role.GenModifier<Modifier>(type, ref canHaveModifier);
             }
 
             // Now hand out Crewmate Modifiers to all remaining eligible players.

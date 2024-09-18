@@ -50,7 +50,7 @@ namespace TownOfUs.Modifiers.AgentMod
             }
             foreach (ImpostorAgent agent in Objective.AllObjectives.Where(x => x.ObjectiveType == ObjectiveEnum.ImpostorAgent && ((ImpostorAgent)x).AgentHunt && x.Player != null && !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
             {
-                if (DestroyableSingleton<HudManager>.Instance) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{agent.RoundsLeft}</b> more meetings remaining to find the <color=#{Patches.Colors.ImpostorAgent.ToHtmlStringRGBA()}><b>Impostor Agent</b></color>!" : $"Pozostalo <b>{agent.RoundsLeft}</b> spotkan by znalezc <color=#{Patches.Colors.ImpostorAgent.ToHtmlStringRGBA()}><b>Agenta Impostorów</b></color>!");
+                if (DestroyableSingleton<HudManager>.Instance && showChatInfo) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{agent.RoundsLeft}</b> more meetings remaining to find the <color=#{Patches.Colors.ImpostorAgent.ToHtmlStringRGBA()}><b>Impostor Agent</b></color>!" : $"Pozostalo <b>{agent.RoundsLeft}</b> spotkan by znalezc <color=#{Patches.Colors.ImpostorAgent.ToHtmlStringRGBA()}><b>Agenta Impostorów</b></color>!");
             }
             if (Objective.AllObjectives.Any(x => x.ObjectiveType == ObjectiveEnum.ApocalypseAgent && !x.Player.Data.IsDead && !x.Player.Data.Disconnected && x.Player.Is(FactionOverride.None)) && !Role.AllRoles.Any(x => x.Faction == Faction.NeutralApocalypse && x.Player != null && !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
             {

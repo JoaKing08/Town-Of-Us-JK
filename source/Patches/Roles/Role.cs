@@ -469,8 +469,8 @@ namespace TownOfUs.Roles
                     return false;
                 }
             }
-            if (Player.Is(ObjectiveEnum.ImpostorAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Impostors)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None) && !Player.Data.IsDead && !Player.Data.Disconnected) return false;
-            if (Player.Is(ObjectiveEnum.ApocalypseAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None) && !Player.Data.IsDead && !Player.Data.Disconnected) return false;
+            if (Player.Is(ObjectiveEnum.ImpostorAgent) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None) && !Player.Data.IsDead && !Player.Data.Disconnected) return false;
+            if (Player.Is(ObjectiveEnum.ApocalypseAgent) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None) && !Player.Data.IsDead && !Player.Data.Disconnected) return false;
             return true;
         }
 
@@ -807,9 +807,10 @@ namespace TownOfUs.Roles
             players.Remove(player);
             return role;
         }
-        public static T GenModifier<T>(Type type, List<PlayerControl> players)
+        public static T GenModifier<T>(Type type, ref List<PlayerControl> players)
         {
             players = players.Where(x => !Modifier.ModifierDictionary.ContainsKey(x.PlayerId)).ToList();
+            if (!players.Any()) return default(T);
             var player = players[Random.RandomRangeInt(0, players.Count)];
 
             var modifier = GenModifier<T>(type, player);
@@ -1348,7 +1349,7 @@ namespace TownOfUs.Roles
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
                         var i = false;
-                        if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Data.IsImpostor();
+                        if (player.Is(RoleEnum.GuardianAngel) && GetRole<GuardianAngel>(player).target != null) i = GetRole<GuardianAngel>(player).target.Data.IsImpostor();
                         impga.Add(player.PlayerId, i);
                     }
                     var onlyNonstopping = !alives.ToArray().Any(x => !x.Is(ObjectiveEnum.ImpostorAgent) && !(x.Is(RoleEnum.GuardianAngel) && impga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !(x.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor() && !CustomGameOptions.UndercoverKillEachother) && !x.Data.IsImpostor());

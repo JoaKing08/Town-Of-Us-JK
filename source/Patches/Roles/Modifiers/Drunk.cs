@@ -1,4 +1,4 @@
-using TownOfUs.Extensions;
+using System;
 
 namespace TownOfUs.Roles.Modifiers
 {
