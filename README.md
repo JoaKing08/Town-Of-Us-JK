@@ -41,6 +41,7 @@ An fork of the Among Us mod that adds a bunch of roles, modifiers and game setti
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.5.1 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.5.1) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.5.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.5.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.4.0 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.4.0) |
 | 2024.6.4s, 2024.6.4e, 2024.3.5s & 2024.3.5e | v2.3.4 | [Download](https://github.com/JoaKing08/Town-Of-Us-JK/releases/tag/v2.3.4) |
@@ -1512,15 +1513,22 @@ Demagogue's abilities are:\
 |----------|:-------------:|:------:|:------:|
 | Demagogue | The percentage probability of the Demagogue appearing | Percentage | 0% |
 | Charges On Game Start | Number of Charges on game start | Number | 0 |
-| Skipped Votes For One Charge | Number of skipped votes needed to gain one Charge | Number | Off |
+| Skipped Votes For One Charge | Number of skipped votes needed to gain one Charge | Off / Number | Off |
 | Charges Per Wrongful Ejection | Number of Charges gained after ejecting a Crewmate | Number | 1 |
 | Passive Charges Per Meeting | Number of Charges gained after each meeting | Number | 1 |
 | Maximum Charges | The maximum number of Charges | Number | 15 |
+| Allow Extra Votes | Whether to enable Extra Votes ability | Toggle | On |
 | Charges For Extra Vote | Charges needed for Extra Vote ability | Number | 4 |
 | Maximum Extra Votes | The maximum number of Extra Votes | Number | 4 |
+| Disable Extra Votes When There Are Too Few Players | The minimum number of alive players in order for Extra Votes ability to work | Off / Number | Off |
+| Allow Convince | Whether to enable Convince ability | Toggle | On |
 | Charges For Convince | Charges needed for Convince ability | Number | 6 |
 | Convince Cooldown | The cooldown of the Demagogue Convince ability | Time | 25s |
+| Disable Convince When There Are Too Few Players | The minimum number of alive players in order for Convince ability to work | Off / Number | Off |
+| Allow Meeting Kill | Whether to enable Meeting Kill ability | Toggle | On |
 | Charges For Meeting Kill | Charges needed for Meeting Kill ability | Number | 9 |
+| Disable Meeting Kill When There Are Too Few Players | The minimum number of alive players in order for Meeting Kill ability to work | Off / Number | Off |
+| Reveal Demagogue After Using Any Ability | Whether to reveal Demagogue's role to everyone after using any ability | Toggle | Off |
 
 -----------------------
 ## Godfather
@@ -1528,13 +1536,15 @@ Demagogue's abilities are:\
 
 The Godfather is an Impostor which can turn one Crewmate into Mafioso.\
 Mafioso will now work with Impostors.\
-Godfather cannot kill while Mafioso is alive.
+Godfather cannot kill while Mafioso is alive.\
+Depending on settings Mafioso will die when Godfather is dead.
 
 
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Godfather | The percentage probability of the Godfather appearing | Percentage | 0% |
+| Mafioso Dies On Godfather Death | Whether Mafioso dies when Godfather dies | Toggle | On |
 
 -----------------------
 ## Occultist
