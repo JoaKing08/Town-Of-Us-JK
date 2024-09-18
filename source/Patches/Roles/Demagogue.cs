@@ -30,6 +30,11 @@ namespace TownOfUs.Roles
         public PlayerControl ClosestPlayer;
         public PlayerVoteArea ExtraVote { get; set; }
         public Dictionary<byte, (GameObject button, TextMeshPro text)> MeetingKillButtons = new();
+
+        public bool CanExtraVotes => CustomGameOptions.AllowExtraVotes && (PlayerControl.AllPlayerControls.Count > CustomGameOptions.DisableExtraVotes);
+        public bool CanConvince => CustomGameOptions.AllowConvince && (PlayerControl.AllPlayerControls.Count > CustomGameOptions.DisableConvince);
+        public bool CanMeetingKill => CustomGameOptions.AllowMeetingKill && (PlayerControl.AllPlayerControls.Count > CustomGameOptions.DisableMeetingKill);
+        public int Revealed { get; set; }
         public Demagogue(PlayerControl player) : base(player)
         {
             Name = "Demagogue";
@@ -42,6 +47,7 @@ namespace TownOfUs.Roles
             Charges = (byte)CustomGameOptions.StartingCharges;
             ExtraVotes = 0;
             Convinced = new();
+            Revealed = 0;
         }
         public KillButton ConvinceButton
         {
@@ -61,6 +67,17 @@ namespace TownOfUs.Roles
             var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
             if (flag2) return 0;
             return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
+        }
+
+        internal override bool Criteria()
+        {
+            return (Revealed == 2 && CustomGameOptions.RevealDemagogue) || base.Criteria();
+        }
+
+        internal override bool RoleCriteria()
+        {
+            if (CustomGameOptions.RevealDemagogue) return Revealed == 2 || base.RoleCriteria();
+            return false || base.RoleCriteria();
         }
     }
 }

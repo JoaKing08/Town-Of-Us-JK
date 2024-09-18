@@ -75,6 +75,20 @@ namespace TownOfUs.NeutralRoles.PirateMod
                                 voteArea.XMark.transform.localScale = Vector3.one;
                             }
                         }
+                        if (pirate.DueledPlayer.Is(RoleEnum.Godfather) && CustomGameOptions.MafiosoLifelink)
+                        {
+                            var mafioso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(RoleEnum.Mafioso));
+                            if (mafioso != null && !mafioso.Data.IsDead && !mafioso.Data.Disconnected)
+                            {
+                                mafioso.Exiled();
+                                voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == mafioso.PlayerId);
+                                voteArea.AmDead = true;
+                                voteArea.Overlay.gameObject.SetActive(true);
+                                voteArea.Overlay.color = Color.white;
+                                voteArea.XMark.gameObject.SetActive(true);
+                                voteArea.XMark.transform.localScale = Vector3.one;
+                            }
+                        }
                     }
                     pirate.DueledPlayer = null;
                     pirate.DuelsWon += 1;

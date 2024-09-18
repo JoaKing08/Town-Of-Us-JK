@@ -41,7 +41,7 @@ namespace TownOfUs.Roles
             return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
         }
 
-        public void AddMediatePlayer(byte playerId)
+        public void AddMediatePlayer(byte playerId, bool IsMedium)
         {
             var gameObj = new GameObject();
             var arrow = gameObj.AddComponent<ArrowBehaviour>();
@@ -56,7 +56,8 @@ namespace TownOfUs.Roles
             }
             MediatedPlayers.Add(playerId, arrow);
             Coroutines.Start(Utils.FlashCoroutine(Color));
-            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Found A Ghost!" : "Znalazles Ducha!", 1000 * CustomGameOptions.NotificationDuration);
+            if (IsMedium) NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Found A Ghost!" : "Znalazles Ducha!", 1000 * CustomGameOptions.NotificationDuration);
+            else NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Found By A Medium!" : "Medium Ciebie Znalazl!", 1000 * CustomGameOptions.NotificationDuration);
         }
     }
 }

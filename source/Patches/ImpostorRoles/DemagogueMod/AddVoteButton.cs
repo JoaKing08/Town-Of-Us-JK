@@ -12,13 +12,30 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
         public static void UpdateButton(Demagogue role, MeetingHud __instance)
         {
             var skip = __instance.SkipVoteButton;
-            role.ExtraVote.gameObject.SetActive(skip.gameObject.active);
-            role.ExtraVote.voteComplete = skip.voteComplete;
-            role.ExtraVote.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
-            var value = role.ExtraVotes / (float)CustomGameOptions.MaxExtraVotes;
-            if (value > 1f) value = 1f;
-            var color = value < 0.5f ? Color.Lerp(Color.red, Color.yellow, value * 2).ToHtmlStringRGBA() : Color.Lerp(Color.yellow, Color.green, (value - 0.5f) * 2).ToHtmlStringRGBA();
-            role.ExtraVote.GetComponentsInChildren<TextMeshPro>()[0].text = $"Extra Vote <color=#{color}>+{role.ExtraVotes}</color> <color=#{(role.Charges < CustomGameOptions.ChargesForExtraVote ? "FF00" : "00FF")}00FF>({CustomGameOptions.ChargesForExtraVote})</color> ";
+            if (role.CanExtraVotes)
+            {
+                role.ExtraVote.gameObject.SetActive(skip.gameObject.active);
+                role.ExtraVote.voteComplete = skip.voteComplete;
+                role.ExtraVote.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
+                var value = role.ExtraVotes / (float)CustomGameOptions.MaxExtraVotes;
+                if (value > 1f) value = 1f;
+                var color = value < 0.5f ? Color.Lerp(Color.red, Color.yellow, value * 2).ToHtmlStringRGBA() : Color.Lerp(Color.yellow, Color.green, (value - 0.5f) * 2).ToHtmlStringRGBA();
+                role.ExtraVote.GetComponentsInChildren<TextMeshPro>()[0].text = $"Extra Vote <color=#{color}>+{role.ExtraVotes}</color> <color=#{(role.Charges < CustomGameOptions.ChargesForExtraVote ? "FF00" : "00FF")}00FF>({CustomGameOptions.ChargesForExtraVote})</color> ";
+            }
+            else if (role.ExtraVote != null)
+            {
+                role.ExtraVote.Destroy();
+                skip.transform.localPosition -= new Vector3(0f, 0.20f, 0f);
+            }
+            if (role.MeetingKillButtons.Any() && !role.CanMeetingKill)
+            {
+                while (role.MeetingKillButtons.Any())
+                {
+                    role.MeetingKillButtons.First().Value.button.Destroy();
+                    role.MeetingKillButtons.First().Value.text.Destroy();
+                    role.MeetingKillButtons.Remove(role.MeetingKillButtons.First().Key);
+                }
+            }
         }
 
 
@@ -27,13 +44,16 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
         {
             public static void GenButton(Demagogue role, MeetingHud __instance)
             {
-                var skip = __instance.SkipVoteButton;
-                role.ExtraVote = Object.Instantiate(skip, skip.transform.parent);
-                role.ExtraVote.Parent = __instance;
-                role.ExtraVote.SetTargetPlayerId(251);
-                role.ExtraVote.transform.localPosition = skip.transform.localPosition +
-                                                       new Vector3(0f, -0.17f, 0f);
-                skip.transform.localPosition += new Vector3(0f, 0.20f, 0f);
+                if (role.CanExtraVotes)
+                {
+                    var skip = __instance.SkipVoteButton;
+                    role.ExtraVote = Object.Instantiate(skip, skip.transform.parent);
+                    role.ExtraVote.Parent = __instance;
+                    role.ExtraVote.SetTargetPlayerId(251);
+                    role.ExtraVote.transform.localPosition = skip.transform.localPosition +
+                                                           new Vector3(0f, -0.17f, 0f);
+                    skip.transform.localPosition += new Vector3(0f, 0.20f, 0f);
+                }
                 UpdateButton(role, __instance);
             }
 

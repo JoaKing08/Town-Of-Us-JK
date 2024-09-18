@@ -28,7 +28,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
             var passive = newButton.GetComponent<PassiveButton>();
 
             renderer.sprite = RevealSprite;
-            newButton.transform.position = confirmButton.transform.position - new Vector3(0.75f, role.Player.IsDueled() ? 0.15f : 0f, 0f);
+            newButton.transform.position = confirmButton.transform.position - new Vector3(0.75f, 0f, 0f);
             newButton.transform.localScale *= 0.8f;
             newButton.layer = 5;
             newButton.transform.parent = confirmButton.transform.parent.parent;

@@ -32,6 +32,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                 role.Charges -= (byte)CustomGameOptions.ChargesForConvince;
                 Utils.Rpc(CustomRPC.DemagogueCharges, role.Charges, role.Player.PlayerId);
                 role.LastConvince = DateTime.UtcNow;
+                if (role.Revealed == 0) role.Revealed = 1;
                 Utils.Rpc(CustomRPC.DemagogueConvince, role.ClosestPlayer.PlayerId, (byte)role.Player.PlayerId);
                 if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
             }

@@ -34,7 +34,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 }
                 return;
             }
-            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(Faction.Crewmates) && !x.Is(Faction.Impostors) && !x.Is(ObjectiveEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected).ToList();
+            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(Faction.Crewmates) && !x.Is(Faction.Impostors) && !x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected).ToList();
             if (toChooseFrom.Count == 0) return;
             var rand = Random.RandomRangeInt(0, toChooseFrom.Count);
             var pc = toChooseFrom[rand];

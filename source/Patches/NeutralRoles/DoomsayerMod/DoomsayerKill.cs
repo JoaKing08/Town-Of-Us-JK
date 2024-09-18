@@ -14,6 +14,7 @@ using TownOfUs.Patches;
 using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using System;
+using TownOfUs.NeutralRoles.PirateMod;
 
 namespace TownOfUs.NeutralRoles.DoomsayerMod
 {
@@ -179,6 +180,11 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 var otherRecruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != player.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));
                 if (!otherRecruit.Is(RoleEnum.Pestilence) && !otherRecruit.Is(RoleEnum.Famine) && !otherRecruit.Is(RoleEnum.War) && !otherRecruit.Is(RoleEnum.Death)) MurderPlayer(otherRecruit, false);
             }
+            else if (player.Is(RoleEnum.Godfather) && CustomGameOptions.MafiosoLifelink)
+            {
+                var mafioso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(RoleEnum.Mafioso));
+                if (mafioso != null && !mafioso.Data.IsDead && !mafioso.Data.Disconnected) MurderPlayer(mafioso, false);
+            }
             else if (checkLover && player.Is(RoleEnum.JKNecromancer))
             {
                 foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer)))
@@ -242,6 +248,11 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             {
                 var doom = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
                 ShowHideButtonsDoom.HideTarget(doom, voteArea.TargetPlayerId);
+            }
+
+            if (player.Is(RoleEnum.Pirate) || player.IsDueled())
+            {
+                ShowHideButtonsPirate.HideButtons();
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Deputy) && !PlayerControl.LocalPlayer.Data.IsDead)

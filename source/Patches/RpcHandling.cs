@@ -2552,7 +2552,7 @@ namespace TownOfUs
                         var mediatedPlayer = Utils.PlayerById(reader.ReadByte());
                         var medium = Role.GetRole<Medium>(Utils.PlayerById(reader.ReadByte()));
                         if (PlayerControl.LocalPlayer.PlayerId != mediatedPlayer.PlayerId) break;
-                        medium.AddMediatePlayer(mediatedPlayer.PlayerId);
+                        medium.AddMediatePlayer(mediatedPlayer.PlayerId, false);
                         break;
                     case CustomRPC.FlashGrenade:
                         var grenadier = Utils.PlayerById(reader.ReadByte());
@@ -2916,9 +2916,13 @@ namespace TownOfUs
                         }
                         break;
                     case CustomRPC.ControlSet:
-                        var witch = Utils.PlayerById(reader.ReadByte());
-                        var controled = Utils.PlayerById(reader.ReadByte());
-                        Role.GetRole<Witch>(witch).ControledPlayer = controled;
+                        if (reader.BytesRemaining == 2)
+                        {
+                            var witch = Utils.PlayerById(reader.ReadByte());
+                            var controled = Utils.PlayerById(reader.ReadByte());
+                            if (witch != null && controled != null && witch.Is(RoleEnum.Witch))
+                                Role.GetRole<Witch>(witch).ControledPlayer = controled;
+                        }
                         break;
                     case CustomRPC.ControlPerform:
                         var witch1 = Utils.PlayerById(reader.ReadByte());
@@ -3254,11 +3258,13 @@ namespace TownOfUs
                         var votes = reader.ReadByte();
                         var demagogue0 = Utils.PlayerById(reader.ReadByte());
                         Role.GetRole<Demagogue>(demagogue0).ExtraVotes = votes;
+                        if (Role.GetRole<Demagogue>(demagogue0).Revealed == 0) Role.GetRole<Demagogue>(demagogue0).Revealed = 1;
                         break;
                     case CustomRPC.DemagogueConvince:
                         var convinced = reader.ReadByte();
                         var demagogue1 = Utils.PlayerById(reader.ReadByte());
                         Role.GetRole<Demagogue>(demagogue1).Convinced.Add(convinced);
+                        if (Role.GetRole<Demagogue>(demagogue1).Revealed == 0) Role.GetRole<Demagogue>(demagogue1).Revealed = 1;
                         break;
                     case CustomRPC.DemagogueCharges:
                         var charges = reader.ReadByte();
@@ -3326,6 +3332,12 @@ namespace TownOfUs
                                 }
                                 break;
                         }
+                        break;
+
+                    case CustomRPC.Teleport:
+                        var teleported = Utils.PlayerById(reader.ReadByte());
+                        var teleportPos = reader.ReadVector2();
+                        teleported.Teleport(teleportPos);
                         break;
 
                     case CustomRPC.RpcExpand:

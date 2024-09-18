@@ -469,8 +469,8 @@ namespace TownOfUs.Roles
                     return false;
                 }
             }
-            if (Player.Is(ObjectiveEnum.ImpostorAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Impostors)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None)) return false;
-            if (Player.Is(ObjectiveEnum.ApocalypseAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None)) return false;
+            if (Player.Is(ObjectiveEnum.ImpostorAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Impostors)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None) && !Player.Data.IsDead && !Player.Data.Disconnected) return false;
+            if (Player.Is(ObjectiveEnum.ApocalypseAgent) && !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.NeutralApocalypse)) && CustomGameOptions.AgentHunt && Player.Is(FactionOverride.None) && !Player.Data.IsDead && !Player.Data.Disconnected) return false;
             return true;
         }
 
@@ -809,6 +809,7 @@ namespace TownOfUs.Roles
         }
         public static T GenModifier<T>(Type type, List<PlayerControl> players)
         {
+            players = players.Where(x => !Modifier.ModifierDictionary.ContainsKey(x.PlayerId)).ToList();
             var player = players[Random.RandomRangeInt(0, players.Count)];
 
             var modifier = GenModifier<T>(type, player);

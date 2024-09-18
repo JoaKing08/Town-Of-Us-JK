@@ -163,7 +163,7 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 case RoleEnum.SerialKiller:
                 case RoleEnum.Witch:
                 case RoleEnum.CursedSoul:
-                case RoleEnum.Necromancer:
+                case RoleEnum.JKNecromancer:
                 case RoleEnum.Jackal:
 
                     swapImp = false;

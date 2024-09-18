@@ -33,12 +33,14 @@ namespace TownOfUs
         {
             if (FutureNotifications.Any(x => x.Key <= DateTime.UtcNow))
             {
+                List<(DateTime Key, (string notiftext, double notifmillis, Color coroutcolor, float coroutduration, float coroutalpha) Value)> toRemove = new();
                 foreach (var notification in FutureNotifications.Where(x => x.Key <= DateTime.UtcNow))
                 {
                     Notification(notification.Value.notiftext, notification.Value.notifmillis);
                     Coroutines.Start(Utils.FlashCoroutine(notification.Value.coroutcolor, notification.Value.coroutduration, notification.Value.coroutalpha));
-                    FutureNotifications.Remove(notification);
+                    toRemove.Add(notification);
                 }
+                FutureNotifications.RemoveAll(x => toRemove.Contains(x));
             }
             if (NotificationText == null)
             {

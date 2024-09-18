@@ -202,7 +202,11 @@ namespace TownOfUs.Roles.Modifiers
             }
             else if (role is Poisoner poisoner)
             {
-                if (poisoner.PoisonedPlayer == null) poisoner.PoisonedPlayer = player;
+                if (poisoner.PoisonedPlayer == null)
+                {
+                    poisoner.PoisonedPlayer = player;
+                    poisoner.PoisonTime = DateTime.UtcNow;
+                }
             }
             else if (role is Sniper sniper)
             {

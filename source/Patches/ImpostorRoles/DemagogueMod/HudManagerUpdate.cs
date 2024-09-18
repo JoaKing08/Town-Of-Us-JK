@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Reactor.Utilities.Extensions;
 using System.Linq;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
@@ -19,6 +20,19 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
             var role = Role.GetRole<Demagogue>(PlayerControl.LocalPlayer);
 
             role.RegenTask();
+
+            if (!role.CanConvince)
+            {
+                if (role.ConvinceButton != null)
+                {
+                    role.ConvinceButton.Destroy();
+                }
+                if (role.CostText != null)
+                {
+                    role.CostText.Destroy();
+                }
+                return;
+            }
 
             if (role.ConvinceButton == null)
             {

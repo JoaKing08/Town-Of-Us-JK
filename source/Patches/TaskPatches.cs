@@ -37,11 +37,11 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.CursedSoul) || playerInfo._object.Is(FactionOverride.Undead) ||
                             playerInfo._object.Is(FactionOverride.Recruit) || playerInfo._object.Is(RoleEnum.Jackal) ||
                             playerInfo._object.Is(RoleEnum.JKNecromancer) || playerInfo._object.Is(RoleEnum.Harbinger)
-                        )) || !PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Data.IsDead && !x.Data.Disconnected))
-                        for (var j = 0; j < playerInfo.Tasks.Count; j++)
+                        )) || !PlayerControl.AllPlayerControls.ToArray().Any(x => x != null && x.Data != null && x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Data.IsDead && !x.Data.Disconnected))
+                        if (playerInfo != null && playerInfo.Tasks != null) for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
-                            __instance.TotalTasks++;
-                            if (playerInfo.Tasks.ToArray()[j].Complete) __instance.CompletedTasks++;
+                            __instance.TotalTasks += 10000;
+                            if (playerInfo.Tasks.ToArray()[j].Complete) __instance.CompletedTasks += 10000;
                         }
                 }
                 if (__instance.AllPlayers.ToArray().Select(x => x._object).Any(x => x != null && Objective.GetObjective(x) != null && !x.Data.IsDead && !x.Data.Disconnected && ((x.Is(ObjectiveEnum.ImpostorAgent) && Objective.GetObjective<ImpostorAgent>(x).AgentHunt) || (x.Is(ObjectiveEnum.ApocalypseAgent) && Objective.GetObjective<ApocalypseAgent>(x).AgentHunt))))

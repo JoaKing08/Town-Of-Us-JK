@@ -4,6 +4,7 @@ using UnityEngine;
 using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.Roles;
 using TownOfUs.CrewmateRoles.AltruistMod;
+using TownOfUs.NeutralRoles.PirateMod;
 
 namespace TownOfUs.Patches
 {
@@ -46,7 +47,7 @@ namespace TownOfUs.Patches
                 }
                 if (Role.GetRoles(RoleEnum.Inquisitor).Any(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected)) foreach (Inquisitor inq in Role.GetRoles(RoleEnum.Inquisitor).ToArray().Where(x => !x.Player.Data.IsDead && !x.Player.Data.Disconnected))
                     {
-                        if (!inq.heretics.ToArray().Any(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
+                        if (!inq.heretics.ToArray().Any(x => Utils.PlayerById(x) != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected))
                         {
                             inq.Wins();
                             if (!CustomGameOptions.NeutralEvilWinEndsGame)
@@ -72,6 +73,11 @@ namespace TownOfUs.Patches
 
                         Utils.Rpc(CustomRPC.SetTraitor, pc.PlayerId);
                     }
+                }
+
+                if (player.Is(RoleEnum.Pirate) || player.IsDueled())
+                {
+                    ShowHideButtonsPirate.HideButtons();
                 }
             }
         }

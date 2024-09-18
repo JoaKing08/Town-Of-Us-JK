@@ -152,7 +152,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Inquisitor:
                 case RoleEnum.SerialKiller:
                 case RoleEnum.Witch:
-                case RoleEnum.Necromancer:
+                case RoleEnum.JKNecromancer:
                 case RoleEnum.Jackal:
 
                     rememberImp = false;

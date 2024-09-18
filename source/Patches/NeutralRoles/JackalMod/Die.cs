@@ -12,7 +12,7 @@ namespace TownOfUs.NeutralRoles.JackalMod
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] DeathReason reason)
         {
             __instance.Data.IsDead = true;
-            var flag3 = __instance.Is(FactionOverride.Recruit) && !__instance.Is(RoleEnum.Jackal) && CustomGameOptions.BothLoversDie;
+            var flag3 = __instance.Is(FactionOverride.Recruit) && !__instance.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink;
             if (!flag3) return true;
             var otherRecruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != __instance.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));
             if (otherRecruit.Data.IsDead) return true;

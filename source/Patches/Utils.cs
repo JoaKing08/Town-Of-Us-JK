@@ -38,6 +38,36 @@ namespace TownOfUs
         private static GameData.PlayerInfo voteTarget = null;
         public static bool IsMeeting = true;
         public static GameObject ChatButton;
+        public static void TeleportRpc(this PlayerControl player, Vector2 position)
+        {
+            Utils.Rpc(CustomRPC.Escape, player.PlayerId, position);
+            player.Teleport(position);
+        }
+        public static void Teleport(this PlayerControl player, Vector2 position)
+        {
+            player.MyPhysics.ResetMoveState();
+            player.NetTransform.SnapTo(new Vector2(position.x, position.y));
+
+            if (SubmergedCompatibility.isSubmerged())
+            {
+                if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
+                {
+                    SubmergedCompatibility.ChangeFloor(player.GetTruePosition().y > -7);
+                    SubmergedCompatibility.CheckOutOfBoundsElevator(PlayerControl.LocalPlayer);
+                }
+            }
+
+            if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
+            {
+                Coroutines.Start(Utils.FlashCoroutine(new Color(0.6f, 0.1f, 0.2f, 1f)));
+                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Escaped!" : "Uciekles!", 1000 * CustomGameOptions.NotificationDuration);
+                if (Minigame.Instance) Minigame.Instance.Close();
+            }
+
+            player.moveable = true;
+            player.Collider.enabled = true;
+            player.NetTransform.enabled = true;
+        }
 
         public static bool CheckImpostorFriendlyFire()
         {
@@ -597,6 +627,8 @@ namespace TownOfUs
                         {
                             if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Bodyguard, (byte)1);
                             var bg = target.GetBodyguard().Player;
+                            var tpPos = Vector3.Lerp(player.transform.position, target.transform.position, 0.5f);
+                            bg.TeleportRpc(new Vector2(tpPos.x, tpPos.y));
                             if (bg.IsShielded())
                             {
                                 if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
@@ -801,6 +833,8 @@ namespace TownOfUs
                 {
                     if (player.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, player.PlayerId, (byte)RoleEnum.Bodyguard, (byte)1);
                     var bg = target.GetBodyguard().Player;
+                    var tpPos = Vector3.Lerp(player.transform.position, target.transform.position, 0.5f);
+                    bg.TeleportRpc(new Vector2(tpPos.x, tpPos.y));
                     if (bg.IsShielded())
                     {
                         if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
@@ -2388,7 +2422,7 @@ namespace TownOfUs
         
         public static Color GetRoleColor(this RoleEnum? role)
         {
-            return ((RoleEnum)role).GetRoleColor();
+            return role == null ? Color.white : ((RoleEnum)role).GetRoleColor();
         }
         public static Color GetRoleColor(this RoleEnum role)
         {
@@ -2564,7 +2598,7 @@ namespace TownOfUs
         }
         public static string GetRoleName(this RoleEnum? role)
         {
-            return ((RoleEnum)role).GetRoleName();
+            return role == null ? "" : ((RoleEnum)role).GetRoleName();
         }
         public static string GetRoleName(this RoleEnum role)
         {

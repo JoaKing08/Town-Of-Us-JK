@@ -35,6 +35,7 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                         }
                         role.ExtraVotes++;
                         role.Charges -= (byte)CustomGameOptions.ChargesForExtraVote;
+                        if (role.Revealed == 0) role.Revealed = 1;
                         Utils.Rpc(CustomRPC.DemagogueCharges, role.Charges, role.Player.PlayerId);
                         AddVoteButton.UpdateButton(role, MeetingHud.Instance);
                         Utils.Rpc(CustomRPC.DemagogueVotes, (byte)role.ExtraVotes, role.Player.PlayerId);

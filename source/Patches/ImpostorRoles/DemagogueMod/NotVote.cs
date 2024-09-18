@@ -1,6 +1,8 @@
 using HarmonyLib;
+using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.ImpostorRoles.DemagogueMod
 {
@@ -18,6 +20,15 @@ namespace TownOfUs.ImpostorRoles.DemagogueMod
                     button.Value.text.Destroy();
                 }
                 demagogue.MeetingKillButtons.Clear();
+                if (demagogue.Revealed == 1 && demagogue.Player.AmOwner)
+                {
+                    if (CustomGameOptions.RevealDemagogue)
+                    {
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                        NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Demagogue Has Been Revealed!" : "Demagogue Zostal Ujawniony!", 1000 * CustomGameOptions.NotificationDuration);
+                    }
+                    demagogue.Revealed = 2;
+                }
             }
         }
     }

@@ -926,6 +926,14 @@ namespace TownOfUs
         public static int HarbingerSoulCollectorBonus => (int)Generate.HarbingerSoulCollectorBonus.Get();
         public static HarbingerCanBeClickedBy HarbingerCanBeClickedBy => (HarbingerCanBeClickedBy)Generate.HarbingerCanBeClickedBy.Get();
         public static int StarveStrength => (int)Generate.StarveStrength.Get();
+        public static bool MafiosoLifelink => Generate.MafiosoLifelink.Get();
+        public static bool AllowExtraVotes => Generate.AllowExtraVotes.Get();
+        public static bool AllowConvince => Generate.AllowConvince.Get();
+        public static bool AllowMeetingKill => Generate.AllowMeetingKill.Get();
+        public static int DisableExtraVotes => Generate.DisableExtraVotes.Get();
+        public static int DisableConvince => Generate.DisableConvince.Get();
+        public static int DisableMeetingKill => Generate.DisableMeetingKill.Get();
+        public static bool RevealDemagogue => Generate.RevealDemagogue.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

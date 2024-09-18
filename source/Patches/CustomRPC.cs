@@ -156,6 +156,7 @@ namespace TownOfUs
 
         SetHarbinger,
         CatchHarbinger,
+        Teleport,
 
         RpcExpand = 255
     }

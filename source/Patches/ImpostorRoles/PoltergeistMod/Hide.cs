@@ -13,7 +13,7 @@ namespace TownOfUs.ImpostorRoles.PoltergeistMod
         {
             foreach (var role in Role.GetRoles(RoleEnum.Poltergeist))
             {
-                var poltergeist = (Poltergeist) role;
+                var poltergeist = (Poltergeist)role;
                 if (role.Player.Data.Disconnected) return;
                 var caught = poltergeist.Caught;
                 if (!caught)

@@ -801,11 +801,18 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption ChargesPerWrongEjection;
         public static CustomNumberOption ChargesPerRound;
         public static CustomNumberOption MaxCharges;
+        public static CustomToggleOption AllowExtraVotes;
         public static CustomNumberOption ChargesForExtraVote;
         public static CustomNumberOption MaxExtraVotes;
+        public static CustomStringOption DisableExtraVotes;
+        public static CustomToggleOption AllowConvince;
         public static CustomNumberOption ChargesForConvince;
         public static CustomNumberOption ConvinceCooldown;
+        public static CustomStringOption DisableConvince;
+        public static CustomToggleOption AllowMeetingKill;
         public static CustomNumberOption ChargesForMeetingKill;
+        public static CustomStringOption DisableMeetingKill;
+        public static CustomToggleOption RevealDemagogue;
 
         public static CustomHeaderOption Agent;
         public static CustomToggleOption AgentHunt;
@@ -820,6 +827,9 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption HarbingerPlaguebearerBonus;
         public static CustomNumberOption HarbingerSoulCollectorBonus;
         public static CustomStringOption HarbingerCanBeClickedBy;
+
+        public static CustomHeaderOption Godfather;
+        public static CustomToggleOption MafiosoLifelink;
 
         public static CustomHeaderOption RoleListSettings;
         public static Dictionary<int, CustomStringOption> RoleEntries;
@@ -2355,11 +2365,22 @@ namespace TownOfUs.CustomOption
             ChargesPerWrongEjection = new CustomNumberOption(num++, MultiMenu.imposter, "Charges Per Wrongful Ejection", 1f, 0f, 15f, 1f);
             ChargesPerRound = new CustomNumberOption(num++, MultiMenu.imposter, "Passive Charges Per Meeting", 1f, 0f, 15f, 1f);
             MaxCharges = new CustomNumberOption(num++, MultiMenu.imposter, "Maximum Charges", 15f, 5f, 50f, 5f);
+            AllowExtraVotes = new CustomToggleOption(num++, MultiMenu.imposter, "Allow Extra Votes", true);
             ChargesForExtraVote = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Extra Vote", 4f, 1f, 15f, 1f);
             MaxExtraVotes = new CustomNumberOption(num++, MultiMenu.imposter, "Maximum Extra Votes", 4f, 1f, 15f, 1f);
+            DisableExtraVotes = new CustomStringOption(num++, MultiMenu.imposter, "Disable Extra Votes When There Are Too Few Players", new[] { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" });
+            AllowConvince = new CustomToggleOption(num++, MultiMenu.imposter, "Allow Convince", true);
             ChargesForConvince = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Convince", 6f, 1f, 15f, 1f);
             ConvinceCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Convince Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            DisableConvince = new CustomStringOption(num++, MultiMenu.imposter, "Disable Convince When There Are Too Few Players", new[] { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" });
+            AllowMeetingKill = new CustomToggleOption(num++, MultiMenu.imposter, "Allow Meeting Kill", true);
             ChargesForMeetingKill = new CustomNumberOption(num++, MultiMenu.imposter, "Charges For Meeting Kill", 9f, 1f, 15f, 1f);
+            DisableMeetingKill = new CustomStringOption(num++, MultiMenu.imposter, "Disable Meeting Kill When There Are Too Few Players", new[] { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" });
+            RevealDemagogue = new CustomToggleOption(num++, MultiMenu.imposter, "Reveal Demagogue After Using Any Ability", false);
+
+            Godfather = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Godfather</color>");
+            MafiosoLifelink =
+                new CustomToggleOption(num++, MultiMenu.imposter, "Mafioso Dies On Godfather Death", true);
 
             Occultist = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Occultist</color>");
             MarkCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Initial Mark Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);

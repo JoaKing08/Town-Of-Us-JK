@@ -16,7 +16,7 @@ namespace TownOfUs.Roles.Horseman
         public DateTime LastInfected;
 
         public int InfectedAlive => InfectedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected && !Utils.PlayerById(x).Is(Faction.NeutralApocalypse) && !Utils.PlayerById(x).Is(ObjectiveEnum.ApocalypseAgent));
-        public bool CanTransform => PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse)) <= InfectedAlive + (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerPlaguebearerBonus : 0);
+        public bool CanTransform => PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected && !x.Is(Faction.NeutralApocalypse) && !x.Is(ObjectiveEnum.ApocalypseAgent)) <= InfectedAlive + (Role.GetRoles(RoleEnum.Harbinger).Any(x => ((Harbinger)x).CompletedTasks && !((Harbinger)x).Caught && !x.Player.Data.Disconnected) ? CustomGameOptions.HarbingerPlaguebearerBonus : 0);
 
         public Plaguebearer(PlayerControl player) : base(player)
         {

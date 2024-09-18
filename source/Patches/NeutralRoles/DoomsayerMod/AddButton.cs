@@ -183,6 +183,11 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                         var recruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != toDie.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));
                         if (!recruit.Is(RoleEnum.Pestilence) && !recruit.Is(RoleEnum.Famine) && !recruit.Is(RoleEnum.War) && !recruit.Is(RoleEnum.Death)) ShowHideButtonsDoom.HideSingle(role, recruit.PlayerId, false);
                     }
+                    else if (toDie.Is(RoleEnum.Godfather) && CustomGameOptions.MafiosoLifelink)
+                    {
+                        var mafioso = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(RoleEnum.Mafioso));
+                        if (mafioso != null && !mafioso.Data.IsDead && !mafioso.Data.Disconnected) ShowHideButtonsDoom.HideSingle(role, mafioso.PlayerId, false);
+                    }
                     else if (toDie.Is(RoleEnum.JKNecromancer))
                     {
                         foreach (var undead in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer)))
