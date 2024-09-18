@@ -59,8 +59,6 @@ namespace TownOfUs
 
             if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
-                Coroutines.Start(Utils.FlashCoroutine(new Color(0.6f, 0.1f, 0.2f, 1f)));
-                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Escaped!" : "Uciekles!", 1000 * CustomGameOptions.NotificationDuration);
                 if (Minigame.Instance) Minigame.Instance.Close();
             }
 

@@ -204,6 +204,8 @@ namespace TownOfUs.Roles.Modifiers
             {
                 if (poisoner.PoisonedPlayer == null)
                 {
+                    Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Have Been Poisoned!" : "Zostales Otruty!", 1000 * CustomGameOptions.NotificationDuration);
                     poisoner.PoisonedPlayer = player;
                     poisoner.PoisonTime = DateTime.UtcNow;
                 }
