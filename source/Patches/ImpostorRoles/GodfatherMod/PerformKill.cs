@@ -31,6 +31,7 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.RecruitTimer() != 0) return false;
+                if (role.Recruited) return false;
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, target);
                 if (interact[4] == true)
                 {

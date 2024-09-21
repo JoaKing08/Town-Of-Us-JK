@@ -74,6 +74,7 @@ namespace TownOfUs.Roles
         public string GetHereticList()
         {
             var hereticInfo = "";
+            int j = 0;
             var _heretics = heretics.ToArray().Where(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected).ToList();
             if (CustomGameOptions.HereticsInfo == HereticsInfo.Count)
             {
@@ -83,7 +84,6 @@ namespace TownOfUs.Roles
             {
                 for (int i = 0; i < _heretics.Count; i++)
                 {
-
                     var faction = "Null";
                     if (Utils.PlayerById(_heretics[i]).Is(Faction.Crewmates))
                         faction = "<color=#CFFFFFFF>Crewmate</color>";
@@ -96,6 +96,15 @@ namespace TownOfUs.Roles
                     hereticInfo += faction;
                     if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";
                     else if (i < _heretics.Count - 2) hereticInfo += ", ";
+                    j++;
+                    if (j >= 3)
+                    {
+                        j = 0;
+                        if (i < _heretics.Count - 1)
+                        {
+                            hereticInfo += "\n";
+                        }
+                    }
                 }
             }
             else if (CustomGameOptions.HereticsInfo == HereticsInfo.Aligment)
@@ -151,6 +160,15 @@ namespace TownOfUs.Roles
                     hereticInfo += aligment;
                     if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";
                     else if (i < _heretics.Count - 2) hereticInfo += ", ";
+                    j++;
+                    if (j >= 3)
+                    {
+                        j = 0;
+                        if (i < _heretics.Count - 1)
+                        {
+                            hereticInfo += "\n";
+                        }
+                    }
                 }
             }
             else if (CustomGameOptions.HereticsInfo == HereticsInfo.Role)
@@ -161,6 +179,15 @@ namespace TownOfUs.Roles
                     hereticInfo += role;
                     if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";
                     else if (i < _heretics.Count - 2) hereticInfo += ", ";
+                    j++;
+                    if (j >= 3)
+                    {
+                        j = 0;
+                        if (i < _heretics.Count - 1)
+                        {
+                            hereticInfo += "\n";
+                        }
+                    }
                 }
             }
             if (hereticInfo == "") hereticInfo = "Error";

@@ -23,7 +23,7 @@ namespace TownOfUs.ApocalypseRoles.SoulCollectorMod
             }
 
             if (target != null && target.ParentId == DontReap) target = null;
-            if (Role.GetRole(Utils.PlayerById(target.ParentId)).Reaped) role.CurrentTarget = null;
+            if (target == null || Role.GetRole(Utils.PlayerById(target.ParentId)).Reaped) role.CurrentTarget = null;
             else role.CurrentTarget = target;
             if (role.CurrentTarget && __instance.enabled)
             {
