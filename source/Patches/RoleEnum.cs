@@ -103,6 +103,8 @@ namespace TownOfUs
 
         SoloKiller,
 
+        Spectator,
+
         None
     }
 
@@ -136,6 +138,8 @@ namespace TownOfUs
     {
         Lover,
         ImpostorAgent,
-        ApocalypseAgent
+        ApocalypseAgent,
+        Cooperator,
+        Rival
     }
 }

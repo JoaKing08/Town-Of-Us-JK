@@ -12,6 +12,9 @@ using TownOfUs.CrewmateRoles.AurialMod;
 using TownOfUs.Patches.ScreenEffects;
 using Reactor.Utilities.Extensions;
 using System.Linq;
+using TownOfUs.CrewmateRoles.ImitatorMod;
+using TownOfUs.CrewmateRoles.InvestigatorMod;
+using TownOfUs.CrewmateRoles.TrapperMod;
 
 namespace TownOfUs.ImpostorRoles.GodfatherMod
 {
@@ -57,23 +60,117 @@ namespace TownOfUs.ImpostorRoles.GodfatherMod
         }
         public static void Recruit(Godfather godfather, PlayerControl target)
         {
-            if (target == PlayerControl.LocalPlayer)
-            {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Impostor));
-                NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Were Recruited!" : "Zostales Zrekrutowany!", 1000 * CustomGameOptions.NotificationDuration);
 
-                if (target.Is(RoleEnum.Aurial))
+            if (target.Is(RoleEnum.Snitch))
+            {
+                var snitch = Role.GetRole<Snitch>(target);
+                snitch.SnitchArrows.Values.DestroyAll();
+                snitch.SnitchArrows.Clear();
+                snitch.ImpArrows.DestroyAll();
+                snitch.ImpArrows.Clear();
+            }
+
+            if (target == StartImitate.ImitatingPlayer) StartImitate.ImitatingPlayer = null;
+
+            if (target.Is(RoleEnum.GuardianAngel))
+            {
+                var ga = Role.GetRole<GuardianAngel>(target);
+                ga.UnProtect();
+            }
+
+            if (target.Is(RoleEnum.Medium))
+            {
+                var medRole = Role.GetRole<Medium>(target);
+                medRole.MediatedPlayers.Values.DestroyAll();
+                medRole.MediatedPlayers.Clear();
+            }
+
+            if (PlayerControl.LocalPlayer == target)
+            {
+                HudManager.Instance.KillButton.buttonLabelText.gameObject.SetActive(false);
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) Footprint.DestroyAll(Role.GetRole<Investigator>(PlayerControl.LocalPlayer));
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff)) HudManager.Instance.KillButton.buttonLabelText.gameObject.SetActive(false);
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Engineer))
                 {
-                    var aurial = Role.GetRole<Aurial>(target);
-                    aurial.NormalVision = true;
+                    var engineerRole = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(engineerRole.UsesText);
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Tracker))
+                {
+                    var trackerRole = Role.GetRole<Tracker>(PlayerControl.LocalPlayer);
+                    trackerRole.TrackerArrows.Values.DestroyAll();
+                    trackerRole.TrackerArrows.Clear();
+                    UnityEngine.Object.Destroy(trackerRole.UsesText);
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic))
+                {
+                    var mysticRole = Role.GetRole<Mystic>(PlayerControl.LocalPlayer);
+                    mysticRole.BodyArrows.Values.DestroyAll();
+                    mysticRole.BodyArrows.Clear();
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
+                {
+                    var transporterRole = Role.GetRole<Transporter>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(transporterRole.UsesText);
+                    if (transporterRole.TransportList != null)
+                    {
+                        transporterRole.TransportList.Toggle();
+                        transporterRole.TransportList.SetVisible(false);
+                        transporterRole.TransportList = null;
+                        transporterRole.PressedButton = false;
+                        transporterRole.TransportPlayer1 = null;
+                    }
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch))
+                {
+                    var glitchRole = Role.GetRole<Glitch>(PlayerControl.LocalPlayer);
+                    glitchRole.Reset();
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Veteran))
+                {
+                    var veteranRole = Role.GetRole<Veteran>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(veteranRole.UsesText);
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Trapper))
+                {
+                    var trapperRole = Role.GetRole<Trapper>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(trapperRole.UsesText);
+                    trapperRole.traps.ClearTraps();
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
+                {
+                    var detecRole = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
+                    detecRole.ExamineButton.gameObject.SetActive(false);
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))
+                {
+                    var aurialRole = Role.GetRole<Aurial>(PlayerControl.LocalPlayer);
+                    aurialRole.NormalVision = true;
                     SeeAll.AllToNormal();
                     CameraEffect.singleton.materials.Clear();
                 }
-                foreach (var button in GameObject.FindObjectsOfType<KillButton>())
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
                 {
-                    if (button != HudManager.Instance.KillButton) button.gameObject.Destroy();
+                    var survRole = Role.GetRole<Survivor>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(survRole.UsesText);
                 }
-                Role.GetRole(target).ExtraButtons.Clear();
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel))
+                {
+                    var gaRole = Role.GetRole<GuardianAngel>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(gaRole.UsesText);
+                }
             }
             godfather.Recruited = true;
             var targetRole = Role.GetRole(target);

@@ -17,10 +17,11 @@ namespace TownOfUs
         {
             if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
             if (!PlayerControl.LocalPlayer.Data.IsImpostor()) return true;
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)251)) return true;
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Godfather) && !Role.GetRole<Godfather>(PlayerControl.LocalPlayer).CanKill) return false;
             var target = Role.GetRole(PlayerControl.LocalPlayer).ClosestPlayerImp;
             if (target == null) return true;
-            if ((PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && target.Is(FactionOverride.Undead)) || (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && target.Is(FactionOverride.Recruit) && !(target.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(FactionOverride.None) && (target.Is(ObjectiveEnum.ImpostorAgent) || ((target.Data.IsImpostor() || target.Is(RoleEnum.Undercover)) && !Utils.CheckImpostorFriendlyFire())))) return false;
+            if ((PlayerControl.LocalPlayer.Is(FactionOverride.Undead) && target.Is(FactionOverride.Undead)) || (PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) && target.Is(FactionOverride.Recruit) && !(target.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal)) || (PlayerControl.LocalPlayer.Is(FactionOverride.None) && (target.Is(ObjectiveEnum.ImpostorAgent) || ((target.Data.IsImpostor() || target.Is(RoleEnum.Undercover)) && !Utils.CheckImpostorFriendlyFire() && !target.Is((RoleEnum)254))) && !PlayerControl.LocalPlayer.Is((RoleEnum)254))) return false;
             if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return true;
             if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
             {
@@ -48,9 +49,9 @@ namespace TownOfUs
                     var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
                     var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                    PlayerControl.LocalPlayer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                    PlayerControl.LocalPlayer.SetKillTimer(((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                 }
-                else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                else PlayerControl.LocalPlayer.SetKillTimer((GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) && CustomGameOptions.OccultistCdLinked) Role.GetRole<Occultist>(PlayerControl.LocalPlayer).LastMark = System.DateTime.UtcNow;
                 return false;
             }
@@ -61,9 +62,9 @@ namespace TownOfUs
                     var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
                     var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                    PlayerControl.LocalPlayer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                    PlayerControl.LocalPlayer.SetKillTimer(((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                 }
-                else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                else PlayerControl.LocalPlayer.SetKillTimer((GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Occultist) && CustomGameOptions.OccultistCdLinked) Role.GetRole<Occultist>(PlayerControl.LocalPlayer).LastMark = System.DateTime.UtcNow;
                 return false;
             }
@@ -114,11 +115,12 @@ namespace TownOfUs
                 if (PlayerControl.LocalPlayer == null) return;
                 if (PlayerControl.LocalPlayer.Data == null) return;
                 if (!PlayerControl.LocalPlayer.Data.IsImpostor()) return;
+                if (PlayerControl.LocalPlayer.Is((RoleEnum)251)) return;
 
                 //if (PlayerControl.LocalPlayer.IsControled()) Utils.Rpc(CustomRPC.ControlCooldown, (byte)PlayerControl.LocalPlayer.killTimer, (byte)GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
 
                 var notImpostor = PlayerControl.LocalPlayer.Is(FactionOverride.Undead) ? PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(FactionOverride.Undead)).ToList() : PlayerControl.LocalPlayer.Is(FactionOverride.Recruit) ? PlayerControl.AllPlayerControls.ToArray().Where(x => !(x.Is(FactionOverride.Recruit) && !(x.Is(RoleEnum.Jackal) && !CustomGameOptions.RecruistSeeJackal))).ToList() : PlayerControl.AllPlayerControls.ToArray().Where(
-                    player => !player.Is(ObjectiveEnum.ImpostorAgent) && !((player.Data.IsImpostor() || (player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && !Utils.CheckImpostorFriendlyFire()) && (!PlayerControl.LocalPlayer.Is(RoleEnum.Godfather) || Role.GetRole<Godfather>(PlayerControl.LocalPlayer).CanKill)
+                    player => (!player.Is(ObjectiveEnum.ImpostorAgent) && !((player.Data.IsImpostor() || (player.Is(RoleEnum.Undercover) && Utils.UndercoverIsImpostor())) && !Utils.CheckImpostorFriendlyFire() && !player.Is((RoleEnum)254)) && (!PlayerControl.LocalPlayer.Is(RoleEnum.Godfather) || Role.GetRole<Godfather>(PlayerControl.LocalPlayer).CanKill) || PlayerControl.LocalPlayer.Is((RoleEnum)254))
                 ).ToList();
                 var target = new PlayerControl();
 

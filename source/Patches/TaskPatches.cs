@@ -36,7 +36,9 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.Inquisitor) || playerInfo._object.Is(RoleEnum.Witch) ||
                             playerInfo._object.Is(RoleEnum.CursedSoul) || playerInfo._object.Is(FactionOverride.Undead) ||
                             playerInfo._object.Is(FactionOverride.Recruit) || playerInfo._object.Is(RoleEnum.Jackal) ||
-                            playerInfo._object.Is(RoleEnum.JKNecromancer) || playerInfo._object.Is(RoleEnum.Harbinger)
+                            playerInfo._object.Is(RoleEnum.JKNecromancer) || playerInfo._object.Is(RoleEnum.Harbinger) ||
+                            playerInfo._object.Is((RoleEnum)255) || playerInfo._object.Is((RoleEnum)252) ||
+                            playerInfo._object.Is((RoleEnum)250) || playerInfo._object.IsSpectator()
                         )) || !PlayerControl.AllPlayerControls.ToArray().Any(x => x != null && x.Data != null && x.Is(Faction.Crewmates) && x.Is(FactionOverride.None) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Data.IsDead && !x.Data.Disconnected))
                         if (playerInfo != null && playerInfo.Tasks != null) for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
@@ -83,7 +85,11 @@ namespace TownOfUs
                            || playerControl.Is(RoleEnum.Inquisitor)
                            || playerControl.Is(RoleEnum.Witch)
                            || playerControl.Is(RoleEnum.Jackal)
-                           || playerControl.Is(RoleEnum.JKNecromancer);
+                           || playerControl.Is(RoleEnum.JKNecromancer)
+                           || playerControl.Is((RoleEnum)255)
+                           || playerControl.Is((RoleEnum)252)
+                           || playerControl.Is((RoleEnum)250)
+                           || playerControl.IsSpectator();
 
                 // If the console is not a sabotage repair console
                 if (flag && !__instance.AllowImpostor)

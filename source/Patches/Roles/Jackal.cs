@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Il2CppSystem.Collections.Generic;
 using TownOfUs.Extensions;
+using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs.Roles
 {
@@ -49,7 +50,8 @@ namespace TownOfUs.Roles
                 if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.Is(FactionOverride.Recruit);
                 ga.Add(player.PlayerId, i);
             }
-            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !x.Is(FactionOverride.Recruit));
+            Func<PlayerControl, bool> nonStopping = x => !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && !x.Is(FactionOverride.Recruit);
+            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && nonStopping(x) && !(x.IsCooperator() && Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x) != null && Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator != null && Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player != null && nonStopping(Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player) && !Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player.Data.IsDead && !Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player.Data.Disconnected));
 
             if ((Recruits >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (Recruits > 0 && AlivePlayers == 0) || onlyNonstopping)
             {

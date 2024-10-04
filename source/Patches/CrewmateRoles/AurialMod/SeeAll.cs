@@ -85,7 +85,8 @@ namespace TownOfUs.CrewmateRoles.AurialMod
                             ColorChar(player, Color.green, "Crewmate");
                             break;
                         case Faction.Impostors:
-                            ColorChar(player, Color.red, "Impostor");
+                            if (player.Is((RoleEnum)254)) ColorChar(player, Color.green, "Crewmate");
+                            else ColorChar(player, Color.red, "Impostor");
                             break;
                         case Faction.NeutralBenign:
                             if (CustomGameOptions.AurialDistinguishNeutrals) ColorChar(player, Color.Lerp(Color.cyan, Color.gray, 0.75f), "Neutral Benign"); else ColorChar(player, Color.gray, "Neutral");

@@ -20,7 +20,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                     switch (roleType)
                     {
                         default:
-                            if ((player.Is(Faction.Crewmates) && player.Is(FactionOverride.None) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Deputy) || player.Is(ObjectiveEnum.ImpostorAgent) || player.Is(ObjectiveEnum.ApocalypseAgent))) ||
+                            if (((player.Is(Faction.Crewmates) || player.Is((RoleEnum)254)) && player.Is(FactionOverride.None) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Deputy) || player.Is(ObjectiveEnum.ImpostorAgent) || player.Is(ObjectiveEnum.ApocalypseAgent))) ||
                             ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Deputy)) && !CustomGameOptions.CrewKillingRed) ||
                             (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
                             (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||
@@ -75,7 +75,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                 switch (roleType)
                 {
                     default:
-                        if ((player.Is(Faction.Crewmates) && player.Is(FactionOverride.None) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Deputy) || player.Is(ObjectiveEnum.ImpostorAgent) || player.Is(ObjectiveEnum.ApocalypseAgent))) ||
+                        if (((player.Is(Faction.Crewmates) || player.Is((RoleEnum)254)) && player.Is(FactionOverride.None) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Deputy) || player.Is(ObjectiveEnum.ImpostorAgent) || player.Is(ObjectiveEnum.ApocalypseAgent))) ||
                         ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Hunter) || player.Is(RoleEnum.Deputy)) && !CustomGameOptions.CrewKillingRed) ||
                         (player.Is(Faction.NeutralBenign) && !CustomGameOptions.NeutBenignRed) ||
                         (player.Is(Faction.NeutralEvil) && !CustomGameOptions.NeutEvilRed) ||

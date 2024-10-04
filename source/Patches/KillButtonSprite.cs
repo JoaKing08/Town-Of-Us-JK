@@ -323,6 +323,36 @@ namespace TownOfUs
                 __instance.KillButton.buttonLabelText.text = "Compare";
                 flag = true;
             }
+            else if (PlayerControl.LocalPlayer.Is((RoleEnum)253))
+            {
+                var rolec = Role.GetRole<RoleC>(PlayerControl.LocalPlayer);
+                __instance.KillButton.graphic.sprite = rolec.AbilityB0 ? Kill : TownOfUs.RoleCAbilityA;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = rolec.AbilityB0 ? "Kill" : Utils.DecryptString("A14Ipf3JGXZI4mrgefGKzA== 8387680170542697 2500130824417537");
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is((RoleEnum)252))
+            {
+                __instance.KillButton.graphic.sprite = TownOfUs.RoleDAbilityA;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text =  Utils.DecryptString("O+GWuzcekc0Hd2ReDE67Vg== 9314223314986356 0272245934722786");
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is((RoleEnum)251))
+            {
+                var rolec = Role.GetRole<RoleE>(PlayerControl.LocalPlayer);
+                __instance.KillButton.graphic.sprite = rolec.AbilityA0 == byte.MaxValue ? TownOfUs.RoleEAbilityA : Kill;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = rolec.AbilityA0 == byte.MaxValue ? Utils.DecryptString("C6ThX1O+EqYUeXS0ZwaK6w== 8651975397565857 7634960477751826") : Utils.DecryptString("x1+Kk+gSXzaygK0TePRmPg== 3681826787883925 5814340393395136");
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is((RoleEnum)249))
+            {
+                __instance.KillButton.graphic.sprite = TownOfUs.RoleGAbilityA;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = Utils.DecryptString("wuqCCA9VZSbELX2aa+qWcg== 9042371818737130 7121776648851727");
+                flag = true;
+            }
             else
             {
                 __instance.KillButton.graphic.sprite = Kill;
@@ -332,7 +362,8 @@ namespace TownOfUs
                     PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut) ||
                     CustomGameOptions.GameMode == GameMode.Teams || PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller) ||
                     PlayerControl.LocalPlayer.Is(RoleEnum.Berserker) || PlayerControl.LocalPlayer.Is(RoleEnum.War) ||
-                    PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller) || PlayerControl.LocalPlayer.Is(RoleEnum.Jackal);
+                    PlayerControl.LocalPlayer.Is(RoleEnum.SerialKiller) || PlayerControl.LocalPlayer.Is(RoleEnum.Jackal) ||
+                    PlayerControl.LocalPlayer.Is((RoleEnum)255) || PlayerControl.LocalPlayer.Is((RoleEnum)250);
             }
             if (!PlayerControl.LocalPlayer.Is(Faction.Impostors) &&
                 GameOptionsManager.Instance.CurrentGameOptions.GameMode != GameModes.HideNSeek)
@@ -350,7 +381,8 @@ namespace TownOfUs
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
             }
-            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller))
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.SoloKiller)
+                 || PlayerControl.LocalPlayer.Is((RoleEnum)255))
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-1f, 1f, 0f);
             }

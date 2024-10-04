@@ -157,6 +157,7 @@ namespace TownOfUs
         SetHarbinger,
         CatchHarbinger,
         Teleport,
+        AssignSpectator,
 
         RpcExpand = 255
     }

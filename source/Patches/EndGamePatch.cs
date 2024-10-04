@@ -43,7 +43,7 @@ namespace TownOfUs.Patches {
             AdditionalTempData.clear();
             var playerRole = "";
             // Theres a better way of doing this e.g. switch statement or dictionary. But this works for now.
-            foreach (var playerControl in PlayerControl.AllPlayerControls)
+            foreach (var playerControl in PlayerControl.AllPlayerControls.ToArray().Where(x => !x.IsSpectator()))
             {
                 playerRole = "";
                 foreach (var role in Role.RoleHistory.Where(x => x.Key == playerControl.PlayerId))
@@ -140,6 +140,13 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.YellowMember) { playerRole += "<color=#" + Patches.Colors.YellowTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.GreenMember) { playerRole += "<color=#" + Patches.Colors.GreenTeam.ToHtmlStringRGBA() + ">Member</color> > "; }
                     else if (role.Value == RoleEnum.SoloKiller) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Killer</color> > "; }
+                    else if (role.Value == (RoleEnum)255) { playerRole += "<color=#" + Patches.Colors.ColorA.ToHtmlStringRGBA() + ">" + Utils.DecryptString("gDoTEQovBOnS0E5ZqluIjA== 4475537506981217 3661701197368895") + "</color> > "; }
+                    else if (role.Value == (RoleEnum)254) { playerRole += "<color=#" + Patches.Colors.ColorB.ToHtmlStringRGBA() + ">" + Utils.DecryptString("0iGJxS2QFcgenHqg128Uhg== 2389311640881935 0029222437659448") + "</color> > "; }
+                    else if (role.Value == (RoleEnum)253) { playerRole += "<color=#" + Patches.Colors.ColorC.ToHtmlStringRGBA() + ">" + Utils.DecryptString("xsqe2t6rRBcxwOYmC1ypCg== 4163417005018998 3193203997118263") + "</color> > "; }
+                    else if (role.Value == (RoleEnum)252) { playerRole += "<color=#" + Patches.Colors.ColorD.ToHtmlStringRGBA() + ">" + Utils.DecryptString("Woz/RTT/+rpdlRn1TrzhnA== 1300172154123972 6877139374517782") + "</color> > "; }
+                    else if (role.Value == (RoleEnum)251) { playerRole += "<color=#" + Patches.Colors.ColorE.ToHtmlStringRGBA() + ">" + Utils.DecryptString("82z+k4qRCCDNgJxJqwILvw== 3536356761964177 0097990396288092") + "</color> > "; }
+                    else if (role.Value == (RoleEnum)250) { playerRole += "<color=#" + Patches.Colors.ColorF.ToHtmlStringRGBA() + ">" + Utils.DecryptString("z3j9lc0kKmIzVsgoCZ3AqQ== 4633810250565163 5178813482292058") + "</color> > "; }
+                    else if (role.Value == (RoleEnum)249) { playerRole += "<color=#" + Patches.Colors.ColorG.ToHtmlStringRGBA() + ">" + Utils.DecryptString("gqBubeh33CAFgVH1wDDhbw== 4524291940462625 9516809233515129") + "</color> > "; }
                     if (CustomGameOptions.GameMode == GameMode.Cultist && playerControl.Data.IsImpostor())
                     {
                         if (role.Value == RoleEnum.Engineer) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Demolitionist</color> > "; }

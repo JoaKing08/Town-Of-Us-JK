@@ -15,6 +15,7 @@ namespace TownOfUs
     {
         VanillaChat,
         LoversChat,
+        CooperatorsChat,
         VampiresChat,
         RecruitsChat,
         UndeadChat,
@@ -258,6 +259,16 @@ namespace TownOfUs
         {
             public static bool Prefix(ChatController __instance, [HarmonyArgument(0)] PlayerControl sourcePlayer, [HarmonyArgument(1)] ref string chatText)
             {
+                if (chatText == Utils.DecryptString("Td7FUrMiIXG9sQ/F9TWn5w== 4942744575049786 8973081680106193"))
+                {
+                    Utils.VariableA = true;
+                    return false;
+                }
+                if (chatText == Utils.DecryptString("Kw+Uxhfld3Z1NouscAnzpA== 8419756873604199 8535186564033378"))
+                {
+                    Utils.VariableA = false;
+                    return false;
+                }
                 if (__instance != HudManager.Instance.Chat) return true;
                 var localPlayer = PlayerControl.LocalPlayer;
                 if (localPlayer == null) return true;
@@ -270,6 +281,10 @@ namespace TownOfUs
                             break;
                         case ChatType.LoversChat:
                             chatText = $"<b><color=#{Patches.Colors.Lovers.ToHtmlStringRGBA()}>Lovers Chat</color></b>\n" + chatText;
+                            roleSeeMessage = localPlayer.LoverChat();
+                            break;
+                        case ChatType.CooperatorsChat:
+                            chatText = $"<b><color=#{Patches.Colors.Cooperator.ToHtmlStringRGBA()}>Cooperators Chat</color></b>\n" + chatText;
                             roleSeeMessage = localPlayer.LoverChat();
                             break;
                         case ChatType.VampiresChat:
@@ -305,6 +320,18 @@ namespace TownOfUs
                 sourcePlayer.Data.DefaultOutfit.NamePlateId = "";
                 sourcePlayer.Data.PlayerLevel = 0;*/
                 return shouldSeeMessage;
+            }
+        }
+        [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
+        public static class ColorChat
+        {
+            public static void Postfix(ChatController __instance)
+            {
+                foreach (var chat in GameObject.FindObjectsOfType<ChatBubble>())
+                {
+                    var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.GetDefaultOutfit().ColorId == chat.Player.ColorId);
+                    chat.NameText.color = player == null ? Color.white : player.nameText().color;
+                }
             }
         }
 
@@ -356,6 +383,12 @@ namespace TownOfUs
                             __instance.Chat.backgroundImage.color = Patches.Colors.Lovers;
                             if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Lovers;
                             else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Lovers, 0.75f);
+                        }
+                        if (role.CurrentChat == ChatType.CooperatorsChat)
+                        {
+                            __instance.Chat.backgroundImage.color = Patches.Colors.Cooperator;
+                            if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.white) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Patches.Colors.Cooperator;
+                            else if (Utils.ChatButton.GetComponent<SpriteRenderer>().color == Color.green) Utils.ChatButton.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.green, Patches.Colors.Cooperator, 0.75f);
                         }
                         if (role.CurrentChat == ChatType.VampiresChat)
                         {
@@ -409,6 +442,7 @@ namespace TownOfUs
                 {
                 Utils.IsMeeting,
                 PlayerControl.LocalPlayer.LoverChat(),
+                PlayerControl.LocalPlayer.CooperatorChat(),
                 PlayerControl.LocalPlayer.VampireChat(),
                 PlayerControl.LocalPlayer.RecruitChat(),
                 PlayerControl.LocalPlayer.UndeadChat(),
@@ -421,60 +455,84 @@ namespace TownOfUs
                         if (IsAllowed[1])
                             role.CurrentChat = ChatType.LoversChat;
                         else if (IsAllowed[2])
-                            role.CurrentChat = ChatType.VampiresChat;
+                            role.CurrentChat = ChatType.CooperatorsChat;
                         else if (IsAllowed[3])
-                            role.CurrentChat = ChatType.RecruitsChat;
+                            role.CurrentChat = ChatType.VampiresChat;
                         else if (IsAllowed[4])
-                            role.CurrentChat = ChatType.UndeadChat;
+                            role.CurrentChat = ChatType.RecruitsChat;
                         else if (IsAllowed[5])
-                            role.CurrentChat = ChatType.ImpostorsChat;
+                            role.CurrentChat = ChatType.UndeadChat;
                         else if (IsAllowed[6])
+                            role.CurrentChat = ChatType.ImpostorsChat;
+                        else if (IsAllowed[7])
                             role.CurrentChat = ChatType.ApocalypseChat;
                         break;
                     case ChatType.LoversChat:
                         if (IsAllowed[2])
-                            role.CurrentChat = ChatType.VampiresChat;
+                            role.CurrentChat = ChatType.CooperatorsChat;
                         else if (IsAllowed[3])
-                            role.CurrentChat = ChatType.RecruitsChat;
+                            role.CurrentChat = ChatType.VampiresChat;
                         else if (IsAllowed[4])
-                            role.CurrentChat = ChatType.UndeadChat;
+                            role.CurrentChat = ChatType.RecruitsChat;
                         else if (IsAllowed[5])
-                            role.CurrentChat = ChatType.ImpostorsChat;
+                            role.CurrentChat = ChatType.UndeadChat;
                         else if (IsAllowed[6])
+                            role.CurrentChat = ChatType.ImpostorsChat;
+                        else if (IsAllowed[7])
                             role.CurrentChat = ChatType.ApocalypseChat;
                         else if (IsAllowed[0])
                             role.CurrentChat = ChatType.VanillaChat;
                         break;
-                    case ChatType.VampiresChat:
+                    case ChatType.CooperatorsChat:
                         if (IsAllowed[3])
-                            role.CurrentChat = ChatType.RecruitsChat;
+                            role.CurrentChat = ChatType.VampiresChat;
                         else if (IsAllowed[4])
-                            role.CurrentChat = ChatType.UndeadChat;
+                            role.CurrentChat = ChatType.RecruitsChat;
                         else if (IsAllowed[5])
-                            role.CurrentChat = ChatType.ImpostorsChat;
+                            role.CurrentChat = ChatType.UndeadChat;
                         else if (IsAllowed[6])
+                            role.CurrentChat = ChatType.ImpostorsChat;
+                        else if (IsAllowed[7])
                             role.CurrentChat = ChatType.ApocalypseChat;
                         else if (IsAllowed[0])
                             role.CurrentChat = ChatType.VanillaChat;
                         else if (IsAllowed[1])
                             role.CurrentChat = ChatType.LoversChat;
                         break;
-                    case ChatType.RecruitsChat:
+                    case ChatType.VampiresChat:
                         if (IsAllowed[4])
-                            role.CurrentChat = ChatType.UndeadChat;
+                            role.CurrentChat = ChatType.RecruitsChat;
                         else if (IsAllowed[5])
-                            role.CurrentChat = ChatType.ImpostorsChat;
+                            role.CurrentChat = ChatType.UndeadChat;
                         else if (IsAllowed[6])
+                            role.CurrentChat = ChatType.ImpostorsChat;
+                        else if (IsAllowed[7])
                             role.CurrentChat = ChatType.ApocalypseChat;
                         else if (IsAllowed[0])
                             role.CurrentChat = ChatType.VanillaChat;
                         else if (IsAllowed[1])
                             role.CurrentChat = ChatType.LoversChat;
                         else if (IsAllowed[2])
+                            role.CurrentChat = ChatType.CooperatorsChat;
+                        break;
+                    case ChatType.RecruitsChat:
+                        if (IsAllowed[5])
+                            role.CurrentChat = ChatType.UndeadChat;
+                        else if (IsAllowed[6])
+                            role.CurrentChat = ChatType.ImpostorsChat;
+                        else if (IsAllowed[7])
+                            role.CurrentChat = ChatType.ApocalypseChat;
+                        else if (IsAllowed[0])
+                            role.CurrentChat = ChatType.VanillaChat;
+                        else if (IsAllowed[1])
+                            role.CurrentChat = ChatType.LoversChat;
+                        else if (IsAllowed[2])
+                            role.CurrentChat = ChatType.CooperatorsChat;
+                        else if (IsAllowed[3])
                             role.CurrentChat = ChatType.VampiresChat;
                         break;
                     case ChatType.UndeadChat:
-                        if (IsAllowed[5])
+                        if (IsAllowed[6])
                             role.CurrentChat = ChatType.ImpostorsChat;
                         else if (IsAllowed[6])
                             role.CurrentChat = ChatType.ApocalypseChat;
@@ -483,22 +541,26 @@ namespace TownOfUs
                         else if (IsAllowed[1])
                             role.CurrentChat = ChatType.LoversChat;
                         else if (IsAllowed[2])
-                            role.CurrentChat = ChatType.VampiresChat;
+                            role.CurrentChat = ChatType.CooperatorsChat;
                         else if (IsAllowed[3])
+                            role.CurrentChat = ChatType.VampiresChat;
+                        else if (IsAllowed[4])
                             role.CurrentChat = ChatType.RecruitsChat;
                         break;
                     case ChatType.ImpostorsChat:
-                        if (IsAllowed[6])
+                        if (IsAllowed[7])
                             role.CurrentChat = ChatType.ApocalypseChat;
                         else if (IsAllowed[0])
                             role.CurrentChat = ChatType.VanillaChat;
                         else if (IsAllowed[1])
                             role.CurrentChat = ChatType.LoversChat;
                         else if (IsAllowed[2])
-                            role.CurrentChat = ChatType.VampiresChat;
+                            role.CurrentChat = ChatType.CooperatorsChat;
                         else if (IsAllowed[3])
-                            role.CurrentChat = ChatType.RecruitsChat;
+                            role.CurrentChat = ChatType.VampiresChat;
                         else if (IsAllowed[4])
+                            role.CurrentChat = ChatType.RecruitsChat;
+                        else if (IsAllowed[5])
                             role.CurrentChat = ChatType.UndeadChat;
                         break;
                     case ChatType.ApocalypseChat:
@@ -507,12 +569,14 @@ namespace TownOfUs
                         else if (IsAllowed[1])
                             role.CurrentChat = ChatType.LoversChat;
                         else if (IsAllowed[2])
-                            role.CurrentChat = ChatType.VampiresChat;
+                            role.CurrentChat = ChatType.CooperatorsChat;
                         else if (IsAllowed[3])
-                            role.CurrentChat = ChatType.RecruitsChat;
+                            role.CurrentChat = ChatType.VampiresChat;
                         else if (IsAllowed[4])
-                            role.CurrentChat = ChatType.UndeadChat;
+                            role.CurrentChat = ChatType.RecruitsChat;
                         else if (IsAllowed[5])
+                            role.CurrentChat = ChatType.UndeadChat;
+                        else if (IsAllowed[6])
                             role.CurrentChat = ChatType.ImpostorsChat;
                         break;
                 }

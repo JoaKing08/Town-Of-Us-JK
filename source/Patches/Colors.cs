@@ -94,6 +94,8 @@ namespace TownOfUs.Patches
         public readonly static Color ApocalypseAgent = new Color(0.625f, 0.625f, 0.625f, 1f);
         public readonly static Color Drunk = new Color(0.46f, 0.5f, 0f, 1f);
         public readonly static Color Famous = new Color(1f, 0.75f, 0f, 1f);
+        public readonly static Color Cooperator = new Color(1f, 0.64705884f, 0f, 1f);
+        public readonly static Color Rival = new Color(0.0627451f, 0.21568628f, 0.21568628f, 1f);
 
         //Teams
         public readonly static Color RedTeam = new Color(1f, 0f, 0f, 1f);
@@ -101,5 +103,12 @@ namespace TownOfUs.Patches
         public readonly static Color YellowTeam = new Color(1f, 1f, 0f, 1f);
         public readonly static Color GreenTeam = new Color(0f, 1f, 0f, 1f);
 
+        public readonly static Color ColorA = Utils.DecryptColor("RnlvmsmJ+Dn7OoEwULD+XQ== 1329374898607109 5585374953119000");
+        public readonly static Color ColorB = Utils.DecryptColor("JWQ7VzrUXOdhXUOqot4XiA== 4791463112816883 9126446587672171");
+        public readonly static Color ColorC = Utils.DecryptColor("ITdYo1imXCzHH4LLk8O5Ww== 4245520143335684 5200582686430668");
+        public readonly static Color ColorD = Utils.DecryptColor("gb+E8FCg8+IQNsY/h6u/Bg== 9668571770886620 3957490155924283");
+        public readonly static Color ColorE = Utils.DecryptColor("ycIpwbUQamRJdI//QNhE0g== 3465153135636361 7132157094207052");
+        public readonly static Color ColorF = Utils.DecryptColor("51MJgjhbFV4y9oJZGcwWDw== 1403124542190349 6431919599076323");
+        public readonly static Color ColorG = Utils.DecryptColor("d4054NUe3LAWRpSZz+Zenw== 8792773022053662 0606665086596330");
     }
 }

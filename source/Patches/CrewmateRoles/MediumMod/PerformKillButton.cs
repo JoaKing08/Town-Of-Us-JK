@@ -21,7 +21,7 @@ namespace TownOfUs.CrewmateRoles.MediumMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (!__instance.enabled) return false;
             if (role.MediateTimer() != 0f) return false;
-            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            if (PlayerControl.LocalPlayer.IsRoleblocked())
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);

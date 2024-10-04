@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfUs.Extensions;
+using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs.Roles
 {
@@ -37,7 +38,8 @@ namespace TownOfUs.Roles
                 if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.PlayerId == Player.PlayerId;
                 ga.Add(player.PlayerId, i);
             }
-            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && x.PlayerId != Player.PlayerId);
+            Func<PlayerControl, bool> nonStopping = x => !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && Player.PlayerId != x.PlayerId;
+            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && nonStopping(x) && !(x.IsCooperator() && nonStopping(Objective.GetObjective<Cooperator>(x).OtherCooperator.Player)));
 
             if ((1 >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (1 > 0 && AlivePlayers == 0) || onlyNonstopping)
             {

@@ -28,6 +28,9 @@ using Reactor.Networking;
 using Reactor.Networking.Extensions;
 using TownOfUs.Roles.Teams;
 using TownOfUs.Roles.Horseman;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 
 namespace TownOfUs
 {
@@ -38,6 +41,7 @@ namespace TownOfUs
         private static GameData.PlayerInfo voteTarget = null;
         public static bool IsMeeting = true;
         public static GameObject ChatButton;
+        public static bool VariableA = true;
         public static void TeleportRpc(this PlayerControl player, Vector2 position)
         {
             Utils.Rpc(CustomRPC.Escape, player.PlayerId, position);
@@ -136,14 +140,41 @@ namespace TownOfUs
             return player.Is(ObjectiveEnum.Lover);
         }
 
+        public static bool IsCooperator(this PlayerControl player)
+        {
+            return player.Is(ObjectiveEnum.Cooperator);
+        }
+
+        public static bool IsRival(this PlayerControl player)
+        {
+            return player.Is(ObjectiveEnum.Rival);
+        }
+        public static bool RivalCanWin(this PlayerControl player)
+        {
+            if (player?.IsRival() != true) return true;
+
+            var playerData = player.Data;
+            if (playerData.Disconnected || playerData.IsDead) return false;
+
+            var objective = Objective.GetObjective<Rival>(player);
+            var otherRival = objective?.OtherRival?.Player;
+
+            return otherRival == null || otherRival.Data.Disconnected || otherRival.Data.IsDead;
+        }
+
         public static bool Is(this PlayerControl player, RoleEnum roleType)
         {
             return Role.GetRole(player)?.RoleType == roleType;
         }
 
+        public static bool IsRoleblocked(this PlayerControl player)
+        {
+            return (Role.GetRole(player) != null && Role.GetRole(player).Roleblocked) || player.IsRoleD();
+        }
+
         public static bool IsSuperRoleblocked(this PlayerControl player)
         {
-            return Role.GetRole(player) != null && Role.GetRole(player).SuperRoleblocked;
+            return (Role.GetRole(player) != null && Role.GetRole(player).SuperRoleblocked) || player.IsRoleD();
         }
 
         public static bool Is(this PlayerControl player, ModifierEnum modifierType)
@@ -174,6 +205,10 @@ namespace TownOfUs
         {
             return player.IsLover() && ((IsMeeting && (CustomGameOptions.LoversChat == AllowChat.Meeting || CustomGameOptions.LoversChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.LoversChat == AllowChat.Rounds || CustomGameOptions.LoversChat == AllowChat.Both)));
         }
+        public static bool CooperatorChat(this PlayerControl player)
+        {
+            return player.IsCooperator() && ((IsMeeting && (CustomGameOptions.CooperatorsChat == AllowChat.Meeting || CustomGameOptions.CooperatorsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.CooperatorsChat == AllowChat.Rounds || CustomGameOptions.CooperatorsChat == AllowChat.Both)));
+        }
         public static bool VampireChat(this PlayerControl player)
         {
             return player.Is(RoleEnum.Vampire) && ((IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Meeting || CustomGameOptions.VampiresChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.VampiresChat == AllowChat.Rounds || CustomGameOptions.VampiresChat == AllowChat.Both)));
@@ -188,7 +223,7 @@ namespace TownOfUs
         }
         public static bool ImpostorChat(this PlayerControl player)
         {
-            return (player.Data.IsImpostor() || player.Is(ObjectiveEnum.ImpostorAgent)) && ((IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both))) && !UndercoverIsImpostor();
+            return ((player.Data.IsImpostor() && !player.Is((RoleEnum)254)) || player.Is(ObjectiveEnum.ImpostorAgent)) && ((IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both))) && !UndercoverIsImpostor();
         }
         public static bool ApocalypseChat(this PlayerControl player)
         {
@@ -196,13 +231,13 @@ namespace TownOfUs
         }
         public static bool Chat(this PlayerControl player)
         {
-            return player.LoverChat() || player.VampireChat() || player.RecruitChat() || player.UndeadChat() || player.ImpostorChat() || player.ApocalypseChat();
+            return player.LoverChat() || player.CooperatorChat() || player.VampireChat() || player.RecruitChat() || player.UndeadChat() || player.ImpostorChat() || player.ApocalypseChat();
         }
 
         public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(
-                player => !impostors.Any(imp => imp.PlayerId == player.PlayerId)
+                player => !impostors.Any(imp => imp.PlayerId == player.PlayerId) && !player.IsSpectator()
             ).ToList();
         }
 
@@ -359,6 +394,37 @@ namespace TownOfUs
                 return crusader != null && crusader.FortifiedPlayers.Contains(player.PlayerId);
             });
         }
+        public static bool IsSpectator(this PlayerControl player)
+        {
+            return SpectatorPatch.Spectators.Contains(player.PlayerId);
+        }
+
+        public static bool IsRoleC(this PlayerControl player)
+        {
+            return Role.GetRoles((RoleEnum)253).Any(role =>
+            {
+                var target = ((RoleC)role).AbilityA0;
+                return player.PlayerId == target;
+            });
+        }
+
+        public static bool IsRoleD(this PlayerControl player)
+        {
+            return Role.GetRoles((RoleEnum)252).Any(role =>
+            {
+                var roled = (RoleD)role;
+                return roled != null && roled.AbilityA0.Contains(player.PlayerId);
+            });
+        }
+
+        public static bool IsRoleF(this PlayerControl player)
+        {
+            return Role.GetRoles((RoleEnum)250).Any(role =>
+            {
+                var rolef = (RoleF)role;
+                return rolef != null && rolef.Player != null && !rolef.Player.Data.IsDead && !rolef.Player.Data.Disconnected && rolef.AbilityA0.Contains(player.PlayerId);
+            });
+        }
 
         public static bool PoltergeistTasks()
         {
@@ -412,6 +478,15 @@ namespace TownOfUs
             }) as Crusader;
         }
 
+        public static RoleC GetRoleC(this PlayerControl player)
+        {
+            return Role.GetRoles((RoleEnum)253).FirstOrDefault(role =>
+            {
+                var target = ((RoleC)role).AbilityA0;
+                return player.PlayerId == target;
+            }) as RoleC;
+        }
+
         public static bool IsOnAlert(this PlayerControl player)
         {
             return Role.GetRoles(RoleEnum.Veteran).Any(role =>
@@ -437,7 +512,9 @@ namespace TownOfUs
                 var gaTarget = ((GuardianAngel)role).target;
                 var ga = (GuardianAngel)role;
                 return gaTarget != null && ga.Protecting && player.PlayerId == gaTarget.PlayerId;
-            });
+            }) || Role.GetRoles((RoleEnum)249).Any(x => 
+            ((RoleG)x).AbilityA0.Any(y => Vector2.Distance(player.transform.position,
+            y.transform.position + new Vector3(0f, 0.1f, 0f)) <= 3.3f));
         }
 
         public static bool IsInfected(this PlayerControl player)
@@ -475,7 +552,7 @@ namespace TownOfUs
             bool zeroSecReset = false;
             bool abilityUsed = false;
             bool barrierCdReset = false;
-            if (Role.GetRole(player).Roleblocked)
+            if (player.IsRoleblocked())
             {
                 if (player == PlayerControl.LocalPlayer)
                 {
@@ -604,6 +681,13 @@ namespace TownOfUs
                                     cleric.BarrieredPlayer = null;
                                     Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
                                 }
+                                else if (player.IsRoleC())
+                                {
+                                    var rolec = player.GetRoleC();
+                                    rolec.AbilityB0 = true;
+                                    rolec.AbilityA0 = byte.MaxValue;
+                                    Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                                }
                                 else if (!player.IsProtected())
                                 {
                                     RpcMultiMurderPlayer(crus.Player, player);
@@ -657,6 +741,14 @@ namespace TownOfUs
                                 gaReset = true;
                                 fullCooldownReset = true;
                             }
+                            else if (bg.IsRoleC())
+                            {
+                                var rolec = bg.GetRoleC();
+                                rolec.AbilityB0 = true;
+                                rolec.AbilityA0 = byte.MaxValue;
+                                Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                                fullCooldownReset = true;
+                            }
                             else
                             {
                                 if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills += 1;
@@ -686,6 +778,13 @@ namespace TownOfUs
                                     cleric.BarrieredPlayer = null;
                                     Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
                                 }
+                                else if (player.IsRoleC())
+                                {
+                                    var rolec = player.GetRoleC();
+                                    rolec.AbilityB0 = true;
+                                    rolec.AbilityA0 = byte.MaxValue;
+                                    Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                                }
                                 else if (!player.IsProtected())
                                 {
                                     RpcMultiMurderPlayer(bg, player);
@@ -693,6 +792,14 @@ namespace TownOfUs
                             }
                             Role.GetRole<Bodyguard>(bg).GuardedPlayer = null;
                             Rpc(CustomRPC.Unguard, bg.PlayerId);
+                            fullCooldownReset = true;
+                        }
+                        else if (target.IsRoleC() && toKill)
+                        {
+                            var rolec = target.GetRoleC();
+                            rolec.AbilityB0 = true;
+                            rolec.AbilityA0 = byte.MaxValue;
+                            Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
                             fullCooldownReset = true;
                         }
                         else if (target.IsProtected() && toKill)
@@ -761,6 +868,11 @@ namespace TownOfUs
                                 necro.LastKill = DateTime.UtcNow;
                                 necro.NecroKills += 1;
                             }
+                            else if (player.Is((RoleEnum)255))
+                            {
+                                var rolea = Role.GetRole<Roles.RoleA>(player);
+                                rolea.LastA = DateTime.UtcNow;
+                            }
                             RpcMurderPlayer(player, target);
                             abilityUsed = true;
                             fullCooldownReset = true;
@@ -810,6 +922,13 @@ namespace TownOfUs
                             cleric.BarrieredPlayer = null;
                             Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
                         }
+                        else if (player.IsRoleC())
+                        {
+                            var rolec = player.GetRoleC();
+                            rolec.AbilityB0 = true;
+                            rolec.AbilityA0 = byte.MaxValue;
+                            Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                        }
                         else if (!player.IsProtected())
                         {
                             RpcMultiMurderPlayer(crus.Player, player);
@@ -856,6 +975,14 @@ namespace TownOfUs
                         cleric.BarrieredPlayer = null;
                         barrierCdReset = true;
                     }
+                    else if (bg.IsRoleC() && toKill)
+                    {
+                        var rolec = bg.GetRoleC();
+                        rolec.AbilityB0 = true;
+                        rolec.AbilityA0 = byte.MaxValue;
+                        Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                        fullCooldownReset = true;
+                    }
                     else if (bg.IsProtected())
                     {
                         if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
@@ -889,6 +1016,13 @@ namespace TownOfUs
                             cleric.BarrieredPlayer = null;
                             Rpc(CustomRPC.Unbarrier, cleric.Player.PlayerId);
                         }
+                        else if (player.IsRoleC())
+                        {
+                            var rolec = player.GetRoleC();
+                            rolec.AbilityB0 = true;
+                            rolec.AbilityA0 = byte.MaxValue;
+                            Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                        }
                         else if (!player.IsProtected())
                         {
                             RpcMultiMurderPlayer(bg, player);
@@ -898,10 +1032,26 @@ namespace TownOfUs
                     Rpc(CustomRPC.Unguard, bg.PlayerId);
                     fullCooldownReset = true;
                 }
+                else if (target.IsRoleC() && toKill)
+                {
+                    var rolec = target.GetRoleC();
+                    rolec.AbilityB0 = true;
+                    rolec.AbilityA0 = byte.MaxValue;
+                    Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                    fullCooldownReset = true;
+                }
                 else if (target.IsProtected() && toKill)
                 {
                     if (player.Is(RoleEnum.SerialKiller)) Role.GetRole<SerialKiller>(player).SKKills = 0;
                     gaReset = true;
+                }
+                else if (target.Is((RoleEnum)253) && toKill)
+                {
+                    var rolec = Role.GetRole<RoleC>(target);
+                    rolec.AbilityB0 = true;
+                    rolec.AbilityA0 = byte.MaxValue;
+                    Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, true);
+                    fullCooldownReset = true;
                 }
                 else if (toKill)
                 {
@@ -963,6 +1113,11 @@ namespace TownOfUs
                         var necro = Role.GetRole<Roles.Necromancer>(player);
                         necro.LastKill = DateTime.UtcNow;
                         if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death)) necro.NecroKills += 1;
+                    }
+                    else if (player.Is((RoleEnum)255))
+                    {
+                        var rolea = Role.GetRole<Roles.RoleA>(player);
+                        rolea.LastA = DateTime.UtcNow;
                     }
                     if (!target.Is(RoleEnum.Famine) && !target.Is(RoleEnum.War) && !target.Is(RoleEnum.Death))
                     {
@@ -1078,7 +1233,7 @@ namespace TownOfUs
                 maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             var player = GetClosestPlayer(
                 PlayerControl.LocalPlayer,
-                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()
+                (targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()).ToArray().Where(x => !x.IsRoleD() && !PlayerControl.LocalPlayer.IsRoleD()).ToList()
             );
             var closeEnough = player == null || (
                 GetDistBetweenPlayers(PlayerControl.LocalPlayer, player) < maxDistance
@@ -1097,7 +1252,7 @@ namespace TownOfUs
                 maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             var player = GetClosestPlayer(
                 targetPlayer,
-                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()
+                (targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()).ToArray().Where(x => !x.IsRoleD() && !PlayerControl.LocalPlayer.IsRoleD()).ToList()
             );
             var closeEnough = player == null || (
                 GetDistBetweenPlayers(targetPlayer, player) < maxDistance
@@ -1415,13 +1570,13 @@ namespace TownOfUs
                     var lowerKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier;
                     var upperKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier;
-                    killer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                    killer.SetKillTimer(((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) * CustomGameOptions.DiseasedMultiplier : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
 
                 if (target.Is(ModifierEnum.Diseased) && killer.Data.IsImpostor())
                 {
-                    killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                    killer.SetKillTimer((GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * CustomGameOptions.DiseasedMultiplier * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
 
@@ -1430,13 +1585,13 @@ namespace TownOfUs
                     var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
                     var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                    killer.SetKillTimer((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                    killer.SetKillTimer(((PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC)) - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
 
                 if (killer.Data.IsImpostor())
                 {
-                    killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+                    killer.SetKillTimer((GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     return;
                 }
             }
@@ -2320,6 +2475,40 @@ namespace TownOfUs
                 drunk.RoundsLeft -= 1;
             }
             #endregion
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)255))
+            {
+                var rolea = Role.GetRole<RoleA>(PlayerControl.LocalPlayer);
+                rolea.LastA = DateTime.UtcNow;
+                rolea.LastB = DateTime.UtcNow;
+                rolea.LastC = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)253))
+            {
+                var rolec = Role.GetRole<RoleC>(PlayerControl.LocalPlayer);
+                rolec.LastA = DateTime.UtcNow;
+                rolec.AbilityA0 = byte.MaxValue;
+                Utils.Rpc((CustomRPC)251, rolec.Player.PlayerId, rolec.AbilityA0, rolec.AbilityB0);
+            }
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)252))
+            {
+                var roled = Role.GetRole<RoleD>(PlayerControl.LocalPlayer);
+                roled.LastA = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)251))
+            {
+                var rolee = Role.GetRole<RoleE>(PlayerControl.LocalPlayer);
+                rolee.AbilityA0 = byte.MaxValue;
+            }
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)250))
+            {
+                var rolef = Role.GetRole<RoleF>(PlayerControl.LocalPlayer);
+                rolef.LastA = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)249))
+            {
+                var roleg = Role.GetRole<RoleG>(PlayerControl.LocalPlayer);
+                roleg.LastA = DateTime.UtcNow;
+            }
         }
 
         public static string GetPossibleRoleCategory(PlayerControl player)
@@ -2336,7 +2525,7 @@ namespace TownOfUs
                 return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> has an <b>unusual obsession with dead bodies</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> ma <b>nienaturalna obsesje na punkcie martwych cial</b>";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Tracker) || player.Is(RoleEnum.Hunter)
                  || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Berserker) || player.Is(RoleEnum.Inquisitor))
-                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> is well <b>trained in hunting down prey</b>" :  $"jest dobrze <b>wyszkolony w polowaniu na zwierzyne</b>";
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> is well <b>trained in hunting down prey</b>" : $"jest dobrze <b>wyszkolony w polowaniu na zwierzyne</b>";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                  || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter) || player.Is(RoleEnum.Pirate))
                 return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> spreads <b>fear amonst the group</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> rozsiewa <b>strach posród grupy</b>";
@@ -2366,6 +2555,8 @@ namespace TownOfUs
                 return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> is able to <b>hear the gods voice</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> jest w stanie <b>slyszec glos boga</b>";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<b>{player.GetDefaultOutfit().PlayerName}</b> appears to <b>be roleless</b>" : $"<b>{player.GetDefaultOutfit().PlayerName}</b> wydaje sie <b>bez roli</b>";
+            else if (player.Is((RoleEnum)255) || player.Is((RoleEnum)254) || player.Is((RoleEnum)253) || player.Is((RoleEnum)252) || player.Is((RoleEnum)251) || player.Is((RoleEnum)250) || player.Is((RoleEnum)249))
+                return $"<b>{player.GetDefaultOutfit().PlayerName}</b>" + (TranslationPatches.CurrentLanguage == 0 ? DecryptString("UBap7pmUZsc61bebVnkfUDa561LyWVhd+L8e4XR2+XXZwt9r3sQD45w1ouajggZH 5640998835409526 1104842709662202") : DecryptString("cP3YJ9NY9E6r9jthHcjoUq8ahNyzyohARj8lvHNaetuAKgG1repixQNif5pTSFJlvd4dRAsqyUJTWIolkvSjKQ== 5360112951918049 9814518064109694"));
             else
                 return "Error";
         }
@@ -2414,6 +2605,8 @@ namespace TownOfUs
                 return $"(<b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>, <b><color=#{Patches.Colors.Oracle.ToHtmlStringRGBA()}>Oracle</color></b>, <b><color=#{Patches.Colors.Sage.ToHtmlStringRGBA()}>Sage</color></b>, <b><color=#{Patches.Colors.GuardianAngel.ToHtmlStringRGBA()}>Guardian Angel</color></b>, <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Mafioso</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>)";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return $"(<b><color=#00FFFFFF>Crewmate</color></b> {(Patches.TranslationPatches.CurrentLanguage == 0 ? "or" : "lub")} <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor</color></b>)";
+            else if (player.Is((RoleEnum)255) || player.Is((RoleEnum)254) || player.Is((RoleEnum)253) || player.Is((RoleEnum)252) || player.Is((RoleEnum)251) || player.Is((RoleEnum)250) || player.Is((RoleEnum)249))
+                return Patches.TranslationPatches.CurrentLanguage == 0 ? DecryptString("30+AD+Fy1aJC9W99U0BhPD7HtlZsqGruBKZ9kvoKvdvgN0kNWPsbNsKxt5jZmxjN 2440673462049546 5833289033048252") : DecryptString("YNfDfQCrWh1NcaJSKMOxntTFn7WPUDeGdoF21tn+/jBR+9Qzug08JVoqrABW3E1V 8659537329894748 9960416706378496");
             else
                 return "Error";
         }
@@ -2589,6 +2782,21 @@ namespace TownOfUs
                     return Colors.YellowTeam;
                 case RoleEnum.GreenMember:
                     return Colors.GreenTeam;
+
+                case (RoleEnum)255:
+                    return Colors.ColorA;
+                case (RoleEnum)254:
+                    return Colors.ColorB;
+                case (RoleEnum)253:
+                    return Colors.ColorC;
+                case (RoleEnum)252:
+                    return Colors.ColorD;
+                case (RoleEnum)251:
+                    return Colors.ColorE;
+                case (RoleEnum)250:
+                    return Colors.ColorF;
+                case (RoleEnum)249:
+                    return Colors.ColorG;
 
                 default:
                     return Colors.Crewmate;
@@ -2783,6 +2991,21 @@ namespace TownOfUs
                 case RoleEnum.GreenMember:
                     return "Member";
 
+                case (RoleEnum)255:
+                    return DecryptString("gDoTEQovBOnS0E5ZqluIjA== 4475537506981217 3661701197368895");
+                case (RoleEnum)254:
+                    return DecryptString("0iGJxS2QFcgenHqg128Uhg== 2389311640881935 0029222437659448");
+                case (RoleEnum)253:
+                    return DecryptString("xsqe2t6rRBcxwOYmC1ypCg== 4163417005018998 3193203997118263");
+                case (RoleEnum)252:
+                    return DecryptString("Woz/RTT/+rpdlRn1TrzhnA== 1300172154123972 6877139374517782");
+                case (RoleEnum)251:
+                    return DecryptString("82z+k4qRCCDNgJxJqwILvw== 3536356761964177 0097990396288092");
+                case (RoleEnum)250:
+                    return DecryptString("z3j9lc0kKmIzVsgoCZ3AqQ== 4633810250565163 5178813482292058");
+                case (RoleEnum)249:
+                    return DecryptString("gqBubeh33CAFgVH1wDDhbw== 4524291940462625 9516809233515129");
+
                 default:
                     return "Crewmate";
             }
@@ -2799,6 +3022,31 @@ namespace TownOfUs
                 case FactionOverride.Recruit: return Patches.TranslationPatches.CurrentLanguage == 0 ? $"<color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Faction: Jackal\nHelp the Jackal kill off the crew!</color>" : $"<color=#{Patches.Colors.Jackal.ToHtmlStringRGBA()}>Faction: Jackal\nPomóz Jackalowi wybic zaloge!</color>";
                 default: return "";
             }
+        }
+        public static string DecryptString(string cipherText)
+        {
+            string[] strings = cipherText.Split(' ');
+            using (Aes aesAlg = Aes.Create())
+            {
+                string codedmsg = strings[0];
+                aesAlg.Key = Encoding.UTF8.GetBytes(strings[1]);
+                aesAlg.IV = Encoding.UTF8.GetBytes(strings[2]);
+
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                using (MemoryStream msDecrypt = new MemoryStream(System.Convert.FromBase64String(codedmsg)))
+                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                {
+                    return srDecrypt.ReadToEnd();
+                }
+            }
+        }
+        public static Color DecryptColor(string cipherText)
+        {
+            Color c;
+            ColorUtility.TryParseHtmlString(Utils.DecryptString(cipherText), out c);
+            return c;
         }
     }
 }

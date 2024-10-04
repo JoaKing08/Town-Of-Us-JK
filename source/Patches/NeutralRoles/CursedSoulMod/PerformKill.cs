@@ -169,6 +169,17 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                     swapImp = false;
 
                     break;
+                default:
+                    if (target.Is(Faction.Crewmates))
+                    {
+                        swapImp = false;
+                        swapNeut = false;
+                    }
+                    else if (!target.Is(Faction.Impostors))
+                    {
+                        swapImp = false;
+                    }
+                    break;
             }
 
             newCursedSoulRole = Role.GetRole(target);
@@ -192,9 +203,12 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
                 if (targetRole == RoleEnum.Transporter)
                 {
                     var transporter = Role.GetRole<Transporter>(target);
-                    transporter.TransportList.Toggle();
-                    transporter.TransportList.gameObject.SetActive(false);
-                    transporter.TransportList.gameObject.DestroyImmediate();
+                    if (transporter.TransportList != null)
+                    {
+                        transporter.TransportList.Toggle();
+                        transporter.TransportList.gameObject.SetActive(false);
+                        transporter.TransportList.gameObject.DestroyImmediate();
+                    }
                     transporter.TransportList = null;
                     transporter.PressedButton = false;
                     transporter.TransportPlayer1 = null;
@@ -702,6 +716,65 @@ namespace TownOfUs.NeutralRoles.CursedSoulMod
             {
                 var occultistRole = Role.GetRole<Occultist>(cursedSoul);
                 occultistRole.LastMark = DateTime.UtcNow;
+            }
+            else if (targetRole == (RoleEnum)255)
+            {
+                var roleA = Role.GetRole<RoleA>(cursedSoul);
+                roleA.LastA = DateTime.UtcNow;
+                roleA.LastB = DateTime.UtcNow;
+                roleA.LastC = DateTime.UtcNow;
+                if (roleA.AbilityB0)
+                {
+                    Utils.Unmorph(target);
+                    target.myRend().color = Color.white;
+                    roleA.AbilityB0 = false;
+                    target.MyPhysics.ResetMoveState();
+                }
+                roleA.AbilityBActive = false;
+            }
+            else if (targetRole == (RoleEnum)253)
+            {
+                var roleC = Role.GetRole<RoleC>(cursedSoul);
+                roleC.LastA = DateTime.UtcNow;
+                roleC.AbilityA0 = byte.MaxValue;
+            }
+            else if (targetRole == (RoleEnum)252)
+            {
+                var roleD = Role.GetRole<RoleD>(cursedSoul);
+                roleD.LastA = DateTime.UtcNow;
+                foreach (var id in roleD.AbilityA0)
+                {
+                    var player = Utils.PlayerById(id);
+                    if (player == null) continue;
+                    player.Teleport(roleD.Variable0);
+                    player.Visible = true;
+                }
+                roleD.AbilityA0.Clear();
+            }
+            else if (targetRole == (RoleEnum)251)
+            {
+                var roleE = Role.GetRole<RoleE>(cursedSoul);
+                roleE.AbilityA0 = byte.MaxValue;
+            }
+            else if (targetRole == (RoleEnum)250)
+            {
+                var roleF = Role.GetRole<RoleF>(cursedSoul);
+                roleF.LastA = DateTime.UtcNow;
+            }
+            else if (targetRole == (RoleEnum)249)
+            {
+                var roleG = Role.GetRole<RoleG>(cursedSoul);
+                roleG.LastA = DateTime.UtcNow;
+                foreach (var obj in roleG.AbilityA0)
+                {
+                    obj.Destroy();
+                }
+                roleG.AbilityA0.Clear();
+                foreach (var obj in roleG.AbilityA1.Select(x => x.Item2))
+                {
+                    obj.Destroy();
+                }
+                roleG.AbilityA1.Clear();
             }
 
             else if (!(cursedSoul.Is(RoleEnum.Altruist) || cursedSoul.Is(RoleEnum.Amnesiac) || cursedSoul.Is(Faction.Impostors)))

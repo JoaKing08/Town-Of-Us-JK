@@ -25,7 +25,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var flag2 = role.SheriffKillTimer() == 0f;
             if (!flag2) return false;
-            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            if (PlayerControl.LocalPlayer.IsRoleblocked())
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);

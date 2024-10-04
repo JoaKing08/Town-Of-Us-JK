@@ -68,11 +68,11 @@ namespace TownOfUs.Roles
             Player.cosmetics.SetBodyCosmeticsVisible(false);
         }
 
-        public float MaxTimer(bool IsUnderdog) => (IsUnderdog ? (PerformKill.LastImp() ? GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus : (PerformKill.IncreasedKC() ? GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown : GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus)) : GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f);
+        public float MaxTimer(bool IsUnderdog, bool IsRoleB) => ((IsUnderdog ? (PerformKill.LastImp() ? GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus : (PerformKill.IncreasedKC() ? GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown : GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus)) : GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown) - (IsRoleB ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f);
 
         public void SetKillTimer(bool IsUnderdog, PlayerControl player)
         {
-            player.SetKillTimer(MaxTimer(IsUnderdog));
+            player.SetKillTimer(MaxTimer(IsUnderdog, player.Is((RoleEnum)254)));
         }
     }
 }

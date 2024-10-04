@@ -163,6 +163,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
 
                 var role = Role.GetRole(StartImitate.ImitatingPlayer);
                 var killsList = (role.Kills, role.CorrectKills, role.IncorrectKills, role.CorrectAssassinKills, role.IncorrectAssassinKills);
+                var bread = role.BreadLeft;
+                var factionOverride = role.FactionOverride;
                 Role.RoleDictionary.Remove(StartImitate.ImitatingPlayer.PlayerId);
                 var imitator = new Imitator(StartImitate.ImitatingPlayer);
                 imitator.trappedPlayers = trappedPlayers;
@@ -181,6 +183,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 newRole.IncorrectKills = killsList.IncorrectKills;
                 newRole.CorrectAssassinKills = killsList.CorrectAssassinKills;
                 newRole.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+                newRole.BreadLeft = bread;
+                newRole.FactionOverride = factionOverride;
                 Role.GetRole<Imitator>(StartImitate.ImitatingPlayer).ImitatePlayer = null;
                 StartImitate.ImitatingPlayer = null;
             }

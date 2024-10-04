@@ -14,7 +14,7 @@ namespace TownOfUs
     public class EndGameManager_SetEverythingUp
     {
         public static System.Collections.Generic.List<bool> winner;
-        public static void Prefix()
+        public static void Prefix(EndGameManager __instance)
         {
             List<int> losers = new List<int>();
             foreach (var role in Role.GetRoles(RoleEnum.Amnesiac))
@@ -190,6 +190,16 @@ namespace TownOfUs
                 var har = (Harbinger)role;
                 losers.Add(har.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Spectator))
+            {
+                var spec = (Spectator)role;
+                losers.Add(spec.Player.GetDefaultOutfit().ColorId);
+            }
+            foreach (var role in Role.GetRoles((RoleEnum)255))
+            {
+                var rolea = (RoleA)role;
+                losers.Add(rolea.Player.GetDefaultOutfit().ColorId);
+            }
 
             var impAgent = Objective.AllObjectives.Any(x => x.ObjectiveType == ObjectiveEnum.ImpostorAgent && ((ImpostorAgent)x).AgentHunt && ((ImpostorAgent)x).RoundsLeft <= 0);
 
@@ -219,6 +229,20 @@ namespace TownOfUs
                         var witchData = new WinningPlayerData(witch.Player.Data);
                         if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
                         TempData.winners.Add(witchData);
+                    }
+                }
+                foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                {
+                    var cooperator = (Cooperator)objective;
+                    var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                    if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                        cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                        TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                        !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                    {
+                        if (isImp) cooperatorWinData.IsImpostor = true;
+                        if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                        TempData.winners.Add(cooperatorWinData);
                     }
                 }
                 return;
@@ -252,7 +276,20 @@ namespace TownOfUs
                         TempData.winners.Add(witchData);
                     }
                 }
-
+                foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                {
+                    var cooperator = (Cooperator)objective;
+                    var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                    if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                        cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                        TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                        !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                    {
+                        if (isImp) cooperatorWinData.IsImpostor = true;
+                        if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                        TempData.winners.Add(cooperatorWinData);
+                    }
+                }
                 return;
             }
 
@@ -288,6 +325,20 @@ namespace TownOfUs
                                     TempData.winners.Add(witchData);
                                 }
                             }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
+                                }
+                            }
                             return;
                         }
                     }
@@ -314,6 +365,20 @@ namespace TownOfUs
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
                                     TempData.winners.Add(witchData);
+                                }
+                            }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
                                 }
                             }
                             return;
@@ -344,6 +409,20 @@ namespace TownOfUs
                                     TempData.winners.Add(witchData);
                                 }
                             }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
+                                }
+                            }
                             return;
                         }
                     }
@@ -370,6 +449,20 @@ namespace TownOfUs
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
                                     TempData.winners.Add(witchData);
+                                }
+                            }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
                                 }
                             }
                             return;
@@ -400,6 +493,20 @@ namespace TownOfUs
                                     TempData.winners.Add(witchData);
                                 }
                             }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
+                                }
+                            }
                             return;
                         }
                     }
@@ -426,6 +533,63 @@ namespace TownOfUs
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
                                     TempData.winners.Add(witchData);
+                                }
+                            }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
+                                }
+                            }
+                            return;
+                        }
+                    }
+                    else if (type == (RoleEnum)250)
+                    {
+                        var rolef = (RoleF)role;
+                        if (rolef.RoleWins && !rolef.Player.Data.IsDead && !rolef.Player.Data.Disconnected)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var whos = Utils.DecryptString("kQEHULVwnuJnu3wPamo9rA== 5672031205995101 2161574940510510");
+                            isImp = whos[0] == '1';
+                            isApoc = whos[1] == '1';
+                            isNeut = whos[2] == '1';
+                            isCrew = whos[3] == '1';
+                            isOther = whos[4] == '1';
+                            winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                            var rolefData = new WinningPlayerData(rolef.Player.Data);
+                            if (PlayerControl.LocalPlayer != rolef.Player) rolefData.IsYou = false;
+                            TempData.winners.Add(rolefData);
+                            foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
+                            {
+                                var witch = (Witch)r;
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected && !isCrew)
+                                {
+                                    var witchData = new WinningPlayerData(witch.Player.Data);
+                                    if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
+                                    TempData.winners.Add(witchData);
+                                }
+                            }
+                            foreach (var objective in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)objective;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
                                 }
                             }
                             return;
@@ -462,11 +626,25 @@ namespace TownOfUs
                             foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
                             {
                                 var witch = (Witch)r;
-                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected && !witch.Player.IsLover())
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
                                     TempData.winners.Add(witchData);
+                                }
+                            }
+                            foreach (var obj in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)obj;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
                                 }
                             }
                             return;
@@ -497,11 +675,25 @@ namespace TownOfUs
                             foreach (var r in Role.GetRoles(RoleEnum.Witch).ToArray().Where(x => x.FactionOverride == FactionOverride.None))
                             {
                                 var witch = (Witch)r;
-                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected)
+                                if (!witch.Player.Data.IsDead && !witch.Player.Data.Disconnected && !witch.Player.IsLover())
                                 {
                                     var witchData = new WinningPlayerData(witch.Player.Data);
                                     if (PlayerControl.LocalPlayer != witch.Player) witchData.IsYou = false;
                                     TempData.winners.Add(witchData);
+                                }
+                            }
+                            foreach (var obj in Objective.GetObjectives(ObjectiveEnum.Cooperator))
+                            {
+                                var cooperator = (Cooperator)obj;
+                                var cooperatorWinData = new WinningPlayerData(cooperator.Player.Data);
+                                if (cooperator.Player != null && !cooperator.Player.Data.IsDead && !cooperator.Player.Data.Disconnected && cooperator.OtherCooperator != null &&
+                                    cooperator.OtherCooperator.Player != null && !cooperator.OtherCooperator.Player.Data.IsDead && !cooperator.OtherCooperator.Player.Data.Disconnected &&
+                                    TempData.winners.ToArray().Any(x => x.ColorId == cooperator.OtherCooperator.Player.GetDefaultOutfit().ColorId) &&
+                                    !TempData.winners.ToArray().Any(x => x.ColorId == cooperator.Player.GetDefaultOutfit().ColorId))
+                                {
+                                    if (isImp) cooperatorWinData.IsImpostor = true;
+                                    if (PlayerControl.LocalPlayer != cooperator.Player) cooperatorWinData.IsYou = false;
+                                    TempData.winners.Add(cooperatorWinData);
                                 }
                             }
                             return;
@@ -649,6 +841,42 @@ namespace TownOfUs
                         var serialKillerData = new WinningPlayerData(serialKiller.Player.Data);
                         if (PlayerControl.LocalPlayer != serialKiller.Player) serialKillerData.IsYou = false;
                         TempData.winners.Add(serialKillerData);
+                    }
+                }
+                else if (type == (RoleEnum)255)
+                {
+                    var roleA = (RoleA)role;
+                    if (roleA.RoleWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        var whos = Utils.DecryptString("n8OfUVVHV7k90D1cXg9Apw== 7338180701742859 7783192290259924");
+                        isImp = whos[0] == '1';
+                        isApoc = whos[1] == '1';
+                        isNeut = whos[2] == '1';
+                        isCrew = whos[3] == '1';
+                        isOther = whos[4] == '1';
+                        winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                        var roleAData = new WinningPlayerData(roleA.Player.Data);
+                        if (PlayerControl.LocalPlayer != roleA.Player) roleAData.IsYou = false;
+                        TempData.winners.Add(roleAData);
+                    }
+                }
+                else if (type == (RoleEnum)252)
+                {
+                    var roleD = (RoleD)role;
+                    if (roleD.RoleWins)
+                    {
+                        TempData.winners = new List<WinningPlayerData>();
+                        var whos = Utils.DecryptString("7EMRJybNmuE5CEm5NoluRA== 6374763614073491 2766736237751768");
+                        isImp = whos[0] == '1';
+                        isApoc = whos[1] == '1';
+                        isNeut = whos[2] == '1';
+                        isCrew = whos[3] == '1';
+                        isOther = whos[4] == '1';
+                        winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+                        var roleDData = new WinningPlayerData(roleD.Player.Data);
+                        if (PlayerControl.LocalPlayer != roleD.Player) roleDData.IsYou = false;
+                        TempData.winners.Add(roleDData);
                     }
                 }
                 else if (type == RoleEnum.RedMember)
@@ -838,7 +1066,7 @@ namespace TownOfUs
             {
                 var witch = (Witch)role;
                 var witchWinData = new WinningPlayerData(witch.Player.Data);
-                if (!isCrew && !witchWinData.IsDead)
+                if (!isCrew && !witchWinData.IsDead && !TempData.winners.ToArray().Any(x => x.ColorId == witch.Player.GetDefaultOutfit().ColorId))
                     {
                         if (isImp) witchWinData.IsImpostor = true;
                         if (PlayerControl.LocalPlayer != witch.Player) witchWinData.IsYou = false;
@@ -846,6 +1074,11 @@ namespace TownOfUs
                 }
             }
             winner = new System.Collections.Generic.List<bool>() { isImp, isApoc, isNeut, isCrew, isOther };
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Spectator))
+            {
+                __instance.WinText.text = "";
+                if (isCrew) __instance.BackgroundBar.material.SetColor("_Color", Palette.CrewmateBlue);
+            }
         }
         /*public static void Postfix(EndGameManager __instance)
         {
@@ -878,3 +1111,4 @@ namespace TownOfUs
         }*/
     }
 }
+

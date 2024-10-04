@@ -130,7 +130,7 @@ namespace TownOfUs.Roles
                         aligment = "<color=#CFFFFFFF>Crew Support</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Mayor) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Oracle) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Prosecutor) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Swapper) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Monarch))
                         aligment = "<color=#CFFFFFFF>Crew Power</color>";
-                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Crewmate))
+                    else if (Utils.PlayerById(_heretics[i]).Is(Faction.Crewmates))
                         aligment = "<color=#CFFFFFFF>Crew</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(Faction.NeutralBenign))
                         aligment = "<color=#808080FF>Neutral Benign</color>";
@@ -155,7 +155,7 @@ namespace TownOfUs.Roles
                         aligment = "<color=#FF0000FF>Impostor Support</color>";
                     else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Demagogue) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Godfather) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Occultist))
                         aligment = "<color=#FF0000FF>Impostor Power</color>";
-                    else if (Utils.PlayerById(_heretics[i]).Is(RoleEnum.Impostor) || Utils.PlayerById(_heretics[i]).Is(RoleEnum.Mafioso))
+                    else if (Utils.PlayerById(_heretics[i]).Is(Faction.Impostors))
                         aligment = "<color=#FF0000FF>Impostor</color>";
                     hereticInfo += aligment;
                     if (i == _heretics.Count - 2) hereticInfo += Patches.TranslationPatches.CurrentLanguage == 0 ? " and " : " i ";

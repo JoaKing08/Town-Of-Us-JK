@@ -27,7 +27,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
             var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x != PlayerControl.LocalPlayer && x != player).ToList();
             if (allPlayers.Count < 2) return Patches.TranslationPatches.CurrentLanguage == 0 ? "Too <b>few people alive</b> to receive a confessional" : "Za <b>malo zyjacych ludzi</b> by uzyskac spowiedz.";
             var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected &&
-            (x.Is(Faction.Impostors) || (x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.Vampire) &&
+            ((x.Is(Faction.Impostors) && !x.Is((RoleEnum)254)) || (x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.Vampire) &&
             CustomGameOptions.NeutralKillingShowsEvil) || (x.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralEvilShowsEvil) || (x.Is(Faction.NeutralBenign) &&
             CustomGameOptions.NeutralBenignShowsEvil) || (x.Is(Faction.NeutralChaos) && CustomGameOptions.NeutralChaosShowsEvil) || (x.Is(Faction.NeutralApocalypse) &&
             CustomGameOptions.NeutralApocalypseShowsEvil) || ((x.Is(RoleEnum.JKNecromancer) || x.Is(RoleEnum.Jackal) || x.Is(RoleEnum.Vampire)) && CustomGameOptions.NeutralProselyteShowsEvil))).ToList();

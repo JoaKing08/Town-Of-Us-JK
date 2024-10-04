@@ -74,7 +74,8 @@ namespace TownOfUs.Roles
                 if (player.Is(RoleEnum.GuardianAngel)) i = GetRole<GuardianAngel>(player).target.PlayerId == Player.PlayerId;
                 ga.Add(player.PlayerId, i);
             }
-            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && x.PlayerId != Player.PlayerId);
+            Func<PlayerControl, bool> nonStopping = x => !(x.Is(RoleEnum.GuardianAngel) && ga[x.PlayerId]) && !x.Is(RoleEnum.Survivor) && !x.Is(RoleEnum.Witch) && Player.PlayerId != x.PlayerId;
+            var onlyNonstopping = !PlayerControl.AllPlayerControls.ToArray().Any(x => !x.Data.IsDead && !x.Data.Disconnected && nonStopping(x) && !(x.IsCooperator() && Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x) != null && Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator != null && Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player != null && nonStopping(Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player) && !Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player.Data.IsDead && !Modifiers.Objective.GetObjective<Modifiers.Cooperator>(x).OtherCooperator.Player.Data.Disconnected));
 
             if ((1 >= AlivePlayers && KillingAlives == 0 && CustomGameOptions.OvertakeWin != OvertakeWin.Off) || (1 > 0 && AlivePlayers == 0) || onlyNonstopping)
             {
@@ -261,6 +262,8 @@ namespace TownOfUs.Roles
                 var modifier = Modifier.GetModifier(MimicTarget);
                 if (modifier is IVisualAlteration alteration)
                     alteration.TryGetModifiedAppearance(out appearance);
+                if (MimicTarget.Is((RoleEnum)252))
+                    return Role.GetRole<RoleD>(MimicTarget).TryGetModifiedAppearance(out appearance);
                 return true;
             }
 
@@ -686,7 +689,7 @@ namespace TownOfUs.Roles
 
             public static void MimicButtonPress(Glitch __gInstance)
             {
-                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                if (PlayerControl.LocalPlayer.IsRoleblocked())
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
                     NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);

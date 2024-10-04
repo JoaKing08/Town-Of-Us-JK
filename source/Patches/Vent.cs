@@ -58,7 +58,8 @@ namespace TownOfUs
                 (player.Is(RoleEnum.Death) && CustomGameOptions.DeathVent) || (player.Is(RoleEnum.Vampire) && CustomGameOptions.VampVent) ||
                 CustomGameOptions.GameMode == GameMode.Teams && CustomGameOptions.TeamsVent || (player.Is(RoleEnum.SoloKiller) && CustomGameOptions.SoloKillerVent) ||
                 (player.Is(RoleEnum.SerialKiller) && CustomGameOptions.SerialKillerVent) || (player.Is(RoleEnum.Undercover) && CustomGameOptions.UndercoverVent) ||
-                (player.Is(RoleEnum.JKNecromancer) && CustomGameOptions.NecromancerVent) || (player.Is(RoleEnum.Jackal) && CustomGameOptions.JackalVent))
+                (player.Is(RoleEnum.JKNecromancer) && CustomGameOptions.NecromancerVent) || (player.Is(RoleEnum.Jackal) && CustomGameOptions.JackalVent) ||
+                player.Is((RoleEnum)255))
                 return true;
 
             if (player.Is(RoleEnum.Werewolf) && CustomGameOptions.WerewolfVent)

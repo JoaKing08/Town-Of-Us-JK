@@ -15,6 +15,8 @@ using TownOfUs.Patches.ScreenEffects;
 using TownOfUs.Roles.Horseman;
 using Reactor.Utilities;
 using System.Collections.Generic;
+using Reactor.Utilities.Extensions;
+using System.Linq;
 
 namespace TownOfUs.NeutralRoles.AmnesiacMod
 {
@@ -41,7 +43,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 return false;
             if (Vector2.Distance(role.CurrentTarget.TruePosition,
                 PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
-            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            if (PlayerControl.LocalPlayer.IsRoleblocked())
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
@@ -157,6 +159,17 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
 
                     rememberImp = false;
 
+                    break;
+                default:
+                    if (other.Is(Faction.Crewmates))
+                    {
+                        rememberImp = false;
+                        rememberNeut = false;
+                    }
+                    else if (!other.Is(Faction.Impostors))
+                    {
+                        rememberImp = false;
+                    }
                     break;
             }
 
@@ -696,6 +709,58 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var occultistRole = Role.GetRole<Occultist>(amnesiac);
                 occultistRole.LastMark = DateTime.UtcNow;
                 occultistRole.MarkedPlayers.Clear();
+            }
+            else if (role == (RoleEnum)255)
+            {
+                var roleA = Role.GetRole<RoleA>(amnesiac);
+                roleA.LastA = DateTime.UtcNow;
+                roleA.LastB = DateTime.UtcNow;
+                roleA.LastC = DateTime.UtcNow;
+                if (roleA.AbilityB0)
+                {
+                    Utils.Unmorph(other);
+                    other.myRend().color = Color.white;
+                    roleA.AbilityB0 = false;
+                    other.MyPhysics.ResetMoveState();
+                }
+                roleA.AbilityBActive = false;
+            }
+            else if (role == (RoleEnum)253)
+            {
+                var roleC = Role.GetRole<RoleC>(amnesiac);
+                roleC.LastA = DateTime.UtcNow;
+                roleC.AbilityA0 = byte.MaxValue;
+            }
+            else if (role == (RoleEnum)252)
+            {
+                var roleD = Role.GetRole<RoleD>(amnesiac);
+                roleD.LastA = DateTime.UtcNow;
+                roleD.AbilityA0.Clear();
+            }
+            else if (role == (RoleEnum)251)
+            {
+                var roleE = Role.GetRole<RoleE>(amnesiac);
+                roleE.AbilityA0 = byte.MaxValue;
+            }
+            else if (role == (RoleEnum)250)
+            {
+                var roleF = Role.GetRole<RoleF>(amnesiac);
+                roleF.LastA = DateTime.UtcNow;
+            }
+            else if (role == (RoleEnum)249)
+            {
+                var roleG = Role.GetRole<RoleG>(amnesiac);
+                roleG.LastA = DateTime.UtcNow;
+                foreach (var obj in roleG.AbilityA0)
+                {
+                    obj.Destroy();
+                }
+                roleG.AbilityA0.Clear();
+                foreach (var obj in roleG.AbilityA1.Select(x => x.Item2))
+                {
+                    obj.Destroy();
+                }
+                roleG.AbilityA1.Clear();
             }
 
             else if (!(amnesiac.Is(RoleEnum.Altruist) || amnesiac.Is(RoleEnum.Amnesiac) || amnesiac.Is(Faction.Impostors)))

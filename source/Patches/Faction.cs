@@ -12,7 +12,8 @@ namespace TownOfUs
         RedTeam,
         BlueTeam,
         YellowTeam,
-        GreenTeam
+        GreenTeam,
+        Spectators
     }
     public enum FactionOverride
     {

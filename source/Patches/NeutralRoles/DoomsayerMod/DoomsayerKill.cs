@@ -175,6 +175,11 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 var otherLover = Objective.GetObjective<Lover>(player).OtherLover.Player;
                 if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Is(RoleEnum.Famine) && !otherLover.Is(RoleEnum.War) && !otherLover.Is(RoleEnum.Death)) MurderPlayer(otherLover, false, false);
             }
+            else if (checkLover && player.IsCooperator() && CustomGameOptions.BothCooperatorsDie)
+            {
+                var otherCooperator = Objective.GetObjective<Cooperator>(player).OtherCooperator.Player;
+                if (!otherCooperator.Is(RoleEnum.Pestilence) && !otherCooperator.Is(RoleEnum.Famine) && !otherCooperator.Is(RoleEnum.War) && !otherCooperator.Is(RoleEnum.Death)) MurderPlayer(otherCooperator, false, false);
+            }
             else if (checkLover && player.Is(FactionOverride.Recruit) && !player.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink)
             {
                 var otherRecruit = PlayerControl.AllPlayerControls.ToArray().First(x => x.PlayerId != player.PlayerId && x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal));

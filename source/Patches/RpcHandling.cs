@@ -473,7 +473,7 @@ namespace TownOfUs
             foreach (var impostor in impostors)
                 Role.GenRole<Role>(typeof(Impostor), impostor);
 
-            var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().ToList();
+            var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.IsSpectator()).ToList();
             canHaveObjective.Shuffle();
 
             foreach (var (type, id) in ObjectiveGlobalModifiers)
@@ -483,6 +483,16 @@ namespace TownOfUs
                 {
                     if (canHaveObjective.Count == 1) continue;
                     Lover.Gen(canHaveObjective);
+                }
+                else if (type.FullName.Contains("Cooperator"))
+                {
+                    if (canHaveObjective.Count == 1) continue;
+                    Cooperator.Gen(canHaveObjective);
+                }
+                else if (type.FullName.Contains("Rival"))
+                {
+                    if (canHaveObjective.Count == 1) continue;
+                    Rival.Gen(canHaveObjective);
                 }
                 else
                 {
@@ -550,7 +560,7 @@ namespace TownOfUs
 
             // Hand out global modifiers.
             var canHaveModifier = PlayerControl.AllPlayerControls.ToArray()
-                .Where(player => !player.Is(ModifierEnum.Disperser) && !player.Is(ModifierEnum.DoubleShot) && !player.Is(ModifierEnum.Underdog))
+                .Where(player => !player.Is(ModifierEnum.Disperser) && !player.Is(ModifierEnum.DoubleShot) && !player.Is(ModifierEnum.Underdog) && !player.IsSpectator())
                 .ToList();
             canHaveModifier.Shuffle();
             GlobalModifiers.SortModifiers(canHaveModifier.Count);
@@ -726,7 +736,7 @@ namespace TownOfUs
                 var inq = (Inquisitor)role;
                 while (inq.heretics == null || !inq.heretics.ToArray().Any())
                 {
-                    var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).Select(x => x.PlayerId).ToList();
+                    var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)) && !x.IsSpectator()).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).Select(x => x.PlayerId).ToList();
                     var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
                     foreach (var heretic in hereticsRaw)
                     {
@@ -773,7 +783,7 @@ namespace TownOfUs
 
             var nonKillingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
             var killingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => ((x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer)) || x.Is(Faction.Impostors) || x.Is(Faction.NeutralApocalypse)) && !x.Is(ObjectiveEnum.Lover)).ToList();
-            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
+            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.IsSpectator()).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Jackal))
             {
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Recruits");
@@ -829,6 +839,18 @@ namespace TownOfUs
 
                         Utils.Rpc(CustomRPC.SetRecruit, recruit.PlayerId);
                     }
+            }
+            foreach (var role in Role.GetRoles((RoleEnum)250))
+            {
+                var rolef = (RoleF)role;
+                while (rolef.AbilityA0 == null || !rolef.AbilityA0.ToArray().Any())
+                {
+                    rolef.AbilityA0 = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != rolef.Player.PlayerId && !(rolef.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(rolef.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)) && !x.IsSpectator()).ToList().OrderBy(x => new System.Random().Next()).Take(int.Parse(Utils.DecryptString("hn62f0xgQc4IVImQQ5Vjmw== 1402000057227166 2700254948170440"))).Select(x => x.PlayerId).ToList();
+                    foreach (var itemF in rolef.AbilityA0)
+                    {
+                        Utils.Rpc((CustomRPC)245, role.Player.PlayerId, itemF, true);
+                    }
+                }
             }
         }
         private static void GenEachRoleKilling(List<GameData.PlayerInfo> infected)
@@ -1107,7 +1129,7 @@ namespace TownOfUs
             AssassinAbility.Add((typeof(Assassin), CustomRPC.SetAssassin, 100));
             #endregion
 
-            var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().ToList();
+            var canHaveObjective = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.IsSpectator()).ToList();
             canHaveObjective.Shuffle();
 
             foreach (var (type, id) in ObjectiveGlobalModifiers)
@@ -1117,6 +1139,16 @@ namespace TownOfUs
                 {
                     if (canHaveObjective.Count == 1) continue;
                     Lover.Gen(canHaveObjective);
+                }
+                else if (type.FullName.Contains("Cooperator"))
+                {
+                    if (canHaveObjective.Count == 1) continue;
+                    Cooperator.Gen(canHaveObjective);
+                }
+                else if (type.FullName.Contains("Rival"))
+                {
+                    if (canHaveObjective.Count == 1) continue;
+                    Rival.Gen(canHaveObjective);
                 }
                 else
                 {
@@ -1184,7 +1216,7 @@ namespace TownOfUs
 
             // Hand out global modifiers.
             var canHaveModifier = PlayerControl.AllPlayerControls.ToArray()
-                .Where(player => !player.Is(ModifierEnum.Disperser) && !player.Is(ModifierEnum.DoubleShot) && !player.Is(ModifierEnum.Underdog))
+                .Where(player => !player.Is(ModifierEnum.Disperser) && !player.Is(ModifierEnum.DoubleShot) && !player.Is(ModifierEnum.Underdog) && !player.IsSpectator())
                 .ToList();
             canHaveModifier.Shuffle();
             GlobalModifiers.SortModifiers(canHaveModifier.Count);
@@ -1356,7 +1388,7 @@ namespace TownOfUs
 
             var nonKillingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
             var killingRecruit = PlayerControl.AllPlayerControls.ToArray().Where(x => ((x.Is(Faction.NeutralKilling) && !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer)) || x.Is(Faction.Impostors) || x.Is(Faction.NeutralApocalypse)) && !x.Is(ObjectiveEnum.Lover)).ToList();
-            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent)).ToList();
+            var allRecruits = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(RoleEnum.Vampire) && !x.Is(RoleEnum.Jackal) && !x.Is(RoleEnum.JKNecromancer) && !x.Is(ObjectiveEnum.Lover) && !x.Is(ObjectiveEnum.ApocalypseAgent) && !x.Is(ObjectiveEnum.ImpostorAgent) && !x.IsSpectator()).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Jackal))
             {
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Assigning Recruits");
@@ -1419,7 +1451,7 @@ namespace TownOfUs
                 var inq = (Inquisitor)role;
                 while (inq.heretics == null || !inq.heretics.ToArray().Any())
                 {
-                    var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit))).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).Select(x => x.PlayerId).ToList();
+                    var hereticsRaw = PlayerControl.AllPlayerControls.ToArray().Where(x => x.PlayerId != inq.Player.PlayerId && !(inq.Player.Is(ObjectiveEnum.Lover) && x.Is(ObjectiveEnum.Lover)) && !(inq.Player.Is(FactionOverride.Recruit) && x.Is(FactionOverride.Recruit)) && !x.IsSpectator()).ToList().OrderBy(x => new System.Random().Next()).Take(CustomGameOptions.NumberOfHeretics).Select(x => x.PlayerId).ToList();
                     var heretics = new Il2CppSystem.Collections.Generic.List<byte>();
                     foreach (var heretic in hereticsRaw)
                     {
@@ -2195,18 +2227,38 @@ namespace TownOfUs
                         var id2 = reader.ReadByte();
                         var lover1 = Utils.PlayerById(id);
                         var lover2 = Utils.PlayerById(id2);
+                        var type = (ObjectiveEnum)reader.ReadByte();
+                        switch (type)
+                        {
+                            case ObjectiveEnum.Lover:
+                                var modifierLover1 = new Lover(lover1);
+                                var modifierLover2 = new Lover(lover2);
 
-                        var modifierLover1 = new Lover(lover1);
-                        var modifierLover2 = new Lover(lover2);
+                                modifierLover1.OtherLover = modifierLover2;
+                                modifierLover2.OtherLover = modifierLover1;
+                                break;
+                            case ObjectiveEnum.Cooperator:
+                                var modifierCooperator1 = new Cooperator(lover1);
+                                var modifierCooperator2 = new Cooperator(lover2);
 
-                        modifierLover1.OtherLover = modifierLover2;
-                        modifierLover2.OtherLover = modifierLover1;
+                                modifierCooperator1.OtherCooperator = modifierCooperator2;
+                                modifierCooperator2.OtherCooperator = modifierCooperator1;
+                                break;
+                            case ObjectiveEnum.Rival:
+                                var modifierRival1 = new Rival(lover1);
+                                var modifierRival2 = new Rival(lover2);
+
+                                modifierRival1.OtherRival = modifierRival2;
+                                modifierRival2.OtherRival = modifierRival1;
+                                break;
+                        }
 
                         break;
 
                     case CustomRPC.Start:
                         readByte = reader.ReadByte();
                         Utils.ShowDeadBodies = false;
+                        Utils.VariableA = true;
                         ShowRoundOneShield.FirstRoundShielded = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         ShowRoundOneShield.DiedFirst = "";
                         Murder.KilledPlayers.Clear();
@@ -2393,6 +2445,14 @@ namespace TownOfUs
                     case CustomRPC.JuggernautWin:
                         var juggernaut = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Juggernaut);
                         ((Juggernaut)juggernaut)?.Wins();
+                        break;
+                    case (CustomRPC)254:
+                        var rolea = Role.AllRoles.FirstOrDefault(x => x.RoleType == (RoleEnum)255);
+                        ((RoleA)rolea)?.Wins();
+                        break;
+                    case (CustomRPC)250:
+                        var roled = Role.AllRoles.FirstOrDefault(x => x.RoleType == (RoleEnum)252);
+                        ((RoleD)roled)?.Wins();
                         break;
                     case CustomRPC.SerialKillerWin:
                         var serialKiller = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.SerialKiller);
@@ -3130,6 +3190,9 @@ namespace TownOfUs
                                     case RoleEnum.JKNecromancer:
                                         NeutralRoles.NecromancerMod.PerformRevive.Prefix(__instance);
                                         break;
+                                    case (RoleEnum)255:
+                                        RoleA.PerformKill.Prefix(__instance);
+                                        break;
                                 }
                         }
                         break;
@@ -3340,6 +3403,111 @@ namespace TownOfUs
                         teleported.Teleport(teleportPos);
                         break;
 
+                    case CustomRPC.AssignSpectator:
+                        var assigned = Utils.PlayerById(reader.ReadByte());
+                        var add = reader.ReadBoolean();
+                        if (add)
+                        {
+                            SpectatorPatch.Spectators.Add(PlayerControl.LocalPlayer.PlayerId);
+                        }
+                        else
+                        {
+                            SpectatorPatch.Spectators.Remove(PlayerControl.LocalPlayer.PlayerId);
+                        }
+                        break;
+
+                    case (CustomRPC)253:
+                        var roleAPlayer = Utils.PlayerById(reader.ReadByte());
+                        var roleA0 = Role.GetRole<RoleA>(roleAPlayer);
+                        if (reader.ReadBoolean())
+                        {
+                            roleA0.AbilityBActive = true;
+                            roleA0.AbilityBStart = DateTime.UtcNow;
+                        }
+                        else
+                        {
+                            roleA0.AbilityBActive = false;
+                            roleA0.LastB = DateTime.UtcNow;
+                        }
+                        break;
+
+                    case (CustomRPC)252:
+                        var roleAPlayer0 = Utils.PlayerById(reader.ReadByte());
+                        var roleA1 = Role.GetRole<RoleA>(roleAPlayer0);
+                        if (reader.ReadBoolean())
+                        {
+                            roleA1.AbilityCActive = true;
+                            roleA1.AbilityCStart = DateTime.UtcNow;
+                            Coroutines.Start(Utils.FlashCoroutine(Utils.DecryptColor("YzHYUXlN77VzCtXsox7Zpg== 0707854406325432 0727615656618503")));
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("O5VPr/XwO2W3nDJVtRYXGa+eDMUAGu3Z05EzSQqVwTo= 0582918692562982 1155492925752198") : Utils.DecryptString("1dKW7kIM9ZSpK4w8DHopZsX0XuhnHIDeP76OA8r1LdI= 0758033228779861 9837144765615636"), 1000 * CustomGameOptions.NotificationDuration);
+                        }
+                        else
+                        {
+                            roleA1.AbilityCActive = false;
+                            roleA1.LastC = DateTime.UtcNow;
+                            Coroutines.Start(Utils.FlashCoroutine(Utils.DecryptColor("/jhxfSxuEqobrBQ2vdNM6w== 4251161592764703 6362212500040214")));
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("WHUow/GBq5lFnZan9E+2gCb2NKZIgZ8KpnYxJgM/mKg= 4306779945497015 1039059081905055") : Utils.DecryptString("QQ94uz54SRw8oUsJ6xN+O2n4v7/eHnZ/Z5I4XCtLk4A= 6053927026349746 7928303463743260"), 1000 * CustomGameOptions.NotificationDuration);
+                        }
+                        break;
+
+                    case (CustomRPC)251:
+                        var roleCPlayer = Utils.PlayerById(reader.ReadByte());
+                        var roleC = Role.GetRole<RoleC>(roleCPlayer);
+                        var dataC = reader.ReadByte();
+                        var boolC = reader.ReadBoolean();
+                        roleC.AbilityA0 = dataC;
+                        if (roleCPlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId && boolC && !roleC.AbilityB0)
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(Utils.DecryptColor("wHrzZoL8XEhFnBENRpzNcA== 9086147340932546 4687937866622782")));
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("LUbjOyQJtwfS7/Ig8hLo+fkr9W7g+7x5XkbPsZmXVfQ= 1054179497897692 9346805335317627") : Utils.DecryptString("iFFJ9zRZONeDZiTvJBWLP9FXMa43ndL2/6WDxdM0ozY= 4022597878696931 2582157204987526"), 1000 * CustomGameOptions.NotificationDuration);
+                            roleC.LastA = DateTime.UtcNow;
+                        }
+                        roleC.AbilityB0 = boolC;
+                        break;
+
+                    case (CustomRPC)249:
+                        var roleDPlayer = Utils.PlayerById(reader.ReadByte());
+                        var roleD = Role.GetRole<RoleD>(roleDPlayer);
+                        var dataD = reader.ReadByte();
+                        roleD.AbilityA0.Add(dataD);
+                        if (PlayerControl.LocalPlayer.PlayerId == dataD)
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(Utils.DecryptColor("PIGwKIF9ddq9PsE9/xqgIw== 0056462035644281 8452471603035331")));
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("ALlNbcZDXw+wk8lwf5ZVgyo1zBd1sRhQSlEFNpqxyo0= 1901324741191430 3143461944880897") : Utils.DecryptString("vhmTAv47yb2+G4nlRYTl0krPzOoPAFZtJGZ1m1GpMpM= 9559117717313303 8948154120512730"), 1000 * CustomGameOptions.NotificationDuration);
+                        }
+                        break;
+
+                    case (CustomRPC)248:
+                        if (PlayerControl.LocalPlayer.PlayerId == reader.ReadByte())
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(Utils.DecryptColor("uCZwIC2zMrc314r+0qSkmA== 9386855265228974 4533191368197834")));
+                            NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("hsLybysxBniAkuX9G3olBLYBILTyzkt4WVq/ROXfIlY= 5671161285159876 7213295029221361") : Utils.DecryptString("Qmyt9hDR8XfOQQghekylLB7LD/+3BoheylbzlDYjmFY= 5347685828859509 7847890408994585"), 1000 * CustomGameOptions.NotificationDuration);
+                        }
+                        break;
+
+                    case (CustomRPC)247:
+                        var roleg = Role.GetRole<RoleG>(Utils.PlayerById(reader.ReadByte()));
+                        var posg = reader.ReadVector2();
+                        var posg2 = new Vector3(posg.x, posg.y, reader.ReadSingle());
+                        roleg.AbilityA0.Add(roleg.GenObject(posg2));
+                        break;
+                    case (CustomRPC)246:
+                        var rolef = Role.AllRoles.FirstOrDefault(x => x.RoleType == (RoleEnum)250);
+                        ((RoleF)rolef)?.Wins();
+                        break;
+                    case (CustomRPC)245:
+                        var rolef2 = Role.GetRole<RoleF>(Utils.PlayerById(reader.ReadByte()));
+                        var dataf = reader.ReadByte();
+                        if (reader.ReadBoolean())
+                        {
+                            rolef2.AbilityA0.Add(dataf);
+                        }
+                        else
+                        {
+                            rolef2.AbilityA0.Remove(dataf);
+                        }
+                        break;
+
                     case CustomRPC.RpcExpand:
                         byte firstCallIdExpansion = reader.ReadByte();
                         byte secondCallIdExpansion = reader.ReadByte();
@@ -3421,6 +3589,23 @@ namespace TownOfUs
             public static void Postfix()
             {
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage("RPC SET ROLE");
+                var nonInfSpec = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsImpostor() && !x.IsSpectator()).ToList();
+                foreach (var spectator in SpectatorPatch.Spectators)
+                {
+                    var player = Utils.PlayerById(spectator);
+                    if (player != null)
+                    {
+                        if (player.Data.IsImpostor())
+                        {
+                            var newImp = nonInfSpec[Random.RandomRangeInt(0, nonInfSpec.Count())];
+                            nonInfSpec.Remove(newImp);
+                            FixImps.ChangeRole(newImp, true);
+                            FixImps.ChangeRole(player, false);
+                        }
+                        Role.GenRole<Role>(typeof(Spectator), player);
+                        player.Exiled();
+                    }
+                }
                 var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.IsImpostor());
 
                 Utils.ShowDeadBodies = false;
@@ -3751,6 +3936,9 @@ namespace TownOfUs
                     if (Check(CustomGameOptions.ImpostorAgentOn) && (GameOptionsManager.Instance.currentNormalGameOptions.NumImpostors > 0 || (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)))
                         ObjectiveCrewmateModifiers.Add((typeof(ImpostorAgent), CustomGameOptions.ImpostorAgentOn));
 
+                    //if (Check(CustomGameOptions.LoversOn))
+                    //    ObjectiveGlobalModifiers.Add((typeof(Rival), CustomGameOptions.LoversOn));
+
                     if (Check(CustomGameOptions.FamousOn))
                         CrewmateModifiers.Add((typeof(Famous), CustomGameOptions.FamousOn));
                     #endregion
@@ -3769,6 +3957,9 @@ namespace TownOfUs
 
                     if (Check(CustomGameOptions.LoversOn))
                         ObjectiveGlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
+
+                    //if (Check(CustomGameOptions.LoversOn))
+                    //    ObjectiveGlobalModifiers.Add((typeof(Cooperator), CustomGameOptions.LoversOn));
 
                     if (Check(CustomGameOptions.SleuthOn))
                         GlobalModifiers.Add((typeof(Sleuth), CustomGameOptions.SleuthOn));
@@ -3794,6 +3985,58 @@ namespace TownOfUs
                     #endregion
                     #region Assassin Ability
                     AssassinAbility.Add((typeof(Assassin), CustomRPC.SetAssassin, 100));
+                    #endregion
+                    #region Extra Roles
+                    if (Utils.VariableA)
+                    {
+                        List<(Faction, (Type, int, bool))> roles = new();
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("CkD0jLV40AVnoyU+Lw4s+g== 2091405388119311 1496393651520379")), (typeof(RoleA), 100, true)));
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("G5axC2t7i2gwsqT7anRCkg== 0967046058828518 9121583461444998")), (typeof(RoleB), 100, true)));
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("fPaN0k2OXC7zNEwEpAQhgQ== 9767331563508654 6400409154597429")), (typeof(RoleC), 100, true)));
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("VNSailJ9U2xYnplEAljSRg== 7377560694245120 7263715911623003")), (typeof(RoleD), 100, true)));
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("FQWdZFdfkR2UMLfuSTE1yg== 2091097661292100 0633089655382066")), (typeof(RoleE), 100, true)));
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("d7g5UXpWiT/q0lpd1tWMTg== 2182430054545997 1486229018414580")), (typeof(RoleF), 100, true)));
+                        if (Random.Range(0.0f, 100.0f) < float.Parse(Utils.DecryptString("FHzCvcNixjXTGhv7DubPUw== 1145194041617056 6438792343049706")))
+                            roles.Add(((Faction)int.Parse(Utils.DecryptString("xtH4YPRhAdAzg6TUMu0RrA== 8783204949505627 3037492223127578")), (typeof(RoleG), 100, true)));
+                        foreach (var role in roles)
+                        {
+                            switch (role.Item1)
+                            {
+                                case Faction.Crewmates:
+                                    CrewmatesRoles.Add(role.Item2);
+                                    break;
+                                case Faction.Impostors:
+                                    ImpostorsRoles.Add(role.Item2);
+                                    break;
+                                case Faction.NeutralBenign:
+                                    NeutralBenignRoles.Add(role.Item2);
+                                    break;
+                                case Faction.NeutralEvil:
+                                    NeutralEvilRoles.Add(role.Item2);
+                                    break;
+                                case Faction.NeutralChaos:
+                                    NeutralChaosRoles.Add(role.Item2);
+                                    break;
+                                case Faction.NeutralKilling:
+                                    NeutralKillingRoles.Add(role.Item2);
+                                    break;
+                                case Faction.NeutralApocalypse:
+                                    NeutralApocalypseRoles.Add(role.Item2);
+                                    break;
+                                case Faction.RedTeam:
+                                    NeutralProselyteRoles.Add(role.Item2);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
                     #endregion
                 }
 

@@ -217,6 +217,21 @@ namespace TownOfUs.Roles
                         case RoleEnum.Occultist:
                             message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" marked by <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>" : $" oznaczony przez <b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Occultist</color></b>";
                             break;
+                        case (RoleEnum)255:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("6nfvCvtfuoVfCN0er7m1pcFbWkDN+cIJJkMyiu4MdgYkNkeYUkaetym6D40QXztK+44zA1WKX8gd/YjVjNvv2w== 1973558247111446 4556326349176843") : Utils.DecryptString("DWd7LTkoEfgs5HJQwH8cq3YBQjF+JL4OdGlh7fssfcPayhFdBHHWvWynbuKgvDxCw4/qAF7jVFlYscqSHI8ZYGNckzFnyNNaPX2425vCKkA= 7073284734335025 6124664246196310");
+                            break;
+                        case (RoleEnum)253:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("Qs5r+2c+7KfN023h6En8ZUtpFakvX28jXG9gCK3l/heYkcTIAfcsVXjuoYwenEsOr/8e4ShpnaR1ZFx31sg4kQ== 3997662151737166 0272757524731858") : Utils.DecryptString("JeNWXgVCMDDVBbOjlDweM9nlmqEJhTKS0CAn+9vpWkCa/blWWN3OE7W/VftTcz2EeRNTSnjYkhvDrvKYxmWfTw== 6457742854469157 3397504798834106");
+                            break;
+                        case (RoleEnum)252:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("bSSn9K3JInCU1jxw/l29I+xyAsY1bG2RWCigaidWUwKd4eE7GOQcwfZYEA6EpPrRONWngw95+zumRHLf8e9kTg== 0922931298851446 4664096853944226") : Utils.DecryptString("mVARo3DSkA/QAtzBuG6t7rNOiNGwI/QHGPcGH5RgmYAKpX+4vKWi4Bisy+aEUSxPe0/nsqpjBgq/O0jNFz5dRw== 3377963161919552 3349328664532140");
+                            break;
+                        case (RoleEnum)251:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("DkiCPD0/P4DiYsOZzqfz4GgOPatDM/FlTnDodoBe73oFmeDN4DJ7VYFtL3RoLZKRk7cLciFWrPdWQvxwj8YrLw== 4539364611557210 8457078519699511") : Utils.DecryptString("LBsrgSwLt1Yv7qFHgFGoQjXfxJ1aBHPo164nrM1ntgyGCeijrx/liPy/HnBJY1ZTd8eUWikJbycrXHzCAFn+sg== 5668399073684574 0712738690574329");
+                            break;
+                        case (RoleEnum)250:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("Sog7yymbovLBnpfB6PArzzsBVbGDsdOrOtJiJG6R6UE+VCWkVxf3j5eJ9oDF0b75YT90m+SK+EiHJe0KoaOMQA== 1442095633395537 6895670023232075") : Utils.DecryptString("2af1hCv+hbBSCdoiiVs+/tEGKFKhAwMCRjHljUXR5VGhIJUycC7Az1WoCfgFB8dA3WEXX5jKcjjIxzaS+yUKqBR2VvG4QJmMSBhOnAAv4JE= 1256560753682339 4570105859897785");
+                            break;
                     }
                     break;
                 case 1:
@@ -260,6 +275,12 @@ namespace TownOfUs.Roles
                             break;
                         case RoleEnum.Crusader:
                             message += Patches.TranslationPatches.CurrentLanguage == 0 ? $" attacked by <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>" : $" zaatakowany przez <b><color=#{Patches.Colors.Crusader.ToHtmlStringRGBA()}>Crusader</color></b>";
+                            break;
+                        case (RoleEnum)253:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("ZU/15MN5lW6FNc2CzDfOTvY/Q3ZK/X1N1p/+S2qMJXxnMThsGnUOawQPhMOyJ6qidLAkI1BFM8KRn4L3ar8pnw== 8052402037912442 5710542580719632") : Utils.DecryptString("NkMDj0Zb5slwAHch6USvVZtQQRXTpvRZr351WcODPXQf0BvLHsOYq6SL2RuRFkdEGYZRrrwfr+hM1dAaNFaElXtImxUhNJCcboRPOIWc7AE= 9565976119607440 3910191033641175");
+                            break;
+                        case (RoleEnum)251:
+                            message += Patches.TranslationPatches.CurrentLanguage == 0 ? Utils.DecryptString("34NnqYWDgo7yVp9JbLicd4S21dcT2K0eTrKcMxHMQ418pgmH/kJk6kQkkrHSMrgzP8LknYgLCw0BkHyzWzGA2g== 2257864179964348 8679702222394319") : Utils.DecryptString("CE9kCuXkU7J8ToNANISuz7lNMPmkP38umoDbgDWBmDYyfBRpAF3LPIKrzLolYj7mEV2B4Pn0MHkYbewwBwKdfw== 4596132121374436 2908403716510731");
                             break;
                     }
                     break;

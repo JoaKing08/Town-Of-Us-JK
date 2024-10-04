@@ -79,9 +79,9 @@ namespace TownOfUs.ImpostorRoles.SniperMod
                         var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                         var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;
                         var upperKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                        PlayerControl.LocalPlayer.SetKillTimer((Modifiers.UnderdogMod.PerformKill.LastImp() ? lowerKC : (Modifiers.UnderdogMod.PerformKill.IncreasedKC() ? normalKC : upperKC)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                        PlayerControl.LocalPlayer.SetKillTimer(((Modifiers.UnderdogMod.PerformKill.LastImp() ? lowerKC : (Modifiers.UnderdogMod.PerformKill.IncreasedKC() ? normalKC : upperKC)) - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     }
-                    else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
+                    else PlayerControl.LocalPlayer.SetKillTimer((GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - (PlayerControl.LocalPlayer.Is((RoleEnum)254) ? float.Parse(Utils.DecryptString("wM0UKwLvHUp6IN1CXoAd7w== 8648463848142112 8189533176230719")) : 0)) * (Utils.PoltergeistTasks() ? CustomGameOptions.PoltergeistKCdMult : 1f));
                     role.LastAim = DateTime.UtcNow;
                     Utils.Rpc(CustomRPC.Shoot, role.Player.PlayerId, role.AimedPlayer.Data.Disconnected ? byte.MaxValue : role.AimedPlayer.PlayerId);
                     role.AimedPlayer = null;

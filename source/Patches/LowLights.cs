@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
+using System.Linq;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -32,6 +33,11 @@ namespace TownOfUs
                 __result = __instance.MaxLightRadius;
                 return false;
             }
+            if (Role.GetRoles((RoleEnum)255).ToArray().Any(x => ((RoleA)x).AbilityCActive) && !player._object.Is((RoleEnum)255))
+            {
+                __result = __instance.MaxLightRadius / 6f / (player._object.IsRoleD() ? 3f : 1f);
+                return false;
+            }
 
             var switchSystem = GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? null : __instance.Systems[SystemTypes.Electrical]?.TryCast<SwitchSystem>();
             if (player.IsImpostor() || player._object.Is(RoleEnum.Glitch) ||
@@ -40,9 +46,9 @@ namespace TownOfUs
                 (player._object.Is(RoleEnum.Arsonist) && CustomGameOptions.ArsoImpVision) ||
                 (player._object.Is(RoleEnum.Vampire) && CustomGameOptions.VampImpVision) ||
                 player._object.Is(RoleEnum.SerialKiller) || player._object.Is(RoleEnum.JKNecromancer) ||
-                player._object.Is(RoleEnum.Jackal))
+                player._object.Is(RoleEnum.Jackal) || player._object.Is((RoleEnum)255))
             {
-                __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod;
+                __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod / (player._object.IsRoleD() ? 3f : 1f);
                 return false;
             }
             else if (player._object.Is(RoleEnum.Werewolf))
@@ -50,14 +56,14 @@ namespace TownOfUs
                 var role = Role.GetRole<Werewolf>(player._object);
                 if (role.Rampaged)
                 {
-                    __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod;
+                    __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod / (player._object.IsRoleD() ? 3f : 1f);
                     return false;
                 }
             }
 
             if (Patches.SubmergedCompatibility.isSubmerged())
             {
-                if (player._object.Is(ModifierEnum.Torch)) __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, 1) * GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
+                if (player._object.Is(ModifierEnum.Torch)) __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, 1) * GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod / (player._object.IsRoleD() ? 3f : 1f);
                 return false;
             }
 
@@ -71,13 +77,13 @@ namespace TownOfUs
                 if (role.Revealed)
                 {
                     __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius/2, t) *
-                       GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
+                       GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod / (player._object.IsRoleD() ? 3f : 1f);
                     return false;
                 }
             }
 
             __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
-                       GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
+                       GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod / (player._object.IsRoleD() ? 3f : 1f);
             return false;
         }
     }

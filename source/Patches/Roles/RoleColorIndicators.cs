@@ -24,9 +24,16 @@ namespace TownOfUs.Patches.Roles
             public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
             {
                 var player = PlayerControl.LocalPlayer;
-                var role = Role.GetRole(player);
+                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
                 {
-                    __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", role.Color);
+                    __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", Color.white);
+                }
+                else
+                {
+                    var role = Role.GetRole(player);
+                    {
+                        __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", role.Color);
+                    }
                 }
             }
         }

@@ -78,6 +78,8 @@ namespace TownOfUs.Roles
                 var modifier = Modifier.GetModifier(MorphedPlayer);
                 if (modifier is IVisualAlteration alteration)
                     alteration.TryGetModifiedAppearance(out appearance);
+                if (MorphedPlayer.Is((RoleEnum)252))
+                    return Role.GetRole<RoleD>(MorphedPlayer).TryGetModifiedAppearance(out appearance);
                 return true;
             }
 

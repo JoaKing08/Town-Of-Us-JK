@@ -104,6 +104,15 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
 
             var revived = new List<PlayerControl>();
 
+            if (player.Is(ObjectiveEnum.Rival))
+            {
+                var rival = Objective.GetObjective<Rival>(player);
+                if (rival.OtherRival.Player != null && !rival.OtherRival.Player.Data.Disconnected && !rival.OtherRival.Player.Data.IsDead && !rival.OtherRival.Player.Data.Tasks.ToArray().Any(x => !x.Complete))
+                {
+                    return;
+                }
+            }
+
             if (target != null)
             {
                 foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
@@ -144,6 +153,30 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
                 foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
                 {
                     if (deadBody.ParentId == lover.PlayerId)
+                    {
+                        deadBody.gameObject.Destroy();
+                    }
+                }
+            }
+
+            if (player.IsCooperator() && CustomGameOptions.BothCooperatorsDie)
+            {
+                var cooperator = Objective.GetObjective<Cooperator>(player).OtherCooperator.Player;
+
+                cooperator.Revive();
+                if (cooperator.Is(Faction.Impostors)) RoleManager.Instance.SetRole(cooperator, RoleTypes.Impostor);
+                else RoleManager.Instance.SetRole(cooperator, RoleTypes.Crewmate);
+                Murder.KilledPlayers.Remove(
+                    Murder.KilledPlayers.FirstOrDefault(x => x.PlayerId == cooperator.PlayerId));
+                revived.Add(cooperator);
+                Role.GetRole(cooperator).FactionOverride = FactionOverride.Undead;
+                Role.GetRole(cooperator).RegenTask();
+                if (cooperator.Is(Faction.Impostors)) RoleManager.Instance.SetRole(cooperator, RoleTypes.Impostor);
+                else RoleManager.Instance.SetRole(cooperator, RoleTypes.Crewmate);
+
+                foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                {
+                    if (deadBody.ParentId == cooperator.PlayerId)
                     {
                         deadBody.gameObject.Destroy();
                     }

@@ -48,6 +48,17 @@ namespace TownOfUs.NeutralRoles.PirateMod
                             voteArea.XMark.gameObject.SetActive(true);
                             voteArea.XMark.transform.localScale = Vector3.one;
                         }
+                        if (pirate.DueledPlayer.Is(ObjectiveEnum.Cooperator) && CustomGameOptions.BothCooperatorsDie)
+                        {
+                            var cooperator = Objective.GetObjective<Cooperator>(pirate.DueledPlayer).OtherCooperator.Player;
+                            cooperator.Exiled();
+                            voteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == cooperator.PlayerId);
+                            voteArea.AmDead = true;
+                            voteArea.Overlay.gameObject.SetActive(true);
+                            voteArea.Overlay.color = Color.white;
+                            voteArea.XMark.gameObject.SetActive(true);
+                            voteArea.XMark.transform.localScale = Vector3.one;
+                        }
                         if (pirate.DueledPlayer.Is(FactionOverride.Recruit) && CustomGameOptions.RecruistLifelink)
                         {
                             var recruit = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Is(FactionOverride.Recruit) && !x.Is(RoleEnum.Jackal) && x.PlayerId != pirate.Player.PlayerId);

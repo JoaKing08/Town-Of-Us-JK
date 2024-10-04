@@ -51,7 +51,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
                     NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Haunter Finished Tasks!" : "Haunter Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);
                 }
-                else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals))
+                else if (PlayerControl.LocalPlayer.Data.IsImpostor() || ((PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) || PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse)) && CustomGameOptions.HaunterRevealsNeutrals))
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
                     NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "Haunter Finished Tasks!" : "Haunter Skonczyl Zadania!", 1000 * CustomGameOptions.NotificationDuration);

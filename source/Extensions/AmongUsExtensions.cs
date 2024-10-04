@@ -53,6 +53,8 @@ namespace TownOfUs.Extensions
         {
             if (player.Is(RoleEnum.Lookout) && Role.GetRole<Lookout>(player).Watching == true)
                 return Role.GetRole<Lookout>(player).TryGetModifiedAppearance(out appearance);
+            if (player.Is((RoleEnum)252))
+                return Role.GetRole<RoleD>(player).TryGetModifiedAppearance(out appearance);
             if (modifier != null)
                 return modifier.TryGetModifiedAppearance(out appearance);
 

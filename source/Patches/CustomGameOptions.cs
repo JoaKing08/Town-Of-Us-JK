@@ -192,7 +192,34 @@ namespace TownOfUs
         Occultist,
 
 
-        RandomKiller
+        RandomKiller,
+
+        RoleA,
+        RoleB,
+        RoleC,
+        RoleD,
+        RoleE,
+        RoleF,
+        RoleG,
+        RoleH,
+        RoleI,
+        RoleJ,
+        RoleK,
+        RoleL,
+        RoleM,
+        RoleN,
+        RoleO,
+        RoleP,
+        RoleQ,
+        RoleR,
+        RoleS,
+        RoleT,
+        RoleU,
+        RoleV,
+        RoleW,
+        RoleX,
+        RoleY,
+        RoleZ
     }
     public enum RLBanEntry
     {
@@ -573,6 +600,7 @@ namespace TownOfUs
         public static bool GrenadierVent => Generate.GrenadierVent.Get();
         public static float FlashRadius => Generate.FlashRadius.Get();
         public static int LovingImpPercent => (int)Generate.LovingImpPercent.Get();
+        public static int KillingCooperatorPrecent => (int)Generate.LovingImpPercent.Get();
         public static bool KilledOnAlert => Generate.KilledOnAlert.Get();
         public static float AlertCd => Generate.AlertCooldown.Get();
         public static float AlertDuration => Generate.AlertDuration.Get();
@@ -934,6 +962,8 @@ namespace TownOfUs
         public static int DisableConvince => Generate.DisableConvince.Get();
         public static int DisableMeetingKill => Generate.DisableMeetingKill.Get();
         public static bool RevealDemagogue => Generate.RevealDemagogue.Get();
+        public static AllowChat CooperatorsChat => (AllowChat)Generate.LoversChat.Get();
+        public static bool BothCooperatorsDie => Generate.BothLoversDie.Get();
         //public static bool ImpsSaboAfterDeath => Generate.ImpsSaboAfterDeath.Get();
         //public static AllowSabotage AllowSaboNeutKillers => (AllowSabotage)Generate.AllowSaboNeutKillers.Get();
     }

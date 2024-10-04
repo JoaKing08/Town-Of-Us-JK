@@ -21,7 +21,7 @@ namespace TownOfUs
     {
         private static bool Prefix(ImpostorRole __instance, ref IUsable usable, ref bool __result)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.CultistSnitch) && !PlayerControl.LocalPlayer.Is(ModifierEnum.Tasker)) return true;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.CultistSnitch) && !PlayerControl.LocalPlayer.Is(ModifierEnum.Tasker) && !PlayerControl.LocalPlayer.Is(RoleEnum.Poltergeist)) return true;
             __result = true;
             return false;
         }

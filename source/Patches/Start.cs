@@ -517,6 +517,45 @@ namespace TownOfUs.Patches
                 tavern.LastDrink = DateTime.UtcNow;
                 tavern.LastDrink = tavern.LastDrink.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DrinkCooldown);
             }
+
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)255))
+            {
+                var rolea = Role.GetRole<RoleA>(PlayerControl.LocalPlayer);
+                rolea.LastA = DateTime.UtcNow;
+                rolea.LastA = rolea.LastA.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("uRu07FMxdS+O36UU85keqQ== 8440819505662877 5407787567968508")));
+                rolea.LastB = DateTime.UtcNow;
+                rolea.LastB = rolea.LastB.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("eGidQZ1XElM+cyvipr/5GQ== 8885458169062419 4238358679107121")));
+                rolea.LastC = DateTime.UtcNow;
+                rolea.LastC = rolea.LastC.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("GLhZJuxhUydBLEQO5TF3zw== 7538189581709858 9727130352292919")));
+            }
+
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)253))
+            {
+                var rolec = Role.GetRole<RoleC>(PlayerControl.LocalPlayer);
+                rolec.LastA = DateTime.UtcNow;
+                rolec.LastA = rolec.LastA.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("5gJbphhDU0mND9ifUe8AVw== 7572323668614606 1242009088485010")));
+            }
+
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)252))
+            {
+                var roled = Role.GetRole<RoleD>(PlayerControl.LocalPlayer);
+                roled.LastA = DateTime.UtcNow;
+                roled.LastA = roled.LastA.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("kkF8cSl5NiCaRBqd6lHURg== 7545471767372027 6396618114550150")));
+            }
+
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)250))
+            {
+                var rolef = Role.GetRole<RoleF>(PlayerControl.LocalPlayer);
+                rolef.LastA = DateTime.UtcNow;
+                rolef.LastA = rolef.LastA.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("23TYyWkJWj8QqmoLRjxvxQ== 3700567868697836 1212392960257415")));
+            }
+
+            if (PlayerControl.LocalPlayer.Is((RoleEnum)249))
+            {
+                var roled = Role.GetRole<RoleG>(PlayerControl.LocalPlayer);
+                roled.LastA = DateTime.UtcNow;
+                roled.LastA = roled.LastA.AddSeconds(CustomGameOptions.InitialCooldowns - float.Parse(Utils.DecryptString("x3fon4QCld5wApaP0B/shw== 4084150867550442 4911700728981121")));
+            }
         }
     }
 }

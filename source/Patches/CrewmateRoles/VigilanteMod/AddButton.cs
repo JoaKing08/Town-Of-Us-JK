@@ -153,7 +153,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion ||
                     IsExempt(voteArea) || PlayerControl.LocalPlayer.Data.IsDead
                 ) return;
-                if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+                if (PlayerControl.LocalPlayer.IsRoleblocked())
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
                     NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);
@@ -197,6 +197,11 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     {
                         var lover = ((Lover)playerObjective).OtherLover.Player;
                         if (!lover.Is(RoleEnum.Pestilence) && !lover.Is(RoleEnum.Famine) && !lover.Is(RoleEnum.War) && !lover.Is(RoleEnum.Death)) ShowHideButtonsVigi.HideSingle(role, lover.PlayerId, false);
+                    }
+                    else if (toDie.IsCooperator() && CustomGameOptions.BothCooperatorsDie)
+                    {
+                        var cooperator = ((Cooperator)playerObjective).OtherCooperator.Player;
+                        if (!cooperator.Is(RoleEnum.Pestilence) && !cooperator.Is(RoleEnum.Famine) && !cooperator.Is(RoleEnum.War) && !cooperator.Is(RoleEnum.Death)) ShowHideButtonsVigi.HideSingle(role, cooperator.PlayerId, false);
                     }
                     else if (toDie.Is(FactionOverride.Recruit) && !toDie.Is(RoleEnum.Jackal) && CustomGameOptions.RecruistLifelink)
                     {

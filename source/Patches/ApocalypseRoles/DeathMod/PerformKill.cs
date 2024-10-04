@@ -20,7 +20,7 @@ namespace TownOfUs.ApocalypseRoles.DeathMod
             var role = Role.GetRole<Death>(PlayerControl.LocalPlayer);
             if (role.Player.inVent) return false;
             if (role.ApocalypseTimer() != 0) return false;
-            if (Role.GetRole(PlayerControl.LocalPlayer).Roleblocked)
+            if (PlayerControl.LocalPlayer.IsRoleblocked())
             {
                 Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 NotificationPatch.Notification(Patches.TranslationPatches.CurrentLanguage == 0 ? "You Are Roleblocked!" : "Twoja Rola Zostala Zablokowana!", 1000 * CustomGameOptions.NotificationDuration);

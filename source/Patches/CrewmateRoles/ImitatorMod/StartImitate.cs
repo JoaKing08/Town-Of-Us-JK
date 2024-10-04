@@ -54,6 +54,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (imitatorRole == RoleEnum.Crewmate) return;
             var role = Role.GetRole(ImitatingPlayer);
             var killsList = (role.Kills, role.CorrectKills, role.IncorrectKills, role.CorrectAssassinKills, role.IncorrectAssassinKills);
+            var bread = role.BreadLeft;
+            var factionOverride = role.FactionOverride;
             Role.RoleDictionary.Remove(ImitatingPlayer.PlayerId);
             if (imitatorRole == RoleEnum.Detective) new Detective(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Investigator) new Investigator(ImitatingPlayer);
@@ -102,6 +104,8 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             newRole.IncorrectKills = killsList.IncorrectKills;
             newRole.CorrectAssassinKills = killsList.CorrectAssassinKills;
             newRole.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+            newRole.BreadLeft = bread;
+            newRole.FactionOverride = factionOverride;
         }
     }
 }

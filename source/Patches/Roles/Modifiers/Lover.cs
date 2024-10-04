@@ -39,7 +39,8 @@ namespace TownOfUs.Roles.Modifiers
 
             foreach(var player in canHaveModifiers)
             {
-                if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && !player.Is(RoleEnum.Vampire) && CustomGameOptions.NeutralLovers))
+                if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && CustomGameOptions.NeutralLovers)
+                     || (player.Is(Faction.NeutralApocalypse) && CustomGameOptions.NeutralLovers))
                     impostors.Add(player);
                 else if (player.Is(Faction.Crewmates) || (player.Is(Faction.NeutralBenign) && CustomGameOptions.NeutralLovers)
                      || (player.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralLovers) || (player.Is(Faction.NeutralChaos)
@@ -72,7 +73,7 @@ namespace TownOfUs.Roles.Modifiers
             }
             canHaveModifiers.Remove(secondLover);
 
-            Utils.Rpc(CustomRPC.SetCouple, firstLover.PlayerId, secondLover.PlayerId);
+            Utils.Rpc(CustomRPC.SetCouple, firstLover.PlayerId, secondLover.PlayerId, (byte)ObjectiveEnum.Lover);
             var lover1 = new Lover(firstLover);
             var lover2 = new Lover(secondLover);
 
