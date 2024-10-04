@@ -245,6 +245,7 @@ namespace TownOfUs
                             Utils.Rpc(CustomRPC.AssignSpectator, SpectateTarget.PlayerId, true);
                         }
                     }
+                    return false;
                 }
                 else if (__instance == ObserveButton)
                 {
@@ -259,18 +260,21 @@ namespace TownOfUs
                         if (Utils.PlayerById(SpectatedPlayer) != null) PlayerControl.LocalPlayer.TeleportRpc(Utils.PlayerById(SpectatedPlayer).transform.position);
                         SpectatedPlayer = byte.MaxValue;
                     }
+                    return false;
                 }
                 else if (__instance == NextButton)
                 {
                     if (!(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
                     && !MeetingHud.Instance && PlayerControl.LocalPlayer.IsSpectator() && SpectatedPlayer != byte.MaxValue)) return false;
                     SpectateNext();
+                    return false;
                 }
                 else if (__instance == BackButton)
                 {
                     if (!(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
                     && !MeetingHud.Instance && PlayerControl.LocalPlayer.IsSpectator() && SpectatedPlayer != byte.MaxValue)) return false;
                     SpectateNext(true);
+                    return false;
                 }
                 return true;
             }
