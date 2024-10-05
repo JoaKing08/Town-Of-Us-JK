@@ -42,6 +42,7 @@ namespace TownOfUs
         public static bool IsMeeting = true;
         public static GameObject ChatButton;
         public static bool VariableA = true;
+        public static List<byte> synchronizedPlayers = new();
         public static void TeleportRpc(this PlayerControl player, Vector2 position)
         {
             Utils.Rpc(CustomRPC.Escape, player.PlayerId, position);
@@ -223,11 +224,11 @@ namespace TownOfUs
         }
         public static bool ImpostorChat(this PlayerControl player)
         {
-            return ((player.Data.IsImpostor() && !player.Is((RoleEnum)254)) || player.Is(ObjectiveEnum.ImpostorAgent)) && ((IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both))) && !UndercoverIsImpostor();
+            return ((player.Data.IsImpostor() && !player.Is((RoleEnum)254)) || (player.Is(RoleEnum.Undercover) && UndercoverIsImpostor()) || player.Is(ObjectiveEnum.ImpostorAgent)) && ((IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Meeting || CustomGameOptions.ImpostorsChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ImpostorsChat == AllowChat.Rounds || CustomGameOptions.ImpostorsChat == AllowChat.Both)));
         }
         public static bool ApocalypseChat(this PlayerControl player)
         {
-            return (player.Is(Faction.NeutralApocalypse) || player.Is(ObjectiveEnum.ApocalypseAgent)) && ((IsMeeting && (CustomGameOptions.ApocalypseChat == AllowChat.Meeting || CustomGameOptions.ApocalypseChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ApocalypseChat == AllowChat.Rounds || CustomGameOptions.ApocalypseChat == AllowChat.Both))) && !UndercoverIsApocalypse();
+            return (player.Is(Faction.NeutralApocalypse) || (player.Is(RoleEnum.Undercover) && UndercoverIsApocalypse()) || player.Is(ObjectiveEnum.ApocalypseAgent)) && ((IsMeeting && (CustomGameOptions.ApocalypseChat == AllowChat.Meeting || CustomGameOptions.ApocalypseChat == AllowChat.Both)) || (!IsMeeting && (CustomGameOptions.ApocalypseChat == AllowChat.Rounds || CustomGameOptions.ApocalypseChat == AllowChat.Both)));
         }
         public static bool Chat(this PlayerControl player)
         {
@@ -394,6 +395,25 @@ namespace TownOfUs
                 return crusader != null && crusader.FortifiedPlayers.Contains(player.PlayerId);
             });
         }
+
+        public static Color? GetPlayerNameColor(this PlayerControl player)
+        {
+            Color? result = null;
+            var role = Role.GetRole(player);
+            if (role.ColorCriteria())
+                result = role.Color;
+            if (role.RoleType == RoleEnum.Undercover)
+            {
+                if (((((Undercover)role).UndercoverImpostor && (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ImpostorAgent)) && !PlayerControl.LocalPlayer.Is((RoleEnum)254)) || (((Undercover)role).UndercoverApocalypse) && (PlayerControl.LocalPlayer.Is(Faction.NeutralApocalypse) || PlayerControl.LocalPlayer.Is(ObjectiveEnum.ApocalypseAgent))) && !(PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles && Utils.ShowDeadBodies) && !(PlayerControl.LocalPlayer.Is(role.FactionOverride) && role.FactionOverride != FactionOverride.None))
+                    result = ((Undercover)role).UndercoverRole.GetRoleColor();
+            }
+            else if (role.Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor() && !PlayerControl.LocalPlayer.Is((RoleEnum)254) && role.RoleType != (RoleEnum)254)
+                result = Patches.Colors.Impostor;
+            else if (PlayerControl.LocalPlayer.Data.IsImpostor() && role.RoleType == (RoleEnum)254 && player != PlayerControl.LocalPlayer)
+                result = null;
+            return result;
+        }
+
         public static bool IsSpectator(this PlayerControl player)
         {
             return SpectatorPatch.Spectators.Contains(player.PlayerId);
@@ -3047,6 +3067,22 @@ namespace TownOfUs
             Color c;
             ColorUtility.TryParseHtmlString(Utils.DecryptString(cipherText), out c);
             return c;
+        }
+
+        [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+        public class HudManagerUpdate
+        {
+            public static void Postfix(HudManager __instance)
+            {
+                synchronizedPlayers.RemoveAll(x => PlayerById(x) == null);
+                if (PlayerControl.AllPlayerControls.ToArray().Any(x => !synchronizedPlayers.Contains(x.PlayerId)))
+                {
+                    foreach (var player in PlayerControl.AllPlayerControls)
+                    {
+                        Utils.Rpc(CustomRPC.AssignSpectator, player.PlayerId, player.IsSpectator());
+                    }
+                }
+            }
         }
     }
 }

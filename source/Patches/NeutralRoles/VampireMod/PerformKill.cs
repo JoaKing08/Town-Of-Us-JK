@@ -38,7 +38,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
                 var phantomRole = (Phantom)phantom;
                 if (phantomRole.formerRole == RoleEnum.Vampire) vamps.Add(phantomRole.Player);
             }
-            var aliveVamps = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(RoleEnum.Vampire) && !x.Data.IsDead && !x.Data.Disconnected).ToList();
+            var aliveVamps = vamps.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
             if (role.ClosestPlayer.IsBugged()) Utils.Rpc(CustomRPC.BugMessage, role.ClosestPlayer.PlayerId, (byte)role.RoleType, (byte)0);
             if (role.ClosestPlayer.Is(RoleEnum.VampireHunter))
             {
@@ -49,8 +49,8 @@ namespace TownOfUs.NeutralRoles.VampireMod
             else if ((role.ClosestPlayer.Is(Faction.Crewmates) || (role.ClosestPlayer.Is(Faction.NeutralBenign)
                 && CustomGameOptions.CanBiteNeutralBenign) || (role.ClosestPlayer.Is(Faction.NeutralEvil)
                 && CustomGameOptions.CanBiteNeutralEvil) || (role.ClosestPlayer.Is(Faction.NeutralChaos)
-                && CustomGameOptions.CanBiteNeutralChaos)) && !role.ClosestPlayer.Is(ObjectiveEnum.Lover) &&
-                aliveVamps.Count < CustomGameOptions.MaxAliveVampires && vamps.Count < CustomGameOptions.MaxVampiresPerGame)
+                && CustomGameOptions.CanBiteNeutralChaos)) && aliveVamps.Count < CustomGameOptions.MaxAliveVampires
+                && vamps.Count < CustomGameOptions.MaxVampiresPerGame)
             {
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 if (interact[4] == true)

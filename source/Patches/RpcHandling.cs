@@ -3404,15 +3404,15 @@ namespace TownOfUs
                         break;
 
                     case CustomRPC.AssignSpectator:
-                        var assigned = Utils.PlayerById(reader.ReadByte());
+                        var assigned = reader.ReadByte();
                         var add = reader.ReadBoolean();
                         if (add)
                         {
-                            SpectatorPatch.Spectators.Add(PlayerControl.LocalPlayer.PlayerId);
+                            if (!SpectatorPatch.Spectators.Contains(assigned)) SpectatorPatch.Spectators.Add(assigned);
                         }
                         else
                         {
-                            SpectatorPatch.Spectators.Remove(PlayerControl.LocalPlayer.PlayerId);
+                            if (SpectatorPatch.Spectators.Contains(assigned)) SpectatorPatch.Spectators.Remove(assigned);
                         }
                         break;
 

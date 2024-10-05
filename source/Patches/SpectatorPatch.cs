@@ -92,7 +92,7 @@ namespace TownOfUs
                 SpectateButton.graphic.sprite = TownOfUs.HauntSprite;
                 SpectateButton.transform.localPosition = new Vector3(-1f, 0f, 0f);
                 SpectateButton.buttonLabelText.gameObject.SetActive(true);
-                SpectateButton.buttonLabelText.text = SpectateTarget == null ? (PlayerControl.LocalPlayer.IsSpectator() ? "Unspectate" : "Spactate") : (SpectateTarget.IsSpectator() ? "Unassign Spectator" : "Assign Spactator");
+                SpectateButton.buttonLabelText.text = SpectateTarget == null ? (PlayerControl.LocalPlayer.IsSpectator() ? "Unspectate" : "Spectate") : (SpectateTarget.IsSpectator() ? "Unassign Spectator" : "Assign Spectator");
                 SpectateButton.gameObject.SetActive(AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
                     && AmongUsClient.Instance.AmHost);
                 if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
@@ -171,15 +171,10 @@ namespace TownOfUs
                 {
                     __instance.UseButton.transform.localPosition = new Vector3(0, 0f, 0f);
                 }
-                foreach (var playerId in Spectators)
-                {
-                    var player = Utils.PlayerById(playerId);
-                    var data = player?.Data;
-                    if (data != null && AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
+                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) foreach (var player in PlayerControl.AllPlayerControls)
                     {
-                        player.nameText().color = Color.gray;
+                        player.nameText().color = player.IsSpectator() ? Color.gray : Color.white;
                     }
-                }
                 if (PlayerControl.LocalPlayer.IsSpectator() && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                 {
                     var camera = GameObject.FindGameObjectWithTag("MainCamera");

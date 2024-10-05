@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
-using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
@@ -301,10 +300,12 @@ namespace TownOfUs
                             break;
                         case ChatType.ImpostorsChat:
                             chatText = $"<b><color=#{Patches.Colors.Impostor.ToHtmlStringRGBA()}>Impostor Chat</color></b>\n" + chatText;
+                            if (localPlayer.Is(RoleEnum.Undercover) && localPlayer.PlayerId != sourcePlayer.PlayerId) chatText = "<color=#00000000>anon/???</color>" + chatText;
                             roleSeeMessage = localPlayer.ImpostorChat();
                             break;
                         case ChatType.ApocalypseChat:
                             chatText = $"<b><color=#{new Color(0.25f, 0.35f, 0.25f, 1f).ToHtmlStringRGBA()}>Apocalypse Chat</color></b>\n" + chatText;
+                            if (localPlayer.Is(RoleEnum.Undercover) && localPlayer.PlayerId != sourcePlayer.PlayerId) chatText = "<color=#00000000>anon/???</color>" + chatText;
                             roleSeeMessage = localPlayer.ApocalypseChat();
                             break;
                     }
@@ -321,17 +322,62 @@ namespace TownOfUs
                 sourcePlayer.Data.PlayerLevel = 0;*/
                 return shouldSeeMessage;
             }
-        }
-        [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
-        public static class ColorChat
-        {
             public static void Postfix(ChatController __instance)
             {
                 foreach (var chat in GameObject.FindObjectsOfType<ChatBubble>())
                 {
                     var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.GetDefaultOutfit().ColorId == chat.Player.ColorId);
-                    chat.NameText.color = player == null ? Color.white : player.nameText().color;
+                    chat.NameText.color = player?.GetPlayerNameColor() ?? Color.white;
+                    if (chat.TextArea.text.Contains("<color=#00000000>anon/???</color>"))
+                    {
+                        chat.Player.SetBodyColor(15);
+                        chat.Player.SetColorBlindTag();
+                        chat.Player.TogglePet(false);
+                        chat.Player.ToggleHat(false);
+                        chat.Player.SetSkin("", 15);
+                        chat.Player.SetVisor("", 15);
+                        chat.NameText.text = "Unknown";
+                        chat.ColorBlindName.text = "Unknown";
+                    }
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
+        public static class ColorChat
+        {
+            public static void Postfix(ChatController __instance)
+            {
+                if (__instance == null) return;
+                __instance.timeSinceLastMessage = 100f;
+                foreach (var chat in GameObject.FindObjectsOfType<ChatBubble>())
+                {
+                    var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.GetDefaultOutfit().ColorId == chat.Player.ColorId);
+                    chat.NameText.color = player?.GetPlayerNameColor() ?? Color.white;
+                    if (chat.TextArea.text.Contains("<color=#00000000>anon/???</color>"))
+                    {
+                        chat.Player.SetBodyColor(15);
+                        chat.Player.SetColorBlindTag();
+                        chat.Player.TogglePet(false);
+                        chat.Player.ToggleHat(false);
+                        chat.Player.SetSkin("", 15);
+                        chat.Player.SetVisor("", 15);
+                        chat.NameText.text = "Unknown";
+                        chat.ColorBlindName.text = "Unknown";
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(FreeChatInputField), nameof(FreeChatInputField.UpdateCharCount))]
+        public static class CharLimit
+        {
+            public static void Postfix(FreeChatInputField __instance)
+            {
+                if (__instance == null) return;
+                __instance.charCountText.text = "";
+                __instance.textArea.AllowPaste = true;
+                __instance.textArea.characterLimit = int.MaxValue;
             }
         }
 

@@ -1465,6 +1465,7 @@ namespace TownOfUs.Roles
                 }
 
                 SpectatorPatch.Spectators.Clear();
+                Utils.synchronizedPlayers.Clear();
                 RoleDictionary.Clear();
                 RoleHistory.Clear();
                 Modifier.ModifierDictionary.Clear();
