@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
 
         public Dictionary<byte, GameObject> ShootButtons = new();
         public List<byte> Targets = new List<byte>();
-        public int AliveTargets => Revealed ? CustomGameOptions.MaxDeputyTargets : Targets.Any() ? Targets.ToArray().Count(x => !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) : 0;
+        public int AliveTargets => Revealed ? CustomGameOptions.MaxDeputyTargets : Targets.Any() ? Targets.ToArray().Count(x => Utils.PlayerById(x) != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected) : 0;
         public DateTime LastAimed;
         public PlayerControl ClosestPlayer;
         public TextMeshPro UsesText;

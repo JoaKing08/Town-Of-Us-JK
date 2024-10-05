@@ -3606,7 +3606,7 @@ namespace TownOfUs
                         player.Exiled();
                     }
                 }
-                var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.IsImpostor());
+                var infected = GameData.Instance.AllPlayers.ToArray().Where(o => !nonInfSpec.Any(x => o.PlayerId == x.PlayerId) && !SpectatorPatch.Spectators.Contains(o.PlayerId));
 
                 Utils.ShowDeadBodies = false;
                 if (ShowRoundOneShield.DiedFirst != null && CustomGameOptions.FirstDeathShield)

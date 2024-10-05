@@ -2194,7 +2194,7 @@ namespace TownOfUs
             }
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                Role.GetRole(player).Roleblocked = false;
+                if (Role.GetRole(player) != null) Role.GetRole(player).Roleblocked = false;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Spy))
             {
@@ -3082,6 +3082,7 @@ namespace TownOfUs
                         Utils.Rpc(CustomRPC.AssignSpectator, player.PlayerId, player.IsSpectator());
                     }
                 }
+                synchronizedPlayers = PlayerControl.AllPlayerControls.ToArray().Select(x => x.PlayerId).ToList();
             }
         }
     }

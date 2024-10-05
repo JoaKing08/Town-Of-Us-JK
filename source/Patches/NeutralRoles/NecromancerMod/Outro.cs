@@ -25,7 +25,7 @@ namespace TownOfUs.NeutralRoles.NecromancerMod
             foreach (var player in array) player.NameText().text = role.ColorString + player.NameText().text + "</color>";
             __instance.BackgroundBar.material.color = role.Color;
             var text = Object.Instantiate(__instance.WinText);
-            text.text = ((Necromancer)role).ReviveCount > 0 ? "The Undead Army Wins!" : "Necromancer Wins!";
+            text.text = PlayerControl.AllPlayerControls.ToArray().Any(x => x.Is(FactionOverride.Undead) && !x.Is(RoleEnum.JKNecromancer)) ? "The Undead Army Wins!" : "Necromancer Wins!";
             text.color = role.Color;
             var pos = __instance.WinText.transform.localPosition;
             pos.y = 1.5f;
